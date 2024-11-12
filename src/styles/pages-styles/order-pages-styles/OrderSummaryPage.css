@@ -1,0 +1,244 @@
+.order-summary-page-container {
+    padding-left: 50px;
+    padding-right: 50px;
+    padding-top: 50px;
+    padding-bottom: 50px;
+    background: #F5F3F5;
+}
+
+.order-delivery-address-container {
+    border-radius: 10px;
+    background: #FFFFFF;
+    padding: 15px;
+    margin-bottom: 25px;
+}
+
+.order-delivery-address-header {
+    display: flex;
+    justify-content: space-between;
+    padding-bottom: 15px;
+}
+
+.order-delivery-address-header h2 {
+    font-size: 16px;
+}
+
+.order-delivery-address-header p {
+    display: none
+}
+
+.order-country {
+    width: 100%;
+    border-radius: 12px;
+    border: 1px solid #000000;
+    height: 40px;
+    margin-bottom: 15px;
+}
+
+.order-first-and-last-name-container {
+    display: flex;
+    justify-content: space-between;
+}
+
+.order-first-name-input {
+    width: 48%;
+    height: 40px;
+    border-radius: 12px;
+    border: 1px solid #000000;
+    text-indent: 10px;
+    margin-bottom: 15px;
+    outline: none;
+}
+
+.order-last-name-input {
+    width: 48%;
+    height: 40px;
+    border-radius: 12px;
+    border: 1px solid #000000;
+    text-indent: 10px;
+    margin-bottom: 15px;
+    outline: none;
+}
+
+.order-company-input {
+    width: 100%;
+    height: 40px;
+    border-radius: 12px;
+    border: 1px solid #000000;
+    text-indent: 10px;
+    margin-bottom: 15px;
+    outline: none;
+}
+
+.order-address-input {
+    width: 100%;
+    height: 40px;
+    border-radius: 12px;
+    border: 1px solid #000000;
+    text-indent: 10px;
+    margin-bottom: 15px;
+    outline: none;
+}
+
+.order-city-input {
+    width: 100%;
+    height: 40px;
+    border-radius: 12px;
+    border: 1px solid #000000;
+    text-indent: 10px;
+    margin-bottom: 15px;
+    outline: none;
+}
+
+.order-state-input {
+    width: 100%;
+    height: 40px;
+    border-radius: 12px;
+    border: 1px solid #000000;
+    text-indent: 10px;
+    margin-bottom: 15px;
+    outline: none;
+}
+
+.order-postal-code-input {
+    width: 100%;
+    height: 40px;
+    border-radius: 12px;
+    border: 1px solid #000000;
+    text-indent: 10px;
+    margin-bottom: 15px;
+    outline: none;
+}
+
+.order-phone-number-input {
+    width: 100%;
+    height: 40px;
+    border-radius: 12px;
+    border: 1px solid #000000;
+    text-indent: 10px;
+    margin-bottom: 15px;
+    outline: none;
+}
+
+
+.items-ordered-container {
+    border-radius: 10px;
+    background: #FFFFFF;
+    padding: 15px;
+    margin-top: 35px;
+    margin-bottom: 25px;
+}
+
+
+.items-ordered-container h2 {
+    font-size: 16px;
+    color: #000000;
+    font-weight: bold;
+    padding-bottom: 15px;
+}
+
+.items-ordered-card {
+    display: flex;
+    justify-content: space-between;
+    height: 154px;
+    border-bottom: 1px solid #808080;
+    margin-bottom: 15px;
+    gap: 10px;
+}
+
+.items-ordered-card-description {
+    height: 124px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    line-height: 19.2px;
+}
+
+
+
+
+.order-calculation-summary-container {
+   
+}
+
+.order-summary-total-container {
+    border-radius: 10px;
+    background: #FFFFFF;
+    padding: 15px;
+    margin-bottom: 20px;
+}
+
+.order-summary-total-container h2 {
+    font-size: 16px;
+    padding-bottom: 15px;
+}
+
+.order-coupon-code-input-container {
+    display: flex;
+    height: 40px;
+    margin-bottom: 15px;
+    border: 1px solid #000000;
+    border-radius: 12px;
+}
+
+.order-coupon-code-input {
+    border-radius: 12px;
+    height: 100%;
+    flex-grow: 1;
+    text-indent: 10px;
+    border: none;
+    outline: none;
+}
+
+.order-coupon-apply-button {
+    border-radius: 12px;
+    width: 82px;
+    height: 100%;
+    background: #262626;
+    color: #FFFFFF;
+}
+
+.order-total-container {
+    display: flex;
+    justify-content: space-between;
+    padding-bottom: 25px;
+    
+}
+
+.order-total-container p {
+    padding-bottom: 20px;
+}
+
+.confirm-order-button {
+    background: #000000;
+    border-radius: 12px;
+    width: 100%;
+    height: 40px;
+    font-size: 16px;
+    color: #FFFFFF
+}
+
+.order-policy-list {
+    list-style-type: none;
+    text-align: center;
+}
+
+.order-policy-list li {
+    display: inline-flex;
+    text-decoration: underline;
+    padding: 10px;
+    color: #000000
+}
+
+
+@media (min-width: 800px) {
+    .order-summary-page-container {
+        display: flex;
+        justify-content: space-between;
+    }
+
+    .items-ordered-card-description {
+        flex-grow: 1;
+        gap: 10px
+    }
+}

@@ -1,0 +1,127 @@
+.ussd-payment-page-container {
+    background: #F5F3F5;
+    padding-top: 40px;
+    padding-left: 20px;
+    padding-right: 20px;
+    padding-bottom: 40px;
+}
+
+.ussd-payment-total-header-details-container {
+    background: #FFFFFF;
+    padding: 14px;
+    border-radius: 10px;
+    height: 65px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    margin-bottom: 30px;
+}
+
+.ussd-payment-header-total-div {
+    display: flex;
+    justify-content: space-between;
+}
+
+.ussd-payment-choose-a-bank-container {
+    background: #FFFFFF;
+    border-radius: 10px;
+    height: 84px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    padding: 14px;
+}
+
+.ussd-payment-choose-a-bank-container p {
+    font-size: 16px;
+    color: #000000;
+}
+.bank-select-container {
+    position: relative;
+    display: inline-block;
+  }
+  
+.bank-select-container select {
+    padding: 10px;
+    border: none;
+    border-radius: 5px;
+    width: 100%; 
+}
+  
+.ussd-different-payment-method-text {
+    text-align: center;
+    text-decoration: underline;
+    color: #000000;
+    padding-top: 20px;
+    padding-bottom: 30px;
+    font-weight: 700;
+}
+
+.ussd-page-btn {
+    background: #000000;
+    height: 40px;
+    width: 100%;
+    color: #FFFFFF;
+    border-radius:12px;
+}
+
+.ussd-bottom-first-instruction-text {
+    font-size: 16px;
+    line-height: 19.2px;
+    text-align: center;
+    padding-top: 20px;
+    padding-bottom: 30px;
+}
+
+.ussd-bottom-second-instruction-text {
+    font-size: 16px;
+    line-height: 24px;
+    color: #000000;
+    padding-bottom: 30px;
+    text-align: center;
+}
+
+.ussd-payment-go-back-bottom-text {
+    display: flex;
+    align-items: center;
+    text-align: center;
+    justify-content: center;
+}
+
+@media (min-width: 800px) {
+    .ussd-payment-total-header-details-container {
+        width: 530px;
+        margin-left: auto;
+        margin-right: auto;
+
+    }
+
+    .ussd-payment-choose-a-bank-container {
+        width: 530px;
+        margin-left: auto;
+        margin-right: auto;
+    }
+
+    .ussd-button-container {
+        display: flex;
+        justify-content: center; 
+        width:  530px; 
+        padding: 0; 
+        margin: 0 auto; 
+    }
+    
+    .ussd-page-btn {
+        background: #000000;
+        height: 40px;
+        color: #FFFFFF;
+        border-radius: 12px;
+        max-width: 530px; /* Limits width on larger screens */
+        width: 100%;
+        text-align: center;
+    }
+    
+
+    .ussd-bottom-second-instruction-text {
+        text-align: center;
+    }
+}

@@ -1,0 +1,17 @@
+.showcase-container {
+    width: 100%;
+    height: calc(100vh - 64px);
+    overflow: hidden;
+    color: white;
+    display: grid;
+    place-items: center;
+}
+
+.showcase-content {
+    height: 140px;
+    line-height: 47.02px;
+    align-items: center;
+    font-weight: 400px;
+    font-size: 36px;
+    color: #FFFFFF;
+}

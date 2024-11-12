@@ -1,0 +1,218 @@
+.card-payment-page-container {
+    background: #F5F3F5;
+    padding-top: 40px;
+    padding-left: 15px;
+    padding-right: 15px;
+    padding-bottom: 40px;
+}
+
+.card-payment-container {
+    background: #FFFFFF;
+    border-radius: 10px;
+    padding: 14px;
+    height: 326px;
+}
+
+.card-payment-header {
+    display: flex;
+    justify-content: space-between;
+    padding-bottom: 15px;
+}
+
+.card-payment-header-h2 {
+    font-size: 16px;
+    line-height: 24px;
+    color: #000000;
+    font-weight: 700;
+}
+
+.card-payment-header-total-text {
+    font-size: 16px;
+    font-weight: 500;
+    font-size: 16px;
+    line-height: 24px;
+    color: #000000;
+}
+
+.card-payment-sub-header {
+    font-size: 12px;
+    /* font-family: Sans Serif Collection; */
+    font-weight: 400;
+    padding-bottom: 15px;
+    line-height: 18px;
+
+}
+
+.card-payment-card-type-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.card-payment-card-type-text-div {
+    width: 150px;
+    display: grid;
+    place-items: center;
+    background: darkgrey;
+    text-align: center;
+    color: #000000;
+    height: 40px;
+    border-radius: 12px;
+    font-weight: 600;
+    font-size: 14px;
+    line-height: 21px;
+}
+
+.card-payment-card-type-icon {
+    /* width: 52px;
+    height: 18px */
+    font-size: 40px;
+}
+
+.card-payment-card-type-icon-container {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-basis: 30%;
+}
+
+.card-payment-input-container {
+    margin-top: 15px;
+    margin-bottom: 15px;
+}
+
+.card-payment-input {
+    width: 100%;
+    height: 40px;
+    border-radius: 12px;
+    border: 1px solid #000000;
+    text-indent: 10px;
+}
+
+.card-payment-expiration-and-cvv-container {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 12px;
+    margin-bottom: 12px;
+}
+
+.card-payment-expiration-input {
+    width: 48%;
+    height: 40px;
+    border-radius: 12px;
+    border: 1px solid #000000;
+    text-indent: 10px;
+}
+
+.card-payment-cvv-input {
+    width: 48%;
+    height: 40px;
+    border-radius: 12px;
+    border: 1px solid #000000;
+    text-indent: 10px;
+}
+
+.card-payment-check-box-input {
+    padding-top: 10px;
+    padding-bottom: 10px;
+}
+
+.card-payment-check-box-input-text {
+    font-weight: 300;
+    font-size: 16px;
+    line-height: 19.2px;
+    color: #000000;
+}
+
+.card-payment-cvv-instruction-text {
+    font-size: 14px;
+    color: #000000;
+    line-height: 19.2px;
+    padding-top: 10px;
+    font-weight: 700;
+    padding-bottom: 25px;
+    text-align: center;
+}
+
+.card-payment-choose-a-new-payment-method {
+    background: #FFFFFF;
+    border-radius: 10px;
+    padding: 14px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    height: 94px
+}
+
+.card-payment-choose-a-new-payment-method h2 {
+    font-size: 14.5px;
+    line-height: 24px;
+    font-weight: 700;
+    color: #000000;
+}
+
+.card-payment-methods-container {
+    display: flex;
+    justify-content: space-between;
+}
+
+.card-payment-methods-container p {
+    width: 150px;
+    height: 40px;
+    display: grid;
+    place-items: center;
+    background: darkgray;
+    border-radius: 12px;
+    font-weight: 600;
+    font-size: 14px;
+    line-height: 21px;
+    color: #000000;
+}
+
+.card-payment-button {
+    width: 100%;
+    height: 40px;
+    margin-top: 30px;
+    margin-bottom: 40px;
+    border-radius: 12px;
+    background: #000000;
+    color: #FFFFFF;
+}
+
+.card-payment-bottom-instruction-text {
+    font-size: 16px;
+    line-height: 24px;
+    text-align: center;
+}
+
+.card-payment-go-back-bottom-text {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding-top: 40px;
+}
+
+
+@media (min-width: 800px) {
+
+    .card-payment-page-container {
+        display: grid;
+        place-items: center;
+    }
+
+    .card-payment-container {
+        width: 530px;
+    }
+
+    .card-payment-cvv-instruction-text {
+        text-align: left;
+    }
+
+    .card-payment-choose-a-new-payment-method {
+        width: 530px;
+    }
+
+    .card-payment-button {
+        width: 530px;
+    }
+}
