@@ -5,7 +5,7 @@ import Dashboard from './dashboard/dashboard';
 import HomePage from './pages/HomePage';
 import CategoryPage from './pages/CategoryPage';
 import CartPage from './pages/CartPage';
-import AccountDetails from './pages/AccountDetails';
+import UserDetails from './pages/UserDetails';
 import FaqPage from './pages/footer-pages/FaqPage';
 import ShippingPolicyPage from './pages/footer-pages/ShippingPolicyPage';
 import ReturnsPolicyPage from './pages/footer-pages/ReturnsPolicyPage';
@@ -21,6 +21,14 @@ import CardPaymentPage from './pages/payment-pages/CardPaymentPage';
 import USSDPaymentPage from './pages/payment-pages/USSDPaymentPage';
 import USSDInstructionPage from './pages/payment-pages/USSDInstructionPage';
 import BankTransferPage from './pages/payment-pages/BankTransferPayment';
+import AboutUsPage from './pages/footer-pages/AboutUsPage';
+import SavedProductPage from './pages/user-account/SavedProductPage';
+import ProfilePage from './pages/user-account/AccountPage';
+import OrdersPage from './pages/user-account/OrdersPage';
+import AccountPage from './pages/user-account/AccountPage';
+import ProductHistoryPage from './pages/user-account/ProductHistoryPage';
+import UserOverviewPage from './pages/user-account/UserOverviewPage';
+import OrderDetailsPage from './pages/user-account/OrderDetailsPage';
 
 function App() {
   return (
@@ -31,13 +39,24 @@ function App() {
             <Route path="home-page" element={<HomePage />} />
             <Route path="category-page" element={<CategoryPage />} />
             <Route path="cart-page" element={<CartPage />} /> 
-            <Route path="account-page" element={<AccountDetails />} /> 
+            <Route path="user-details-page" element={<UserDetails />} /> 
             <Route path="order-summary-page" element={<OrderSummaryPage />} />
             <Route path="card-payment-page" element={<CardPaymentPage />} />
             <Route path="ussd-payment-page" element={<USSDPaymentPage />} />
             <Route path="ussd-instruction-page" element={<USSDInstructionPage />} />
             <Route path="bank-transfer-page" element={<BankTransferPage />} />
+           
+            <Route path="account" element={<AccountPage />}>
+              <Route path="saved-product" element={<SavedProductPage />} />
+              <Route path="orders" element={<OrdersPage />} />
+              <Route path="product-history" element={<ProductHistoryPage />} />
+              <Route path="user-overview" element={<UserOverviewPage />} />
+              <Route path="order-details" element={<OrderDetailsPage />} />
+            </Route>
+
+
             <Route path="faq-page" element={<FaqPage />} />
+            <Route path="about-us-page" element={<AboutUsPage />} />
             <Route path="shipping-policy" element={<ShippingPolicyPage />} />
             <Route path="returns-policy" element={<ReturnsPolicyPage />} />
             <Route path="contact-policy" element={<ContactPage />} />

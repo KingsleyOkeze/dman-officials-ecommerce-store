@@ -120,7 +120,17 @@
 }
 
 
+/* Smallest screen size */
+@media (max-width: 400px) {
+    .category-page-card {
+        width: 100%;
+    }
 
+    .category-card-img { 
+        object-fit: cover; /* Ensures the image fills the container while maintaining its aspect ratio */
+        border-radius: inherit; /* Inherits the container's border-radius for consistent styling */
+    }
+}
 
 
 @media (min-width: 800px) {

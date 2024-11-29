@@ -1,17 +1,17 @@
 /* Mobile view css styling */
-.account-details-page-container {
+.user-details-page-container {
     width: 100%;
     background: #F5F3F5;
     padding-bottom: 50px;
 }
 
-.account-details-header-container {
+.user-details-header-container {
     padding-top: 50px;
     padding-bottom: 50px;
     text-align: center;
 }
 
-.account-details-profile-container {
+.user-details-profile-container {
     background: #FFFFFF;
     margin-left: 50px;
     margin-right: 50px;
@@ -19,18 +19,18 @@
     padding: 20px;
 }
 
-.account-details-profile-details-header {
+.user-details-profile-details-header {
     display: flex;
     justify-content: space-between;
     align-items: center;
     margin-bottom: 15px;
 }
 
-.account-details-profile-details-header p {
+.user-details-profile-details-header p {
     width: 131px;
 }
 
-.account-details-profile-edit-btn {
+.user-details-profile-edit-btn {
     /* padding-left: 15px;
     padding-right: 15px; */
     width: 100px;
@@ -39,22 +39,22 @@
     border: none;
 }
 
-.account-details-form {
+.user-details-form {
     width: 100%;
 }
 
-.account-details-profile-label-and-input-div {
+.user-details-profile-label-and-input-div {
     height: 64px;
     display: flex;
     flex-direction: column;
 }
 
-.account-details-profile-label-and-input-div label{
+.user-details-profile-label-and-input-div label{
     font-weight: bold;
 
 }
 
-.account-details-profile-label-and-input-div div {
+.user-details-profile-label-and-input-div div {
     margin-top: auto;
     border-bottom: 1px solid #808080;
     margin-bottom: 10px;
@@ -63,14 +63,14 @@
     flex-grow: 1;
 }
 
-.account-details-profile-label-and-input-div div input {
+.user-details-profile-label-and-input-div div input {
     border: none;
     width: 100%;
     height: 100%;
 }
 
 
-.account-details-save-button {
+.user-details-save-button {
     width: 100%;
     border-radius: 12px;
     background: #000000;
@@ -78,12 +78,12 @@
     height: 40px;
     margin-top: 10px;
 }
-.account-details-bottom-info-text {
+.user-details-bottom-info-text {
     font-style: italic;
 }
 
 
-.account-details-security-container {
+.user-details-security-container {
     background: #FFFFFF;
     margin-left: 50px;
     margin-right: 50px;
@@ -93,7 +93,7 @@
 }
 
 
-.account-details-edit-security-button {
+.user-details-edit-security-button {
     width: 100%;
     border-radius: 12px;
     color: #000000;
@@ -103,7 +103,7 @@
     margin-top: 15px;
 }
 
-.account-details-security-label-and-input-div {
+.user-details-security-label-and-input-div {
     height: 64px;
     border-bottom: 1px solid #808080;
     display: flex;
@@ -112,20 +112,20 @@
     margin-top: 15px;
 }
 
-.account-details-security-input-container {
+.user-details-security-input-container {
     display: flex;
     /* margin-top: 7px; */
     flex-grow: 1;
     align-items: center;
 }
 
-.account-details-security-label-and-input-div input {
+.user-details-security-label-and-input-div input {
     width: 100%;
     border: none;
     height: 100%
 }
 
-.account-details-security-save-button {
+.user-details-security-save-button {
     width: 100%;
     border-radius: 12px;
     background: #000000;
@@ -137,17 +137,17 @@
 /* Large screen view styling */
 
 @media (min-width: 800px) {
-    .account-details-body-content {
+    .user-details-body-content {
         display: flex;
         justify-content: space-between;
         align-items: flex-start;
     }
 
-    .account-details-profile-container {
+    .user-details-profile-container {
         flex-basis: 60%;
     }
 
-    .account-details-security-container {
+    .user-details-security-container {
         flex-basis: 35%;
         margin-top: 0px;
     }

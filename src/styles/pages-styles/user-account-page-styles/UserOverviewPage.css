@@ -1,0 +1,117 @@
+/* User Overview Page Styling */
+
+.user-overview-container {
+  padding: 15px;
+  background: #f5f3f5;
+}
+
+.user-overview-header {
+  font-size: 24px;
+  font-weight: 400;
+  line-height: 31.34px;
+  margin-bottom: 20px;
+  text-align: center;
+}
+
+/* Flex container for the boxes */
+.user-overview-boxes {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20px;
+  justify-content: space-between;
+}
+
+/* Individual box styling */
+.user-overview-account-details-box,
+.user-overview-address-box {
+  flex: 1 1 calc(48% - 10px); /* Default 2 boxes side-by-side */
+  background: #ffffff;
+  padding: 15px;
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  transition: all 0.3s ease-in-out;
+}
+
+/* Account Details Header */
+.user-overview-account-details-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 15px;
+}
+
+.user-overview-see-details-button {
+  background: grey;
+  color: white;
+  border: none;
+  padding: 5px 10px;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 14px;
+}
+
+.user-overview-see-details-button:hover {
+  background: #606060;
+}
+
+/* Account Details Content */
+.user-overview-account-details-item {
+  margin: 5px 0;
+  font-size: 16px;
+  line-height: 1.4;
+}
+
+/* Address Section */
+
+.user-overview-address-header {
+  display: flex;
+  justify-content: space-between;
+}
+
+
+.user-overview-change-button {
+  background: grey;
+  color: white;
+  border: none;
+  padding: 5px 10px;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 14px;
+}
+
+
+.user-overview-address-box h4 {
+  font-size: 18px;
+  font-weight: 500;
+  margin-bottom: 10px;
+}
+
+.user-overview-address-subheader {
+  font-size: 14px;
+  color: #808080;
+  margin-bottom: 10px;
+}
+
+.user-overview-address-list {
+  list-style: none;
+  padding: 0;
+}
+
+.user-overview-address-list li {
+  font-size: 16px;
+  line-height: 1.4;
+  margin-bottom: 5px;
+}
+
+/* Large screen Responsive Design */
+
+/* For larger screens (above 768px) */
+@media (min-width: 769px) {
+  .user-overview-boxes {
+    /* display: flex; */
+    flex-direction: row; /* Arrange boxes in a row */
+    gap: 15px;
+  }
+
+
+}

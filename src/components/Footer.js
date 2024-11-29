@@ -81,6 +81,10 @@ function Footer () {
             setShowLegalList(false);
         }
     }, [windowWidth]);
+
+    const scrollToTop = () => {
+        window.scrollTo({ top: 0, behavior: "smooth" });
+    }
     
     return(
         <div className="footer-container">
@@ -113,12 +117,12 @@ function Footer () {
                         </div>
                         
                         <ul ref={null}>
-                            <li>Men</li>
-                            <li>Women</li>
-                            <li>Accessories</li>
-                            <li>Collection</li>
-                            <li>Sole</li>
-                            <li>About Us</li>
+                            <li onClick={scrollToTop}>Men</li>
+                            <li onClick={scrollToTop}>Women</li>
+                            <li onClick={scrollToTop}>Accessories</li>
+                            <li onClick={scrollToTop}>Collection</li>
+                            <li onClick={scrollToTop}>Sole</li>
+                            <li onClick={scrollToTop}><Link to="about-us-page">About Us</Link></li>
                         </ul>
                     </div>
                     <div className="help-list-container">
@@ -144,11 +148,11 @@ function Footer () {
                             </div>
                         </div>
                         <ul ref={null}>   
-                            <li><Link to="faq-page">FAQ</Link></li>
-                            <li><Link to="shipping-page">Shipping</Link></li>
-                            <li><Link to="returns-page">Returns</Link></li>
-                            <li><Link to="payment-policy">Payments</Link></li>
-                            <li><Link to="contact-page">Contact us</Link></li>
+                            <li onClick={scrollToTop}><Link to="faq-page">FAQ</Link></li>
+                            <li onClick={scrollToTop}><Link to="shipping-page">Shipping</Link></li>
+                            <li onClick={scrollToTop}><Link to="returns-page">Returns</Link></li>
+                            <li onClick={scrollToTop}><Link to="payment-policy">Payments</Link></li>
+                            <li onClick={scrollToTop}><Link to="contact-page">Contact us</Link></li>
                         </ul>
                     </div>
                     <div className="legal-list-container">
@@ -175,11 +179,11 @@ function Footer () {
                             </div>
                         </div>
                         <ul ref={null}>
-                            <li><Link to="terms-of-use-page">Terms and Service</Link></li>
-                            <li><Link to="privacy-policy">Privacy Policy</Link></li>
-                            <li><Link to="cookie-policy">Cookie Policy</Link></li>
-                            <li><Link to="disclaimer-page">Desclaimer</Link></li>
-                            <li><Link to="warrant-and-return-policy">Warranty and Return Agreement</Link></li>
+                            <li onClick={scrollToTop}><Link to="terms-of-use-page">Terms and Service</Link></li>
+                            <li onClick={scrollToTop}><Link to="privacy-policy">Privacy Policy</Link></li>
+                            <li onClick={scrollToTop}><Link to="cookie-policy">Cookie Policy</Link></li>
+                            <li onClick={scrollToTop}><Link to="disclaimer-page">Desclaimer</Link></li>
+                            <li onClick={scrollToTop}><Link to="warrant-and-return-policy">Warranty and Return Agreement</Link></li>
                         </ul>
                     </div>
                 </div>
