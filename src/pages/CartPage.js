@@ -76,7 +76,17 @@ function CartPage () {
 
             <div className="cart-checkout-section">
                 <div className="cart-checkout-button-container">
-                    <p>Total purchase: N38, 000</p>
+                    <div className="cart-checkout-coupon-code-container">
+                        <input type="text"
+                            placeholder="Enter coupon code"
+                            className="cart-checkout-coupon-code-input"
+                        />
+                        <button
+                             className="cart-checkout-coupon-code-button"
+                             >
+                                Apply
+                        </button>
+                    </div>
                     <button className="cart-checkout-button" onClick={() => navigate("/order-summary-page")}>Checkout N38,720</button>
                     <p className="cart-checkout-button-bottom-text">You are eligible for free shipping</p>
                 </div>

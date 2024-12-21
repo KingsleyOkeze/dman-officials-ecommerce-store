@@ -7,11 +7,15 @@ import { RiMenu5Line } from "react-icons/ri";
 import { useEffect, useState } from 'react';
 import { LiaTimesSolid } from "react-icons/lia";
 import { useNavigate } from 'react-router-dom';
+import { FaTimes } from "react-icons/fa";
 
-function Header () {
+
+function Header ({ toggleAuthSwitchPage, toggleMobileScreenNavbar }) {
     const navigate = useNavigate();
     const [windowWidth, setWindowWidth] = useState(window.innerWidth);
     const [showSearchIcon, setShowSearchIcon] = useState(true);
+    const [showMenuIcon, setShowMenuIcon] = useState(true);
+
 
     useEffect(() => {
         const handleResize = () => {
@@ -26,14 +30,39 @@ function Header () {
         };
     }, []);
 
+ 
+
 
     return(
-       <>
+       <div className="header-container">
+       <div className="header-benefit-bar-container">
+            <p>Unmissable New Arrival up To 50% Off</p>
+       </div>
        {windowWidth <= 980 ? 
         <div className="sm-header-container">
             <div className="sm-header-logo" style={{display: showSearchIcon === false ? 'none' : 'block' }}>
-                <RiMenu5Line className="sm-header-menu"/>
-                <img src={logo} width={24} height={24}/>
+                {showMenuIcon ? 
+                    <RiMenu5Line 
+                        className="sm-header-menu"
+                        onClick={() => {
+                            setShowMenuIcon(false);
+                            toggleMobileScreenNavbar()
+                        }
+                        }/>
+                    : 
+                    <FaTimes 
+                        className="sm-header-menu"
+                        onClick={() => {
+                            setShowMenuIcon(true);
+                            toggleMobileScreenNavbar();
+                        }
+                    }
+                    />
+                }
+                
+                <img src={logo} width={24} height={24}
+                     onClick={() => navigate("/")}
+                />
             </div>
             <div className="sm-header-search-container" style={{display: showSearchIcon === true ? 'none' : 'block' }}>
                 <input type="text" 
@@ -47,7 +76,7 @@ function Header () {
                 <LiaTimesSolid className="sm-header-cancel-icon" onClick={() => setShowSearchIcon(true)}/>
             }
             <div className="sm-header-account-container">
-                <AiOutlineUser className="sm-header-account" onClick={() => navigate("/account-page")}/> 
+                <AiOutlineUser className="sm-header-account" onClick={() => navigate("/account")}/> 
             </div>
             <div className="sm-header-cart-container">
                 <img src={cartIcon} width={24} height={24}  
@@ -59,73 +88,36 @@ function Header () {
         : 
         <div className="lg-header-container">
             <div className="lg-header-logo">
-                    <img src={logo} width={50} height={50}/>
+                <img src={logo} width={50} height={50}
+                    onClick={() => navigate("/")}
+                />
             </div>
-            <div className="lg-header-nav-list">
-                <ul>
-                    <li>Men</li>
-                    <li>Accessory</li>
-                    <li>Collection</li>
-                </ul>
-            </div>
-            <div className="lg-header-search-container">
-                <FaSistrix className="lg-header-search-icon"/>
-                <input type="text" 
-                    placeholder="Search product"
-                    className="lg-header-search-input">
-                </input>
+           
+            <div className="lg-header-search-and-account-and-cart-container">
+                <div className="lg-header-search-container">
+                    <FaSistrix className="lg-header-search-icon"/>
+                    <input type="text" 
+                        placeholder="Search product"
+                        className="lg-header-search-input">
+                    </input>
                     <button  className="lg-header-search-btn">Go</button>
                 </div>
-            <div className="lg-header-account" onClick={() => navigate("/account-page")}>
-                <AiOutlineUser />   
-                <p> Account</p>
-            </div>
-            <div className="lg-header-cart">
-                <img src={cartIcon} width={24} height={24} onClick={() => navigate("/cart-page")}/>
-                <p>Cart</p>
+                <div className="lg-header-account-and-cart-container">
+                    <div className="lg-header-account" onClick={toggleAuthSwitchPage}>
+                        <AiOutlineUser />   
+                        <p> Account</p>
+                    </div>
+                    <div className="lg-header-cart" onClick={() => navigate("/cart-page")}>
+                        <img src={cartIcon} width={24} height={24}/>
+                        <p>Cart</p>
+                    </div>
+                </div>
             </div>
         </div>
         } 
-        </>
+        </div>
     );
 }
 
 export default Header;
 
-
-{/* <div className="header-container">
-            <div className="menubar-container">
-                <RiMenu5Line className="menubar-icon"/>
-            </div>
-            <div className="header-logo">
-                <img src={logo} width={50} height={50}/>
-            </div>
-            <div className="header-nav-list">
-                <ul>
-                    <li>Men</li>
-                    <li>Women</li>
-                    <li>Accessory</li>
-                    <li>Collection</li>
-                    <li>Sales</li>
-                </ul>
-            </div>
-            <div className="header-search-container">
-                <FaSistrix className="header-search-icon"/>
-                <input type="text" 
-                    placeholder="Search product"
-                    className="header-search-input">
-                </input>
-                <button  className="header-search-btn">Go</button>
-            </div>
-            <div className="responsive-search-icon-container">
-                <FaSistrix className="responsive-search-icon"/>
-            </div>
-            <div className="header-account">
-              <AiOutlineUser />   
-              <p> Account</p>
-            </div>
-            <div className="header-cart">
-                <img src={cartIcon} width={24} height={24}/>
-                <p>Cart</p>
-            </div>
-        </div> */}

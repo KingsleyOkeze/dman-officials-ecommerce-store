@@ -1,10 +1,10 @@
 import { useState, useEffect } from 'react';
-import '../styles/pages-styles/CategoryPage.css';
+import '../../styles/pages-styles/category-pages-styles/CategoryPage.css';
 import { Link } from "react-router-dom";
-import cardImage1 from "../images/cardImage1.png";
-import cardImage2 from "../images/cardImage2.png";
-import cardImage3 from "../images/cardImage3.png";
-import cardImage4 from "../images/cardImage4.png";
+import cardImage1 from "../../images/cardImage1.png";
+import cardImage2 from "../../images/cardImage2.png";
+import cardImage3 from "../../images/cardImage3.png";
+import cardImage4 from "../../images/cardImage4.png";
 import { IoIosHeart } from "react-icons/io";
 import { IoHeartOutline } from "react-icons/io5";
 import { IoIosArrowBack } from "react-icons/io";
@@ -138,15 +138,17 @@ function CategoryPage () {
                 <div className="category-page-sorted-by-option-container">
                     <p className="category-page-options-list-header">Sorted By</p>
                     <ul>
-                        <li><input type="checkbox" className="category-list-checkbox"/>Latest</li>
-                        <li><input type="checkbox" className="category-list-checkbox"/>Oldest</li>
+                        <li><input type="radio" className="category-list-radio"/>Latest</li>
+                        <li><input type="radio" className="category-list-radio"/>Oldest</li>
                     </ul>
                 </div>
                 
             </div>
 
             <div className="category-page-showcase-container">
-                <p className="category-page-items-header"><b>Men wares:</b> {width ? <p>All</p> : <p>T shirt - Showing 10 products</p>}</p>
+                <div className="category-page-items-header">
+                    <p>Men wares:</p> {width ? <p>All</p> : <p>T shirt - Showing 10 products</p>}
+                </div>
                 <div className="category-page-items-container">
                 {
                     items.map((item, id) => (

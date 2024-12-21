@@ -11,7 +11,7 @@ function AccountPage() {
   // Determine initial state of showMenu based on location
   useEffect(() => {
     const handleResize = () => {
-      const isMobileScreen = window.innerWidth <= 768;
+      const isMobileScreen = window.innerWidth <= 786;
       setIsMobile(isMobileScreen);
 
       // If on mobile and not on the main account page, hide the menu
