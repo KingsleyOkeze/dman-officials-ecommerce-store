@@ -3,7 +3,7 @@ import '../../styles/pages-styles/footer-pages-styles/TermsOfUsePage.css';
 
 function TermsOfUsePage () {
   return (
-    <div className="policy-container">
+    <div className="terms-of-use-container">
       <h1>Terms of Use</h1>
 
       <section>

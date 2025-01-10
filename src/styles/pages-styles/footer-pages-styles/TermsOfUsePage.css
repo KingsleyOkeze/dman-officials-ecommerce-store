@@ -1,4 +1,11 @@
-.terms-use-container {
+.terms-of-use-container {
+  width: 80%;
+  margin: auto;
+  /* background: #F5F3F5; */
+  background-color: brown;
+}
+
+/* .terms-use-container {
     padding: 20px;
     max-width: 600px;
     margin: auto;
@@ -25,8 +32,8 @@
   .terms-use-container p {
     font-size: 1em;
     color: #666;
-  }
-  
+  } */
+/*   
   @media (min-width: 768px) {
     .terms-use-container {
       max-width: 800px;
@@ -45,4 +52,4 @@
       font-size: 1.1em;
     }
   }
-  
+   */

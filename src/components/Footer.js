@@ -71,14 +71,26 @@ function Footer () {
     
     // Automatically expand lists when screen width is >= 980px
     useEffect(() => {
-        if (windowWidth >= 980) {
+        if (windowWidth >= 986) {
             setShowDmanList(true);
             setShowHelpList(true);
             setShowLegalList(true);
+
+            // Ensure lists are fully visible when expanded
+            if (dmanListRef.current) dmanListRef.current.style.height = '200px';
+            if (helpListRef.current) helpListRef.current.style.height = '200px';
+            if (legalListRef.current) legalListRef.current.style.height = '200px';
+
         } else {
             setShowDmanList(false);
             setShowHelpList(false);
             setShowLegalList(false);
+
+            // Collapse lists when screen is resized to a smaller width
+            if (dmanListRef.current) dmanListRef.current.style.height = '0';
+            if (helpListRef.current) helpListRef.current.style.height = '0';
+            if (legalListRef.current) legalListRef.current.style.height = '0';
+        
         }
     }, [windowWidth]);
 
@@ -116,13 +128,15 @@ function Footer () {
                             </div>
                         </div>
                         
-                        <ul ref={null}>
+                        <ul ref={dmanListRef}>
                             <li onClick={scrollToTop}>Men</li>
                             <li onClick={scrollToTop}>Women</li>
                             <li onClick={scrollToTop}>Accessories</li>
                             <li onClick={scrollToTop}>Collection</li>
                             <li onClick={scrollToTop}>Sole</li>
-                            <li onClick={scrollToTop}><Link to="about-us-page">About Us</Link></li>
+                            <li onClick={scrollToTop}>
+                                <Link to="about-us-page" className="link-tag">About Us</Link>
+                            </li>
                         </ul>
                     </div>
                     <div className="help-list-container">
@@ -147,12 +161,22 @@ function Footer () {
                                 }  
                             </div>
                         </div>
-                        <ul ref={null}>   
-                            <li onClick={scrollToTop}><Link to="faq-page">FAQ</Link></li>
-                            <li onClick={scrollToTop}><Link to="shipping-page">Shipping</Link></li>
-                            <li onClick={scrollToTop}><Link to="returns-page">Returns</Link></li>
-                            <li onClick={scrollToTop}><Link to="payment-policy">Payments</Link></li>
-                            <li onClick={scrollToTop}><Link to="contact-page">Contact us</Link></li>
+                        <ul ref={helpListRef}>   
+                            <li onClick={scrollToTop}>
+                                <Link to="faq-page" className="link-tag">FAQ</Link>
+                            </li>
+                            <li onClick={scrollToTop}>
+                                <Link to="shipping-page" className="link-tag">Shipping</Link>
+                            </li>
+                            <li onClick={scrollToTop}>
+                                <Link to="returns-page" className="link-tag">Returns</Link>
+                            </li>
+                            <li onClick={scrollToTop}>
+                                <Link to="payment-policy" className="link-tag">Payments</Link>
+                            </li>
+                            <li onClick={scrollToTop}>
+                                <Link to="contact-page" className="link-tag">Contact us</Link>
+                            </li>
                         </ul>
                     </div>
                     <div className="legal-list-container">
@@ -178,12 +202,22 @@ function Footer () {
                                 }  
                             </div>
                         </div>
-                        <ul ref={null}>
-                            <li onClick={scrollToTop}><Link to="terms-of-use-page">Terms and Service</Link></li>
-                            <li onClick={scrollToTop}><Link to="privacy-policy">Privacy Policy</Link></li>
-                            <li onClick={scrollToTop}><Link to="cookie-policy">Cookie Policy</Link></li>
-                            <li onClick={scrollToTop}><Link to="disclaimer-page">Desclaimer</Link></li>
-                            <li onClick={scrollToTop}><Link to="warrant-and-return-policy">Warranty and Return Agreement</Link></li>
+                        <ul ref={legalListRef}>
+                            <li onClick={scrollToTop}>
+                                <Link to="terms-of-use-page" className="link-tag">Terms and Service</Link>
+                            </li>
+                            <li onClick={scrollToTop}>
+                                <Link to="privacy-policy" className="link-tag">Privacy Policy</Link>
+                            </li>
+                            <li onClick={scrollToTop}>
+                                <Link to="cookie-policy" className="link-tag">Cookie Policy</Link>
+                            </li>
+                            <li onClick={scrollToTop}>
+                                <Link to="disclaimer-page" className="link-tag">Desclaimer</Link>
+                            </li>
+                            <li onClick={scrollToTop}>
+                                <Link to="warrant-and-return-policy" className="link-tag">Warranty and Return Agreement</Link>
+                            </li>
                         </ul>
                     </div>
                 </div>

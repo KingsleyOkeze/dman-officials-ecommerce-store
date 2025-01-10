@@ -1,62 +1,100 @@
-import { useState } from 'react';
+import { useContext, useEffect, useState } from 'react';
 import { RiCheckboxBlankFill } from "react-icons/ri";
 import { FaRegTrashCan } from "react-icons/fa6";
-import cardImage1 from "../images/cardImage1.png";
-import cardImage2 from "../images/cardImage2.png";
-import cardImage3 from "../images/cardImage3.png";
-import cardImage4 from "../images/cardImage4.png";
-import '../styles/pages-styles/CartPage.css';
+import cardImage1 from "../../images/cardImage1.png";
+import cardImage2 from "../../images/cardImage2.png";
+import cardImage3 from "../../images/cardImage3.png";
+import cardImage4 from "../../images/cardImage4.png";
+import "../../styles/pages-styles/cart-pages-styles/CartPage.css";
 import { useNavigate } from 'react-router-dom';
+import axios from 'axios';
+import { CartContext } from '../../contexts/CartContext';
 
 function CartPage () {
     const navigate = useNavigate();
-    const [cartLists, setCartLists] = useState([
-        {
-            image: cardImage1,
-            name: 'This is part of dman officials,',
-            color: 'brown',
-            size: 'small',
-            price: '5000'
-        },
-        {
-            image: cardImage2,
-            name: 'This is part of dman officials,',
-            color: 'brown',
-            size: 'small',
-            price: '5000'
-        },
-        {
-            image: cardImage3,
-            name: 'This is part of dman officials,',
-            color: 'brown',
-            size: 'small',
-            price: '5000'
-        },
-        {
-            image: cardImage4,
-            name: 'This is part of dman officials,',
-            color: 'brown',
-            size: 'small',
-            price: '5000'
-        }
-        ]);
+    const { cartItems, addToCart, removeFromCart, clearCart } = useContext(CartContext); 
+    const [cartLists, setCartLists] = useState(cartItems
+        // [
+        // {
+        //     image: cardImage1,
+        //     name: 'This is part of dman officials,',
+        //     color: 'brown',
+        //     size: 'small',
+        //     price: '5000'
+        // },
+        // {
+        //     image: cardImage2,
+        //     name: 'This is part of dman officials,',
+        //     color: 'brown',
+        //     size: 'small',
+        //     price: '5000'
+        // },
+        // {
+        //     image: cardImage3,
+        //     name: 'This is part of dman officials,',
+        //     color: 'brown',
+        //     size: 'small',
+        //     price: '5000'
+        // },
+        // {
+        //     image: cardImage4,
+        //     name: 'This is part of dman officials,',
+        //     color: 'brown',
+        //     size: 'small',
+        //     price: '5000'
+        // }
+        // ]
+    );
+
+    const handleFetchCart = async () => {
+        // let data = localStorage.getItem("customerId");
+
+        // if (!data) return alert('No user found!');
+
+        // try {
+        //     const response = await axios.get("/customer/fetch-cart", {
+        //         customerId: data,
+        //     });
+
+        //     if (response.status === 200) {
+        //         setCartLists(response.data)
+        //     }
+        // } catch (err) {
+        //     if (err.response) {
+        //         const status = err.response.status;
+        //         const errMessage = err.response.data.error;
+        //         if (status) {
+        //             alert("err cart", errMessage)
+
+        //         }
+        //     } else {
+        //         alert("Unknow Error fetching to cart!")
+        //     }
+        // }
+    };
+
+    useEffect(() => {
+        // handleFetchCart();
+    }, [])
     
     return (
         <div className="cart-page-container">
+            { cartItems.length > 0 ? 
+            <div className="cart-page-sub-container">
             <div className="cart-page-list-showcase-container">
                 <h2>Shopping cart (4)</h2>
 
                 <div className="cart-page-list-container">
                     {
-                        cartLists.map((cartList, index) => ( 
+                        cartItems.map((cartItem, index) => ( 
                             <div key={index}  className="cart-page-card">
                                 <div className="cart-item-image-and-description-container">
-                                    <img src={cartList.image} width={150} height={139} />
+                                    <img src={cartItem.productRef.productImageUrl[0]} width={150} height={139} />
                                     <div className="cart-item-description-container">
-                                        <p className="cart-item-name">{cartList.name} - {cartList.color} </p>
-                                        <p className="cart-item-size">Size: {cartList.size}</p>
+                                        <p className="cart-item-name">{cartItem.name} - {cartItem.color} </p>
+                                        <p className="cart-item-size">Size: {cartItem.size}</p>
                                         <p className="cart-item-color">Color: <RiCheckboxBlankFill style={{color: 'brown'}}/></p>
-                                        <p className="cart-item-price"><b>₦</b> {cartList.price}</p>
+                                        <p className="cart-item-price"><b>₦</b> {cartItem.price} </p>
                                     </div>
                                 </div>
                                 <div className="cart-item-quantity-and-remove-container">
@@ -64,7 +102,14 @@ function CartPage () {
                                         <p>Quantity <span style={{paddingLeft: '25px'}}>1</span></p>
                                     </div>
                                     <ul>
-                                        <li><FaRegTrashCan  className="cart-item-remove-icon"/>Remove</li>
+                                        <li onClick={() => {
+                                                removeFromCart(cartItem._id)
+                                            }}>
+                                                <FaRegTrashCan 
+                                                    className="cart-item-remove-icon"
+                                                />
+                                                    Remove
+                                        </li>
                                     </ul>
                                 </div>
                                 
@@ -119,6 +164,14 @@ function CartPage () {
                     
                 </div>
             </div>
+            </div>
+             : 
+             <div className="empty-cart-page-container">
+
+                <h2>Shopping cart</h2>
+                <p>Your cart is empty</p>
+            </div>
+            }
         </div>
     )
 }

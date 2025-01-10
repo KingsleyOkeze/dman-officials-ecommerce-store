@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useContext } from 'react';
 import '../../styles/pages-styles/category-pages-styles/CategoryPage.css';
 import { Link } from "react-router-dom";
 import cardImage1 from "../../images/cardImage1.png";
@@ -9,108 +9,33 @@ import { IoIosHeart } from "react-icons/io";
 import { IoHeartOutline } from "react-icons/io5";
 import { IoIosArrowBack } from "react-icons/io";
 import { IoIosArrowForward } from "react-icons/io";
+import { SaveProductContext } from '../../contexts/SaveProductContext';
+import axios from 'axios';
 
 function CategoryPage () {
     const [width, setWidth] = useState(window.innerWidth);
-    const [saveItem, setSaveItem] = useState(false);
-    const [items, setItems] = useState([
-    {
-        image: cardImage1,
-        category: 'men wears',
-        name: 'This is part of dman officials,',
-        price: '5000'
-    },
-    {
-        image: cardImage2,
-        category: 'men wears',
-        name: 'This is part of dman officials  ',
-        price: '5000'
-    },
-    {
-        image: cardImage3,
-        category: 'men wears',
-        name: 'This is part of dman officials brand  ',
-        price: '5000'
-    },
-    {
-        image: cardImage4,
-        category: 'men wears',
-        name: 'This is part of dman officials brand ',
-        price: '5000'
-    },
-    {
-        image: cardImage1,
-        category: 'men wears',
-        name: 'This is part of dman officials brand  ',
-        price: '5000'
-    },
-    {
-        image: cardImage2,
-        category: 'men wears',
-        name: 'This is part of dman officials brand ',
-        price: '5000'
-    },
-    {
-        image: cardImage3,
-        category: 'men wears',
-        name: 'This is part of dman officials brand ' ,
-        price: '5000'
-    },
-    {
-        image: cardImage4,
-        category: 'men wears',
-        name: 'This is part of dman officials brand ' ,
-        price: '5000'
-    },
-    {
-        image: cardImage1,
-        category: 'men wears',
-        name: 'This is part of dman officials brand ' ,
-        price: '5000'
-    },
-    {
-        image: cardImage2,
-        category: 'men wears',
-        name: 'This is part of dman officials brand ' ,
-        price: '5000'
-    },
-    {
-        image: cardImage3,
-        category: 'men wears',
-        name: 'This is part of dman officials brand ' ,
-        price: '5000'
-    },
-    {
-        image: cardImage4,
-        category: 'men wears',
-        name: 'This is part of dman officials brand',
-        price: '5000'
-    },
-    {
-        image: cardImage1,
-        category: 'men wears',
-        name: 'This is part of dman officials brand  ',
-        price: '5000'
-    }, 
-    {
-        image: cardImage2,
-        category: 'men wears',
-        name: 'This is part of dman officials brand  ',
-        price: '5000'
-    },
-    {
-        image: cardImage3,
-        category: 'men wears',
-        name: 'This is part of dman officials brand ',
-        price: '5000'
-    },
-    {
-        image: cardImage4,
-        category: 'men wears',
-        name: 'This is part of dman officials brand  ',
-        price: '5000'
-    },
-    ]);
+    const { savedProducts, handleSaveProduct, removeFromSavedProduct } = useContext(SaveProductContext);
+    const [items, setItems] = useState([ ]);
+
+    useEffect(() => {
+        const fetchCategoryProducts = async () => {
+            try {
+                const response = await axios.get("/customer/fetch-products");
+
+                if (response.status === 200) {
+                    console.log('ex', response.data)
+                    setItems(response.data)
+                }
+            } catch (err) {
+                console.log('err fetching fetchCategoryProducts product', err)
+            }
+            
+        }
+        fetchCategoryProducts();
+        
+    }, []);
+
+
 
    
     useEffect(() => {
@@ -118,6 +43,23 @@ function CategoryPage () {
         window.addEventListener('resize', handleResize);
         return () => window.removeEventListener('resize', handleResize);
     }, []);
+
+
+    // Helper function to check if a product is saved
+    const isProductSaved = (productId) => {
+        // return savedProducts.some((product) => product._id === productId);
+        // console.log(savedProducts)
+       const result = savedProducts.find((product) => product.productRef._id === productId);
+       if (result) {
+        return true;
+       } else {
+        return false;
+       }
+    };
+ 
+    useEffect(() => {
+        console.log('rere', savedProducts.length, savedProducts)
+    }, [savedProducts])
     
     return(
         <div className="category-page-container">
@@ -153,15 +95,21 @@ function CategoryPage () {
                 {
                     items.map((item, id) => (
                         <div className="category-page-card" key={id}>
-                            <img src={item.image} className="category-card-img"/>
-                            <p className="item-description">{item.category} - {item.name} </p>
+                            <img src={item.productImageUrl[0]} className="category-card-img"/>
+                            <p className="item-description">{item.category} - {item.productName} </p>
                             <div className="item-price-and-save-container">
-                                <p className="item-price"><b>₦</b> {item.price}</p>
-                                {saveItem === false ? 
-                                    <IoHeartOutline className="save-item-icon" onClick={() => setSaveItem(true)}/> 
-                                    : 
-                                    <IoIosHeart className="save-item-icon" onClick={() => setSaveItem(false)}/>
-                                }
+                                <p className="item-price"><b>₦</b> {item.productOfferPrice}</p>
+                                {isProductSaved(item._id) === true ? (
+                                    <IoIosHeart
+                                        className="save-item-icon"
+                                        onClick={() => removeFromSavedProduct(item._id)}
+                                    />
+                                ) : (
+                                    <IoHeartOutline
+                                        className="save-item-icon"
+                                        onClick={() => handleSaveProduct(item._id)}
+                                    />
+                                )}
                             </div>
                         </div>
                     ))

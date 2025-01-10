@@ -10,7 +10,7 @@ import { useNavigate } from 'react-router-dom';
 import { FaTimes } from "react-icons/fa";
 
 
-function Header ({ toggleAuthSwitchPage, toggleMobileScreenNavbar }) {
+function Header ({ toggleAuthSwitchPage, toggleMobileScreenNavbar, toggleSideDrawer, setActiveComponent }) {
     const navigate = useNavigate();
     const [windowWidth, setWindowWidth] = useState(window.innerWidth);
     const [showSearchIcon, setShowSearchIcon] = useState(true);
@@ -81,7 +81,7 @@ function Header ({ toggleAuthSwitchPage, toggleMobileScreenNavbar }) {
             <div className="sm-header-cart-container">
                 <img src={cartIcon} width={24} height={24}  
                     className="sm-header-cart" 
-                    onClick={() => navigate("/cart-page")}
+                    // onClick={() => navigate("/cart-page")}
                 />
             </div>
         </div>
@@ -103,11 +103,17 @@ function Header ({ toggleAuthSwitchPage, toggleMobileScreenNavbar }) {
                     <button  className="lg-header-search-btn">Go</button>
                 </div>
                 <div className="lg-header-account-and-cart-container">
-                    <div className="lg-header-account" onClick={toggleAuthSwitchPage}>
+                    <div className="lg-header-account" onClick={() => {
+                        toggleSideDrawer();
+                        setActiveComponent('account');
+                    }}>
                         <AiOutlineUser />   
                         <p> Account</p>
                     </div>
-                    <div className="lg-header-cart" onClick={() => navigate("/cart-page")}>
+                    <div className="lg-header-cart" onClick={() => {
+                        toggleSideDrawer();
+                        setActiveComponent('cart');
+                    }}>
                         <img src={cartIcon} width={24} height={24}/>
                         <p>Cart</p>
                     </div>

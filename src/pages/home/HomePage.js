@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import "../../styles/pages-styles/home-pages-styles/HomePage.css"
 import hero1 from "../../images/hero1.png";
 import cardImage1 from "../../images/cardImage1.png";
@@ -20,9 +20,12 @@ import homeCategory1 from "../../images/homeCategory1.png";
 import homeCategory2 from "../../images/homeCategory2.png";
 import homeCategory3 from "../../images/homeCategory3.png";
 import { useNavigate} from "react-router-dom";
+import axios from "axios";
+import { CartContext } from "../../contexts/CartContext";
 
 function HomePage () {
     const navigate = useNavigate()
+    const { cartItems, addToCart, removeFromCart, clearCart } = useContext(CartContext); 
     const [flashSales, setFlashSales] = useState([{
         image: cardImage1,
         category: 'men wears',
@@ -96,6 +99,56 @@ function HomePage () {
         id: 4
     },
     ]);
+
+    const [exploreProducts, setExploreProducts] = useState([]);
+
+    // const handleAddToCart = async (itemId) => {
+    //     let data = localStorage.getItem("customerId");
+
+    //     if (!data) return alert('No user found!');
+
+    //     try {
+    //         const response = await axios.post("/customer/add-to-cart", {
+    //             customerId: data,
+    //             productId: itemId
+    //         });
+
+    //         if (response.status === 201) {
+    //             alert("added to cart!")
+    //         }
+
+    //     } catch (err) {
+    //         if (err.response) {
+    //             const status = err.response.status;
+    //             const errMessage = err.response.data.error;
+    //             if (status) {
+    //                 alert("err cart", errMessage)
+
+    //             }
+    //         } else {
+    //             alert("Unknow Error adding to cart!")
+    //         }
+            
+    //     }
+        
+    // };
+
+    useEffect(() => {
+        const fetchExploreProducts = async () => {
+            try {
+                const response = await axios.get("/customer/fetch-products");
+
+                if (response.status === 200) {
+                    console.log('ex', response.data)
+                    setExploreProducts(response.data)
+                }
+            } catch (err) {
+                console.log('err fetching explore product', err)
+            }
+            
+        }
+        fetchExploreProducts();
+    }, []);
 
     return(
         <div className="home-page-container">
@@ -289,15 +342,22 @@ function HomePage () {
 
             <div className="home-page-explore-card-container">
                     {
-                        flashSales.map((bestSelling, index) => (
+                        exploreProducts.map((exploreProduct, index) => (
                         <div key={index} className="home-page-explore-card">
-                            <img src={bestSelling.image} className="home-page-explore-card-img" width={100} height={100}/>
-                            <p className="home-page-explore-card-description">{bestSelling.name} - {bestSelling.color}</p>
+                            <img src={exploreProduct.productImageUrl[0]} className="home-page-explore-card-img" width={100} height={100}/>
+                            <p className="home-page-explore-card-description">{exploreProduct.productName} - {exploreProduct.productColor}</p>
                             <div className="home-page-explore-card-price-container">
-                                <p className="home-page-explore-card-offer-price"><b>₦</b> {bestSelling.offerPrice}</p>
-                                <p className="home-page-explore-card-price"><b>₦</b>{bestSelling.price}</p>
+                                <p className="home-page-explore-card-offer-price"><b>₦</b> {exploreProduct.productOfferPrice}</p>
+                                <p className="home-page-explore-card-price"><b>₦</b>{exploreProduct.productPrice}</p>
                             </div>
-                            <button className="home-page-explore-card-btn">Add to Cart</button>
+                            <button 
+                                className="home-page-explore-card-btn"
+                                onClick={() => {
+                                    addToCart(exploreProduct._id, 1)
+                                }}
+                                >
+                                    Add to Cart
+                            </button>
                         </div>
                         ))
                     }

@@ -34,13 +34,7 @@ function AuthSwitchPage ({ isOpen, toggleAuthSwitchPage }) {
   }, [isOpen])
 
     return (
-        <div
-            className={`auth-switch-page-container ${
-                isOpen
-                    ? "open-auth-switch-page-container"
-                    : "close-auth-switch-page-container"
-            }`}
-        >
+        <div className="auth-switch-page-container">
             <div className="auth-switch-page-container-head">
                 <p onClick={() => {
                     setShowLogin(true);

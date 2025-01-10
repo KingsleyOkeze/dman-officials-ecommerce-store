@@ -1,0 +1,22 @@
+.side-drawer-container {
+    width: 40%;
+    height: 100vh;
+    color: rgb(187, 74, 74);
+    position: fixed;
+    top: 0;
+    right: 0;
+    z-index: 100;
+    background: #000000;
+    transition: opacity 0.7s ease, transform 0.7s ease; /* Smooth transition */
+    overflow-y: auto;
+}
+
+.open-side-drawer-container {
+    opacity: 1;
+    transform: translateX(0); /* Start in place */
+}
+
+.close-side-drawer-container {
+    opacity: 0;
+    transform: translateX(100%); /* Move out of view to the right */
+}

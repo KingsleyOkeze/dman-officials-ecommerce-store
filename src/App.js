@@ -3,7 +3,7 @@ import './App.css';
 import { BrowserRouter as Router, Routes, Route, useLocation } from 'react-router-dom';
 import Dashboard from './dashboard/Dashboard';
 import CategoryPage from './pages/category-pages/CategoryPage';
-import CartPage from './pages/CartPage';
+import CartPage from './pages/cart/CartPage';
 import UserDetails from './pages/UserDetails';
 import FaqPage from './pages/footer-pages/FaqPage';
 import ShippingPolicyPage from './pages/footer-pages/ShippingPolicyPage';
@@ -55,7 +55,7 @@ function App() {
             <Route path="home-page" element={<HomePage />} />
             <Route path="product-page" element={<ProductPage />} /> 
             <Route path="category-page" element={<CategoryPage />} />
-            <Route path="cart-page" element={<CartPage />} /> 
+            {/* <Route path="cart-page" element={<CartPage />} />  */}
             <Route path="sale-page" element={<SalePage />} /> 
             <Route path="user-details-page" element={<UserDetails />} /> 
             <Route path="order-summary-page" element={<OrderSummaryPage />} />
@@ -64,9 +64,9 @@ function App() {
             <Route path="ussd-instruction-page" element={<USSDInstructionPage />} />
             <Route path="bank-transfer-page" element={<BankTransferPage />} />
             
-            <Route path="signup" element={<SignUpPage />} />
+            {/* <Route path="signup" element={<SignUpPage />} /> */}
             <Route path="sign-up-email-verification/:token" element={<SignUpVerification/>} />
-            <Route path="login" element={<LoginPage />} />
+            {/* <Route path="login" element={<LoginPage />} /> */}
             <Route path="email-sent/:userId" element={<EmailSentPage />} />
             <Route path="forget-password" element={<ForgotPassword />} />
             <Route path="reset-password/:token" element={<ResetPassword />} />

@@ -23,13 +23,17 @@ const LoginPage = () => {
             const response = await axios.post('/customer/login', { email, password });
             setMessage(response.data.message);
             // Handle successful login, such as redirecting or storing tokens.
+            localStorage.setItem("customerId", response.data.userId);
             localStorage.setItem("accessToken", response.data.accessToken);
             navigate("/account");
         } catch (err) {
-            if (err.response.status === 403) {
-                navigate(`/email-sent/${err.response?.data?.userId}`)
-            } else {
-                setError(err.response?.data?.error || 'Login failed.');
+            console.log('login 403 err', err);
+            if (err.response) {
+                if (err.response.status === 403) {
+                    navigate(`/email-sent/${err.response?.data?.userId}`)
+                } else {
+                    setError(err.response?.data?.error || 'Login failed.');
+                }     
             }
             
         } finally {
