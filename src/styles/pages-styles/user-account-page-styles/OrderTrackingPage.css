@@ -1,15 +1,15 @@
-.product-history-container {
+.order-tracking-page-container {
     padding: 15px;
     background: #f5f3f5;
 }
 
-.product-history-header-container {
+.order-tracking-header-container {
     display: flex;
     align-items: center;
     margin-bottom: 15px;
 }
 
-.product-history-header-icon-container {
+.order-tracking-header-icon-container {
     width: 24px;
     height: 24px;
     background: #074F574D;
@@ -17,12 +17,12 @@
     place-items: center;
     margin-right: 20px;
 }
-.product-history-header-icon {
+.order-tracking-header-icon {
     font-size: 18px;
     padding-right: 15px;
 }
 
-.product-history-details {
+.order-tracking-details {
     background: #ffffff;
 }
 
@@ -47,7 +47,7 @@
 }
 
 
-.product-history-icon {
+.order-tracking-icon {
     border: 1px solid #000000;
     background: #000000;
     color: #ffffff;
@@ -62,7 +62,7 @@
     transform: translate(-50%, -50%); /* Centers the icon on the intersection of the borders */
 }
 
-.product-history-circle-icon {
+.order-tracking-circle-icon {
     border: 1px solid #000000;
     background: #000000;
     border-radius: 15px;

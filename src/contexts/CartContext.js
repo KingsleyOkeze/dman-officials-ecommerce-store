@@ -1,5 +1,6 @@
 import axios from 'axios';
-import { createContext, useEffect, useState } from 'react';
+import { createContext, useContext, useEffect, useState } from 'react';
+import { SideDrawerContext } from './SideDrawerContext';
 
 // Create the context
 export const CartContext = createContext();
@@ -7,36 +8,48 @@ export const CartContext = createContext();
 // Create a provider component
 export const CartProvider = ({ children }) => {
     const [cartItems, setCartItems] = useState([]);
+    const { 
+        showSideDrawer, 
+        setShowSideDrawer, 
+        activeComponent, 
+        setActiveComponent,
+        toggleSideDrawer
+    } = useContext(SideDrawerContext);
+
+    const fetchCart = async () => {
+        let data = localStorage.getItem("customerId");
+
+        // if (!data) return alert('No user found!');
+
+        try {
+            const response = await axios.post("/customer/fetch-cart", {
+                customerId: data
+            });
+
+            if (response.status === 200) {
+                setCartItems(response.data.cart);
+                console.log('cart message', response.data)
+            }
+        } catch (err) {
+            console.log('err fetching cart', err)
+        }
+        
+    };
 
     useEffect(() => {
-        const fetchCart = async () => {
-            let data = localStorage.getItem("customerId");
-
-            if (!data) return alert('No user found!');
-
-            try {
-                const response = await axios.post("/customer/fetch-cart", {
-                    customerId: data
-                });
-
-                if (response.status === 200) {
-                    setCartItems(response.data.cart);
-                    console.log('cart message', response.data)
-                }
-            } catch (err) {
-                console.log('err fetching cart', err)
-            }
-            
-        }
         fetchCart();
     }, [])
+
+    useEffect(() => {
+        fetchCart();
+    }, [showSideDrawer])
 
     // Function to add an item to the cart
     const addToCart = async (productId, quantity) => {
 
         let data = localStorage.getItem("customerId");
 
-        if (!data) return alert('No user found!');
+        // if (!data) return alert('No user found!');
 
         try {
             const response = await axios.post("/customer/add-to-cart", {
@@ -70,7 +83,7 @@ export const CartProvider = ({ children }) => {
     const removeFromCart = async (itemId) => {
         let data = localStorage.getItem("customerId");
 
-        if (!data) return alert('No user found!');
+        // if (!data) return alert('No user found!');
 
         try {
             const response = await axios.post("/customer/remove-from-cart", {

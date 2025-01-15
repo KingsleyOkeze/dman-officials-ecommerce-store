@@ -39,11 +39,7 @@ function MobileScreenNavbar ({ isOpen }) {
 
     return(
         <div
-            className={`mobile-screen-navbar-container ${
-            isOpen
-                ? "open-mobile-screen-navbar-container"
-                : "close-mobile-screen-navbar-container"
-        }`}>
+            className="mobile-screen-navbar-container">
             <div className="mobile-screen-navbar-list-div">
             <div className="mobile-screen-navbar-list-head-drop-down">
                 <p>Men</p>

@@ -1,8 +1,8 @@
-.order-summary-page-container {
-    padding-left: 50px;
-    padding-right: 50px;
-    padding-top: 50px;
-    padding-bottom: 50px;
+.order-confirmation-page-container {
+    padding-left: 15px;
+    padding-right: 15px;
+    padding-top: 20px;
+    padding-bottom: 20px;
     background: #F5F3F5;
 }
 
@@ -231,10 +231,14 @@
 }
 
 
-@media (min-width: 800px) {
-    .order-summary-page-container {
+@media (min-width: 986px) {
+    .order-confirmation-page-container {
         display: flex;
         justify-content: space-between;
+        padding-left: 50px;
+        padding-right: 50px;
+        padding-top: 50px;
+        padding-bottom: 50px;
     }
 
     .items-ordered-card-description {

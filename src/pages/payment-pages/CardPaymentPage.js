@@ -5,9 +5,32 @@ import { LuDot } from "react-icons/lu";
 import { IoIosArrowBack } from "react-icons/io";
 import MastercardLogo from '../../images/MastercardLogo.png'
 import { useNavigate } from 'react-router-dom';
+import { useState } from 'react';
+
 function CardPaymentPage () {
     const navigate = useNavigate();
 
+    const publicKey = process.env.PAYSTACK_PUBLIC_KEY;
+
+    const amount = 1000000
+    const [name, setName] = useState("");
+    const [email, setEmail] = useState("");
+    const [phone, setPhone] = useState("");
+
+    const componentProps = {
+    email,
+    amount,
+    metadata: {
+      name,
+      phone,
+    },
+    publicKey,
+    text: "Pay Now",
+    onSuccess: () =>
+      alert("Thanks for doing business with us! Come back soon!!"),
+    onClose: () => alert("Wait! Don't leave :("),
+    }
+    
     return (
         <div className="card-payment-page-container">
             <div className="card-payment-container">

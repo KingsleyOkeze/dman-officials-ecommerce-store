@@ -1,81 +1,72 @@
 import { useContext, useEffect, useState } from 'react';
 import { RiCheckboxBlankFill } from "react-icons/ri";
 import { FaRegTrashCan } from "react-icons/fa6";
-import cardImage1 from "../../images/cardImage1.png";
-import cardImage2 from "../../images/cardImage2.png";
-import cardImage3 from "../../images/cardImage3.png";
-import cardImage4 from "../../images/cardImage4.png";
 import "../../styles/pages-styles/cart-pages-styles/CartPage.css";
 import { useNavigate } from 'react-router-dom';
-import axios from 'axios';
 import { CartContext } from '../../contexts/CartContext';
+import { SideDrawerContext } from '../../contexts/SideDrawerContext';
+import axios from 'axios';
+
 
 function CartPage () {
     const navigate = useNavigate();
     const { cartItems, addToCart, removeFromCart, clearCart } = useContext(CartContext); 
-    const [cartLists, setCartLists] = useState(cartItems
-        // [
-        // {
-        //     image: cardImage1,
-        //     name: 'This is part of dman officials,',
-        //     color: 'brown',
-        //     size: 'small',
-        //     price: '5000'
-        // },
-        // {
-        //     image: cardImage2,
-        //     name: 'This is part of dman officials,',
-        //     color: 'brown',
-        //     size: 'small',
-        //     price: '5000'
-        // },
-        // {
-        //     image: cardImage3,
-        //     name: 'This is part of dman officials,',
-        //     color: 'brown',
-        //     size: 'small',
-        //     price: '5000'
-        // },
-        // {
-        //     image: cardImage4,
-        //     name: 'This is part of dman officials,',
-        //     color: 'brown',
-        //     size: 'small',
-        //     price: '5000'
-        // }
-        // ]
-    );
+    const { toggleSideDrawer } = useContext(SideDrawerContext); 
+    const [currency, setCurrency] = useState('₦');
+    const [totalPrice, setTotalPrice] = useState(0);
 
-    const handleFetchCart = async () => {
-        // let data = localStorage.getItem("customerId");
+    const [couponCode, setCouponCode] = useState('');
+  const [couponError, setCouponError] = useState(null);
+  const [isValidCoupon, setIsValidCoupon] = useState(false);
+
+
+    const fetchCartTotalPrice = async () => {
+        let data = localStorage.getItem("customerId");
 
         // if (!data) return alert('No user found!');
 
-        // try {
-        //     const response = await axios.get("/customer/fetch-cart", {
-        //         customerId: data,
-        //     });
+        try {
+            const response = await axios.post("/customer/fetch-cart-total-price", {
+                customerId: data
+            })
 
-        //     if (response.status === 200) {
-        //         setCartLists(response.data)
-        //     }
-        // } catch (err) {
-        //     if (err.response) {
-        //         const status = err.response.status;
-        //         const errMessage = err.response.data.error;
-        //         if (status) {
-        //             alert("err cart", errMessage)
-
-        //         }
-        //     } else {
-        //         alert("Unknow Error fetching to cart!")
-        //     }
-        // }
+            if (response.status === 200) {
+                setTotalPrice(response.data.totalPrice);
+                console.log('cart total price message', response.data)
+                // alert('cart message', response.data.totalPrice)
+            }
+        } catch (err) {
+            console.log('err fetching cart', err)
+        }
+        
     };
 
     useEffect(() => {
-        // handleFetchCart();
-    }, [])
+        fetchCartTotalPrice();
+    }, [cartItems]);
+
+    const handleApplyCoupon = async () => {
+        try {
+            const response = await axios.post('/customer/validate-coupon', {
+                customerId: localStorage.getItem('customerId'),
+                couponCode: couponCode,
+            });
+
+            if (response.status === 200) {
+                setIsValidCoupon(true);
+                setCouponError(null);
+                setTotalPrice(response.data.total);
+
+                // Store the coupon code and discount details in sessionStorage
+                sessionStorage.setItem("dmanCouponCode", couponCode);
+                sessionStorage.setItem("discount", response.data.total.toString());
+                sessionStorage.setItem("discountApplied", "true");
+            }
+        } catch (error) {
+            console.error(error);
+        }
+    };
+    
     
     return (
         <div className="cart-page-container">
@@ -91,15 +82,18 @@ function CartPage () {
                                 <div className="cart-item-image-and-description-container">
                                     <img src={cartItem.productRef.productImageUrl[0]} width={150} height={139} />
                                     <div className="cart-item-description-container">
-                                        <p className="cart-item-name">{cartItem.name} - {cartItem.color} </p>
+                                        <p className="cart-item-name">{cartItem.productRef.productName} - {cartItem.color} </p>
                                         <p className="cart-item-size">Size: {cartItem.size}</p>
                                         <p className="cart-item-color">Color: <RiCheckboxBlankFill style={{color: 'brown'}}/></p>
-                                        <p className="cart-item-price"><b>₦</b> {cartItem.price} </p>
+                                        <p className="cart-item-price">
+                                            <b>{cartItem.productRef.currency}</b> 
+                                            {cartItem.productRef.productOfferPrice} 
+                                        </p>
                                     </div>
                                 </div>
                                 <div className="cart-item-quantity-and-remove-container">
                                     <div>
-                                        <p>Quantity <span style={{paddingLeft: '25px'}}>1</span></p>
+                                        <p>Quantity <span style={{paddingLeft: '25px'}}>{cartItem.quantity}</span></p>
                                     </div>
                                     <ul>
                                         <li onClick={() => {
@@ -125,14 +119,26 @@ function CartPage () {
                         <input type="text"
                             placeholder="Enter coupon code"
                             className="cart-checkout-coupon-code-input"
+                            value={couponCode}
+                            onChange={(e) => setCouponCode(e.target.value)}
                         />
                         <button
                              className="cart-checkout-coupon-code-button"
-                             >
+                             onClick={handleApplyCoupon}
+                            >
                                 Apply
                         </button>
                     </div>
-                    <button className="cart-checkout-button" onClick={() => navigate("/order-summary-page")}>Checkout N38,720</button>
+                    {couponError && <p className="error-message">{couponError}</p>}
+                    {isValidCoupon && <p className="success-message">Coupon applied successfully!</p>}
+                    <button 
+                        className="cart-checkout-button" 
+                        onClick={() => {
+                            toggleSideDrawer();
+                            navigate("/order-confirmation-page");
+                        }}>
+                            Checkout {currency} <span>{totalPrice}</span>
+                        </button>
                     <p className="cart-checkout-button-bottom-text">You are eligible for free shipping</p>
                 </div>
                 

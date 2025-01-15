@@ -6,16 +6,27 @@ import cartIcon from '../images/cart-icon-image.png';
 import { RiMenu5Line } from "react-icons/ri";
 import { useEffect, useState } from 'react';
 import { LiaTimesSolid } from "react-icons/lia";
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useLocation } from 'react-router-dom';
 import { FaTimes } from "react-icons/fa";
+import { SideDrawerContext } from '../contexts/SideDrawerContext';
+import { useContext } from 'react';
 
 
-function Header ({ toggleAuthSwitchPage, toggleMobileScreenNavbar, toggleSideDrawer, setActiveComponent }) {
+function Header () {
     const navigate = useNavigate();
+    const location = useLocation();
     const [windowWidth, setWindowWidth] = useState(window.innerWidth);
     const [showSearchIcon, setShowSearchIcon] = useState(true);
     const [showMenuIcon, setShowMenuIcon] = useState(true);
+    const { 
+            showSideDrawer, 
+            setShowSideDrawer, 
+            activeComponent, 
+            setActiveComponent,
+            toggleSideDrawer
+    } = useContext(SideDrawerContext); 
 
+    const isAuthenticated = localStorage.getItem('accessToken'); // Check if the access token exists
 
     useEffect(() => {
         const handleResize = () => {
@@ -46,7 +57,8 @@ function Header ({ toggleAuthSwitchPage, toggleMobileScreenNavbar, toggleSideDra
                         className="sm-header-menu"
                         onClick={() => {
                             setShowMenuIcon(false);
-                            toggleMobileScreenNavbar()
+                            toggleSideDrawer();
+                            setActiveComponent('mobile-screen-navbar');
                         }
                         }/>
                     : 
@@ -54,7 +66,7 @@ function Header ({ toggleAuthSwitchPage, toggleMobileScreenNavbar, toggleSideDra
                         className="sm-header-menu"
                         onClick={() => {
                             setShowMenuIcon(true);
-                            toggleMobileScreenNavbar();
+                            toggleSideDrawer();
                         }
                     }
                     />
@@ -75,13 +87,26 @@ function Header ({ toggleAuthSwitchPage, toggleMobileScreenNavbar, toggleSideDra
                 :
                 <LiaTimesSolid className="sm-header-cancel-icon" onClick={() => setShowSearchIcon(true)}/>
             }
-            <div className="sm-header-account-container">
-                <AiOutlineUser className="sm-header-account" onClick={() => navigate("/account")}/> 
+            <div className="sm-header-account-container"
+                onClick={() => {
+                    if (isAuthenticated) {
+                        if (location.pathname !== "/account") {
+                            navigate("account")
+                        }
+                    } else {
+                        toggleSideDrawer();
+                        setActiveComponent('account');
+                    }
+                }}>
+                <AiOutlineUser className="sm-header-account"/> 
             </div>
-            <div className="sm-header-cart-container">
+            <div className="sm-header-cart-container"
+                onClick={() => {
+                    toggleSideDrawer();
+                    setActiveComponent('cart');
+                }}>
                 <img src={cartIcon} width={24} height={24}  
                     className="sm-header-cart" 
-                    // onClick={() => navigate("/cart-page")}
                 />
             </div>
         </div>
@@ -104,8 +129,15 @@ function Header ({ toggleAuthSwitchPage, toggleMobileScreenNavbar, toggleSideDra
                 </div>
                 <div className="lg-header-account-and-cart-container">
                     <div className="lg-header-account" onClick={() => {
-                        toggleSideDrawer();
-                        setActiveComponent('account');
+                        if (isAuthenticated) {
+                            if (location.pathname !== "/account") {
+                                navigate("account")
+                            }
+                        } else {
+                            toggleSideDrawer();
+                            setActiveComponent('account');
+                        }
+                        
                     }}>
                         <AiOutlineUser />   
                         <p> Account</p>

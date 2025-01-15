@@ -1,12 +1,20 @@
-import React, { useState } from 'react';
+import React, { useContext, useState } from 'react';
 import axios from 'axios';
 import "../../styles/pages-styles/auth-pages-styles/SignUpPage.css";
 import { useNavigate, Link } from 'react-router-dom';
 import logo from '../../images/dman-logo.png'
+import { SideDrawerContext } from '../../contexts/SideDrawerContext';
 
 
 const SignUpPage = () => {
     const navigate = useNavigate();
+    const { 
+        showSideDrawer, 
+        setShowSideDrawer, 
+        activeComponent, 
+        setActiveComponent,
+        toggleSideDrawer
+    } = useContext(SideDrawerContext);
     const [firstName, setFirstName] = useState('');
     const [lastName, setLastName] = useState('');
     const [email, setEmail] = useState('');
@@ -42,7 +50,9 @@ const SignUpPage = () => {
             });
             setMessage(response.data.message);
             console.log(response.data.message)
-            // Optionally, redirect to a verification page or login page after signup.
+            // Close the opened side drawer
+            toggleSideDrawer()
+            // Redirect to a verification page after signup.
             navigate(`/email-sent/${response.data.userId}`)
         } catch (err) {
             console.log("error signing up", err)

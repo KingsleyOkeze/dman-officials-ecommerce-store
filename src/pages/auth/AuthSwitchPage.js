@@ -4,34 +4,10 @@ import { Link, Outlet, useLocation, useNavigate  } from "react-router-dom";
 import LoginPage from "./LoginPage";
 import SignUpPage from "./SignUpPage";
 
-function AuthSwitchPage ({ isOpen, toggleAuthSwitchPage }) {
+function AuthSwitchPage ({ isOpen, toggleSideDrawer }) {
     const location = useLocation(); // Get current location
     const navigate = useNavigate(); 
     const [showLogin, setShowLogin] = useState(true);
-    
-    const [showAuthSwitchPage, setShowAuthSwitchPage] = useState(false);
-
-    useEffect(() => {
-        console.log("AuthSwitchPage mounted");
-        // alert('well hello')
-    }, []);
-
-  // Effect to listen for changes in the pathname
-  useEffect(() => {
-    // Check if the pathname includes '/auth'
-    if (location.pathname.includes('/auth')) {
-        // setShowAuthSwitchPage(true);
-    } else {
-        // setShowAuthSwitchPage(false); // Set isOpen to false otherwise
-    }
-  }, [location.pathname]); // Dependency array includes pathname
-
-  useEffect(() => {
-    if (isOpen === false) {
-        // setShowAuthSwitchPage(false);
-        // console.log('is is', isOpen)
-    }
-  }, [isOpen])
 
     return (
         <div className="auth-switch-page-container">
@@ -47,7 +23,7 @@ function AuthSwitchPage ({ isOpen, toggleAuthSwitchPage }) {
             {/* Child Routes Render Here */}
             <div className="auth-content">
                 {
-                    showLogin ? <LoginPage /> : <SignUpPage />
+                    showLogin ? <LoginPage toggleSideDrawer={toggleSideDrawer}/> : <SignUpPage />
                 }
             </div>
             

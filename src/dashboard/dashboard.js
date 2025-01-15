@@ -7,31 +7,16 @@ import { useEffect, useState } from "react";
 import AuthSwitchPage from "../pages/auth/AuthSwitchPage";
 import MobileScreenNavbar from "../components/navbar-components/MobileScreenNavbar";
 import { CartProvider } from "../contexts/CartContext";
-import { SaveProductProvider } from "../contexts/SaveProductContext";
 import SideDrawer from "../components/SideDrawer";
+import { SideDrawerProvider } from "../contexts/SideDrawerContext";
+import { SaveProductProvider } from "../contexts/SaveProductContext";
+import Overlay from "./Overlay";
 
 
 function Dashboard () {
-    const [showSideDrawer, setShowSideDrawer] = useState(false);
-    const [activeComponent, setActiveComponent] = useState(null);
     const [showAuthSwitchPage, setShowAuthSwitchPage] = useState(false);
     const [showMobileScreenNavbar, setShowMobileScreenNavbar] = useState(false);
     const [windowWidth, setWindowWidth] = useState(window.innerWidth);
-
-    const toggleSideDrawer = (componentToShow) => {
-        setShowSideDrawer(!showSideDrawer) // Toggle visibility
-        setActiveComponent(componentToShow); // Set the active component
-    }
-    const toggleAuthSwitchPage = () => {
-        setShowAuthSwitchPage(!showAuthSwitchPage); // Toggle visibility
-    };
-    const toggleMobileScreenNavbar  = () => {
-        setShowMobileScreenNavbar(!showMobileScreenNavbar); // Toggle visibility
-    };
-
-    useEffect(() => {
-        console.log('draft', showAuthSwitchPage)
-    }, [showAuthSwitchPage]);
 
     useEffect(() => {
         const handleResize = () => {
@@ -59,41 +44,24 @@ function Dashboard () {
                 setShowAuthSwitchPage(true);
             }
         }
-    }, [windowWidth])
+    }, [windowWidth]);
+
     return (
-        <div className="dashboard-container">
+        <SideDrawerProvider>
             <CartProvider>
-                <Header 
-                    toggleSideDrawer={toggleSideDrawer}
-                    setActiveComponent={setActiveComponent}
-                // toggleAuthSwitchPage={toggleAuthSwitchPage}
-                // toggleMobileScreenNavbar={toggleMobileScreenNavbar}
-                />
-                <SideDrawer 
-                    isOpen={showSideDrawer}
-                    activeComponent={activeComponent}/>
-           
-                <MobileScreenNavbar 
-                    isOpen={showMobileScreenNavbar}
-                    toggleMobileScreenNavbar={toggleMobileScreenNavbar}
-                />
-
-                <div id="dashboard-overlay" style={{display: showSideDrawer ? 'block' : 'none'}}
-                     onClick={() => {
-                        setShowSideDrawer(false);
-                     }}>
-                </div>
+                <SaveProductProvider> 
+                    <Overlay />
+                    <div className="dashboard-container">
+                        <Header />
+                        <SideDrawer />
+                        <div className="dashboard-main-content">
+                            <Outlet />
+                         </div> 
+                        <Footer />
+                    </div>
+                </SaveProductProvider>
             </CartProvider>
-            <div className="dashboard-main-content">
-                <CartProvider>
-                    <SaveProductProvider>
-                        <Outlet />
-                    </SaveProductProvider>
-                </CartProvider>
-            </div> 
-            <Footer />
-
-        </div>
+        </SideDrawerProvider>
     )
 }
 

@@ -102,37 +102,6 @@ function HomePage () {
 
     const [exploreProducts, setExploreProducts] = useState([]);
 
-    // const handleAddToCart = async (itemId) => {
-    //     let data = localStorage.getItem("customerId");
-
-    //     if (!data) return alert('No user found!');
-
-    //     try {
-    //         const response = await axios.post("/customer/add-to-cart", {
-    //             customerId: data,
-    //             productId: itemId
-    //         });
-
-    //         if (response.status === 201) {
-    //             alert("added to cart!")
-    //         }
-
-    //     } catch (err) {
-    //         if (err.response) {
-    //             const status = err.response.status;
-    //             const errMessage = err.response.data.error;
-    //             if (status) {
-    //                 alert("err cart", errMessage)
-
-    //             }
-    //         } else {
-    //             alert("Unknow Error adding to cart!")
-    //         }
-            
-    //     }
-        
-    // };
-
     useEffect(() => {
         const fetchExploreProducts = async () => {
             try {
@@ -238,7 +207,10 @@ function HomePage () {
                 {
                     flashSales.map((flashSale, index) => (
                         <div key={index} className="home-page-flash-sale-card">
-                            <img src={flashSale.image} className="home-page-flash-sale-card-img"/>
+                            <img 
+                                src={flashSale.image} 
+                                className="home-page-flash-sale-card-img"
+                                />
                             <p className="home-page-flash-sale-card-description">{flashSale.name} - {flashSale.color}</p>
                             <div className="home-page-flash-sale-card-price-container">
                                 <p className="home-page-flash-sale-card-offer-price"><b>₦</b> {flashSale.offerPrice}</p>
@@ -344,7 +316,13 @@ function HomePage () {
                     {
                         exploreProducts.map((exploreProduct, index) => (
                         <div key={index} className="home-page-explore-card">
-                            <img src={exploreProduct.productImageUrl[0]} className="home-page-explore-card-img" width={100} height={100}/>
+                            <img 
+                                src={exploreProduct.productImageUrl[0]} 
+                                className="home-page-explore-card-img" 
+                                width={100} height={100}
+                                onClick={() => {
+                                    navigate(`/product-page/${exploreProduct._id}`)
+                            }}/>
                             <p className="home-page-explore-card-description">{exploreProduct.productName} - {exploreProduct.productColor}</p>
                             <div className="home-page-explore-card-price-container">
                                 <p className="home-page-explore-card-offer-price"><b>₦</b> {exploreProduct.productOfferPrice}</p>

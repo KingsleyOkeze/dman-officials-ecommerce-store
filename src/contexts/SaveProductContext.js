@@ -12,7 +12,7 @@ export const SaveProductProvider = ({ children }) => {
         const fetchSavedProduct = async () => {
             let data = localStorage.getItem("customerId");
 
-            if (!data) return alert('No user found!');
+            // if (!data) return alert('No user found!');
 
             try {
                 const response = await axios.post("/customer/fetch-saved-product", {
@@ -36,7 +36,7 @@ export const SaveProductProvider = ({ children }) => {
 
         let data = localStorage.getItem("customerId");
 
-        if (!data) return alert('No user found!');
+        // if (!data) return alert('No user found!');
 
         try {
             const response = await axios.post("/customer/save-product", {
@@ -69,7 +69,7 @@ export const SaveProductProvider = ({ children }) => {
     const removeFromSavedProduct = async (itemId) => {
         let data = localStorage.getItem("customerId");
 
-        if (!data) return alert('No user found!');
+        // if (!data) return alert('No user found!');
 
         try {
             const response = await axios.post("/customer/remove-from-saved-product", {

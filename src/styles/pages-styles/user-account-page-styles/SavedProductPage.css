@@ -91,7 +91,7 @@
 }
 
 
-@media (min-width: 800px) {
+@media (min-width: 986px) {
     .saved-product-card {
         display: flex;
         flex-direction: row;

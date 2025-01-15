@@ -1,38 +1,59 @@
 import "../../styles/pages-styles/user-account-page-styles/AccountPage.css";
 import { Outlet, useNavigate, useLocation } from "react-router-dom";
 import { useState, useEffect } from "react";
+import axios from "axios";
 
 function AccountPage() {
-  const navigate = useNavigate();
-  const location = useLocation(); // Get current route
-  const [isMobile, setIsMobile] = useState(false);
-  const [showMenu, setShowMenu] = useState(true);
+    const navigate = useNavigate();
+    const location = useLocation(); // Get current route
+    const [isMobile, setIsMobile] = useState(false);
+    const [showMenu, setShowMenu] = useState(true);
 
-  // Determine initial state of showMenu based on location
-  useEffect(() => {
-    const handleResize = () => {
-      const isMobileScreen = window.innerWidth <= 786;
-      setIsMobile(isMobileScreen);
+    // Determine initial state of showMenu based on location
+    useEffect(() => {
+        const handleResize = () => {
+            const isMobileScreen = window.innerWidth <= 786;
+            setIsMobile(isMobileScreen);
 
-      // If on mobile and not on the main account page, hide the menu
-      if (isMobileScreen) {
-        setShowMenu(location.pathname === "/account");
-      } else {
-        setShowMenu(true); // Always show menu on desktop
+            // If on mobile and not on the main account page, hide the menu
+            if (isMobileScreen) {
+                setShowMenu(location.pathname === "/account");
+            } else {
+                setShowMenu(true); // Always show menu on desktop
+            }
+        };
+
+        handleResize(); // Check on initial load
+        window.addEventListener("resize", handleResize);
+
+        return () => {
+            window.removeEventListener("resize", handleResize);
+        };
+
+    }, [location.pathname]); // Rerun when the route changes
+
+    const handleNavigation = (path) => {
+      navigate(path);
+      if (isMobile) setShowMenu(false); // Hide menu on mobile after navigation
+    };
+
+    const handleLogout = async () => {
+      try {
+          const response = await axios.post(
+              "/customer/logout",
+              {},
+              { withCredentials: true } // Include credentials for cookies
+          );
+
+          if (response.status === 200) {
+              localStorage.removeItem("accessToken");
+              localStorage.removeItem("customerId");
+              navigate("/")
+          }
+          
+      } catch (error) {
+          console.error("Error during logout:", error);
       }
-    };
-
-    handleResize(); // Check on initial load
-    window.addEventListener("resize", handleResize);
-
-    return () => {
-      window.removeEventListener("resize", handleResize);
-    };
-  }, [location.pathname]); // Rerun when the route changes
-
-  const handleNavigation = (path) => {
-    navigate(path);
-    if (isMobile) setShowMenu(false); // Hide menu on mobile after navigation
   };
 
   return (
@@ -48,7 +69,12 @@ function AccountPage() {
             Recently Viewed
           </p> */}
           <p>
-            <button className="logout-button">LOGOUT</button>
+            <button 
+                className="logout-button"
+                onClick={handleLogout}
+                >
+                  LOGOUT
+            </button>
           </p>
         </div>
       ) : (

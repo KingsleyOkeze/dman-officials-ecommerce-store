@@ -1,8 +1,9 @@
-import React, { useState } from 'react';
+import React, { useContext, useState } from 'react';
 import axios from 'axios';
 import "../../styles/pages-styles/auth-pages-styles/LoginPage.css"
 import { useNavigate } from 'react-router-dom';
 import logo from '../../images/dman-logo.png'
+import { SideDrawerContext } from '../../contexts/SideDrawerContext';
 
 
 const LoginPage = () => {
@@ -12,6 +13,13 @@ const LoginPage = () => {
     const [message, setMessage] = useState('');
     const [error, setError] = useState('');
     const [loading, setLoading] = useState(false);
+    const { 
+        showSideDrawer, 
+        setShowSideDrawer, 
+        activeComponent, 
+        setActiveComponent,
+        toggleSideDrawer
+    } = useContext(SideDrawerContext);
 
     const handleLogin = async (e) => {
         e.preventDefault();
@@ -25,6 +33,7 @@ const LoginPage = () => {
             // Handle successful login, such as redirecting or storing tokens.
             localStorage.setItem("customerId", response.data.userId);
             localStorage.setItem("accessToken", response.data.accessToken);
+            toggleSideDrawer(); // Close the sliding sidebar
             navigate("/account");
         } catch (err) {
             console.log('login 403 err', err);

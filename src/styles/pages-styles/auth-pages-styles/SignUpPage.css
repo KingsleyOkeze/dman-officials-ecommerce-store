@@ -9,6 +9,7 @@
     color: #FFFFFF;
     padding: 20px;
     font-family: Arial, sans-serif;
+    overflow-y: scroll;
 }
 
 .signup-page-head-container {
