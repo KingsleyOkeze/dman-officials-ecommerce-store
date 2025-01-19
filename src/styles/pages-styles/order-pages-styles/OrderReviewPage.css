@@ -1,0 +1,92 @@
+.order-review-page-container {
+    max-width: 800px;
+    margin: 2rem auto;
+    padding: 1.5rem;
+    background-color: #f9f9f9;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    border-radius: 8px;
+    font-family: Arial, sans-serif;
+    min-height: 100vh;
+  }
+  
+  .order-review-page-container h1 {
+    color: #333;
+    text-align: center;
+  }
+  
+  .order-review-page-discrepancy-message {
+    color: #ff4d4f;
+    background: #fff1f0;
+    border: 1px solid #ffa39e;
+    padding: 1rem;
+    margin: 1rem 0;
+    border-radius: 5px;
+  }
+  
+  .order-review-page-details {
+    margin: 1rem 0;
+    padding: 1rem;
+    background-color: #ffffff;
+    border: 1px solid #e8e8e8;
+    border-radius: 5px;
+    line-height: 24px;
+  }
+  
+  .order-review-page-details h2 {
+    margin-bottom: 0.5rem;
+    color: #333;
+  }
+  
+  .order-review-page-details p {
+    margin: 0.5rem 0;
+  }
+  
+  .order-review-page-details ul {
+    list-style: none;
+    padding: 0;
+    margin: 0.5rem 0;
+  }
+  
+  .order-review-page-details ul li {
+    background: #f5f5f5;
+    margin: 0.25rem 0;
+    padding: 0.5rem;
+    border-radius: 3px;
+  }
+  
+  .order-review-page-actions {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 1.5rem;
+  }
+  
+  .order-review-page-retry-button {
+    background-color: #52c41a;
+    color: #fff;
+    border: none;
+    padding: 0.75rem 1.5rem;
+    font-size: 1rem;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+  }
+  
+  .order-review-page-retry-button:hover {
+    background-color: #389e0d;
+  }
+  
+  .order-review-page-contact-button {
+    background-color: #1890ff;
+    color: #fff;
+    border: none;
+    padding: 0.75rem 1.5rem;
+    font-size: 1rem;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+  }
+  
+  .order-review-page-contact-button:hover {
+    background-color: #0050b3;
+  }
+  

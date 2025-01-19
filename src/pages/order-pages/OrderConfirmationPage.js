@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import '../../styles/pages-styles/order-pages-styles/OrderConfirmationPage.css';
 import cardImage1 from "../../images/cardImage1.png";
 import cardImage2 from "../../images/cardImage2.png";
@@ -8,6 +8,7 @@ import { RiCheckboxBlankFill } from "react-icons/ri";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import PaystackPop from '@paystack/inline-js'
+import { CouponContext } from "../../contexts/CouponContext";
 
 
 function OrderConfirmationPage () {
@@ -43,7 +44,16 @@ function OrderConfirmationPage () {
         }
     ]);
 
-
+    const { 
+        applyCoupon, 
+        couponCode, 
+        setCouponCode, 
+        discountAmount, 
+        couponError, 
+        isValidCoupon, 
+        removeCoupon 
+    } = useContext(CouponContext);
+    
     const [country, setCountry] = useState('Nigeria')
     const [firstName, setFirstName] = useState('')
     const [lastName, setLastName] = useState('')
@@ -54,16 +64,11 @@ function OrderConfirmationPage () {
     const [postalCode, setPostalCode] = useState('')
     const [phoneNumber, setPhoneNumber] = useState()
     
-
-
-    const [couponCode, setCouponCode] = useState('');
-    const [couponError, setCouponError] = useState(null);
-    const [isValidCoupon, setIsValidCoupon] = useState(false);
-    const [discount, setDiscount] = useState(0);
     const [totalPrice, setTotalPrice] = useState(0); 
     const [shippingPrice, setShippingPrice] = useState(1000)
 
-
+    // Calculate final total price after discount and adding shipping fee
+    const finalTotalPrice = Math.max(totalPrice - discountAmount + shippingPrice, 0); // Prevent negative total
 
     const fetchCartTotalPrice = async () => {
         let data = localStorage.getItem("customerId");
@@ -77,8 +82,7 @@ function OrderConfirmationPage () {
 
             if (response.status === 200) {
                 setTotalPrice(response.data.totalPrice);
-                console.log('cart total price message', response.data)
-                // alert('cart message', response.data.totalPrice)
+                console.log('cart total price message', response.data);
             }
         } catch (err) {
             console.log('err fetching cart', err)
@@ -90,36 +94,10 @@ function OrderConfirmationPage () {
         fetchCartTotalPrice();
     }, []);
 
-
-    const handleApplyCoupon = async () => {
-        try {
-            const response = await axios.post('/customer/validate-coupon', {
-                customerId: localStorage.getItem('customerId'),
-                couponCode: couponCode,
-            });
-
-            if (response.status === 200) {
-                setIsValidCoupon(true);
-                setCouponError(null);
-                setTotalPrice(response.data.total);
-            }
-        } catch (error) {
-            console.error(error);
-        }
+    
+    const handleApplyCoupon = () => {
+        applyCoupon(couponCode); // Call the context function to apply the coupon
     };
-
-
-    // Retrieve data from sessionStorage
-    const dmanCouponCode = sessionStorage.getItem("dmanCouponCode") || "";
-    const discountApplied = sessionStorage.getItem("discountApplied") === "true";
-    // const discount = parseFloat(sessionStorage.getItem("discount")) || 0;
-
-    useEffect(() => {
-        if (discountApplied === "true") {
-            setCouponCode(dmanCouponCode)
-        }
-    }, [dmanCouponCode, discountApplied])
-
 
     const handlePlaceOrder = async () => {
         let data = localStorage.getItem("customerId");
@@ -138,6 +116,7 @@ function OrderConfirmationPage () {
                 state,
                 postalCode,
                 phoneNumber,
+                appliedCouponCode: couponCode, // Pass the applied coupon code
             })
 
             if (response.status === 201) {
@@ -159,28 +138,46 @@ function OrderConfirmationPage () {
         const popup = new PaystackPop()
   
         popup.newTransaction({
-        key: process.env.REACT_APP_PAYSTACK_PUBLIC_KEY,
-        email: customerEmail,
-        amount: totalAmount * 100, // Convert amount to kobo
-        onSuccess: async (transaction) => {
-          console.log('onSuccess', transaction);
-          try {
-            const response = await axios.post("/customer/verify-transaction", { 
-              reference: transaction.reference,
-              customerEmail,
-              orderId
-            });
+            key: process.env.REACT_APP_PAYSTACK_PUBLIC_KEY,
+            email: customerEmail,
+            amount: totalAmount * 100, // Convert amount to kobo
+            onSuccess: async (transaction) => {
+                console.log('onSuccess', transaction);
+                try {
+                    const response = await axios.post("/customer/verify-transaction", { 
+                        reference: transaction.reference,
+                        customerEmail,
+                        orderId
+                    });
+
+                    if (response.data.status === "payment mismatch") {
+                        alert(response.data.message); // Show detailed message
+                        navigate(`/order-review/${orderId}`); // Navigate to a pending review page
+                    } else if (response.status === 200) {
+                        // Payment success
+                        console.log("Payment verified successfully:", response.data);
+                        navigate(`/account/order-tracking/${orderId}`);
+
+                        // Clear all billing state and coupon ("if applied")
+                        setCountry('');
+                        setFirstName('');
+                        setLastName('');
+                        setCompany('');
+                        setAddress('');
+                        setCity('');
+                        setState('');
+                        setPostalCode('');
+                        setPhoneNumber();
+                    } 
+
+                    // Clear coupon if applied
+                    removeCoupon();
+                    
+                } catch (error) {
+                    console.error("Error verifying payment:", error.message);
+                }
         
-            if (response.status === 200) {
-              console.log("Payment verified successfully:", response.data);
-              navigate(`/account/order-tracking/${orderId}`)
-            } 
-          } catch (error) {
-            console.error("Error verifying payment:", error.message);
-            alert("Error verifying payment");
-          }
-        
-        },
+            },
         onLoad: (response) => {
           console.log("onLoad: ", response);
         },
@@ -190,7 +187,7 @@ function OrderConfirmationPage () {
         onError: (error) => {
           console.log("Error: ", error.message);
         }
-        })
+        });
   
     }
 
@@ -309,7 +306,7 @@ function OrderConfirmationPage () {
                                 className="order-coupon-code-input"
                                 value={couponCode}
                                 onChange={(e) => setCouponCode(e.target.value)}
-                                readOnly={discountApplied} // Only prevent editing if discount already applied
+                                // readOnly={discountApplied} // Only prevent editing if discount already applied
                             />
                             <button 
                                 className="order-coupon-apply-button"
@@ -324,15 +321,22 @@ function OrderConfirmationPage () {
                             <div>
                                 <p>Subtotal</p>
                                 <p>Shipping fee</p>
+                                <p>Discount:</p>
                                 <p><b>Total</b></p>
                             </div>
                             <div>
-                                <p>N {totalPrice}</p>
-                                <p>N {shippingPrice}</p>
-                                <p>N {totalPrice + shippingPrice}</p>
+                                <p>N {totalPrice.toFixed(2)}</p>
+                                <p>N {shippingPrice.toFixed(2)}</p>
+                                <p>N {discountAmount.toFixed(2)}</p>
+                                <p>N {finalTotalPrice.toFixed(2)}</p>
                             </div>
                         </div>
-                        <button className="confirm-order-button" onClick={handlePlaceOrder}>Confirm order</button>
+                        <button 
+                            className="confirm-order-button" 
+                            onClick={handlePlaceOrder}
+                        >
+                            Confirm order
+                        </button>
                     </div>
 
                     <ul className="order-policy-list">

@@ -111,7 +111,9 @@ function Header () {
             </div>
         </div>
         : 
-        <div className="lg-header-container">
+        <div className="lg-header-container" style={{
+            // background: location.pathname === "/" ? "rgba(0, 0, 0, 0.5)" : "000000"
+            }}>
             <div className="lg-header-logo">
                 <img src={logo} width={50} height={50}
                     onClick={() => navigate("/")}
@@ -158,4 +160,52 @@ function Header () {
 }
 
 export default Header;
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 

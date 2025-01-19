@@ -61,7 +61,7 @@ function AccountPage() {
       {showMenu ? (
         <div className="account-page-menu-container">
           <p onClick={() => handleNavigation("/account/user-overview")}>My D.MAN Account</p>
-          <p onClick={() => handleNavigation("/account/orders")}>Orders</p>
+          <p onClick={() => handleNavigation("/account/all-orders")}>Orders</p>
           <p onClick={() => handleNavigation("/account/saved-product")}>
             Saved Product
           </p>

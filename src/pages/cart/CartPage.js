@@ -6,18 +6,17 @@ import { useNavigate } from 'react-router-dom';
 import { CartContext } from '../../contexts/CartContext';
 import { SideDrawerContext } from '../../contexts/SideDrawerContext';
 import axios from 'axios';
+import { CouponContext } from '../../contexts/CouponContext';
+import { LiaTimesSolid } from "react-icons/lia";
 
 
 function CartPage () {
     const navigate = useNavigate();
     const { cartItems, addToCart, removeFromCart, clearCart } = useContext(CartContext); 
+    const { applyCoupon, couponCode, setCouponCode, discountAmount, couponError, isValidCoupon } = useContext(CouponContext);
     const { toggleSideDrawer } = useContext(SideDrawerContext); 
     const [currency, setCurrency] = useState('₦');
     const [totalPrice, setTotalPrice] = useState(0);
-
-    const [couponCode, setCouponCode] = useState('');
-  const [couponError, setCouponError] = useState(null);
-  const [isValidCoupon, setIsValidCoupon] = useState(false);
 
 
     const fetchCartTotalPrice = async () => {
@@ -45,36 +44,25 @@ function CartPage () {
         fetchCartTotalPrice();
     }, [cartItems]);
 
-    const handleApplyCoupon = async () => {
-        try {
-            const response = await axios.post('/customer/validate-coupon', {
-                customerId: localStorage.getItem('customerId'),
-                couponCode: couponCode,
-            });
-
-            if (response.status === 200) {
-                setIsValidCoupon(true);
-                setCouponError(null);
-                setTotalPrice(response.data.total);
-
-                // Store the coupon code and discount details in sessionStorage
-                sessionStorage.setItem("dmanCouponCode", couponCode);
-                sessionStorage.setItem("discount", response.data.total.toString());
-                sessionStorage.setItem("discountApplied", "true");
-            }
-        } catch (error) {
-            console.error(error);
-        }
+    
+    const handleApplyCoupon = () => {
+        applyCoupon(couponCode); // Call the context function to apply the coupon
     };
-    
-    
+
+    const finalTotalPrice = totalPrice - discountAmount; // Calculate final price after discount
+
     return (
         <div className="cart-page-container">
             { cartItems.length > 0 ? 
             <div className="cart-page-sub-container">
             <div className="cart-page-list-showcase-container">
-                <h2>Shopping cart (4)</h2>
-
+                <div className="cart-page-list-showcase-header-container">
+                    <h2>Shopping cart (4)</h2>
+                    <LiaTimesSolid 
+                        className="cart-page-close-page-icon"
+                        onClick={toggleSideDrawer}
+                    />
+                </div>
                 <div className="cart-page-list-container">
                     {
                         cartItems.map((cartItem, index) => ( 
@@ -129,15 +117,18 @@ function CartPage () {
                                 Apply
                         </button>
                     </div>
-                    {couponError && <p className="error-message">{couponError}</p>}
-                    {isValidCoupon && <p className="success-message">Coupon applied successfully!</p>}
+                    <div className="cart-coupon-response-message-container" >
+                        {couponError && <p className="cart-coupon-error-message">{couponError}</p>} 
+                        {isValidCoupon && <p className="cart-coupon-success-message">Coupon applied successfully!</p>}
+                    </div>
+                    {/* Checkout Button */}
                     <button 
                         className="cart-checkout-button" 
                         onClick={() => {
                             toggleSideDrawer();
                             navigate("/order-confirmation-page");
                         }}>
-                            Checkout {currency} <span>{totalPrice}</span>
+                            Checkout {currency} <span>{finalTotalPrice.toFixed(2)}</span>
                         </button>
                     <p className="cart-checkout-button-bottom-text">You are eligible for free shipping</p>
                 </div>

@@ -2,7 +2,7 @@ import './App.css';
 import { BrowserRouter as Router, Routes, Route, useLocation } from 'react-router-dom';
 import Dashboard from './dashboard/Dashboard';
 import CategoryPage from './pages/category-pages/CategoryPage';
-import UserDetails from './pages/UserDetails';
+import UserDetails from './pages/user-account/UserDetails';
 import FaqPage from './pages/footer-pages/FaqPage';
 import ShippingPolicyPage from './pages/footer-pages/ShippingPolicyPage';
 import ReturnsPolicyPage from './pages/footer-pages/ReturnsPolicyPage';
@@ -20,11 +20,11 @@ import USSDInstructionPage from './pages/payment-pages/USSDInstructionPage';
 import BankTransferPage from './pages/payment-pages/BankTransferPayment';
 import AboutUsPage from './pages/footer-pages/AboutUsPage';
 import SavedProductPage from './pages/user-account/SavedProductPage';
-import OrdersPage from './pages/user-account/OrdersPage';
+// import OrdersPage from './pages/user-account/AllOrdersPage';
 import AccountPage from './pages/user-account/AccountPage';
 import ProductHistoryPage from './pages/user-account/OrderTrackingPage';
 import UserOverviewPage from './pages/user-account/UserOverviewPage';
-import OrderDetailsPage from './pages/user-account/OrderDetailsPage';
+import PurchaseDetailsPage from './pages/user-account/PurchaseDetailsPage';
 import ProductPage from './pages/product-pages/ProductPage';
 import HomePage from './pages/home/HomePage';
 import SalePage from './pages/category-pages/SalePage';
@@ -35,6 +35,9 @@ import ForgotPassword from './pages/auth/ForgotPassword';
 import SignUpVerification from './pages/auth/SignUpVerification';
 import NotFoundPage from './pages/NotFoundPage'
 import ProtectedRoute from './utils/ProtectedRoute';
+import OrderTrackingPage from './pages/user-account/OrderTrackingPage';
+import OrderReviewPage from './pages/order-pages/OrderReviewPage';
+import AllOrdersPage from './pages/user-account/AllOrdersPage';
 
 function App() { 
  
@@ -51,6 +54,7 @@ function App() {
             <Route path="sale-page" element={<SalePage />} /> 
             <Route path="user-details-page" element={<UserDetails />} /> 
             <Route path="order-confirmation-page" element={<OrderConfirmationPage />} />
+            <Route path="order-review/:orderId" element={<OrderReviewPage />} />
             <Route path="card-payment-page" element={<CardPaymentPage />} />
             <Route path="ussd-payment-page" element={<USSDPaymentPage />} />
             <Route path="ussd-instruction-page" element={<USSDInstructionPage />} />
@@ -66,10 +70,11 @@ function App() {
                 <Route path="account" element={<AccountPage />}>
                     <Route index element={<UserOverviewPage />} />
                     <Route path="saved-product" element={<SavedProductPage />} />
-                    <Route path="orders" element={<OrdersPage />} />
-                    <Route path="order-tracking/:orderId" element={<ProductHistoryPage />} />
+                    <Route path="all-orders" element={<AllOrdersPage />} />
+                    <Route path="order-tracking/:orderId" element={<OrderTrackingPage />} />
                     <Route path="user-overview" element={<UserOverviewPage />} />
-                    <Route path="order-details" element={<OrderDetailsPage />} />
+                    <Route path="user-details" element={<UserDetails />} />
+                    <Route path="purchase-details/:orderId" element={<PurchaseDetailsPage />} />
                 </Route>
             </Route>
 

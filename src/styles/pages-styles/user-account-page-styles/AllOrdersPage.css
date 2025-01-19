@@ -1,22 +1,22 @@
-.order-page-container {
+.all-order-page-container {
     padding: 15px;
     background: #f5f3f5;
 }
 
-.order-page-container h3 {
+.all-order-page-container h3 {
     font-weight: 400;
     font-size: 24px;
     line-height: 31.34px;
     padding-bottom: 15px;
 }
 
-.order-page-main-content {
+.all-order-page-main-content {
     background: #ffffff;
     padding: 15px;
     border-radius: 10px;
 }
 
-.order-page-title {
+.all-order-page-title {
     height: 54px;
     font-size: 16px;
     font-weight: 700;
@@ -25,7 +25,7 @@
 }
 
 
-.order-page-card-container {
+.all-order-page-card-container {
     display: flex;
     flex-wrap: wrap;
     justify-content: space-between;
@@ -33,7 +33,7 @@
 }
 
 
-.order-page-card {
+.all-order-page-card {
     width: 100%;
     /* background: brown; */
     border: 0.5px solid #808080;
@@ -44,7 +44,7 @@
 }
 
 
-.order-page-card-img-container {
+.all-order-page-card-img-container {
     width: 100%;
     height: 250px; /* Set a fixed height (adjust as needed) */
     background: peru;
@@ -55,7 +55,7 @@
     border-radius: 6px; /* Matches the image's border radius */
 }
 
-.order-page-card-img-container img {
+.all-order-page-card-img-container img {
     width: 100%;
     height: 100%;
     object-fit: cover; /* Ensures the image fills the container while maintaining its aspect ratio */
@@ -65,11 +65,11 @@
 
 
 
-.order-page-card-name-and-order-id-container {
+.all-order-page-card-name-and-order-id-container {
    
 }
 
-.order-page-card-name {
+.all-order-page-card-name {
     font-size: 16px;
     line-height: 19.2px;
     font-weight: 500;
@@ -77,20 +77,20 @@
 }
 
 
-.order-page-card-order-id {
+.all-order-page-card-order-id {
     font-weight: 400;
     line-height: 14.4px;
     font-size: 12px;
     color: #808080;
 }
 
-.order-page-card-order-id  span {
+.all-order-page-card-order-id  span {
     color: #000000;
     font-weight: 500;
 }
 
 
-.order-page-card-status {
+.all-order-page-card-status {
     font-size: 12px;
     line-height: 14.4px;
     font-weight: 400;
@@ -104,7 +104,7 @@
 }
 
 
-.order-page-card-deliveryDate {
+.all-order-page-card-deliveryDate {
     font-size: 16px;
     line-height: 19.2px;
     font-weight: 600;
@@ -125,7 +125,7 @@
 
 
 @media (min-width: 800px) {
-    .order-page-card {
+    .all-order-page-card {
         display: flex;
         flex-direction: row;
         justify-content: space-between;
@@ -133,13 +133,13 @@
         /* height: 148px; */
     }
 
-    .order-page-card-img-container {
+    .all-order-page-card-img-container {
         width: 127px;
         height: 118px;
         border-radius: 6px;
     }
 
-    .order-page-card-description-container {
+    .all-order-page-card-description-container {
         flex-grow: 1;
         /* background: yellow; */
         display: flex;
@@ -147,10 +147,10 @@
         justify-content: space-between;
     }
 
-    .order-page-card-status-and-date-container {
+    .all-order-page-card-status-and-date-container {
         line-height: 19.2px;
     }
-    .order-page-card-see-details {
+    .all-order-page-card-see-details {
         /* width: 100px; */
         white-space: none;
         font-weight: 500;

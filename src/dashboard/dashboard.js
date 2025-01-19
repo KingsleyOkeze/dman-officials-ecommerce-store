@@ -11,6 +11,7 @@ import SideDrawer from "../components/SideDrawer";
 import { SideDrawerProvider } from "../contexts/SideDrawerContext";
 import { SaveProductProvider } from "../contexts/SaveProductContext";
 import Overlay from "./Overlay";
+import { CouponProvider } from "../contexts/CouponContext";
 
 
 function Dashboard () {
@@ -48,12 +49,13 @@ function Dashboard () {
 
     return (
         <SideDrawerProvider>
-            <CartProvider>
-                <SaveProductProvider> 
-                    <Overlay />
-                    <div className="dashboard-container">
-                        <Header />
-                        <SideDrawer />
+            <CouponProvider>
+                <CartProvider>
+                    <SaveProductProvider> 
+                        <Overlay />
+                        <div className="dashboard-container">
+                            <Header />
+                            <SideDrawer />
                         <div className="dashboard-main-content">
                             <Outlet />
                          </div> 
@@ -61,6 +63,7 @@ function Dashboard () {
                     </div>
                 </SaveProductProvider>
             </CartProvider>
+            </CouponProvider>
         </SideDrawerProvider>
     )
 }

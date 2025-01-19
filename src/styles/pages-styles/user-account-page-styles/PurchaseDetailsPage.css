@@ -1,15 +1,15 @@
-.order-details-container {
+.purchase-details-container {
     background: #f5f3f5;
     padding: 15px;
 }
 
-.order-details-header-container {
+.purchase-details-header-container {
     display: flex;
     align-items: center;
     margin-bottom: 15px;
 }
 
-.order-details-header-icon {
+.purchase-details-header-icon {
     background: #074F574D;
     border-radius: 10px;
     display: grid;
@@ -19,92 +19,92 @@
     margin-right: 15px;
 }
 
-.order-details-header-container h3 {
+.purchase-details-header-container h3 {
     font-weight: 400;
     line-height: 31.34px;
     font-size: 24px;
 }
 
-.order-details-main-detail-container {
+.purchase-details-main-detail-container {
     background: #ffffff;
     padding: 10px;
     border-radius: 10px;
 }
 
-.order-details-main-detail-top-description-container {
+.purchase-details-main-detail-top-description-container {
 
 }
 
-.order-details-main-detail-top-description-header {
+.purchase-details-main-detail-top-description-header {
     font-size: 16px;
     font-weight: 700;
     line-height: 24px;
     padding-bottom: 15px;
 }
 
-.order-details-main-detail-top-description {
+.purchase-details-main-detail-top-description {
     line-height: 30px;
     font-size: 18px;
     font-weight: 400;
     margin-bottom: 35px;
 }
 
-.order-details-card-head {
+.purchase-details-card-head {
     font-size: 16px;
     line-height: 24px;
     font-weight: 700;
     padding-bottom: 10px;
 }
 
-.order-details-card {
+.purchase-details-card {
     border-radius: 10px;
     border: 0.5px solid #808080;
     padding: 10px;
 }
 
-.order-details-card-img-container {
+.purchase-details-card-img-container {
     width: 100%;
     height: 100%;
     border-radius: 6px;
 }
 
-.order-details-card-img-container img {
+.purchase-details-card-img-container img {
     width: 100%;
     height: 100%;
 }
 
-.order-details-card-description-container {
+.purchase-details-card-description-container {
     padding-top: 15px;
     padding-bottom: 15px;
 }
 
-.order-details-card-name {
+.purchase-details-card-name {
     font-size: 16px;
     line-height: 19.2px;
     font-weight: 500;
 }
 
-.order-details-card-description-second-child {
+.purchase-details-card-description-second-child {
     display: flex;
     justify-content: space-between;
 }
 
 
-.order-details-card-description-second-child-status {
+.purchase-details-card-description-second-child-status {
     background: #FFA500;
     width: 104px;
     height: 22px;
     border-radius: 7.29px;
     font-size: 12px;
 }
-.order-details-card-description-second-child-price {
+.purchase-details-card-description-second-child-price {
     font-size: 16px;
     line-height: 19.2px;
     font-weight: 900;
 }
 
 
-.order-details-card-history-btn-container button {
+.purchase-details-card-history-btn-container button {
     width: 100%;
     height: 40px;
     background: #808080;
@@ -113,7 +113,7 @@
 }
 
 
-.order-details-card-bottom-text {
+.purchase-details-card-bottom-text {
     padding-top: 15px;
     font-size: 12px;
     font-weight: 600;
@@ -125,18 +125,18 @@
 }
 
 
-.order-details-payment-and-delivery-container {
+.purchase-details-payment-and-delivery-container {
     margin-top: 20px;
 }
 
-.order-details-payment-container {
+.purchase-details-payment-container {
     background: #ffffff;
     border-radius: 10px;
     padding: 15px;
     margin-bottom: 15px;
 }
 
-.order-details-payment-header {
+.purchase-details-payment-header {
     font-weight: 700;
     font-size: 16px;
     line-height: 24px;
@@ -144,11 +144,11 @@
     padding-bottom: 25px;
 }
 
-.order-details-payment-first-child {
+.purchase-details-payment-first-child {
     padding-bottom: 15px;
     line-height: 27px;
 }
-.order-details-payment-first-child-head {
+.purchase-details-payment-first-child-head {
     font-size: 18px;
     font-weight: 800;
     line-height: 27px;
@@ -156,10 +156,10 @@
 }
 
 
-.order-details-payment-second-child {
+.purchase-details-payment-second-child {
     line-height: 27px;
 }
-.order-details-payment-second-child-head {
+.purchase-details-payment-second-child-head {
     font-size: 18px;
     font-weight: 800;
     line-height: 27px;
@@ -168,19 +168,14 @@
 
 
 
-
-
-
-
-
-.order-details-delivery-container {
+.purchase-details-delivery-container {
     background: #ffffff;
     border-radius: 10px;
     padding: 15px;
     margin-bottom: 15px;
 }
 
-.order-details-delivery-header {
+.purchase-details-delivery-header {
     font-weight: 700;
     font-size: 16px;
     line-height: 24px;
@@ -188,11 +183,11 @@
     padding-bottom: 25px;
 }
 
-.order-details-delivery-first-child {
+.purchase-details-delivery-first-child {
     padding-bottom: 15px;
     line-height: 27px;
 }
-.order-details-delivery-first-child-head {
+.purchase-details-delivery-first-child-head {
     font-size: 18px;
     font-weight: 800;
     line-height: 27px;
@@ -200,10 +195,10 @@
 }
 
 
-.order-details-delivery-second-child {
+.purchase-details-delivery-second-child {
     line-height: 27px;
 }
-.order-details-delivery-second-child-head {
+.purchase-details-delivery-second-child-head {
     font-size: 18px;
     font-weight: 800;
     line-height: 27px;
@@ -212,24 +207,24 @@
 
 
 @media (min-width: 800px) {
-    .order-details-card {
+    .purchase-details-card {
         height: 160px;
         display: flex;
         flex-direction: column;
     }
 
-    .order-details-card-flex {
+    .purchase-details-card-flex {
         display: flex;
         gap: 15px;
     }
 
-    .order-details-card-img-container {
+    .purchase-details-card-img-container {
         width: 127px;
         height: 118px;
         border-radius: 6px;
     }
 
-    .order-details-card-description-container {
+    .purchase-details-card-description-container {
         display: flex;
         flex-direction: column;
         justify-content: space-between;
@@ -237,20 +232,20 @@
         padding: 0;
     }
 
-    .order-details-card-name {
+    .purchase-details-card-name {
     }
 
-    .order-details-card-description-second-child {
+    .purchase-details-card-description-second-child {
         flex-direction: column;
     }
 
 
-    .order-details-card-history-btn-container button {
+    .purchase-details-card-history-btn-container button {
         width: 200px;
         height: 40px;
     }
 
-    .order-details-card-bottom-text {
+    .purchase-details-card-bottom-text {
         padding: 0;
         margin-top: auto;
         text-align: left;
@@ -260,19 +255,17 @@
 
     }
 
-
-
-
-    .order-details-payment-and-delivery-container {
+    .purchase-details-payment-and-delivery-container {
         display: flex;
         justify-content: space-between;
     }
 
-    .order-details-payment-container {
+    .purchase-details-payment-container {
         flex-basis: 45%;
     }
 
-    .order-details-delivery-container {
+    .purchase-details-delivery-container {
         flex-basis: 45%;
     }
+
 }

@@ -1,0 +1,97 @@
+import React, { createContext, useEffect, useState } from 'react';
+import axios from 'axios';
+
+export const CouponContext = createContext();
+
+export const CouponProvider = ({ children }) => {
+    const [couponCode, setCouponCode] = useState('');
+    const [discountAmount, setDiscountAmount] = useState(0);
+    const [couponError, setCouponError] = useState('');
+    const [isValidCoupon, setIsValidCoupon] = useState(false);
+
+    useEffect(() => {
+        const storedCouponCode = sessionStorage.getItem('couponCode');
+        const storedDiscountAmount = parseFloat(sessionStorage.getItem('discountAmount'));
+        const storedIsValidCoupon = sessionStorage.getItem('isValidCoupon') === 'true';
+
+        if (storedCouponCode) {
+            setCouponCode(storedCouponCode);
+        }
+        if (storedDiscountAmount) {
+            setDiscountAmount(storedDiscountAmount);
+        }
+        if (storedIsValidCoupon) {
+            setIsValidCoupon(storedIsValidCoupon);
+        }
+    }, []);
+
+    const applyCoupon = async (code) => {
+
+        let data = localStorage.getItem("customerId");
+
+        try {
+            // Call server to validate coupon
+            const response = await axios.post('/customer/validate-coupon', { 
+                customerId: data, 
+                couponCode: code 
+            });
+
+            if (response.data.isValid) {
+                setCouponCode(code);
+                setDiscountAmount(response.data.discount); 
+                setCouponError('');
+                setIsValidCoupon(true);
+
+                // Persist to sessionStorage
+                sessionStorage.setItem('couponCode', code);
+                sessionStorage.setItem('discountAmount', response.data.discount);
+                sessionStorage.setItem('isValidCoupon', 'true');
+            } 
+            
+        } catch (error) {
+            console.error("Error applying coupon:", error);
+            setCouponError('An error occurred while validating the coupon.', error);
+            setIsValidCoupon(false);
+
+            // Clear persisted data
+            sessionStorage.removeItem('couponCode');
+            sessionStorage.removeItem('discountAmount');
+            sessionStorage.setItem('isValidCoupon', 'false');
+        }
+    };
+
+    
+    const removeCoupon = () => {
+        setCouponCode('');
+        setDiscountAmount(0);
+        setCouponError('');
+        setIsValidCoupon(false);
+
+        // Clear persisted data
+        sessionStorage.removeItem('couponCode');
+        sessionStorage.removeItem('discountAmount');
+        sessionStorage.setItem('isValidCoupon', 'false');
+    };
+
+     // Ensure persisted data is updated on state changes
+     useEffect(() => {
+        sessionStorage.setItem('couponCode', couponCode);
+        sessionStorage.setItem('discountAmount', discountAmount);
+        sessionStorage.setItem('isValidCoupon', isValidCoupon.toString());
+    }, [couponCode, discountAmount, isValidCoupon]);
+
+    return (
+        <CouponContext.Provider value={{
+            couponCode,
+            setCouponCode,
+            discountAmount,
+            couponError,
+            isValidCoupon,
+            applyCoupon,
+            removeCoupon
+        }}>
+            {children}
+        </CouponContext.Provider>
+    );
+};
+
