@@ -3,13 +3,15 @@ import '../styles/components-styles/Footer.css';
 import { GrInstagram } from "react-icons/gr";
 import { MdFacebook } from "react-icons/md";
 import { BsTwitterX } from "react-icons/bs";
+import { MdEmail } from "react-icons/md";
 import { ImWhatsapp } from "react-icons/im";
 import { FaPlus } from "react-icons/fa6";
 import { FaMinus } from "react-icons/fa6";
 import { useEffect, useRef, useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 
 function Footer () {
+    const navigate = useNavigate();
     const currentTime = new Date();
     const [windowWidth, setWindowWidth] = useState(window.innerWidth);
     const [showDmanList, setShowDmanList] = useState(false);
@@ -97,11 +99,25 @@ function Footer () {
     const scrollToTop = () => {
         window.scrollTo({ top: 0, behavior: "smooth" });
     }
+
+    // Emailing note
+    const email = process.env.REACT_APP_EMAIL_LINK
+    const subject = "Hello there!"; // Optional subject for the email
+    const body = "I would like to inquire about..."; // Optional body for the email
+
     
     return(
         <div className="footer-container">
             <div className="image-container">
-                <img src={dmanLogo} width={50} height={50}/>
+                <img 
+                    src={dmanLogo} 
+                    width={50} 
+                    height={50}
+                    onClick={() => {
+                        navigate("/");
+                        scrollToTop();
+                    }}
+                />
             </div>
             <div className="footer-body">
                 <div className="footer-nav-list-container">
@@ -129,11 +145,18 @@ function Footer () {
                         </div>
                         
                         <ul ref={dmanListRef}>
-                            <li onClick={scrollToTop}>Men</li>
-                            <li onClick={scrollToTop}>Women</li>
-                            <li onClick={scrollToTop}>Accessories</li>
-                            <li onClick={scrollToTop}>Collection</li>
-                            <li onClick={scrollToTop}>Sole</li>
+                            <li onClick={scrollToTop}>
+                                <Link to="category-page/MensWear" className="link-tag">Mens Wear</Link>
+                            </li>
+                            <li onClick={scrollToTop}>
+                                <Link to="category-page/FootWear" className="link-tag">Foot Wear</Link>
+                            </li>
+                            <li onClick={scrollToTop}>
+                                <Link className="link-tag">Accessories</Link>
+                            </li>
+                            <li onClick={scrollToTop}>
+                                <Link to="sale-page" className="link-tag">Sale</Link>
+                            </li>
                             <li onClick={scrollToTop}>
                                 <Link to="about-us-page" className="link-tag">About Us</Link>
                             </li>
@@ -166,16 +189,16 @@ function Footer () {
                                 <Link to="faq-page" className="link-tag">FAQ</Link>
                             </li>
                             <li onClick={scrollToTop}>
-                                <Link to="shipping-page" className="link-tag">Shipping</Link>
+                                <Link to="shipping-policy" className="link-tag">Shipping</Link>
                             </li>
                             <li onClick={scrollToTop}>
-                                <Link to="returns-page" className="link-tag">Returns</Link>
+                                <Link to="returns-policy" className="link-tag">Returns</Link>
                             </li>
                             <li onClick={scrollToTop}>
                                 <Link to="payment-policy" className="link-tag">Payments</Link>
                             </li>
                             <li onClick={scrollToTop}>
-                                <Link to="contact-page" className="link-tag">Contact us</Link>
+                                <Link to="contact-policy" className="link-tag">Contact us</Link>
                             </li>
                         </ul>
                     </div>
@@ -248,10 +271,25 @@ function Footer () {
                                 <MdFacebook className="icon"/>
                             </div>
                             <div>
+                                <a 
+                                    href={process.env.REACT_APP_IG_LINK}
+                                    target="_blank" // Opens the link in a new tab
+                                    rel="noopener noreferrer" // Improves security for external links
+                                >
                                 <GrInstagram className="icon"/>
+                                </a>
                             </div>
                             <div>
-                                <BsTwitterX className="icon"/>
+                                <a
+                                    href={`mailto:${email}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`}
+                                    style={{
+                                        textDecoration: "none",
+                                        color: "#0072c6", // Blue color for links
+                                        fontWeight: "bold",
+                                }}
+                                >
+                                    <MdEmail className="icon"/>
+                                </a>
                             </div>
                         </div>
                     </div>
@@ -259,7 +297,14 @@ function Footer () {
                     <div className="footer-bottom-first-child-2">
                         <p>Message us:</p>
                         <div>
-                            <ImWhatsapp className="icon"/>
+                            <a 
+                                href={process.env.REACT_APP_WHATSAPP_LINK}
+                                target="_blank" // Opens the link in a new tab
+                                rel="noopener noreferrer" // Improves security for external links
+                                className="a-tag"
+                            >
+                                <ImWhatsapp className="icon"/>
+                            </a>
                         </div>
                     </div>
                 </div>   

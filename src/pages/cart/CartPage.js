@@ -12,7 +12,7 @@ import { LiaTimesSolid } from "react-icons/lia";
 
 function CartPage () {
     const navigate = useNavigate();
-    const { cartItems, addToCart, removeFromCart, clearCart } = useContext(CartContext); 
+    const { cartItems, addToCart, updateQuantity, removeFromCart, clearCart } = useContext(CartContext); 
     const { applyCoupon, couponCode, setCouponCode, discountAmount, couponError, isValidCoupon } = useContext(CouponContext);
     const { toggleSideDrawer } = useContext(SideDrawerContext); 
     const [currency, setCurrency] = useState('₦');
@@ -57,7 +57,7 @@ function CartPage () {
             <div className="cart-page-sub-container">
             <div className="cart-page-list-showcase-container">
                 <div className="cart-page-list-showcase-header-container">
-                    <h2>Shopping cart (4)</h2>
+                    <h2>Shopping cart ({cartItems.length})</h2>
                     <LiaTimesSolid 
                         className="cart-page-close-page-icon"
                         onClick={toggleSideDrawer}
@@ -66,9 +66,14 @@ function CartPage () {
                 <div className="cart-page-list-container">
                     {
                         cartItems.map((cartItem, index) => ( 
-                            <div key={index}  className="cart-page-card">
+                            <div key={index} className="cart-page-card">
                                 <div className="cart-item-image-and-description-container">
-                                    <img src={cartItem.productRef.productImageUrl[0]} width={150} height={139} />
+                                    <div className="cart-item-image-container">
+                                    <img 
+                                        src={cartItem.productRef.productImageUrl[0]}
+                                        className="cart-item-image"
+                                    />
+                                    </div>
                                     <div className="cart-item-description-container">
                                         <p className="cart-item-name">{cartItem.productRef.productName} - {cartItem.color} </p>
                                         <p className="cart-item-size">Size: {cartItem.size}</p>
@@ -80,8 +85,29 @@ function CartPage () {
                                     </div>
                                 </div>
                                 <div className="cart-item-quantity-and-remove-container">
-                                    <div>
-                                        <p>Quantity <span style={{paddingLeft: '25px'}}>{cartItem.quantity}</span></p>
+                                    <div className="cart-item-quantity-container">
+                                        <p>Quantity </p>
+                                        <p>
+                                            <span 
+                                                onClick={() => {
+                                                    updateQuantity(cartItem._id, cartItem.quantity - 1) 
+                                                }}
+                                            >
+                                                -
+                                            </span>
+                                            <span 
+                                                style={{paddingLeft: '25px'}}
+                                            >
+                                                {cartItem.quantity}
+                                            </span>
+                                            <span
+                                                onClick={() => {
+                                                    updateQuantity(cartItem._id, cartItem.quantity + 1) 
+                                                }}
+                                            >
+                                                +
+                                            </span>
+                                        </p>
                                     </div>
                                     <ul>
                                         <li onClick={() => {

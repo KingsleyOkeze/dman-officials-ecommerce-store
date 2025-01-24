@@ -1,53 +1,93 @@
+/* Default styles for mobile-first design */
 .account-page-container {
-    display: flex;
-    flex-direction: row;
-    padding: 15px;
-    background: #f5f3f5;
-    min-height: 100vh;
-  }
+  display: flex;
+  flex-direction: column;
+  padding: 15px;
+  background: #f5f3f5;
+  min-height: 100vh;
+  /* justify-content: center;
+  align-items: center;
+  height: 100vh; */
+}
+
+.account-page-menu-container {
+  background: #ffffff;
+  padding: 20px;
+  text-align: center;
+  border-radius: 10px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+  min-height: 100vh;
+}
+
+.account-logo {
+  width: 50px;
+  height: 50px;
+  margin-top: 40px; /* Space at the top of the logo */
+  margin-bottom: 10px;
+}
+
+.user-name {
+  font-size: 20px;
+  font-weight: bold;
+  margin: 5px 0;
+  display: none
+}
+
+.welcome-message {
+  font-size: 16px;
+  color: #777;
+  margin: 10px 0;
+  display: none
+}
+
+.account-list {
+  width: 100%;
+  text-align: left;
+  margin-top: 30px;
+}
+
+.account-list p {
+  padding: 10px;
+  border-bottom: 1px solid #ddd;
+  cursor: pointer;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.account-list p:hover {
+  background-color: #f0f0f0;
+}
+
+.account-list p::after {
+  content: "→"; /* Right arrow */
+  font-size: 18px;
+  color: #007bff;
+}
+
+.logout-button {
+  width: 160px;
+  height: 40px;
+  border-radius: 20px;
+  background: #007bff;
+  color: white;
+  cursor: pointer;
+  margin-top: 40px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  border: none;
+}
+
+.logout-button:hover {
+  background: #0056b3;
+}
+
+/* Mobile-specific styling */
+/* @media (max-width: 786px) { */
   
-  .account-page-container.mobile {
-    flex-direction: column;
-    justify-content: flex-start;
-    align-items: center;
-  }
-  
-  .account-page-menu-container {
-    width: 226px;
-    height: 229px;
-    border-radius: 10px;
-    background: #ffffff;
-    text-align: center;
-    padding: 15px;
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
-  }
-  
-  .logout-button {
-    width: 158px;
-    height: 40px;
-    border-radius: 12px;
-    border: none;
-    background: lightgray;
-  }
-  
-  .account-page-main-content-container {
-    flex-grow: 1;
-    margin-left: 20px;
-    background: white;
-    border-radius: 10px;
-    /* padding: 20px; */
-  }
-  
-  .account-page-mobile-content {
-    margin-top: 20px;
-    padding: 10px;
-    /* width: 100%; */
-    background: #ffffff;
-    border-radius: 10px;
-  }
-  
+
   .back-to-menu {
     margin-bottom: 15px;
     padding: 8px 16px;
@@ -57,19 +97,30 @@
     border-radius: 5px;
     cursor: pointer;
   }
+
   
-  .back-to-menu:hover {
-    background: #0056b3;
+/* } */
+
+/* Desktop-specific styling (min-width: 986px) */
+@media (min-width: 986px) {
+  .account-page-container {
+    flex-direction: row;
   }
-  
-@media (max-width: 768px) {
-    .account-page-main-content-container {
-      display: none;
-    }
-  
-    .account-page-menu-container {
-      width: 100%;
-      border-radius: 0;
-    }
+
+  .account-page-menu-container {
+    width: 226px;
+    height: 50vh;
+    flex-shrink: 0;
+    border-radius: 10px;
+    overflow: hidden;
+  }
+
+  .account-logo {
+    display: none
+  }
+
+  .account-page-main-content-container {
+    flex-grow: 1;
+    margin-left: 20px;
+  }
 }
-  

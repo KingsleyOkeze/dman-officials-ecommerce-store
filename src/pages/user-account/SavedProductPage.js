@@ -1,10 +1,8 @@
 import { useContext, useState } from "react";
 import Recommended from "../../components/Recommended";
 import "../../styles/pages-styles/user-account-page-styles/SavedProductPage.css";
-import cardImage1 from "../../images/cardImage1.png"
-import cardImage2 from "../../images/cardImage2.png";
-import cardImage3 from "../../images/cardImage3.png";
-import cardImage4 from "../../images/cardImage4.png"
+import { IoIosArrowBack } from "react-icons/io";
+import { IoIosArrowForward } from "react-icons/io";
 import { SaveProductContext } from "../../contexts/SaveProductContext";
 import { CartContext } from "../../contexts/CartContext";
 
@@ -45,6 +43,7 @@ function SavedProductPage () {
     return(
         <div className="saved-product-page-container">
           <h3>Saved Product</h3>
+          <div className="saved-product-page-main-content-container">
           <div className="saved-product-card-container">
              {
               savedProducts.map((savedProduct, index) => (
@@ -85,6 +84,32 @@ function SavedProductPage () {
               ))
              }
           </div>
+          <div className="saved-product-bottom-pagination-container">
+                    <button
+                        className="saved-product-pagination-button pagination-prev"
+                        // onClick={handlePreviousFunction}
+                        // disabled={paginationIndex === 0}
+                    >
+                        <IoIosArrowBack />
+                        <span>Previous page</span>
+                    </button>
+                    {/* <div> */}
+                        <span className="saved-product-pagination-status">
+                            {/* {paginationIndex + 1} / {totalPages ? totalPages : 0 } */}
+                        </span>
+                    {/* </div> */}
+                    <button
+                        className="saved-product-pagination-button pagination-next"
+                        // onClick={handleNextFunction}
+                        // disabled={paginationIndex + 1 === totalPages}
+                    >
+                        Next page
+                        <IoIosArrowForward />
+                    </button>
+            </div>
+
+            </div>
+
         </div>
     )
 }

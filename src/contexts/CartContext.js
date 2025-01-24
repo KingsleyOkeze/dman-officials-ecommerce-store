@@ -1,6 +1,7 @@
 import axios from 'axios';
 import { createContext, useContext, useEffect, useState } from 'react';
 import { SideDrawerContext } from './SideDrawerContext';
+import { AlertContext } from './AlertContext';
 
 // Create the context
 export const CartContext = createContext();
@@ -8,6 +9,8 @@ export const CartContext = createContext();
 // Create a provider component
 export const CartProvider = ({ children }) => {
     const [cartItems, setCartItems] = useState([]);
+    const { showAlert } = useContext(AlertContext);
+    
     const { 
         showSideDrawer, 
         setShowSideDrawer, 
@@ -28,6 +31,7 @@ export const CartProvider = ({ children }) => {
 
             if (response.status === 200) {
                 setCartItems(response.data.cart);
+                
                 console.log('cart message', response.data)
             }
         } catch (err) {
@@ -42,7 +46,9 @@ export const CartProvider = ({ children }) => {
 
     useEffect(() => {
         fetchCart();
-    }, [showSideDrawer])
+    }, [showSideDrawer]);
+
+    
 
     // Function to add an item to the cart
     const addToCart = async (productId, quantity) => {
@@ -59,8 +65,9 @@ export const CartProvider = ({ children }) => {
             });
 
             if (response.status === 201) {
-                alert("added to cart!");
+                console.log("added to cart!");
                 setCartItems(response.data.cart)
+                showAlert("success", "This is a success alert!");
             }
 
         } catch (err) {
@@ -68,13 +75,12 @@ export const CartProvider = ({ children }) => {
                 const status = err.response.status;
                 const errMessage = err.response.data.error;
                 if (status) {
-                    alert("err cart", errMessage)
-
+                    showAlert("error", errMessage);
                 }
             } else {
-                alert("Unknow Error adding to cart!")
+                showAlert("error", "Unknown error occurred while adding to cart!");
             }
-            console.log("err ading to cart ", err)
+            console.log("err adding to cart ", err)
         }
 
     };

@@ -12,6 +12,8 @@ import { SideDrawerProvider } from "../contexts/SideDrawerContext";
 import { SaveProductProvider } from "../contexts/SaveProductContext";
 import Overlay from "./Overlay";
 import { CouponProvider } from "../contexts/CouponContext";
+import { AlertProvider } from "../contexts/AlertContext";
+import { SearchProvider } from "../contexts/SearchContext";
 
 
 function Dashboard () {
@@ -48,7 +50,9 @@ function Dashboard () {
     }, [windowWidth]);
 
     return (
+        <AlertProvider>
         <SideDrawerProvider>
+            <SearchProvider>
             <CouponProvider>
                 <CartProvider>
                     <SaveProductProvider> 
@@ -64,7 +68,9 @@ function Dashboard () {
                 </SaveProductProvider>
             </CartProvider>
             </CouponProvider>
+            </SearchProvider>
         </SideDrawerProvider>
+        </AlertProvider>
     )
 }
 

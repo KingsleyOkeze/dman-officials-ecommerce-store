@@ -5,10 +5,6 @@ import { GoDotFill } from "react-icons/go";
 import { GrBasket } from "react-icons/gr";
 import { FaRegHeart } from "react-icons/fa6";
 import { CiDeliveryTruck } from "react-icons/ci";
-import cardImage1 from "../../images/cardImage1.png";
-import cardImage2 from "../../images/cardImage2.png";
-import cardImage3 from "../../images/cardImage3.png";
-import cardImage4 from "../../images/cardImage4.png";
 import { useContext, useEffect, useState } from "react";
 import { FaHeart } from "react-icons/fa";
 import { IoReturnUpBackOutline } from "react-icons/io5";
@@ -17,6 +13,7 @@ import { useParams } from "react-router-dom";
 import axios from "axios";
 import { CartContext } from "../../contexts/CartContext";
 import { SaveProductContext } from "../../contexts/SaveProductContext";
+import Alert from "../../components/Alert";
 
 function ProductPage () {
     const { productId } = useParams();
@@ -81,6 +78,7 @@ function ProductPage () {
 
     return (
         <div className="product-page-container">
+            <Alert /> 
             {product && ( 
             <div className="product-page-sub-container">
                 <div className="product-page-product-showcase-and-details-and-recommended-container">

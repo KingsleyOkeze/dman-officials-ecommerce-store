@@ -3,7 +3,9 @@ import "../../styles/pages-styles/user-account-page-styles/AllOrdersPage.css";
 import cardImage1 from "../../images/cardImage1.png"
 import cardImage2 from "../../images/cardImage2.png";
 import cardImage3 from "../../images/cardImage3.png";
-import cardImage4 from "../../images/cardImage4.png"
+import cardImage4 from "../../images/cardImage4.png";
+import { IoIosArrowBack } from "react-icons/io";
+import { IoIosArrowForward } from "react-icons/io";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 
@@ -70,6 +72,31 @@ function AllOrdersPage () {
                     ))
                 }
                 </div>
+
+                <div className="all-order-page-bottom-pagination-container">
+                    <button
+                        className="all-order-page-pagination-button pagination-prev"
+                        // onClick={handlePreviousFunction}
+                        // disabled={paginationIndex === 0}
+                    >
+                        <IoIosArrowBack />
+                        <span>Previous page</span>
+                    </button>
+                    {/* <div> */}
+                        <span className="all-order-page-pagination-status">
+                            {/* {paginationIndex + 1} / {totalPages ? totalPages : 0 } */}
+                        </span>
+                    {/* </div> */}
+                    <button
+                        className="all-order-page-pagination-button pagination-next"
+                        // onClick={handleNextFunction}
+                        // disabled={paginationIndex + 1 === totalPages}
+                    >
+                        Next page
+                        <IoIosArrowForward />
+                    </button>
+                </div>
+
             </div>
         </div>
     )

@@ -315,8 +315,8 @@ function OrderConfirmationPage () {
                                     Apply
                             </button>
                         </div>
-                        {couponError && <p className="error-message">{couponError}</p>}
-                        {isValidCoupon && <p className="success-message">Coupon applied successfully!</p>}
+                        {couponError && <p className="order-coupon-error-message">{couponError}</p>}
+                        {isValidCoupon && <p className="order-coupon-success-message">Coupon applied successfully!</p>}
                         <div className="order-total-container">
                             <div>
                                 <p>Subtotal</p>

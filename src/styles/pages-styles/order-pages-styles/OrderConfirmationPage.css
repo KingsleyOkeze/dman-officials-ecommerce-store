@@ -198,6 +198,20 @@
     color: #FFFFFF;
 }
 
+.order-coupon-error-message {
+    text-align: center;
+    font-size: 12.5px;
+    color: red;
+    padding-bottom: 10px;
+}
+
+.order-coupon-success-message {
+    text-align: center;
+    font-size: 12.5px;
+    color: lightgreen;
+    padding-bottom: 10px;
+}
+
 .order-total-container {
     display: flex;
     justify-content: space-between;

@@ -1,55 +1,48 @@
 .terms-of-use-container {
   width: 80%;
   margin: auto;
-  /* background: #F5F3F5; */
-  background-color: brown;
+  min-height: 100vh;
+  padding: 20px;
+  color: #333;
 }
 
-/* .terms-use-container {
-    padding: 20px;
-    max-width: 600px;
-    margin: auto;
-    color: #333;
+.terms-of-use-title {
+  font-size: 1.8em;
+  margin-bottom: 10px;
+  text-align: center;
+  color: #444;
+}
+
+.terms-of-use-section {
+  margin-bottom: 15px;
+}
+
+.terms-of-use-heading {
+  font-size: 1.4em;
+  margin-bottom: 8px;
+  color: #555;
+}
+
+.terms-of-use-paragraph {
+  font-size: 1em;
+  color: #666;
+}
+
+@media (min-width: 768px) {
+  .terms-of-use-container {
+    max-width: 800px;
+    padding: 30px;
   }
-  
-  .terms-use-container h1 {
-    font-size: 1.8em;
-    margin-bottom: 10px;
-    text-align: center;
-    color: #444;
+
+  .terms-of-use-title {
+    font-size: 2.2em;
   }
-  
-  .terms-use-container section {
-    margin-bottom: 15px;
+
+  .terms-of-use-heading {
+    font-size: 1.6em;
   }
-  
-  .terms-use-container h2 {
-    font-size: 1.4em;
-    margin-bottom: 8px;
-    color: #555;
+
+  .terms-of-use-paragraph {
+    font-size: 1.1em;
   }
-  
-  .terms-use-container p {
-    font-size: 1em;
-    color: #666;
-  } */
-/*   
-  @media (min-width: 768px) {
-    .terms-use-container {
-      max-width: 800px;
-      padding: 30px;
-    }
-  
-    .terms-use-container h1 {
-      font-size: 2.2em;
-    }
-  
-    .terms-use-container h2 {
-      font-size: 1.6em;
-    }
-  
-    .terms-use-container p {
-      font-size: 1.1em;
-    }
-  }
-   */
+}

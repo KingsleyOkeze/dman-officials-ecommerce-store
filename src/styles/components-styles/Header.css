@@ -1,7 +1,7 @@
 .header-container {
     position: sticky;
     top: 0;
-    z-index: 100;
+    z-index: 50;
 }
 
 
@@ -11,14 +11,54 @@
     display: grid;
     place-items: center;
     height: 23px;
+    font-size: 12px;
+    font-weight: 500;
+    line-height: 18px;
+    position: relative; /* Added for relative positioning of the child */
+    overflow: hidden; /* Ensures sliding text doesn't overflow */
+
 }
 
-.header-benefit-bar-container p {
+/* .header-benefit-bar-container p {
     font-size: 12px;
     font-weight: 500;
     line-height: 18px;
 
+} */
+
+/* .message-wrapper {
+    height: 100%; 
+    position: relative;
+    overflow: hidden; 
+} */
+  
+.header-benefit-sliding-text {
+    position: absolute;
+    width: 100%;
+    font-size: 16px;
+    font-weight: bold;
+    color: #fff;
+    animation: slideUp 3s ease-in-out infinite; /* Animation for the sliding effect */
 }
+  
+/* Keyframes for the bottom-to-top slide effect */
+@keyframes slideUp {
+    0% {
+      transform: translateY(100%); /* Start below the container */
+    }
+    10% {
+      transform: translateY(0); /* Slide in */
+    }
+    90% {
+      transform: translateY(0); /* Stay visible */
+    }
+    100% {
+      transform: translateY(-100%); /* Slide out above the container */
+    }
+}
+
+
+
 /* Small screen css */
 .sm-header-container {
     height: 40px;

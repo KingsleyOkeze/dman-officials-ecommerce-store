@@ -1,8 +1,16 @@
 .product-page-container{
-    padding: 15px;
     background: #F5F3F5;
+    position: relative;
 }
 
+
+
+.product-page-sub-container {
+    padding-top: 15px;
+    padding-right: 15px;
+    padding-left: 15px;
+    padding-bottom: 15px;
+}
 .product-page-product-showcase-container {
     background: #FFFFFF;
     border-radius: 10px;
@@ -11,7 +19,8 @@
 }
 .product-page-product-img-container {
     width: 100%;
-    height: 321px;
+    /* height: 321px; */
+    height: 78vh;
     border-radius: 10px;
 }
 
@@ -467,6 +476,9 @@
     .product-page-product-overview-container {
         background-color: #FF3B30;
         flex-basis: 57%;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
     }
 
     .product-page-details-container {

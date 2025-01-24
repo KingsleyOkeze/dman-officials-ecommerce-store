@@ -1,10 +1,6 @@
 import { useContext, useEffect, useState } from "react";
 import "../../styles/pages-styles/home-pages-styles/HomePage.css"
 import hero1 from "../../images/hero1.png";
-import cardImage1 from "../../images/cardImage1.png";
-import cardImage2 from "../../images/cardImage2.png";
-import cardImage3 from "../../images/cardImage3.png";
-import cardImage4 from "../../images/cardImage4.png";
 import unleash1 from "../../images/unleash1.png";
 import unleash2 from "../../images/unleash2.jpg";
 import unleash3 from "../../images/unleash3.jpg";
@@ -22,102 +18,13 @@ import homeCategory3 from "../../images/homeCategory3.png";
 import { useNavigate} from "react-router-dom";
 import axios from "axios";
 import { CartContext } from "../../contexts/CartContext";
+import FlashSale from "./flash-sale/FlashSale"
+import TrendingNow from "./trending-now/TrendingNow";
+import Explore from "./explore/Explore";
 
 function HomePage () {
     const navigate = useNavigate()
     const { cartItems, addToCart, removeFromCart, clearCart } = useContext(CartContext); 
-    const [flashSales, setFlashSales] = useState([{
-        image: cardImage1,
-        category: 'men wears',
-        name: 'jean',
-        color: 'brown',
-        price: '5000',
-        offerPrice: '4000',
-        id: 1
-    },
-    {
-        image: cardImage2,
-        category: 'men wears',
-        name: 'jean',
-        color: 'brown',
-        price: '5000',
-        offerPrice: '4000',
-        id: 2
-    },
-    {
-        image: cardImage3,
-        category: 'men wears',
-        name: 'jean',
-        color: 'brown',
-        price: '5000',
-        offerPrice: '4000',
-        id: 3
-    },
-    {
-        image: cardImage4,
-        category: 'men wears',
-        name: 'jean',
-        color: 'brown',
-        price: '5000',
-        offerPrice: '4000',
-        id: 4
-    },
-    {
-        image: cardImage3,
-        category: 'men wears',
-        name: 'jean',
-        color: 'brown',
-        price: '5000',
-        offerPrice: '4000',
-        id: 3
-    },
-    {
-        image: cardImage4,
-        category: 'men wears',
-        name: 'jean',
-        color: 'brown',
-        price: '5000',
-        offerPrice: '4000',
-        id: 4
-    },
-    {
-        image: cardImage3,
-        category: 'men wears',
-        name: 'jean',
-        color: 'brown',
-        price: '5000',
-        offerPrice: '4000',
-        id: 3
-    },
-    {
-        image: cardImage4,
-        category: 'men wears',
-        name: 'jean',
-        color: 'brown',
-        price: '5000',
-        offerPrice: '4000',
-        id: 4
-    },
-    ]);
-
-    const [exploreProducts, setExploreProducts] = useState([]);
-
-    useEffect(() => {
-        const fetchExploreProducts = async () => {
-            try {
-                const response = await axios.get("/customer/fetch-products");
-
-                if (response.status === 200) {
-                    console.log('ex', response.data)
-                    setExploreProducts(response.data)
-                }
-            } catch (err) {
-                console.log('err fetching explore product', err)
-            }
-            
-        }
-        fetchExploreProducts();
-    }, []);
 
     return(
         <div className="home-page-container">
@@ -125,7 +32,7 @@ function HomePage () {
                 <div className="home-page-hero-section-block-content-container">
                     <div className="home-page-hero-section-block-content-header-container">
                         <h3>Discover</h3> 
-                        <h3>and Find Your Own </h3>
+                        <h3>and Find Your Own Type of style and</h3>
                         <h3>Fashion</h3>
                     </div>
                     <p>
@@ -135,7 +42,10 @@ function HomePage () {
                     </p>
                     <button
                          className="home-page-hero-section-block-content-btn"
-                         >
+                         onClick={() => {
+                            navigate("/category-page/Explore");
+                        }}
+                    >
                             Shop Now
                     </button>
                 </div>
@@ -154,105 +64,37 @@ function HomePage () {
                 <div className="home-page-categories-card-container">
                     <div className="home-page-categories-card">
                         <img src={homeCategory1} />
-                        <button onClick={() => navigate("/category-page")}>Men Ware</button>
+                        <button 
+                            onClick={() => {
+                                navigate("/category-page/mens-wear")
+                            }}
+                        >
+                            Men Ware
+                        </button>
                     </div>
                     <div className="home-page-categories-card">
                         <img src={homeCategory2} />
-                        <button>Shoe</button>
+                        <button
+                            onClick={() => {
+                                navigate("/category-page/FootWear")
+                            }}
+                        >
+                            Foot Wear
+                        </button>
                     </div>
                     <div className="home-page-categories-card">
                         <img src={homeCategory3} />
-                        <button>Collection</button>
+                        <button>Accessories</button>
                     </div>
                 </div>
                 
             </div>
-            <div className="home-page-flash-sale-timer-and-see-all-btn-container">
-                <div className="home-page-flash-sale-title-and-timer-container">
+             
+            {/*Flash Sale */}
+            <FlashSale />
 
-                    <div className="home-page-flash-sale-header-title-and-icon-container">
-                        <div className="home-page-flash-sale-header-bar-icon">
-                        </div>
-                        <p className="home-page-flash-sale-title-header">Today</p>
-                    </div>
-                    <p className="home-page-flash-sale-sub-header">Flash Sales</p>
-
-                    <div className="home-page-flash-sale-timer-container">
-                        <div className="home-page-flash-sale-time-block">
-                            <p>7</p>
-                            <small>Days</small>
-                        </div>
-                        :
-                        <div className="home-page-flash-sale-time-block">
-                            <p>8</p>
-                            <small>Hours</small>
-                        </div>
-                        :
-                        <div className="home-page-flash-sale-time-block">
-                            <p>15</p>
-                            <small>Mins</small>
-                        </div>
-                        :
-                        <div className="home-page-flash-sale-time-block">
-                            <p>12</p>
-                            <small>Secs</small>
-                        </div>
-                    </div>
-                </div>
-                <div className="home-page-flash-sale-see-all-button-container">
-                    <button>See All</button>
-                </div>
-            </div>
-            <div className="home-page-flash-sale-card-container">
-                {
-                    flashSales.map((flashSale, index) => (
-                        <div key={index} className="home-page-flash-sale-card">
-                            <img 
-                                src={flashSale.image} 
-                                className="home-page-flash-sale-card-img"
-                                />
-                            <p className="home-page-flash-sale-card-description">{flashSale.name} - {flashSale.color}</p>
-                            <div className="home-page-flash-sale-card-price-container">
-                                <p className="home-page-flash-sale-card-offer-price"><b>₦</b> {flashSale.offerPrice}</p>
-                                <p className="home-page-flash-sale-card-price"><b>₦</b>{flashSale.price}</p>
-                            </div>
-                            <button className="home-page-flash-sale-card-btn">Add to Cart</button>
-                        </div>
-                    ))
-                }
-            </div>  
-
-
-
-            <div className="home-page-best-selling-and-see-all-btn-container">
-                <div className="home-page-best-selling-header-container">
-                    <div className="home-page-best-selling-header-title-and-icon-container">
-                        <div className="home-page-best-selling-header-bar-icon">
-                        </div>
-                        <p className="home-page-best-selling-title-header">This month</p>
-                    </div>
-                    <p className="home-page-best-selling-sub-header">Best Selling Product</p>
-                </div>
-                <div className="home-page-best-selling-see-all-button-container">
-                    <button>See All</button>
-                </div>
-            </div>
-
-            <div className="home-page-best-selling-card-container">
-                    {
-                        flashSales.map((bestSelling, index) => (
-                        <div key={index} className="home-page-best-selling-card">
-                            <img src={bestSelling.image} className="home-page-best-selling-card-img"  width={100} height={100}/>
-                            <p className="home-page-best-selling-card-description">{bestSelling.name} - {bestSelling.color}</p>
-                            <div className="home-page-best-selling-card-price-container">
-                                <p className="home-page-best-selling-card-offer-price"><b>₦</b> {bestSelling.offerPrice}</p>
-                                <p className="home-page-best-selling-card-price"><b>₦</b>{bestSelling.price}</p>
-                            </div>
-                            <button className="home-page-best-selling-card-btn">Add to Cart</button>
-                        </div>
-                        ))
-                    }
-            </div>  
+            {/*Trending now */}
+            <TrendingNow />
 
             <div className="home-page-call-to-action-showcase-area-container">
                 <div className="home-page-call-to-action-showcase-area-block-content-container">
@@ -297,52 +139,8 @@ function HomePage () {
                     className="home-page-call-to-action-showcase-img"/>
             </div>
 
-
-            <div className="home-page-explore-and-see-all-btn-container">
-                <div className="home-page-explore-header-container">
-                    <div className="home-page-explore-header-title-and-icon-container">
-                        <div className="home-page-explore-header-bar-icon">
-                        </div>
-                        <p className="home-page-explore-title-header">Our Product</p>
-                    </div>
-                    <p className="home-page-explore-sub-header">Explore Our Products</p>
-                </div>
-                <div className="home-page-explore-see-all-button-container">
-                    <button>See All</button>
-                </div>
-            </div>
-
-            <div className="home-page-explore-card-container">
-                    {
-                        exploreProducts.map((exploreProduct, index) => (
-                        <div key={index} className="home-page-explore-card">
-                            <img 
-                                src={exploreProduct.productImageUrl[0]} 
-                                className="home-page-explore-card-img" 
-                                width={100} height={100}
-                                onClick={() => {
-                                    navigate(`/product-page/${exploreProduct._id}`)
-                            }}/>
-                            <p className="home-page-explore-card-description">{exploreProduct.productName} - {exploreProduct.productColor}</p>
-                            <div className="home-page-explore-card-price-container">
-                                <p className="home-page-explore-card-offer-price"><b>₦</b> {exploreProduct.productOfferPrice}</p>
-                                <p className="home-page-explore-card-price"><b>₦</b>{exploreProduct.productPrice}</p>
-                            </div>
-                            <button 
-                                className="home-page-explore-card-btn"
-                                onClick={() => {
-                                    addToCart(exploreProduct._id, 1)
-                                }}
-                                >
-                                    Add to Cart
-                            </button>
-                        </div>
-                        ))
-                    }
-            </div> 
-
-
-
+            {/*Explore product*/}
+            <Explore />
 
             <div className="home-page-new-arrival-header-container">
                 <div className="home-page-new-arrival-header-title-and-bar-icon-container">
@@ -367,7 +165,7 @@ function HomePage () {
                 <div className="home-page-new-arrival-second-section-container">
                     <img src={unleash2} className="home-page-new-arrival-section-img"/>
                     <div className="home-page-new-arrival-section-block-content-container">
-                        <p className="home-page-new-arrival-section-block-content-head">Men's Collection</p>
+                        <p className="home-page-new-arrival-section-block-content-head">Accessories</p>
                         <p className="home-page-new-arrival-section-block-body-content">
                             This e-commerce website is a user-friendly and responsive 
                             online platform that provides a seamless shopping experience.
@@ -378,7 +176,7 @@ function HomePage () {
                 <div className="home-page-new-arrival-third-section-container">
                     <img src={unleash3} className="home-page-new-arrival-section-img"/>
                     <div className="home-page-new-arrival-section-block-content-container">
-                        <p className="home-page-new-arrival-section-block-content-head">Men's Collection</p>
+                        <p className="home-page-new-arrival-section-block-content-head">Foot Wear</p>
                         <p className="home-page-new-arrival-section-block-body-content">
                             This e-commerce website is a user-friendly and responsive 
                             online platform that provides a seamless shopping experience.
@@ -421,12 +219,9 @@ function HomePage () {
             </div>
 
 
-
-
-
-
         </div>
     )
 }
+
 
 export default HomePage;

@@ -19,7 +19,7 @@ function ResetPassword () {
         setMessage(response.data.message);
         setDisableButton(true);
         setTimeout(() => {
-          navigate("/admin/login");
+          navigate("/");
         }, 2000);
       }
     } catch (error) {

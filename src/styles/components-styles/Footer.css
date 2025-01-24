@@ -252,6 +252,21 @@
 }
 
 
+.a-tag {
+    text-decoration: none; /* Default style for the link */
+    color: inherit; /* Inherit color from parent */
+}
+
+.a-tag:active {
+    text-decoration: none;
+    color: inherit;
+}
+
+.a-tag:visited {
+    text-decoration: none;
+    color: inherit;
+}
+
 
 /* Larger screen view css */
 @media (min-width: 986px) {
@@ -280,57 +295,40 @@
     }
 
 
-    .footer-newsletter-container ul {
-        
-        margin-bottom: 20px;
-    }
-    
-    .footer-nav-list-container ul:nth-child(1) {
-        width: 84px;
-        font-size: 16px;
-    }
-    
-    .footer-nav-list-container ul:nth-child(2) {
-        width: 78px;
-        font-size: 16px;
-    }
-    
-    .footer-nav-list-container ul:nth-child(3) {
-        width: 243px;
-    }
-    
+
     .footer-newsletter-container ul {
         display: flex;
         gap: 5px;
+        margin-bottom: 20px;
     }
     
     
     .dman-list-container  {
         border: none;
         padding-top: 0;
-        flex-basis: 33%;
-        background-color: yellowgreen;
+        flex-basis: 25%;
+        /* background-color: yellowgreen; */
     }
 
     .help-list-container {
-        flex-basis: 33%;
-        background-color: yellowgreen;
+        flex-basis: 25%;
+        /* background-color: yellowgreen; */
     }
 
     .legal-list-container {
         border: none;
         padding-top: 0;
-        flex-basis: 33%;
-        background-color: yellowgreen;
+        flex-basis: 30%;
+        
+        font-size: 16px;
     }
 
-    .legal-list-container li { 
+    .legal-list-container ul li { 
         flex-wrap: nowrap;
+        white-space: nowrap;
     }
 
-    /* .legal-list-container ul {
-        display: block
-    } */
+   
 
     .footer-nav-list-header {
         display: flex;

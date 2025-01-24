@@ -5,7 +5,7 @@ import "../styles/components-styles/SideDrawer.css";
 import MobileScreenNavbar from "./navbar-components/MobileScreenNavbar";
 import { SideDrawerContext } from "../contexts/SideDrawerContext";
 
-function SideDrawer ({ }) {
+function SideDrawer () {
     const { 
         showSideDrawer, 
         setShowSideDrawer, 

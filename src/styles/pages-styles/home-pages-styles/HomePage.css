@@ -16,23 +16,22 @@
     display: flex;
     flex-direction: column;
     justify-content: space-between;
-    /* width: 300px; */
-    width: 65%;
+    width: 80%;
     position: absolute;
     top: 15vh; 
     left: 5%;
-    height: 50vh; 
+    height: 55vh; 
     z-index: 10;
-    /* background-color: red; */
+    /* background-color: purple; */
 }
 
 .home-page-hero-section-block-content-header-container {
     font-size: 900;
     font-size: 32px;
-    line-height: 40px;
+    line-height: 42px;
     font-size: 32px;
-    /* width: 280px; */
-    width: 95%;
+    /* background: pink; */
+    width: 100%;
 }
 
 
@@ -42,7 +41,7 @@
     height: 38px;
     font-weight: 500;
     font-size: 16px;
-    line-height: 19.2px;
+    line-height: 22px;
 }
 
 
@@ -165,267 +164,10 @@
 
 
 
-.home-page-flash-sale-timer-and-see-all-btn-container {
-    margin-left: 15px;
-    margin-right: 15px;
-    margin-bottom: 25px;
-    display: flex;
-    justify-content: space-between;
-}
-
-.home-page-flash-sale-title-and-timer-container {
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
-}
 
 
 
-.home-page-flash-sale-header-title-and-icon-container {
-    display: flex;
-    align-items: center;
-    width: 100px;
-    justify-content: space-between;
-    margin-bottom: 25px;
-}
 
-.home-page-flash-sale-header-bar-icon {
-    width:  20px;
-    height: 40px;
-    background: #000000;
-    border-radius: 5px;
-}
-.home-page-flash-sale-title-header{
-    font-weight: 500;
-    line-height: 21px;
-    font-size: 14px;
-    color: #000000;
-} 
-
-
-.home-page-flash-sale-sub-header {
-    font-weight: 700;
-    font-size: 20px;
-    line-height: 24.2px;
-    color: #000000;
-    margin-bottom: 25px;
-}
-
-
-.home-page-flash-sale-timer-container {
-    display: flex;
-    justify-content: space-between;
-    width: 200px;
-}
-
-
-.home-page-flash-sale-time-block {
-    background: #FFFFFF;
-    color: #000000;
-    width: 36px;
-    height: 36px;
-    border-radius: 12px;
-    display: grid;
-    place-items: center;
-}
-
-.home-page-flash-sale-time-block p {
-    font-weight: 800;
-    font-size: 14px;
-}
-
-.home-page-flash-sale-time-block small {
-    font-size: 10px;
-}
-
-
-.home-page-flash-sale-see-all-button-container {
-    align-self: flex-end;
-}
-
-.home-page-flash-sale-see-all-button-container button {
-    width: 100px;
-    height: 36px;
-    border-radius: 12px;
-    background: #000000;
-    color: #FFFFFF;
-}
-
-.home-page-flash-sale-card-container {
-    background: #FFFFFF;
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(155px, 1fr));
-    justify-content: center;
-    gap: 15px;
-    margin-left: 15px;
-    margin-right: 15px;
-    margin-bottom: 30px;
-    padding: 15px;
-}
-
-.home-page-flash-sale-card {
-    min-height: 227px;
-    border-radius: 6.33px;
-    background: #F5F3F5;
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
-}
-
-.home-page-flash-sale-card-img {
-    width: 100%;
-    height: 162px;
-}
-
-
-.home-page-flash-sale-card-description {
-    font-size: 10.12px;
-    font-weight: 500;
-    line-height: 12.15px;
-    color: #000000;
-}
-
-.home-page-flash-sale-card-price-container {
-    display: flex
-}
-
-.home-page-flash-sale-card-offer-price {
-    font-size: 12px;
-    font-weight: 900;
-    line-height: 14.4px;
-    color: #000000;
-}
-
-.home-page-flash-sale-card-price {
-    font-weight: 400;
-    font-size: 7px;
-    line-height: 8.4px;
-}
-
-.home-page-flash-sale-card-btn {
-    width: 82px;
-    height: 22px;
-    border-radius: 7.59px;
-    
-}
-
-
-.home-page-best-selling-and-see-all-btn-container {
-    margin-left: 15px;
-    margin-right: 15px;
-    margin-bottom: 15px;
-    display: flex;
-    justify-content: space-between;
-}
-
-.home-page-best-selling-header-container {
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
-}
-
-
-
-.home-page-best-selling-header-title-and-icon-container {
-    display: flex;
-    align-items: center;
-    width: 100px;
-    justify-content: space-between;
-    margin-bottom: 25px;
-}
-
-.home-page-best-selling-header-bar-icon {
-    width:  20px;
-    height: 40px;
-    background: #000000;
-    border-radius: 5px;
-}
-.home-page-best-selling-title-header {
-    font-weight: 500;
-    line-height: 21px;
-    font-size: 14px;
-    color: #000000;
-} 
-
-
-.home-page-best-selling-sub-header {
-    font-weight: 700;
-    font-size: 20px;
-    line-height: 24.2px;
-    color: #000000;
-}
-
-
-.home-page-best-selling-see-all-button-container {
-    align-self: flex-end;
-}
-
-.home-page-best-selling-see-all-button-container button {
-    width: 100px;
-    height: 36px;
-    border-radius: 12px;
-    background: #000000;
-    color: #FFFFFF;
-}
-
-
-
-.home-page-best-selling-card-container {
-    background: #FFFFFF;
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(155px, 1fr));
-    justify-content: center;
-    gap: 15px;
-    margin-left: 15px;
-    margin-right: 15px;
-    margin-bottom: 30px;
-    padding: 15px;
-}
-
-.home-page-best-selling-card {
-    min-height: 227px;
-    border-radius: 6.33px;
-    background: #F5F3F5;
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
-}
-
-.home-page-best-selling-card-img {
-    width: 100%;
-    height: 162px;
-}
-
-
-.home-page-best-selling-card-description {
-    font-size: 10.12px;
-    font-weight: 500;
-    line-height: 12.15px;
-    color: #000000;
-}
-
-.home-page-best-selling-card-price-container {
-    display: flex
-}
-
-.home-page-best-selling-card-offer-price {
-    font-size: 12px;
-    font-weight: 900;
-    line-height: 14.4px;
-    color: #000000;
-}
-
-.home-page-best-selling-card-price {
-    font-weight: 400;
-    font-size: 7px;
-    line-height: 8.4px;
-}
-
-.home-page-best-selling-card-btn {
-    width: 82px;
-    height: 22px;
-    border-radius: 7.59px;
-}
 
 
 .home-page-call-to-action-showcase-area-container {
@@ -523,122 +265,7 @@
     bottom: 0px;
 }
 
-.home-page-explore-and-see-all-btn-container {
-    margin-left: 15px;
-    margin-right: 15px;
-    margin-bottom: 15px;
-    display: flex;
-    justify-content: space-between;
-}
 
-.home-page-explore-header-container {
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
-}
-
-
-
-.home-page-explore-header-title-and-icon-container {
-    display: flex;
-    align-items: center;
-    width: 100px;
-    justify-content: space-between;
-    margin-bottom: 25px;
-}
-
-.home-page-explore-header-bar-icon {
-    width:  20px;
-    height: 40px;
-    background: #000000;
-    border-radius: 5px;
-}
-.home-page-explore-title-header {
-    font-weight: 500;
-    line-height: 21px;
-    font-size: 14px;
-    color: #000000;
-} 
-
-
-.home-page-explore-sub-header {
-    font-weight: 700;
-    font-size: 20px;
-    line-height: 24.2px;
-    color: #000000;
-}
-
-
-.home-page-explore-see-all-button-container {
-    align-self: flex-end;
-}
-
-.home-page-explore-see-all-button-container button {
-    width: 100px;
-    height: 36px;
-    border-radius: 12px;
-    background: #000000;
-    color: #FFFFFF;
-}
-
-
-
-.home-page-explore-card-container {
-    background: #FFFFFF;
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(155px, 1fr));
-    justify-content: center;
-    gap: 15px;
-    margin-left: 15px;
-    margin-right: 15px;
-    margin-bottom: 30px;
-    padding: 15px;
-}
-
-.home-page-explore-card {
-    min-height: 227px;
-    border-radius: 6.33px;
-    background: #F5F3F5;
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
-}
-
-.home-page-explore-card-img {
-    width: 100%;
-    height: 162px;
-}
-
-
-.home-page-explore-card-description {
-    font-size: 10.12px;
-    font-weight: 500;
-    line-height: 12.15px;
-    color: #000000;
-}
-
-.home-page-explore-card-price-container {
-    display: flex
-}
-
-.home-page-explore-card-offer-price {
-    font-size: 12px;
-    font-weight: 900;
-    line-height: 14.4px;
-    color: #000000;
-}
-
-.home-page-explore-card-price {
-    font-weight: 400;
-    font-size: 7px;
-    line-height: 8.4px;
-}
-
-.home-page-explore-card-btn {
-    width: 82px;
-    height: 22px;
-    border-radius: 7.59px;
-}
 
 
 
@@ -683,22 +310,30 @@
 .home-page-new-arrival-first-section-container {
     height: 600px;
     position: relative;
+    overflow: hidden; 
 }
 
 .home-page-new-arrival-second-section-container {
     height: 275px;
     position: relative;
+    overflow: hidden; 
 }
 
 .home-page-new-arrival-third-section-container {
     height: 275px;
     position: relative;
+    overflow: hidden; 
 }
 
 .home-page-new-arrival-section-img {
     width: 100%;
     height: 100%;
     object-fit: cover;
+    transition: transform 0.3s ease;
+}
+
+.home-page-new-arrival-section-img:hover {
+    transform: scale(1.2);
 }
 
 .home-page-new-arrival-section-block-content-container {
@@ -777,7 +412,7 @@
 }
 
 
-@media (min-width: 786px) {
+@media (min-width: 986px) {
 
     .home-page-hero-section-block-content-container {
         width: 50%;
@@ -824,10 +459,8 @@
 
 
     .home-page-hero-section-img {
-        /* width: 50vh;
-        height: 90vh; */
         width: 75%;
-        height: auto;
+        height: 100vh;
         object-fit: cover;
         position: absolute;
         right: 10px;
@@ -835,88 +468,7 @@
     
     }
 
-    .home-page-flash-sale-card-container {
-        grid-template-columns: repeat(auto-fit, minmax(245px, 1fr));
-    }    
-    .home-page-flash-sale-card {
-        min-height: 423px;
-    }
-
-    .home-page-flash-sale-card-img {
-        width: 100%;
-        height: 257px;
-    }
-
-    .home-page-flash-sale-card-description {
-        font-size: 16px;
-        font-weight: 500;
-        line-height: 19.2px;
-    }
     
-    .home-page-flash-sale-card-price-container {
-        display: flex;
-        align-items: center;
-    }
-    
-    .home-page-flash-sale-card-offer-price {
-        font-size: 16px;
-        font-weight: 900;
-        line-height: 19.2px;
-    }
-    
-    .home-page-flash-sale-card-price {
-        font-weight: 400;
-        font-size: 14px;
-        line-height: 16.8px;
-    }
-    
-    .home-page-flash-sale-card-btn {
-        width: 129px;
-        height: 35px;
-        border-radius: 12px;
-    }
-
-    .home-page-best-selling-card-container {
-        grid-template-columns: repeat(auto-fit, minmax(245px, 1fr));
-    }    
-    .home-page-best-selling-card {
-        min-height: 423px;
-    }
-
-    .home-page-best-selling-card-img {
-        width: 100%;
-        height: 257px;
-    }
-
-    .home-page-best-selling-card-description {
-        font-size: 16px;
-        font-weight: 500;
-        line-height: 19.2px;
-    }
-    
-    .home-page-best-selling-card-price-container {
-        display: flex;
-        align-items: center;
-    }
-    
-    .home-page-best-selling-card-offer-price {
-        font-size: 16px;
-        font-weight: 900;
-        line-height: 19.2px;
-    }
-    
-    .home-page-best-selling-card-price {
-        font-weight: 400;
-        font-size: 14px;
-        line-height: 16.8px;
-    }
-    
-    .home-page-best-selling-card-btn {
-        width: 129px;
-        height: 35px;
-        border-radius: 12px;
-    }
-
     .home-page-call-to-action-showcase-area-container {
         height: 450px; /* Increase height for larger screens */
     }
@@ -974,46 +526,7 @@
         right: 15%;
     }
 
-    .home-page-explore-card-container {
-        grid-template-columns: repeat(auto-fit, minmax(245px, 1fr));
-    }    
-    .home-page-explore-card {
-        min-height: 423px;
-    }
-
-    .home-page-explore-card-img {
-        width: 100%;
-        height: 257px;
-    }
-
-    .home-page-explore-card-description {
-        font-size: 16px;
-        font-weight: 500;
-        line-height: 19.2px;
-    }
     
-    .home-page-explore-card-price-container {
-        display: flex;
-        align-items: center;
-    }
-    
-    .home-page-explore-card-offer-price {
-        font-size: 16px;
-        font-weight: 900;
-        line-height: 19.2px;
-    }
-    
-    .home-page-explore-card-price {
-        font-weight: 400;
-        font-size: 14px;
-        line-height: 16.8px;
-    }
-    
-    .home-page-explore-card-btn {
-        width: 129px;
-        height: 35px;
-        border-radius: 12px;
-    }
     
     
     

@@ -10,6 +10,7 @@ import { useNavigate, useLocation } from 'react-router-dom';
 import { FaTimes } from "react-icons/fa";
 import { SideDrawerContext } from '../contexts/SideDrawerContext';
 import { useContext } from 'react';
+import { SearchContext } from '../contexts/SearchContext';
 
 
 function Header () {
@@ -25,6 +26,25 @@ function Header () {
             setActiveComponent,
             toggleSideDrawer
     } = useContext(SideDrawerContext); 
+    const { searchInput, setSearchInput, handleSearchInput } = useContext(SearchContext);
+
+    // Top benefit slide effect
+    const messages = [
+        "Unmissable New Arrival up To 50% Off",
+        "Buy One Get One Free on Selected Items",
+        "Free Shipping on Orders Above $50",
+        "Exclusive Deals for Members Only",
+      ];
+    
+    const [currentMessageIndex, setCurrentMessageIndex] = useState(0);
+    
+    useEffect(() => {
+        const interval = setInterval(() => {
+          setCurrentMessageIndex((prevIndex) => (prevIndex + 1) % messages.length);
+        }, 3000); // Change message every 3 seconds
+        return () => clearInterval(interval); // Clean up the interval on unmount
+    }, []);
+    
 
     const isAuthenticated = localStorage.getItem('accessToken'); // Check if the access token exists
 
@@ -43,25 +63,33 @@ function Header () {
 
  
 
-
     return(
        <div className="header-container">
        <div className="header-benefit-bar-container">
-            <p>Unmissable New Arrival up To 50% Off</p>
+            <p 
+                key={currentMessageIndex} 
+                className="header-benefit-sliding-text"
+            >
+                {messages[currentMessageIndex]}
+            </p>
        </div>
        {windowWidth <= 980 ? 
         <div className="sm-header-container">
-            <div className="sm-header-logo" style={{display: showSearchIcon === false ? 'none' : 'block' }}>
-                {showMenuIcon ? 
+            <div 
+                className="sm-header-logo" 
+                style={{
+                    display: showSearchIcon === false ? 'none' : 'block' 
+                }}>
+                {/* {showMenuIcon ?  */}
                     <RiMenu5Line 
                         className="sm-header-menu"
                         onClick={() => {
-                            setShowMenuIcon(false);
+                            // setShowMenuIcon(false);
                             toggleSideDrawer();
                             setActiveComponent('mobile-screen-navbar');
                         }
                         }/>
-                    : 
+                    {/* : 
                     <FaTimes 
                         className="sm-header-menu"
                         onClick={() => {
@@ -69,23 +97,35 @@ function Header () {
                             toggleSideDrawer();
                         }
                     }
-                    />
-                }
+                    /> */}
+                {/* } */}
                 
                 <img src={logo} width={24} height={24}
                      onClick={() => navigate("/")}
                 />
             </div>
-            <div className="sm-header-search-container" style={{display: showSearchIcon === true ? 'none' : 'block' }}>
+            <div 
+                className="sm-header-search-container" 
+                style={{
+                    display: showSearchIcon === true ? 'none' : 'block' 
+                }}>
                 <input type="text" 
                     placeholder="Search product"
-                    className="sm-header-search-input">
+                    className="sm-header-search-input"
+                    onChange={(e) => setSearchInput(e.target.value)}
+                >
                 </input>  
             </div>
             { showSearchIcon === true ?
-                <FaSistrix className="sm-header-search-icon" onClick={() => setShowSearchIcon(false)}/>
+                <FaSistrix 
+                    className="sm-header-search-icon" 
+                    onClick={() => setShowSearchIcon(false)}
+                />
                 :
-                <LiaTimesSolid className="sm-header-cancel-icon" onClick={() => setShowSearchIcon(true)}/>
+                <LiaTimesSolid 
+                    className="sm-header-cancel-icon" 
+                    onClick={() => setShowSearchIcon(true)}
+                />
             }
             <div className="sm-header-account-container"
                 onClick={() => {
@@ -123,11 +163,20 @@ function Header () {
             <div className="lg-header-search-and-account-and-cart-container">
                 <div className="lg-header-search-container">
                     <FaSistrix className="lg-header-search-icon"/>
-                    <input type="text" 
+                    <input 
+                        type="text" 
                         placeholder="Search product"
-                        className="lg-header-search-input">
+                        className="lg-header-search-input"
+                        onChange={(e) => setSearchInput(e.target.value)}
+                    >
                     </input>
-                    <button  className="lg-header-search-btn">Go</button>
+                    <button 
+                        className="lg-header-search-btn"
+                        disabled={searchInput.length === 0}
+                        onClick={handleSearchInput}
+                    >
+                        Go
+                    </button>
                 </div>
                 <div className="lg-header-account-and-cart-container">
                     <div className="lg-header-account" onClick={() => {

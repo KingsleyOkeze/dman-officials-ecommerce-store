@@ -8,28 +8,30 @@
     display: none;
 }
 
-.category-page-options-list-container ul {
-    list-style-type: none;
-    padding-left: 12px;
-    padding-right: 12px;
-    height: 47px;
-    display: flex;
-    align-items: center;
+.category-page-sub-category-list-container {
+    
     background:#FFFFFF;
+}
 
-    flex-wrap: nowrap; /* Prevent wrapping to next line */
-    overflow-x: auto; /* Add horizontal scrollbar */
+.category-page-options-list-container ul {
+    width: 90%;
+    list-style-type: none;
+    height: 47px;
+    background-color: #ff4f4f;
+    padding: 0; /* Remove any default padding */
+    margin: auto; /* Center the list within its container */
+    display: flex; /* Ensure the list items are displayed inline */
+    flex-wrap: nowrap; /* Prevent wrapping */
+    overflow-x: auto; /* Add horizontal scroll for overflow */
 }
 
 .category-page-options-list-container ul li {
-    display: inline-flex;
-    padding-right: 13px;
-    text-decoration: underline;
-    text-decoration-color: #000000;
+    display: inline-flex; /* Ensure items align inline */
+    align-items: center; /* Align the text and checkbox vertically */
     font-size: 16px;
     line-height: 16.8px;
 
-    flex-grow: 1;
+    /* flex-grow: 1; */
     flex-shrink: 0;
     flex-basis: 50px;
 }
@@ -41,6 +43,11 @@
 .category-page-sorted-by-option-container {
     display: none;
 }
+
+.category-page-showcase-container {
+    
+}
+
 .category-page-items-header {
     padding-top: 25px;
     padding-left: 12px;
@@ -60,7 +67,8 @@
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
     justify-content: center;
-    gap: 15px
+    gap: 15px;
+    min-height: 100vh;
 }
 
 
@@ -82,19 +90,20 @@
 
 
 .item-description {
-    padding-left: 10px;
-    padding-right: 10px;
     line-height: 12.15px;
     font-size: 10.12px;
+    margin-top: 15px;
+    margin-left: 10px;
+    margin-bottom: 15px;
 }
 
 
 .item-price-and-save-container {
     display: flex;
     justify-content: space-between;
-    padding-left: 10px;
-    padding-right: 10px;
-    padding-bottom: 10px;
+    margin-left: 10px;
+    margin-right: 10px;
+    margin-bottom: 10px;
 }
 
 .category-page-bottom-pagination-container {
@@ -121,7 +130,78 @@
 
 
 
-@media (min-width: 786px) {
+
+.category-page-pagination-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 20px;
+    text-align: center;
+    padding: 15px 0;
+    background-color: #ffffff;
+    border-top: 1px solid #ddd;
+    border-radius: 0 0 12px 12px; /* Match table's rounded corners */
+    width: 100%;
+}
+
+.category-page-pagination-button {
+    display: flex; /* Use flexbox for layout */
+    align-items: center; /* Vertically align items */
+    justify-content: center; /* Center-align horizontally */
+    background-color: #000000;
+    color: #ffffff;
+    font-size: 16px;
+    font-weight: 500;
+    padding: 8px 16px;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: all 0.3s ease-in-out;
+}
+
+.category-page-pagination-button:disabled {
+    background-color: #cccccc;
+    cursor: not-allowed;
+}
+
+.category-page-pagination-button:hover:not(:disabled) {
+    background-color: #ff4f4f;
+    color: #ffffff;
+}
+
+.category-page-pagination-prev {
+    margin-right: 10px;
+}
+
+.category-page-pagination-next {
+    margin-left: 10px;
+}
+
+.category-page-pagination-status {
+    font-size: 16px;
+    font-weight: 500;
+    color: #000000;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+@media (min-width: 986px) {
  
     .category-page-container {
         display: grid;
@@ -147,6 +227,10 @@
         font-weight: bold;
         line-height: 26.12px;
         margin-bottom: 15px;
+    }
+
+    .category-page-sub-category-list-container {
+        background: #F5F3F5;
     }
 
     .category-page-options-list-container ul {
@@ -228,7 +312,6 @@
     .category-card-img {
         width: 100%;
         min-height: 257px;
-        object-fit: cover;
     }
 
     .item-description {
@@ -237,12 +320,6 @@
         height: 57px;
         color: #000000;
         flex-grow: 1;
-        padding-top: 5px;
-    }
-
-    .item-price-and-save-container {
-        padding-top: 20px;
-        padding-bottom: 20px;
     }
 
     .category-page-bottom-pagination-container {

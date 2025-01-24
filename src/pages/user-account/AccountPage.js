@@ -2,6 +2,7 @@ import "../../styles/pages-styles/user-account-page-styles/AccountPage.css";
 import { Outlet, useNavigate, useLocation } from "react-router-dom";
 import { useState, useEffect } from "react";
 import axios from "axios";
+import dmanLogo from "../../images/dman-black-logo.png"
 
 function AccountPage() {
     const navigate = useNavigate();
@@ -60,14 +61,19 @@ function AccountPage() {
     <div className={`account-page-container ${isMobile ? "mobile" : ""}`}>
       {showMenu ? (
         <div className="account-page-menu-container">
-          <p onClick={() => handleNavigation("/account/user-overview")}>My D.MAN Account</p>
-          <p onClick={() => handleNavigation("/account/all-orders")}>Orders</p>
-          <p onClick={() => handleNavigation("/account/saved-product")}>
-            Saved Product
-          </p>
+          <img src={dmanLogo} alt="D.MAN Logo" className="account-logo" />
+          <h2 className="user-name">King</h2>
+          <p className="welcome-message">Welcome back to your account</p>
+          <div className="account-list">
+              <p onClick={() => handleNavigation("/account/user-overview")}>My D.MAN Account</p>
+              <p onClick={() => handleNavigation("/account/all-orders")}>Orders</p>
+              <p onClick={() => handleNavigation("/account/saved-product")}>
+                  Saved Product
+              </p>
           {/* <p onClick={() => handleNavigation("/account/recently-viewed")}>
             Recently Viewed
           </p> */}
+           </div>
           <p>
             <button 
                 className="logout-button"

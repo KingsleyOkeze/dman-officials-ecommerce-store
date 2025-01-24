@@ -80,6 +80,13 @@ export const CouponProvider = ({ children }) => {
         sessionStorage.setItem('isValidCoupon', isValidCoupon.toString());
     }, [couponCode, discountAmount, isValidCoupon]);
 
+    useEffect(() => {
+        // if (couponError) {
+        //     setTimeout(() => {
+        //         setCouponError("")
+        //     }, 7000);
+        // }
+    }, [couponError])
     return (
         <CouponContext.Provider value={{
             couponCode,

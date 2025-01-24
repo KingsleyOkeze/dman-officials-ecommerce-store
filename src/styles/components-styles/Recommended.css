@@ -17,7 +17,7 @@
     display: flex;
     justify-content: space-between;
     align-items: center;
-    background-color: aqua;
+    /* background-color: aqua; */
 }
 
 .recommended-container-header button { 
@@ -30,26 +30,26 @@
 
 .recommended-card-container {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
-    gap: 10px;
+    grid-template-columns: repeat(auto-fit, minmax(157px, 1fr));
+    gap: 15px;
     justify-content: center;
     padding: 15px;
-    background-color: red;
 }
 
 .recommended-card {
-    min-height: 378px;
+    min-height: 240px;
     border-radius: 10px;
     background: #F5F3F5;
     box-shadow: 0px 3px 5px  #9DA7A9; 
     display: flex;
     flex-direction: column;
     box-sizing: border-box;
+    border-radius: 12px;
 }
 
 .recommended-card  img {
-    /* width: 100%; */
-    height: 257px;
+    width: 100%;
+    min-height: 162px;
 }
 .recommended-item-description-container {
     line-height: 19.2px;
@@ -57,7 +57,7 @@
     font-weight: 500;
     max-height: 57px;
     flex-grow: 1;
-    background-color: yellowgreen;
+    /* background-color: yellowgreen; */
     padding-top: 10px;
     padding-bottom: 20px;
     padding-left: 20px;
@@ -69,5 +69,31 @@
     margin-top: auto;
     padding-left: 20px;
     padding-bottom: 20px;
-    background: yellow;
+    /* background: yellow; */
+}
+
+@media (min-width: 986px) {
+    .recommended-card-container {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(245px, 1fr));
+        gap: 10px;
+        justify-content: center;
+        padding: 15px;
+    }
+
+    .recommended-card {
+        min-height: 378px;
+        border-radius: 10px;
+        background: #F5F3F5;
+        box-shadow: 0px 3px 5px  #9DA7A9; 
+        display: flex;
+        flex-direction: column;
+        box-sizing: border-box;
+        border-radius: 12px;
+    }
+
+    .recommended-card img {
+        width: 100%;
+        min-height: 200px;
+    }
 }

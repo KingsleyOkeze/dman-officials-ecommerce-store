@@ -1,0 +1,174 @@
+.home-page-explore-and-see-all-btn-container {
+    margin-left: 15px;
+    margin-right: 15px;
+    margin-bottom: 15px;
+    display: flex;
+    justify-content: space-between;
+}
+
+.home-page-explore-header-container {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+
+.home-page-explore-header-title-and-icon-container {
+    display: flex;
+    align-items: center;
+    width: 100px;
+    justify-content: space-between;
+    margin-bottom: 25px;
+}
+
+.home-page-explore-header-bar-icon {
+    width:  20px;
+    height: 40px;
+    background: #000000;
+    border-radius: 5px;
+}
+.home-page-explore-title-header {
+    font-weight: 500;
+    line-height: 21px;
+    font-size: 14px;
+    color: #000000;
+} 
+
+
+.home-page-explore-sub-header {
+    font-weight: 700;
+    font-size: 20px;
+    line-height: 24.2px;
+    color: #000000;
+}
+
+
+.home-page-explore-see-all-button-container {
+    align-self: flex-end;
+}
+
+.home-page-explore-see-all-button-container button {
+    width: 100px;
+    height: 36px;
+    border-radius: 12px;
+    background: #000000;
+    color: #FFFFFF;
+}
+
+
+
+.home-page-explore-card-container {
+    background: #FFFFFF;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(155px, 1fr));
+    justify-content: center;
+    gap: 15px;
+    margin-left: 15px;
+    margin-right: 15px;
+    margin-bottom: 30px;
+    padding: 15px;
+}
+
+.home-page-explore-card {
+    min-height: 227px;
+    border-radius: 6.33px;
+    background: #F5F3F5;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    overflow: hidden; /* Prevent content overflow */
+
+}
+
+
+.home-page-explore-card-img {
+    width: 100%;  
+    height: 162px;
+}
+
+
+.home-page-explore-card-description {
+    font-size: 10.12px;
+    font-weight: 500;
+    line-height: 12.15px;
+    color: #000000;
+    margin-top: 15px;
+    margin-left: 10px;
+    margin-bottom: 15px;
+}
+
+.home-page-explore-card-price-container {
+    display: flex;
+    margin-bottom: 10px;
+    margin-left: 10px;
+}
+
+.home-page-explore-card-offer-price {
+    font-size: 12px;
+    font-weight: 900;
+    line-height: 14.4px;
+    color: #000000;
+}
+
+.home-page-explore-card-price {
+    font-weight: 400;
+    font-size: 7px;
+    line-height: 8.4px;
+    margin-left: 5px;
+}
+
+.home-page-explore-card-btn {
+    width: 82px;
+    height: 22px;
+    border-radius: 7.59px;
+    margin-left: 10px;
+    margin-bottom: 15px;
+}
+
+.home-page-explore-card-btn:hover {
+    color: #FFFFFF;
+    background: #000000;
+}
+
+@media (min-width: 986px) {
+    .home-page-explore-card-container {
+        grid-template-columns: repeat(auto-fit, minmax(245px, 1fr));
+    }    
+    .home-page-explore-card {
+        min-height: 423px;
+    }
+
+    .home-page-explore-card-img {
+        width: 100%;  
+        height: 257px; 
+    }
+
+    .home-page-explore-card-description {
+        font-size: 16px;
+        font-weight: 500;
+        line-height: 19.2px;
+    }
+    
+    .home-page-explore-card-price-container {
+        display: flex;
+        align-items: center;
+    }
+    
+    .home-page-explore-card-offer-price {
+        font-size: 16px;
+        font-weight: 900;
+        line-height: 19.2px;
+    }
+    
+    .home-page-explore-card-price {
+        font-weight: 400;
+        font-size: 14px;
+        line-height: 16.8px;
+    }
+    
+    .home-page-explore-card-btn {
+        width: 129px;
+        height: 35px;
+        border-radius: 12px;
+    }
+}

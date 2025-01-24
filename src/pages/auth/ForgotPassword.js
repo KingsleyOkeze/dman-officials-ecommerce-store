@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import axios from 'axios';
 import "../../styles/pages-styles/auth-pages-styles/ForgotPassword.css";
 import { useNavigate } from 'react-router-dom';
+import logo from '../../images/dman-logo.png';
 
 function ForgotPassword() {
   const navigate = useNavigate();
@@ -24,26 +25,33 @@ function ForgotPassword() {
   return (
     <div className="forgot-password-wrapper">
       <div className="forgot-password-container">
-        <h2>Forgot Password</h2>
-        <form onSubmit={handleSubmit}>
-          <div className="input-group">
-            <label htmlFor="email">Email Address</label>
-            <input
-              type="email"
-              id="email"
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
-              required
-            />
-          </div>
-          <button type="submit" disabled={isResendDisabled}>
-            {isResendDisabled ? 'Resend in 1 min' : 'Send Reset Link'}
-          </button>
-        </form>
-        {message && <p>{message}</p>}
+      <img src={logo} alt="Logo" className="forget-password-logo" />
+        <div className="forget-password-form-container">
+          <h2>Forgot Password</h2>
+          <form onSubmit={handleSubmit}>
+            <div className="forget-password-input-group">
+              <label htmlFor="email">Email Address</label>
+              <input
+                type="email"
+                id="email"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+                required
+              />
+            </div>
+            <button type="submit" disabled={isResendDisabled}>
+              {isResendDisabled ? 'Resend in 1 min' : 'Send Reset Link'}
+            </button>
+          </form>
+          {message && <p className="forget-password-message">{message}</p>}
+          <p className="forget-password-instructions">
+            We will send you an email with instructions to reset your password.
+          </p>
+        </div>
       </div>
     </div>
   );
 }
 
 export default ForgotPassword;
+

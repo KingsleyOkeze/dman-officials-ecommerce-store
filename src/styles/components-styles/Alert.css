@@ -1,0 +1,68 @@
+.alert-container {
+    width: 100%;
+    display: flex; /* Use flexbox for better alignment */
+    align-items: center; /* Vertically align items */
+    justify-content: center; /* Center content horizontally */
+    height: 45px;
+    padding: 0 15px; /* Add padding for spacing */
+    font-weight: 500;
+    font-size: 15px;
+    line-height: 18px;
+    color: #FFFFFF;
+    z-index: 10;
+    position: fixed;
+    top: 9.3%; 
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+
+.alert-container p {
+    margin: 0; /* Remove default margins on the paragraph */
+    text-align: center; /* Center the text */
+    flex-grow: 1; /* Allow the text to take remaining space */
+}
+
+.alert-close-icon {
+    font-size: 24px;
+    cursor: pointer; /* Add a pointer cursor for the close icon */
+   
+}
+
+
+
+.alert-container p {
+    margin: 0; /* Remove default margins on the paragraph */
+    text-align: center; /* Center the text */
+}
+
+.alert-close-icon {
+    font-size: 24px;
+    cursor: pointer; /* Add a pointer cursor for the close icon */
+    justify-self: end; /* Keep the icon at the far right */
+    margin-right: 10px;
+}
+
+
+@media (min-width: 986px) {
+    .alert-container {
+        top: 22.5%;
+    }
+}
+/* 
+.alert-container {
+    width: 100%;
+    height: 45px;
+    font-weight: 500;
+    font-size: 15px;
+    line-height: 18px;
+    color: #FFFFFF;
+    z-index: 10;
+    position: fixed;
+    top: 50%; /* Add this line 
+    left: 50%; /* Add this line 
+    transform: translate(-50%, -50%); /* Add this line 
+    background-color: #008C00; 
+    padding: 10px;
+    border-radius: 5px; 
+    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.2); 
+  } */
