@@ -8,11 +8,15 @@ import { SideDrawerContext } from '../../contexts/SideDrawerContext';
 import axios from 'axios';
 import { CouponContext } from '../../contexts/CouponContext';
 import { LiaTimesSolid } from "react-icons/lia";
+import { AuthContext } from '../../contexts/AuthContext';
+import { AlertContext } from '../../contexts/AlertContext';
 
 
 function CartPage () {
     const navigate = useNavigate();
-    const { cartItems, addToCart, updateQuantity, removeFromCart, clearCart } = useContext(CartContext); 
+    const { accessToken, customerId, refreshAccessToken } = useContext(AuthContext);
+    const { customAlert, showAlert } = useContext(AlertContext);
+    const { cartItems, updateQuantity, removeFromCart, loadingId, actionType, setActionType } = useContext(CartContext); 
     const { applyCoupon, couponCode, setCouponCode, discountAmount, couponError, isValidCoupon } = useContext(CouponContext);
     const { toggleSideDrawer } = useContext(SideDrawerContext); 
     const [currency, setCurrency] = useState('₦');
@@ -20,14 +24,15 @@ function CartPage () {
 
 
     const fetchCartTotalPrice = async () => {
-        let data = localStorage.getItem("customerId");
-
-        // if (!data) return alert('No user found!');
-
         try {
-            const response = await axios.post("/customer/fetch-cart-total-price", {
-                customerId: data
-            })
+            const response = await axios.get("/customer/fetch-cart-total-price", {
+                params: {
+                    customerId: customerId
+                },
+                headers: {
+                      Authorization: `Bearer ${accessToken}`, // Add token to Authorization header
+                }
+            });
 
             if (response.status === 200) {
                 setTotalPrice(response.data.totalPrice);
@@ -35,7 +40,19 @@ function CartPage () {
                 // alert('cart message', response.data.totalPrice)
             }
         } catch (err) {
-            console.log('err fetching cart', err)
+            console.log('err fetching cart', err);
+            if (err.response) {
+                const status = err.response.status;
+                const errMessage = err.response.data.error;
+
+                if (status === 400 || status === 403 || status === 404 || status === 500) {
+                    showAlert(status, errMessage)
+                } else if (status === 401) {
+                    refreshAccessToken(fetchCartTotalPrice);
+                }
+            } else {
+                showAlert("Error", "An Unknow Error Occured!")
+            }
         }
         
     };
@@ -67,7 +84,6 @@ function CartPage () {
                     {
                         cartItems.map((cartItem, index) => ( 
                             <div key={index} className="cart-page-card">
-                                <div className="cart-item-image-and-description-container">
                                     <div className="cart-item-image-container">
                                     <img 
                                         src={cartItem.productRef.productImageUrl[0]}
@@ -83,43 +99,54 @@ function CartPage () {
                                             {cartItem.productRef.productOfferPrice} 
                                         </p>
                                     </div>
-                                </div>
-                                <div className="cart-item-quantity-and-remove-container">
                                     <div className="cart-item-quantity-container">
-                                        <p>Quantity </p>
-                                        <p>
-                                            <span 
+                                        <p className="cart-item-quantity-text">Quantity </p>
+                                        <p className="cart-item-quantity-counter-container">
+                                            <button 
+                                                className="cart-card-quantity-button"
+                                                disabled={cartItem.quantity <= 1 || loadingId === cartItem._id}                                    
                                                 onClick={() => {
+                                                    setActionType("decrease");  
                                                     updateQuantity(cartItem._id, cartItem.quantity - 1) 
                                                 }}
                                             >
-                                                -
-                                            </span>
+                                                {loadingId === cartItem._id && actionType === "decrease" ? (
+                                                    <span className="cart-card-btn-spinner"></span>
+                                                ) : (
+                                                    "-"
+                                                 )}
+                                            </button >
                                             <span 
-                                                style={{paddingLeft: '25px'}}
+                                                className="cart-card-quantity-value"
                                             >
                                                 {cartItem.quantity}
                                             </span>
-                                            <span
+                                            <button 
+                                                className="cart-card-quantity-button"
+                                                disabled={loadingId === cartItem._id} 
                                                 onClick={() => {
+                                                    setActionType("increase");
                                                     updateQuantity(cartItem._id, cartItem.quantity + 1) 
                                                 }}
                                             >
-                                                +
-                                            </span>
+                                                {loadingId === cartItem._id && actionType === "increase" ? (
+                                                    <span className="cart-card-btn-spinner"></span>
+                                                    ) : (
+                                                    "+"
+                                                )}
+                                            </button>
                                         </p>
                                     </div>
-                                    <ul>
-                                        <li onClick={() => {
+                                    <div className="cart-item-remove-text-and-icon-container">
+                                        <span onClick={() => {
                                                 removeFromCart(cartItem._id)
                                             }}>
                                                 <FaRegTrashCan 
                                                     className="cart-item-remove-icon"
                                                 />
                                                     Remove
-                                        </li>
-                                    </ul>
-                                </div>
+                                        </span>
+                                    </div>
                                 
                             </div>
                         ))

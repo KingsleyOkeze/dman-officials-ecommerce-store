@@ -1,54 +1,58 @@
-import React, { useEffect, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import '../../styles/pages-styles/order-pages-styles/OrderReviewPage.css'; // Include your custom styles here
 import axios from 'axios';
+import { AuthContext } from '../../contexts/AuthContext';
 
 function OrderReviewPage ({  onRetryPayment, onContactSupport }) {
     const { orderId } = useParams(); // Extract orderId from the URL
     const navigate = useNavigate();
+    const { accessToken, customerId } = useContext(AuthContext); 
     const [orderDetails, setOrderDetails] = useState({});
 
-    useEffect(() => {
-        const handleFetchPurchasedOrderDetails = async () => {
-            let data = localStorage.getItem("customerId");
-
-            // if (!data) return alert('No user found!');
     
-            try {
-                const response = await axios.post(`/customer/fetch-purchased-order-details/${orderId}`, {
-                    customerId: data
-                })
+    const handleFetchPurchasedOrderDetails = async () => {
+        try {
+            const response = await axios.get(`/customer/fetch-purchased-order-details/${orderId}`, {
+                params: {
+                    customerId: customerId
+                },
+                headers: {
+                    Authorization: `Bearer ${accessToken}`, // Add token to Authorization header
+                },
+            })
     
-                if (response.status === 200) {
-                    setOrderDetails(response.data.order);
-                    console.log('OrderDetails message', response.data.order);
-                }
-            } catch (err) {
-                console.log('err OrderDetails', err)
+            if (response.status === 200) {
+                setOrderDetails(response.data.order);
+                console.log('OrderDetails message', response.data.order);
             }
+        } catch (err) {
+            console.log('err OrderDetails', err)
         }
+    }
 
+    useEffect(() => {    
         handleFetchPurchasedOrderDetails();
-    }, []);
+    }, [accessToken, customerId, orderId]);
 
 
-  if (!orderDetails) {
+    if (!orderDetails) {
+        return (
+            <div className="order-review-page-container">
+                <p>Loading order details...</p>
+            </div>
+        );
+    }
+
+    const handleRetryPayment = () => {
+        onRetryPayment(orderDetails.orderId);
+    };
+
+    const handleContactSupport = () => {
+        onContactSupport(orderDetails.orderId);
+    };
+
     return (
-      <div className="order-review-page-container">
-        <p>Loading order details...</p>
-      </div>
-    );
-  }
-
-  const handleRetryPayment = () => {
-    onRetryPayment(orderDetails.orderId);
-  };
-
-  const handleContactSupport = () => {
-    onContactSupport(orderDetails.orderId);
-  };
-
-  return (
     <div className="order-review-page-container">
       <h1>Order Review</h1>
       {orderDetails && (
@@ -90,7 +94,7 @@ function OrderReviewPage ({  onRetryPayment, onContactSupport }) {
       </>
        )}
     </div>
-  );
+    );
 };
 
 export default OrderReviewPage;

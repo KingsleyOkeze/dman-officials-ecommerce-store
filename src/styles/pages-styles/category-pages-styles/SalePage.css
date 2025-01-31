@@ -68,6 +68,7 @@
 
 
 .sale-page-card {
+    max-width: 155px;
     min-height: 227px;
     border-radius: 10px;
     background: #F5F3F5;
@@ -88,8 +89,6 @@
     height: 162px;
     object-fit: cover;
 }
-
-
 
 
 
@@ -160,7 +159,7 @@
 
 
 
-@media (min-width: 786px) {
+@media (min-width: 986px) {
     
     .sale-page-body-items-container {
         display: grid;
@@ -170,6 +169,7 @@
 
 
     .sale-page-card {
+        max-width: 245px;
         min-height: 378px;
         border-radius: 10px;
         background: #F5F3F5;

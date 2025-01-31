@@ -1,9 +1,11 @@
-import React, { createContext, useEffect, useState } from 'react';
+import React, { createContext, useContext, useEffect, useState } from 'react';
 import axios from 'axios';
+import { AuthContext } from './AuthContext';
 
 export const CouponContext = createContext();
 
 export const CouponProvider = ({ children }) => {
+    const { accessToken, customerId } = useContext(AuthContext); 
     const [couponCode, setCouponCode] = useState('');
     const [discountAmount, setDiscountAmount] = useState(0);
     const [couponError, setCouponError] = useState('');
@@ -26,14 +28,16 @@ export const CouponProvider = ({ children }) => {
     }, []);
 
     const applyCoupon = async (code) => {
-
-        let data = localStorage.getItem("customerId");
-
         try {
             // Call server to validate coupon
             const response = await axios.post('/customer/validate-coupon', { 
-                customerId: data, 
+                customerId: customerId, 
                 couponCode: code 
+            },
+            {
+                headers: {
+                  Authorization: `Bearer ${accessToken}`, // Add token to Authorization header
+                },
             });
 
             if (response.data.isValid) {

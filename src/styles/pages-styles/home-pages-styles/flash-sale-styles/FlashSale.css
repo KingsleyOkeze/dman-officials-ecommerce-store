@@ -85,7 +85,8 @@
 }
 
 .home-page-flash-sale-card-container {
-    background: #FFFFFF;
+    /* background: #FFFFFF; */
+    background-color: aquamarine;
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(155px, 1fr));
     justify-content: center;
@@ -94,9 +95,11 @@
     margin-right: 15px;
     margin-bottom: 30px;
     padding: 15px;
+    
 }
 
 .home-page-flash-sale-card {
+    max-width: 155px;
     min-height: 227px;
     border-radius: 6.33px;
     background: #F5F3F5;
@@ -151,11 +154,17 @@
 }
 
 
+.home-page-flash-sale-error {
+
+}
+
+
 @media (min-width: 986px) {
     .home-page-flash-sale-card-container {
         grid-template-columns: repeat(auto-fit, minmax(245px, 1fr));
     }    
     .home-page-flash-sale-card {
+        max-width: 245px;
         min-height: 423px;
     }
 

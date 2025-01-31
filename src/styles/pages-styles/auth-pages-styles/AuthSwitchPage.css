@@ -5,13 +5,11 @@
 }
 
 
-
-
 .auth-switch-page-container-head {
     display: flex;
     height: 37px;
-    background-color: beige;
-
+    background-color: #000000;
+    margin-bottom: 10px;
 }
 
 .auth-switch-page-container-head p {
@@ -21,17 +19,19 @@
 
 }
 .auth-switch-page-container-head p:nth-child(1) {
-    background-color: antiquewhite;
+    background-color: #000000;
     flex-basis: 50%;
     text-align: center;
+    color: #FFFFFF;
 }
 
 
 
 .auth-switch-page-container-head p:nth-child(2) {
-    background-color: green;
+    background-color: #000000;
     flex-basis: 50%;
     text-align: center;
+    color: #FFFFFF;
 }
 
 

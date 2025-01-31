@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import "../../styles/pages-styles/user-account-page-styles/AllOrdersPage.css";
 import cardImage1 from "../../images/cardImage1.png"
 import cardImage2 from "../../images/cardImage2.png";
@@ -8,34 +8,141 @@ import { IoIosArrowBack } from "react-icons/io";
 import { IoIosArrowForward } from "react-icons/io";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
+import { AuthContext } from "../../contexts/AuthContext";
+import { AlertContext } from "../../contexts/AlertContext";
+import Alert from "../../components/Alert";
 
 function AllOrdersPage () {
     const navigate = useNavigate();
+    const { accessToken, customerId, refreshAccessToken } = useContext(AuthContext); 
+    const { showAlert, customAlert } = useContext(AlertContext);
     const [orders, setOrders] = useState([]);
-    const handleFetchOrders = async () => {
-        let data = localStorage.getItem("customerId");
+    const [paginationIndex, setPaginationIndex] = useState(0); // Track current page
+    const [totalPages, setTotalPages] = useState(0); // Total number of pages (example)
 
+
+    const handlePreviousFunction = async () => {
         try {
-            const response = await axios.post(`/customer/fetch-all-customer-orders`, {
-                customerId: data  
+        if (paginationIndex > 0) { 
+            const newPaginationIndex = paginationIndex - 1;
+            setPaginationIndex(newPaginationIndex);
+            const response = await axios.get(
+                `/customer/fetch-all-customer-orders?page=${newPaginationIndex}&limit=5`,
+                {
+                    params: {
+                        customerId: customerId
+                    },
+                    headers: {
+                      Authorization: `Bearer ${accessToken}`, // Add token to Authorization header
+                    }
+                }
+            );
+    
+            if (response.status === 200) {
+                console.log("fetched data", response.data.result)
+                setOrders(response.data.result);
+                
+            }
+        }
+        } catch (err) {
+            if (err.response) {
+                const status = err.response.status;
+                const errMessage = err.response.data.error;
+
+                if (status === 400 || status === 403 || status === 404 || status === 500) {
+                    showAlert(status, errMessage)
+                } else if (status === 401) {
+                    refreshAccessToken(handlePreviousFunction);
+                }
+            } else {
+                showAlert("Error", "An Unknow Error Occured!")
+            }
+        }
+    };
+
+    const handleNextFunction = async () => {
+        try {
+        if (paginationIndex < totalPages - 1) {
+            const newPaginationIndex = paginationIndex + 1;
+            setPaginationIndex(newPaginationIndex);
+            const response = await axios.get(
+                `/customer/fetch-all-customer-orders?page=${newPaginationIndex}&limit=5`,
+                {
+                    params: {
+                        customerId: customerId
+                    },
+                    headers: {
+                      Authorization: `Bearer ${accessToken}`, // Add token to Authorization header
+                    },
+                }
+            );
+        
+            if (response.status === 200) {
+                console.log("fetched data", response.data.result)
+                setOrders(response.data.result);
+            }
+        }
+        } catch (err) {
+            if (err.response) {
+                const status = err.response.status;
+                const errMessage = err.response.data.error;
+
+                if (status === 400 || status === 403 || status === 404 || status === 500) {
+                    showAlert(status, errMessage)
+                } else if (status === 401) {
+                    refreshAccessToken(handleNextFunction);
+                }
+            } else {
+                showAlert("Error", "An Unknow Error Occured!")
+            }
+        }
+    };
+
+    
+    const handleFetchOrders = async () => {
+        try {
+            const response = await axios.get(
+            `/customer/fetch-all-customer-orders?page=${paginationIndex}&limit=5`, 
+            {
+                params: {
+                    customerId: customerId
+                },
+                headers: {
+                  Authorization: `Bearer ${accessToken}`, // Add token to Authorization header
+                },
             });
 
             if (response.status === 200) {
                 console.log('fetch-all-customer-orders', response.data.result)
                 setOrders(response.data.result);
+                setTotalPages(response.data.totalPages)
             }
-        } catch (error) {
-            console.error("Error fetching orders:", error.response?.data || error.message);
+        } catch (err) {
+            if (err.response) {
+                const status = err.response.status;
+                const errMessage = err.response.data.error;
+
+                if (status === 400 || status === 403 || status === 404 || status === 500) {
+                    showAlert(status, errMessage)
+                } else if (status === 401) {
+                    refreshAccessToken(handleFetchOrders);
+                }
+            } else {
+                showAlert("Error", "An Unknow Error Occured!")
+            }
         }
     };
     useEffect(() => {
-        handleFetchOrders();
-    }, []);
-
+        if (accessToken) {
+            console.log('called', accessToken)
+            handleFetchOrders();
+        }
+    }, [accessToken, customerId]);
 
 
     return(
         <div className="all-order-page-container">
+            {customAlert.type ? (<Alert />) : "" }
             <h3>Orders</h3>
             <div className="all-order-page-main-content">
                 <div className="all-order-page-title">
@@ -76,21 +183,21 @@ function AllOrdersPage () {
                 <div className="all-order-page-bottom-pagination-container">
                     <button
                         className="all-order-page-pagination-button pagination-prev"
-                        // onClick={handlePreviousFunction}
-                        // disabled={paginationIndex === 0}
+                        onClick={handlePreviousFunction}
+                        disabled={paginationIndex === 0}
                     >
                         <IoIosArrowBack />
                         <span>Previous page</span>
                     </button>
                     {/* <div> */}
                         <span className="all-order-page-pagination-status">
-                            {/* {paginationIndex + 1} / {totalPages ? totalPages : 0 } */}
+                            {paginationIndex + 1} / {totalPages ? totalPages : 0 }
                         </span>
                     {/* </div> */}
                     <button
                         className="all-order-page-pagination-button pagination-next"
-                        // onClick={handleNextFunction}
-                        // disabled={paginationIndex + 1 === totalPages}
+                        onClick={handleNextFunction}
+                        disabled={paginationIndex + 1 === totalPages}
                     >
                         Next page
                         <IoIosArrowForward />

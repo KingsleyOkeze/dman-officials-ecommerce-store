@@ -1,11 +1,16 @@
-import { useEffect, useState } from 'react';
+import { useContext, useEffect, useState } from 'react';
 import dmanLogo from '../../images/dman-black-logo.png'
 import "../../styles/pages-styles/user-account-page-styles/UserDetailsPage.css"
 import { FaEye } from "react-icons/fa";
 import { FaEyeSlash } from "react-icons/fa6";
 import axios from 'axios';
+import { AuthContext } from '../../contexts/AuthContext';
+import { AlertContext } from '../../contexts/AlertContext';
+import Alert from '../../components/Alert';
 
 function UserDetails () {
+    const { accessToken, customerId, refreshAccessToken } = useContext(AuthContext); 
+    const { customAlert, showAlert } = useContext(AlertContext);
     const [isEdittingProfile, setIsEdittingProfile] = useState(false);
     const [isEdittingSecurity, setIsEdittingSecurity] = useState(false);
     const [showPassword, setShowPassword] = useState(false);
@@ -21,11 +26,14 @@ function UserDetails () {
     const [confirmPassword, setConfirmPassword] = useState("");
 
     const handleFetchCustomerDetails = async () => {
-        let data = localStorage.getItem("customerId");
-
         try {
-            const response = await axios.post("/customer/fetch-customer-details", {
-                customerId: data
+            const response = await axios.get("/customer/fetch-customer-details", {
+                params: {
+                    customerId: customerId
+                },
+                headers: {
+                  Authorization: `Bearer ${accessToken}`, // Add token to Authorization header
+                },
             });
 
             if (response.status === 200) {
@@ -40,28 +48,43 @@ function UserDetails () {
             }
 
         } catch (err) {
-            console.log("Err fetching customer details", err)
+            console.log("Err fetching customer details", err);
+            if (err.response) {
+                const status = err.response.status;
+                const errMessage = err.response.data.error;
+
+                if (status === 400 || status === 403 || status === 404 || status === 500) {
+                    showAlert(status, errMessage)
+                } else if (status === 401) {
+                    refreshAccessToken(handleFetchCustomerDetails);
+                }
+            } else {
+                showAlert("Error", "An Unknow Error Occured!")
+            }
         }
     }
 
     useEffect(() => {
         handleFetchCustomerDetails()
-    }, []);
+    }, [accessToken, customerId]);
 
     const handleUpdateCustomerDetails = async (e) => {
         e.preventDefault();
 
-        let data = localStorage.getItem("customerId");
-
         try {
             const response = await axios.post("/customer/update-customer-details", {
-                customerId: data,
+                customerId: customerId,
                 firstName, 
                 lastName, 
                 email, 
                 gender, 
                 dob, 
                 phoneNumber
+            }, // Request body
+            {
+              headers: {
+                Authorization: `Bearer ${accessToken}`, // Add token to Authorization header
+              },
             });
 
             if (response.status === 200) {
@@ -76,7 +99,19 @@ function UserDetails () {
             }
 
         } catch (err) {
-            console.log("Err fetching customer details", err)
+            console.log("Err fetching customer details", err);
+            if (err.response) {
+                const status = err.response.status;
+                const errMessage = err.response.data.error;
+
+                if (status === 400 || status === 403 || status === 404 || status === 500) {
+                    showAlert(status, errMessage)
+                } else if (status === 401) {
+                    refreshAccessToken(handleUpdateCustomerDetails);
+                }
+            } else {
+                showAlert("Error", "An Unknow Error Occured!")
+            }
         }
     };
 
@@ -84,24 +119,39 @@ function UserDetails () {
     const handlePasswordUpdate = async (e) => {
         e.preventDefault();
 
-        let data = localStorage.getItem("customerId");
-
         try {
             const response = await axios.post('/customer/update-account-password', {
-                customerId: data,
+                customerId: customerId,
                 currentPassword,
                 newPassword,
                 confirmPassword,
+            },
+            {
+                headers: {
+                  Authorization: `Bearer ${accessToken}`, // Add token to Authorization header
+                },
             });
             alert(response.data.message);
-        } catch (error) {
-            alert(error.response?.data?.message || 'An error occurred.');
+        } catch (err) {
+            if (err.response) {
+                const status = err.response.status;
+                const errMessage = err.response.data.error;
+
+                if (status === 400 || status === 403 || status === 404 || status === 500) {
+                    showAlert(status, errMessage)
+                } else if (status === 401) {
+                    refreshAccessToken(handlePasswordUpdate);
+                }
+            } else {
+                showAlert("Error", "An Unknow Error Occured!")
+            }
         }
     };
     
 
     return(
         <div className="user-details-page-container">
+            {customAlert.type ? (<Alert />) : "" }
             <div className="user-details-header-container">
                 <img src={dmanLogo} width={50} height={50}/>
                 <h2>Hello Name</h2>

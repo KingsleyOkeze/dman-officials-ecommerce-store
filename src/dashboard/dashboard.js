@@ -14,6 +14,7 @@ import Overlay from "./Overlay";
 import { CouponProvider } from "../contexts/CouponContext";
 import { AlertProvider } from "../contexts/AlertContext";
 import { SearchProvider } from "../contexts/SearchContext";
+import { AuthProvider } from "../contexts/AuthContext";
 
 
 function Dashboard () {
@@ -49,29 +50,33 @@ function Dashboard () {
         }
     }, [windowWidth]);
 
+
     return (
-        <AlertProvider>
-        <SideDrawerProvider>
-            <SearchProvider>
-            <CouponProvider>
-                <CartProvider>
-                    <SaveProductProvider> 
-                        <Overlay />
-                        <div className="dashboard-container">
-                            <Header />
-                            <SideDrawer />
-                        <div className="dashboard-main-content">
-                            <Outlet />
-                         </div> 
-                        <Footer />
-                    </div>
-                </SaveProductProvider>
-            </CartProvider>
-            </CouponProvider>
-            </SearchProvider>
-        </SideDrawerProvider>
-        </AlertProvider>
+        <AuthProvider>
+            <AlertProvider>
+                <SideDrawerProvider>
+                    <SearchProvider>
+                        <CouponProvider>
+                            <CartProvider>
+                                <SaveProductProvider> 
+                                    <Overlay />
+                                    <div className="dashboard-container">
+                                        <Header />
+                                        <SideDrawer />
+                                    <div className="dashboard-main-content">
+                                        <Outlet />
+                                    </div> 
+                                        <Footer />
+                                    </div>
+                               </SaveProductProvider>
+                            </CartProvider>
+                        </CouponProvider>
+                    </SearchProvider>
+                </SideDrawerProvider>
+            </AlertProvider>
+        </AuthProvider>
     )
 }
+
 
 export default Dashboard;

@@ -38,6 +38,7 @@ import ProtectedRoute from './utils/ProtectedRoute';
 import OrderTrackingPage from './pages/user-account/OrderTrackingPage';
 import OrderReviewPage from './pages/order-pages/OrderReviewPage';
 import AllOrdersPage from './pages/user-account/AllOrdersPage';
+import { AuthProvider } from './contexts/AuthContext';
 
 function App() { 
  
@@ -45,6 +46,7 @@ function App() {
 
   return (
     <Router>
+      <AuthProvider>
       <Routes>
           <Route path="/" element={<Dashboard />}>
             <Route index element={<HomePage />}/>
@@ -66,7 +68,7 @@ function App() {
             <Route path="reset-password/:token" element={<ResetPassword />} />
       
              {/* Protected Routes */}
-            <Route path="/" element={<ProtectedRoute />}>
+            <Route path="/" element={<ProtectedRoute allowedRoles={['Customer']} />}>
                 <Route path="account" element={<AccountPage />}>
                     <Route index element={<UserOverviewPage />} />
                     <Route path="saved-product" element={<SavedProductPage />} />
@@ -94,6 +96,7 @@ function App() {
           {/* Fallback Route for Unknown Paths */}
           <Route path="*" element={<NotFoundPage />} /> {/* This will catch all unknown routes and show the NotFoundPage */}
       </Routes>
+      </AuthProvider>
     </Router>
   );
 }

@@ -1,11 +1,13 @@
 import "../../styles/pages-styles/user-account-page-styles/AccountPage.css";
 import { Outlet, useNavigate, useLocation } from "react-router-dom";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useContext } from "react";
 import axios from "axios";
 import dmanLogo from "../../images/dman-black-logo.png"
+import { AuthContext } from "../../contexts/AuthContext";
 
 function AccountPage() {
     const navigate = useNavigate();
+    const {handleLogout} = useContext(AuthContext);
     const location = useLocation(); // Get current route
     const [isMobile, setIsMobile] = useState(false);
     const [showMenu, setShowMenu] = useState(true);
@@ -13,7 +15,7 @@ function AccountPage() {
     // Determine initial state of showMenu based on location
     useEffect(() => {
         const handleResize = () => {
-            const isMobileScreen = window.innerWidth <= 786;
+            const isMobileScreen = window.innerWidth <= 986;
             setIsMobile(isMobileScreen);
 
             // If on mobile and not on the main account page, hide the menu
@@ -38,32 +40,16 @@ function AccountPage() {
       if (isMobile) setShowMenu(false); // Hide menu on mobile after navigation
     };
 
-    const handleLogout = async () => {
-      try {
-          const response = await axios.post(
-              "/customer/logout",
-              {},
-              { withCredentials: true } // Include credentials for cookies
-          );
-
-          if (response.status === 200) {
-              localStorage.removeItem("accessToken");
-              localStorage.removeItem("customerId");
-              navigate("/")
-          }
-          
-      } catch (error) {
-          console.error("Error during logout:", error);
-      }
-  };
 
   return (
     <div className={`account-page-container ${isMobile ? "mobile" : ""}`}>
       {showMenu ? (
         <div className="account-page-menu-container">
           <img src={dmanLogo} alt="D.MAN Logo" className="account-logo" />
-          <h2 className="user-name">King</h2>
-          <p className="welcome-message">Welcome back to your account</p>
+          <h2 className="account-page-user-name">Kingsley Okeze</h2>
+          <p className="account-page-welcome-message">
+            Welcome back to your account, You can manage your account settings here.
+          </p>
           <div className="account-list">
               <p onClick={() => handleNavigation("/account/user-overview")}>My D.MAN Account</p>
               <p onClick={() => handleNavigation("/account/all-orders")}>Orders</p>

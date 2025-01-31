@@ -14,9 +14,13 @@ import axios from "axios";
 import { CartContext } from "../../contexts/CartContext";
 import { SaveProductContext } from "../../contexts/SaveProductContext";
 import Alert from "../../components/Alert";
+import { AuthContext } from "../../contexts/AuthContext";
+import { AlertContext } from "../../contexts/AlertContext";
 
 function ProductPage () {
     const { productId } = useParams();
+    const { accessToken, customerId } = useContext(AuthContext); 
+    const { customAlert, showAlert } = useContext(AlertContext);
     const { cartItems, addToCart, removeFromCart, clearCart } = useContext(CartContext); 
     const { savedProducts, handleSaveProduct, removeFromSavedProduct } = useContext(SaveProductContext);
     const [product, setProduct] = useState({});
@@ -78,7 +82,7 @@ function ProductPage () {
 
     return (
         <div className="product-page-container">
-            <Alert /> 
+            {customAlert.type ? (<Alert /> ) : ""}
             {product && ( 
             <div className="product-page-sub-container">
                 <div className="product-page-product-showcase-and-details-and-recommended-container">
@@ -138,8 +142,14 @@ function ProductPage () {
                             <div className="product-page-product-button-container">
                                 <button 
                                     className="product-page-product-add-to-cart-button"
+                                    
                                     onClick={() => {
-                                        addToCart(product._id, 1)
+                                        if (accessToken) {
+                                            addToCart(product._id, 1)
+                                        } else {
+                                            showAlert("error", "You need to login first.")
+                                        }
+                                        
                                     }}>
                                     <GrBasket className="product-page-product-add-to-cart-icon" />
                                     Add to cart

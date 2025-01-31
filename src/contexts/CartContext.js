@@ -2,6 +2,7 @@ import axios from 'axios';
 import { createContext, useContext, useEffect, useState } from 'react';
 import { SideDrawerContext } from './SideDrawerContext';
 import { AlertContext } from './AlertContext';
+import { AuthContext } from './AuthContext';
 
 // Create the context
 export const CartContext = createContext();
@@ -9,8 +10,9 @@ export const CartContext = createContext();
 // Create a provider component
 export const CartProvider = ({ children }) => {
     const [cartItems, setCartItems] = useState([]);
+    const { accessToken, customerId, refreshAccessToken } = useContext(AuthContext);
     const { showAlert } = useContext(AlertContext);
-    
+
     const { 
         showSideDrawer, 
         setShowSideDrawer, 
@@ -18,15 +20,20 @@ export const CartProvider = ({ children }) => {
         setActiveComponent,
         toggleSideDrawer
     } = useContext(SideDrawerContext);
+    const [loadingId, setLoadingId] = useState(null);
+    const [actionType, setActionType] = useState("");
+
+
 
     const fetchCart = async () => {
-        let data = localStorage.getItem("customerId");
-
-        // if (!data) return alert('No user found!');
-
         try {
-            const response = await axios.post("/customer/fetch-cart", {
-                customerId: data
+            const response = await axios.get("/customer/fetch-cart", {
+                params: {
+                    customerId: customerId
+                },
+                headers: {
+                  Authorization: `Bearer ${accessToken}`, // Add token to Authorization header
+                },
             });
 
             if (response.status === 200) {
@@ -35,7 +42,19 @@ export const CartProvider = ({ children }) => {
                 console.log('cart message', response.data)
             }
         } catch (err) {
-            console.log('err fetching cart', err)
+            console.log('err fetching cart', err);
+            if (err.response) {
+                const status = err.response.status;
+                const errMessage = err.response.data.error;
+
+                if (status === 400 || status === 403 || status === 404 || status === 500) {
+                    showAlert(status, errMessage)
+                } else if (status === 401) {
+                    refreshAccessToken(fetchCart);
+                }
+            } else {
+                showAlert("Error", "An Unknow Error Occured!")
+            }
         }
         
     };
@@ -52,16 +71,20 @@ export const CartProvider = ({ children }) => {
 
     // Function to add an item to the cart
     const addToCart = async (productId, quantity) => {
-
-        let data = localStorage.getItem("customerId");
-
-        // if (!data) return alert('No user found!');
+        if (!accessToken && !customerId) {
+            showAlert("Error", "You need to login first!")
+        }
 
         try {
             const response = await axios.post("/customer/add-to-cart", {
-                customerId: data,
+                customerId: customerId,
                 productId: productId,
                 quantity: quantity
+            },
+            {
+                headers: {
+                  Authorization: `Bearer ${accessToken}`, // Add token to Authorization header
+                },
             });
 
             if (response.status === 201) {
@@ -74,11 +97,14 @@ export const CartProvider = ({ children }) => {
             if (err.response) {
                 const status = err.response.status;
                 const errMessage = err.response.data.error;
-                if (status) {
-                    showAlert("error", errMessage);
+
+                if (status === 400 || status === 403 || status === 404 || status === 500) {
+                    showAlert(status, errMessage)
+                } else if (status === 401) {
+                    refreshAccessToken(() => addToCart(productId, quantity));
                 }
             } else {
-                showAlert("error", "Unknown error occurred while adding to cart!");
+                showAlert("Error", "An Unknow Error Occured!")
             }
             console.log("err adding to cart ", err)
         }
@@ -87,14 +113,19 @@ export const CartProvider = ({ children }) => {
 
     // Function to remove an item from the cart
     const removeFromCart = async (itemId) => {
-        let data = localStorage.getItem("customerId");
-
-        // if (!data) return alert('No user found!');
+        if (!accessToken && !customerId) {
+            showAlert("Error", "You need to login first!")
+        }
 
         try {
             const response = await axios.post("/customer/remove-from-cart", {
-                customerId: data,
+                customerId: customerId,
                 itemId: itemId,
+            },
+            {
+                headers: {
+                  Authorization: `Bearer ${accessToken}`, // Add token to Authorization header
+                },
             });
 
             if (response.status === 200) {
@@ -106,12 +137,14 @@ export const CartProvider = ({ children }) => {
             if (err.response) {
                 const status = err.response.status;
                 const errMessage = err.response.data.error;
-                if (status) {
-                    alert("err removing from cart", errMessage)
 
+                if (status === 400 || status === 403 || status === 404 || status === 500) {
+                    showAlert(status, errMessage)
+                } else if (status === 401) {
+                    refreshAccessToken(() => removeFromCart(itemId));
                 }
             } else {
-                alert("Unknow Error removing from cart!")
+                showAlert("Error", "An Unknow Error Occured!")
             }
             console.log("err removing from cart ", err)
         }
@@ -121,27 +154,56 @@ export const CartProvider = ({ children }) => {
 
     // Function to update the quantity of an item in the cart
     const updateQuantity = async (itemId, newQuantity) => {
-        let data = localStorage.getItem("customerId");
+        if (!accessToken && !customerId) {
+            showAlert("Error", "You need to login first!")
+        }
 
-        if (!data || newQuantity < 1) return; // Prevent updating with invalid quantity
+        if (newQuantity < 1) return; // Prevent updating with invalid quantity
 
+        setLoadingId(itemId);
         try {
             const response = await axios.post("/customer/update-cart", { // Assuming you have this endpoint
-                customerId: data,
+                customerId: customerId,
                 itemId: itemId,
                 quantity: newQuantity
+            },
+            {
+                headers: {
+                  Authorization: `Bearer ${accessToken}`, // Add token to Authorization header
+                },
             });
 
             if (response.status === 200) {
-                setCartItems((prevItems) =>
-                    prevItems.map(item =>
-                        item.itemId === itemId ? { ...item, quantity: newQuantity } : item
-                    )
-                );
+                // Fetch the full updated cart from backend instead of modifying state manually
+                fetchCart();
+                // setCartItems((prevItems) =>
+                //     prevItems.map(item =>
+                //         item?._id?.toString() === itemId.toString() ? { ...item, quantity: newQuantity } : item
+                //     )
+                // );
+                // Log the cartItems AFTER the state update to verify
+                console.log("cartItems after update:", cartItems); // Make sure cartItems are updated.
             }
         } catch (err) {
+            if (err.response) {
+                const status = err.response.status;
+                const errMessage = err.response.data.error;
+
+                if (status === 400 || status === 403 || status === 404 || status === 500) {
+                    showAlert(status, errMessage)
+                } else if (status === 401) {
+                    refreshAccessToken(() => updateQuantity(itemId, newQuantity));
+                }
+            } else {
+                showAlert("Error", "An Unknow Error Occured!")
+            }
             console.error("Error updating quantity", err);
+
+        } finally {
+            setLoadingId(null);
+            setActionType("");
         }
+        
     };
 
     // Function to clear the cart
@@ -150,7 +212,17 @@ export const CartProvider = ({ children }) => {
     };
 
     return (
-        <CartContext.Provider value={{ cartItems, addToCart, removeFromCart, updateQuantity, clearCart }}>
+        <CartContext.Provider value={{ 
+            cartItems, 
+            addToCart, 
+            removeFromCart, 
+            updateQuantity, 
+            clearCart , 
+            loadingId,
+            actionType,
+            setActionType
+            }}
+        >
             {children}
         </CartContext.Provider>
     );

@@ -15,7 +15,7 @@ function Alert() {
             role="alert"
             aria-live="assertive"
             style={{
-                background: customAlert.type === "success" ? "#008C00" : "#B80000",
+                background: customAlert.type === "Success" ? "#008C00" : "#B80000",
             }}
         >
             <p>{customAlert.message}</p>

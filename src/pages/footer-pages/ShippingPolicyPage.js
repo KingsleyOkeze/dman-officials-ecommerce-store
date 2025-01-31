@@ -1,7 +1,7 @@
 import React from 'react';
 import '../../styles/pages-styles/footer-pages-styles/ShippingPolicyPage.css';
 
-function ShippingPage () {
+function ShippingPolicyPage () {
   return (
     <div className="shipping-container">
       <h1>Shipping Information</h1>
@@ -34,4 +34,4 @@ function ShippingPage () {
   );
 };
 
-export default ShippingPage;
+export default ShippingPolicyPage;

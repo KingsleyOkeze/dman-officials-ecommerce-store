@@ -2,7 +2,7 @@ import React from 'react';
 import '../../styles/pages-styles/footer-pages-styles/ReturnsPolicyPage.css';
 
 
-function ReturnsPage () {
+function ReturnsPolicyPage () {
   return (
     <div className="returns-container">
       <h1>Return Policy</h1>
@@ -35,4 +35,4 @@ function ReturnsPage () {
   );
 };
 
-export default ReturnsPage;
+export default ReturnsPolicyPage;

@@ -1,47 +1,74 @@
 import axios from 'axios';
-import { createContext, useEffect, useState } from 'react';
+import { createContext, useContext, useEffect, useState } from 'react';
+import { AuthContext } from './AuthContext';
+import { AlertContext } from './AlertContext';
 
 // Create the context
 export const SaveProductContext = createContext();
 
 // Create a provider component
 export const SaveProductProvider = ({ children }) => {
+    const { accessToken, customerId, refreshAccessToken } = useContext(AuthContext); 
+    const { customAlert, showAlert } = useContext(AlertContext);
     const [savedProducts, setSavedProducts] = useState([]);
+    const [paginationIndex, setPaginationIndex] = useState(0); // Track current page
+
+    const fetchSavedProduct = async () => {
+        try {
+            const response = await axios.get(
+                `/customer/fetch-saved-product?page=${paginationIndex}&limit=5`, 
+                {
+                params: {
+                    customerId: customerId
+                }
+            },
+            {
+                headers: {
+                  Authorization: `Bearer ${accessToken}`, // Add token to Authorization header
+                },
+            });
+
+            if (response.status === 200) {
+                setSavedProducts(response.data.savedProducts);
+                console.log('save product message', response.data.savedProducts)
+            }
+        } catch (err) {
+            console.log('err fetching save product', err);
+            if (err.response) {
+                const status = err.response.status;
+                const errMessage = err.response.data.error;
+
+                if (status === 400 || status === 403 || status === 404 || status === 500) {
+                    showAlert(status, errMessage)
+                } else if (status === 401) {
+                    refreshAccessToken(fetchSavedProduct);
+                }
+            } else {
+                showAlert("Error", "An Unknow Error Occured!")
+            }
+        }
+             
+    }
 
     useEffect(() => {
-        const fetchSavedProduct = async () => {
-            let data = localStorage.getItem("customerId");
-
-            // if (!data) return alert('No user found!');
-
-            try {
-                const response = await axios.post("/customer/fetch-saved-product", {
-                    customerId: data
-                });
-
-                if (response.status === 200) {
-                    setSavedProducts(response.data.savedProducts);
-                    console.log('save product message', response.data.savedProducts)
-                }
-            } catch (err) {
-                console.log('err fetching save product', err)
-            }
-            
-        }
         fetchSavedProduct();
     }, [])
 
     // Function to save a product
     const handleSaveProduct = async (productId) => {
-
-        let data = localStorage.getItem("customerId");
-
-        // if (!data) return alert('No user found!');
+        if (!accessToken && !customerId) {
+            showAlert("Error", "You need to login first!")
+        }
 
         try {
             const response = await axios.post("/customer/save-product", {
-                customerId: data,
+                customerId: customerId,
                 productId: productId,
+            },
+            {
+                headers: {
+                  Authorization: `Bearer ${accessToken}`, // Add token to Authorization header
+                },
             });
 
             if (response.status === 201) {
@@ -53,12 +80,14 @@ export const SaveProductProvider = ({ children }) => {
             if (err.response) {
                 const status = err.response.status;
                 const errMessage = err.response.data.error;
-                if (status) {
-                    alert("err cart", errMessage)
 
+                if (status === 400 || status === 403 || status === 404 || status === 500) {
+                    showAlert(status, errMessage)
+                } else if (status === 401) {
+                    refreshAccessToken(handleSaveProduct);
                 }
             } else {
-                alert("Unknow Error adding to cart!")
+                showAlert("Error", "An Unknow Error Occured!")
             }
             console.log("err ading to cart ", err)
         }
@@ -67,14 +96,19 @@ export const SaveProductProvider = ({ children }) => {
 
     // Function to remove an item from the cart
     const removeFromSavedProduct = async (itemId) => {
-        let data = localStorage.getItem("customerId");
-
-        // if (!data) return alert('No user found!');
+        if (!accessToken && !customerId) {
+            showAlert("Error", "You need to login first!")
+        }
 
         try {
             const response = await axios.post("/customer/remove-from-saved-product", {
-                customerId: data,
+                customerId: customerId,
                 itemId: itemId,
+            },
+            {
+                headers: {
+                  Authorization: `Bearer ${accessToken}`, // Add token to Authorization header
+                },
             });
 
             if (response.status === 200) {
@@ -86,22 +120,30 @@ export const SaveProductProvider = ({ children }) => {
             if (err.response) {
                 const status = err.response.status;
                 const errMessage = err.response.data.error;
-                if (status) {
-                    alert("err removing from saved product", errMessage)
 
+                if (status === 400 || status === 403 || status === 404 || status === 500) {
+                    showAlert("Error", errMessage)
+                } else if (status === 401) {
+                    refreshAccessToken(() => removeFromSavedProduct(itemId));
                 }
             } else {
-                alert("Unknow Error removing from saved product!")
+                showAlert("Error", "An Unknow Error Occured!")
             }
             console.log("err removing from saved product ", err)
         }
+      
 
-    };
+    }; 
 
    
 
     return (
-        <SaveProductContext.Provider value={{ savedProducts, handleSaveProduct, removeFromSavedProduct }}>
+        <SaveProductContext.Provider value={{ 
+            savedProducts,
+            setSavedProducts,
+            handleSaveProduct, 
+            removeFromSavedProduct 
+        }}>
             {children}
         </SaveProductContext.Provider>
     );

@@ -6,7 +6,7 @@ import logo from '../../images/dman-logo.png'
 import { SideDrawerContext } from '../../contexts/SideDrawerContext';
 
 
-const SignUpPage = () => {
+const SignUpPage = ({ setShowLogin }) => {
     const navigate = useNavigate();
     const { 
         showSideDrawer, 
@@ -26,11 +26,13 @@ const SignUpPage = () => {
     const [receiveUpdates, setReceiveUpdates] = useState(false);
     const [message, setMessage] = useState('');
     const [error, setError] = useState('');
+    const [loading, setLoading] = useState(false);
 
     const handleSignUp = async (e) => {
         e.preventDefault();
         setMessage('');
         setError('');
+        setLoading(true);
 
         if (password !== confirmPassword) {
             setError("Passwords do not match");
@@ -57,14 +59,17 @@ const SignUpPage = () => {
         } catch (err) {
             console.log("error signing up", err)
             setError(err.response?.data?.error || 'Sign-up failed.');
+        } finally {
+            setLoading(false);
         }
     };
 
     return (
         <div className="signup-page">
+        <div className="signup-page-sub-container">
             <div className="signup-page-head-container">
                 <img src={logo} width={24} height={24}
-                     onClick={() => navigate("/")}
+                    onClick={() => navigate("/")}
                 />
                 <h2>Register</h2>
                 <p className="signup-page-head-instruction">Create your account to access your order history.</p>
@@ -139,25 +144,40 @@ const SignUpPage = () => {
                     required
                 />
                 <div className="sign-up-bottom-instruction-container">
-                    <input 
-                    type="checkbox"
-                    className="sign-up-checkbox"
-                    onChange={() => setReceiveUpdates(!receiveUpdates)}
+                    <div className="sign-up-checkbox-container" >
+                        <input 
+                        type="checkbox"
+                        className="sign-up-checkbox"
+                        onChange={() => setReceiveUpdates(!receiveUpdates)}
                     /> 
+                    </div>
                     <p>
                         Register for emails to get updates on the latest 
                         new arrivals, Collection and events.
                     </p>
                 </div>
-                <button type="submit">Sign Up</button>
+                <button type="submit">
+                    {loading ? <span className="signup-page-spinner"></span> : 'Sign Up'}
+                </button>
             </form>
-            {message && <p className="message">{message}</p>}
-            {error && <p className="error">{error}</p>}
-            <p className="sign-up-sign-in-text">Already have an account? Sign In</p>
+            {message && <p className="signup-page-message">{message}</p>}
+            {error && <p className="signup-page-error">{error}</p>}
+            <p 
+                className="sign-up-sign-in-text"
+            >
+                Already have an account? 
+                <span onClick={() => {
+                    setShowLogin()
+                }}
+                >
+                    Sign In
+                </span>
+            </p>
             <p className="sign-up-agreement-text">
                 By creating an account, you agree to our 
                 <Link>Privacy Policy and Terms of Use</Link>
             </p>
+        </div>
         </div>
     );
 };

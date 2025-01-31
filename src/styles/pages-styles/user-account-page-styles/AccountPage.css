@@ -18,39 +18,38 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: flex-start;
-  min-height: 100vh;
+  justify-content: space-between;
+  height: 80vh;
+  margin-top: 20px;
 }
 
 .account-logo {
   width: 50px;
   height: 50px;
-  margin-top: 40px; /* Space at the top of the logo */
-  margin-bottom: 10px;
+  /* margin-top: 40px;
+  margin-bottom: 10px; */
 }
 
-.user-name {
-  font-size: 20px;
+.account-page-user-name {
+  font-size: 30px;
   font-weight: bold;
-  margin: 5px 0;
-  display: none
+  /* margin: 5px 0; */
 }
 
-.welcome-message {
+.account-page-welcome-message {
   font-size: 16px;
   color: #777;
   margin: 10px 0;
-  display: none
 }
 
 .account-list {
   width: 100%;
   text-align: left;
-  margin-top: 30px;
+  /* margin-top: 30px; */
 }
 
 .account-list p {
-  padding: 10px;
+  padding: 20px 10px;
   border-bottom: 1px solid #ddd;
   cursor: pointer;
   display: flex;
@@ -65,14 +64,16 @@
 .account-list p::after {
   content: "→"; /* Right arrow */
   font-size: 18px;
-  color: #007bff;
+  /* color: #007bff; */
+  color: #000000;
 }
 
 .logout-button {
   width: 160px;
   height: 40px;
   border-radius: 20px;
-  background: #007bff;
+  /* background: #007bff; */
+  background: #000000;
   color: white;
   cursor: pointer;
   margin-top: 40px;
@@ -93,6 +94,7 @@
     padding: 8px 16px;
     border: none;
     background: #007bff;
+    /* background: #000000; */
     color: white;
     border-radius: 5px;
     cursor: pointer;
@@ -109,13 +111,22 @@
 
   .account-page-menu-container {
     width: 226px;
-    height: 50vh;
+    max-height: 50vh;
     flex-shrink: 0;
     border-radius: 10px;
-    overflow: hidden;
+    overflow: hidden; 
+    margin-top: 0px;
   }
 
   .account-logo {
+    display: none
+  }
+
+  .account-page-user-name {
+    display: none
+  }
+  
+  .account-page-welcome-message {
     display: none
   }
 

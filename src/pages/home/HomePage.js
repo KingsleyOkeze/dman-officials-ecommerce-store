@@ -66,7 +66,7 @@ function HomePage () {
                         <img src={homeCategory1} />
                         <button 
                             onClick={() => {
-                                navigate("/category-page/mens-wear")
+                                navigate("/category-page/MensWear")
                             }}
                         >
                             Men Ware

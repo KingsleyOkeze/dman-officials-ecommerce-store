@@ -11,6 +11,7 @@ import { FaTimes } from "react-icons/fa";
 import { SideDrawerContext } from '../contexts/SideDrawerContext';
 import { useContext } from 'react';
 import { SearchContext } from '../contexts/SearchContext';
+import { AuthContext } from '../contexts/AuthContext';
 
 
 function Header () {
@@ -19,6 +20,7 @@ function Header () {
     const [windowWidth, setWindowWidth] = useState(window.innerWidth);
     const [showSearchIcon, setShowSearchIcon] = useState(true);
     const [showMenuIcon, setShowMenuIcon] = useState(true);
+    const { accessToken } = useContext(AuthContext);
     const { 
             showSideDrawer, 
             setShowSideDrawer, 
@@ -46,7 +48,7 @@ function Header () {
     }, []);
     
 
-    const isAuthenticated = localStorage.getItem('accessToken'); // Check if the access token exists
+    // const isAuthenticated = localStorage.getItem('accessToken'); // Check if the access token exists
 
     useEffect(() => {
         const handleResize = () => {
@@ -61,7 +63,6 @@ function Header () {
         };
     }, []);
 
- 
 
     return(
        <div className="header-container">
@@ -129,15 +130,19 @@ function Header () {
             }
             <div className="sm-header-account-container"
                 onClick={() => {
-                    if (isAuthenticated) {
+                    if (accessToken) {
+                        console.log('access token exist to go to account', accessToken);
+                        console.log("Current Path:", location.pathname);
                         if (location.pathname !== "/account") {
-                            navigate("account")
+                            console.log("Current Path:", location.pathname);
+                            navigate("/account")
                         }
                     } else {
                         toggleSideDrawer();
                         setActiveComponent('account');
                     }
-                }}>
+                }}
+            >
                 <AiOutlineUser className="sm-header-account"/> 
             </div>
             <div className="sm-header-cart-container"
@@ -179,17 +184,18 @@ function Header () {
                     </button>
                 </div>
                 <div className="lg-header-account-and-cart-container">
-                    <div className="lg-header-account" onClick={() => {
-                        if (isAuthenticated) {
-                            if (location.pathname !== "/account") {
-                                navigate("account")
-                            }
-                        } else {
-                            toggleSideDrawer();
-                            setActiveComponent('account');
-                        }
-                        
-                    }}>
+                    <div className="lg-header-account" 
+                        onClick={() => {
+                            if (accessToken) {
+                                if (location.pathname !== "/account") {
+                                navigate("/account")
+                                }
+                            } else {
+                                toggleSideDrawer();
+                                setActiveComponent('account');
+                            } 
+                        }}
+                    >
                         <AiOutlineUser />   
                         <p> Account</p>
                     </div>

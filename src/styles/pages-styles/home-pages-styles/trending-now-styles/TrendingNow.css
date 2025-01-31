@@ -71,6 +71,7 @@
 }
 
 .home-page-trending-now-card {
+    /* max-width: 155px; */
     min-height: 227px;
     border-radius: 6.33px;
     background: #F5F3F5;
@@ -115,13 +116,64 @@
     margin-left: 5px;
 }
 
-.home-page-trending-now-card-btn {
+/* .home-page-trending-now-card-btn {
     width: 82px;
     height: 23px;
     border-radius: 7.59px;
     margin-left: 10px;
     margin-bottom: 15px;
+} */
+
+.home-page-trending-now-card-btn {
+    position: relative;
+    width: 82px;
+    height: 23px;
+    border-radius: 7.59px;
+    margin-left: 10px;
+    margin-bottom: 15px;
+    background-color: black; /* Button background */
+    color: white; /* Text color */
+    border: none; /* No border initially */
+    overflow: hidden; /* Ensures the wave effect stays inside */
+    font-size: 12px; /* Adjust font size */
+    cursor: pointer;
+    transition: color 0.3s ease, background-color 0.3s ease, border 0.3s ease;
 }
+
+.home-page-trending-now-card-btn:hover {
+    color: black; /* Text changes to black */
+    background-color: #F5F3F5; /* Background changes to white */
+    border: 2px solid black; /* Border becomes visible when hovered */
+}
+
+/* Wave effect */
+.home-page-trending-now-card-btn::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%; /* Start outside the button */
+    width: 100%;
+    height: 100%;
+    background-color: white; /* Wave color */
+    z-index: 0; /* Behind text */
+    transition: transform 0.4s ease-in-out;
+    transform: skewX(-45deg) translateX(-200%);
+}
+
+.home-page-trending-now-card-btn:hover::before {
+    transform: skewX(-45deg) translateX(200%); /* Move the wave across */
+}
+
+.home-page-trending-now-card-btn span {
+    position: relative;
+    z-index: 1; /* Keeps text above the wave */
+}
+  
+  
+
+
+
+
 
 
 @media (min-width: 986px) {

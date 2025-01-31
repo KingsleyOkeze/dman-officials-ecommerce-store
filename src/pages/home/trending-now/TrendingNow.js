@@ -80,7 +80,9 @@ function TrendingNow () {
                             </div>
                     ))
                     ) : (
-                        <p className="home-page-trending-now-error">No trending products available at the moment.</p>
+                        <p className="home-page-trending-now-error">
+                            No trending products available at the moment.
+                        </p>
                     )
                 }
             </div>

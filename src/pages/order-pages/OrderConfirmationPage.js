@@ -9,10 +9,17 @@ import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import PaystackPop from '@paystack/inline-js'
 import { CouponContext } from "../../contexts/CouponContext";
+import PrivacyPolicyPage from "../../pages/footer-pages/PrivacyPolicyPage"
+import TermsOfUsePage from "../../pages/footer-pages/TermsOfUsePage";
+import ShippingPolicyPage  from "../../pages/footer-pages/ShippingPolicyPage";
+import ReturnsPolicyPage from "../../pages/footer-pages/ReturnsPolicyPage"
+import { AuthContext } from "../../contexts/AuthContext";
+import { AlertContext } from "../../contexts/AlertContext";
 
 
 function OrderConfirmationPage () {
     const navigate = useNavigate();
+    const { accessToken, customerId } = useContext(AuthContext);
     const [itemsOrdered, setItemsOrdered] = useState([
         {
             image: cardImage1,
@@ -53,16 +60,19 @@ function OrderConfirmationPage () {
         isValidCoupon, 
         removeCoupon 
     } = useContext(CouponContext);
-    
-    const [country, setCountry] = useState('Nigeria')
-    const [firstName, setFirstName] = useState('')
-    const [lastName, setLastName] = useState('')
-    const [company, setCompany] = useState('')
-    const [address, setAddress] = useState('')
-    const [city, setCity] = useState('')
-    const [state, setState] = useState('')
-    const [postalCode, setPostalCode] = useState('')
-    const [phoneNumber, setPhoneNumber] = useState()
+    const {refreshAccessToken} = useContext(AuthContext);
+    const {showAlert} = useContext(AlertContext);
+    const [showModal, setShowModal] = useState(false);
+    const [pageToShowOnModal, setPageToShowOnModal] = useState("");
+    const [country, setCountry] = useState('Nigeria');
+    const [firstName, setFirstName] = useState('');
+    const [lastName, setLastName] = useState('');
+    const [company, setCompany] = useState('');
+    const [address, setAddress] = useState('');
+    const [city, setCity] = useState('');
+    const [state, setState] = useState('');
+    const [postalCode, setPostalCode] = useState('');
+    const [phoneNumber, setPhoneNumber] = useState();
     
     const [totalPrice, setTotalPrice] = useState(0); 
     const [shippingPrice, setShippingPrice] = useState(1000)
@@ -71,13 +81,14 @@ function OrderConfirmationPage () {
     const finalTotalPrice = Math.max(totalPrice - discountAmount + shippingPrice, 0); // Prevent negative total
 
     const fetchCartTotalPrice = async () => {
-        let data = localStorage.getItem("customerId");
-
-        // if (!data) return alert('No user found!');
-
         try {
-            const response = await axios.post("/customer/fetch-cart-total-price", {
-                customerId: data
+            const response = await axios.get("/customer/fetch-cart-total-price", {
+                params: {
+                    customerId: customerId
+                },
+                headers: {
+                  Authorization: `Bearer ${accessToken}`, // Add token to Authorization header
+                },
             })
 
             if (response.status === 200) {
@@ -85,14 +96,26 @@ function OrderConfirmationPage () {
                 console.log('cart total price message', response.data);
             }
         } catch (err) {
-            console.log('err fetching cart', err)
+            console.log('err fetching cart', err);
+            if (err.response) {
+                const status = err.response.status;
+                const errMessage = err.response.data.error;
+
+                if (status === 400 || status === 403 || status === 404 || status === 500) {
+                    showAlert(status, errMessage)
+                } else if (status === 401) {
+                    refreshAccessToken(fetchCartTotalPrice);
+                }
+            } else {
+                showAlert("Error", "An Unknow Error Occured!")
+            }
         }
         
     };
 
     useEffect(() => {
         fetchCartTotalPrice();
-    }, []);
+    }, [accessToken, customerId]);
 
     
     const handleApplyCoupon = () => {
@@ -100,13 +123,9 @@ function OrderConfirmationPage () {
     };
 
     const handlePlaceOrder = async () => {
-        let data = localStorage.getItem("customerId");
-
-        // if (!data) return alert('No user found!');
-
         try {
             const response = await axios.post("/customer/place-order", {
-                customerId: data,
+                customerId: customerId,
                 country,
                 firstName,
                 lastName,
@@ -117,6 +136,11 @@ function OrderConfirmationPage () {
                 postalCode,
                 phoneNumber,
                 appliedCouponCode: couponCode, // Pass the applied coupon code
+            },
+            {
+                headers: {
+                  Authorization: `Bearer ${accessToken}`, // Add token to Authorization header
+                },
             })
 
             if (response.status === 201) {
@@ -129,7 +153,19 @@ function OrderConfirmationPage () {
                 );
             }
         } catch (err) {
-            console.log('err placing order', err)
+            console.log('err placing order', err);
+            if (err.response) {
+                const status = err.response.status;
+                const errMessage = err.response.data.error;
+
+                if (status === 400 || status === 403 || status === 404 || status === 500) {
+                    showAlert(status, errMessage)
+                } else if (status === 401) {
+                    refreshAccessToken(handlePlaceOrder);
+                }
+            } else {
+                showAlert("Error", "An Unknow Error Occured!")
+            }
         }
     }
 
@@ -340,13 +376,68 @@ function OrderConfirmationPage () {
                     </div>
 
                     <ul className="order-policy-list">
-                        <li>Refund policy</li>
-                        <li>Shipping Policy</li>
-                        <li>Privacy policy</li>
-                        <li>Terms of Use</li>
+                        <li
+                            onClick={() => {
+                                setShowModal(true)
+                                setPageToShowOnModal("return-policy-page")
+                            }}
+                        >
+                            Refund policy
+                        </li>
+                        <li
+                            onClick={() => {
+                                setShowModal(true)
+                                setPageToShowOnModal("shipping-policy-page")
+                            }}
+                        >
+                            Shipping Policy
+                        </li>
+                        <li
+                            onClick={() => {
+                                setShowModal(true)
+                                setPageToShowOnModal("privacy-policy-page")
+                            }}
+                        >
+                            Privacy policy
+                        </li>
+                        <li
+                            onClick={() => {
+                                setShowModal(true)
+                                setPageToShowOnModal("terms-of-use-policy-page")
+                            }}
+                        >
+                            Terms of Use
+                        </li>
                     </ul>
 
             </div>
+
+            {/* Modal for show modal */}
+            {showModal && (
+            <div className="modal-backdrop">
+                <div className="modal-content">
+                    <button
+                        className="close-modal-button"
+                        onClick={() => setShowModal(false)}
+                    >
+                        &times; {/* "Times" icon for close */}
+                    </button>
+                    {
+                        pageToShowOnModal === "return-policy-page" ?
+                            <ReturnsPolicyPage />
+                        : pageToShowOnModal === "shipping-policy-page" ?
+                            <ShippingPolicyPage />
+                        : pageToShowOnModal === "privacy-policy-page" ?
+                            <PrivacyPolicyPage />
+                        : pageToShowOnModal === "terms-of-use-policy-page" ? 
+                            <TermsOfUsePage />
+                        : 
+                        ""
+                    }
+                </div>
+            </div>
+            )}
+
 
 
         </div>

@@ -15,20 +15,26 @@
 .home-page-hero-section-block-content-container {
     display: flex;
     flex-direction: column;
-    justify-content: space-between;
+    justify-content: center;
     width: 80%;
     position: absolute;
-    top: 15vh; 
+    top: 9.5vh; 
     left: 5%;
-    height: 55vh; 
-    z-index: 10;
+    min-height: 55vh; 
+    z-index: 10; 
     /* background-color: purple; */
+    gap: 2.5rem; /* Space between items */
+    box-sizing: border-box; /* Include padding in height/width calculations */
+
+
+
+
 }
 
 .home-page-hero-section-block-content-header-container {
     font-size: 900;
     font-size: 32px;
-    line-height: 42px;
+    line-height: 40px;
     font-size: 32px;
     /* background: pink; */
     width: 100%;
@@ -45,7 +51,7 @@
 }
 
 
-.home-page-hero-section-block-content-btn {
+/* .home-page-hero-section-block-content-btn {
     width: 100px;
     height: 36px;
     border-radius: 12px;
@@ -55,14 +61,67 @@
     font-weight: 500;
     font-size: 12px;
     line-height: 21px;
-}
+} */
 
-
+/* 
 .home-page-hero-section-block-content-btn:hover {
     background: #000000;
     color: #FFFFFF;
     cursor: pointer;
+} */
+
+.home-page-hero-section-block-content-btn {
+    width: 100px;
+    height: 36px;
+    border-radius: 12px;
+    border: none;
+    color: #000000; /* Text color */
+    background: #FFFFFF; /* Button background */
+    font-weight: 500;
+    font-size: 12px;
+    line-height: 21px;
+    cursor: pointer;
+    transition: color 0.3s ease, background-color 0.3s ease, border 0.3s ease;
+    position: relative; /* For positioning the wave effect */
+    overflow: hidden; /* Keeps the wave inside the button */
 }
+
+/* On hover, change the background, text color, and add the border */
+.home-page-hero-section-block-content-btn:hover {
+    color: white; /* Text color changes to white */
+    background-color: #000000; /* Background changes to black */
+    border: 2px solid white; /* Border becomes visible on hover */
+}
+
+/* Wave effect */
+.home-page-hero-section-block-content-btn::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%; /* Start outside the button */
+    width: 100%;
+    height: 100%;
+    background-color: white; /* Wave color */
+    z-index: 0; /* Behind text */
+    transition: transform 0.4s ease-in-out;
+    transform: skewX(-45deg) translateX(-200%);
+}
+
+.home-page-hero-section-block-content-btn:hover::before {
+    transform: skewX(-45deg) translateX(200%); /* Move the wave across */
+}
+
+.home-page-hero-section-block-content-btn span {
+    position: relative;
+    z-index: 1; /* Keeps text above the wave */
+}
+
+
+
+
+
+
+
 
 
 
@@ -163,13 +222,6 @@
 }
 
 
-
-
-
-
-
-
-
 .home-page-call-to-action-showcase-area-container {
     background: #000000;
     height: 300px;
@@ -241,7 +293,7 @@
     margin-top: 0;
 }
 
-.home-page-call-to-action-showcase-btn {
+/* .home-page-call-to-action-showcase-btn {
     width: 100px;
     height: 36px;
     border-radius: 12px;
@@ -252,7 +304,70 @@
     font-size: 14px;
     font-weight: 500;
     color: #000000;
-}
+} */
+
+
+.home-page-call-to-action-showcase-btn {
+    position: relative;
+    width: 100px;
+    height: 36px;
+    border-radius: 12px;
+    border: 2px solid transparent; /* Initial border is transparent */
+    font-weight: 500;
+    font-size: 14px;
+    line-height: 21px;
+    color: #000000; /* Text color */
+    background-color: white; /* Button background */
+    cursor: pointer;
+    overflow: hidden; /* Ensures wave stays inside */
+    transition: color 0.3s ease, background-color 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease;
+  }
+  
+  /* Hover effect */
+  .home-page-call-to-action-showcase-btn:hover {
+    color: white; /* Text changes to white */
+    background-color: black; /* Background changes to black */
+    border-color: white; /* Border becomes visible and white */
+  }
+  
+  /* Focus effect (when user clicks or tabs into button) */
+  .home-page-call-to-action-showcase-btn:focus {
+    outline: none; /* Remove default focus outline */
+    box-shadow: 0 0 0 3px rgba(0, 0, 0, 0.3); /* Add custom focus border */
+    border-color: white; /* Ensure border is white on focus as well */
+  }
+  
+  /* Active effect (when the user clicks the button) */
+  .home-page-call-to-action-showcase-btn:active {
+    transform: scale(0.98); /* Slightly shrink the button when clicked */
+    background-color: #333; /* Darker background on click */
+    color: white; /* Ensure text remains visible on dark background */
+    border-color: white; /* Keep border visible */
+  }
+  
+  /* Wave effect */
+  .home-page-call-to-action-showcase-btn::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%; /* Start outside the button */
+    width: 100%;
+    height: 100%;
+    background-color: black; /* Wave color */
+    z-index: 0; /* Behind text */
+    transition: transform 0.4s ease-in-out;
+    transform: skewX(-45deg) translateX(-200%);
+  }
+  
+  .home-page-call-to-action-showcase-btn:hover::before {
+    transform: skewX(-45deg) translateX(200%); /* Move the wave across */
+  }
+  
+  .home-page-call-to-action-showcase-btn span {
+    position: relative;
+    z-index: 1; /* Keeps text above the wave */
+  }
+  
 
 
 .home-page-call-to-action-showcase-img {
@@ -264,11 +379,6 @@
     right: 0px;
     bottom: 0px;
 }
-
-
-
-
-
 
 
 
@@ -416,21 +526,15 @@
 
     .home-page-hero-section-block-content-container {
         width: 50%;
-        background-color: red;
-        top: 8vh; 
-        height: 80vh;
     }
-
-
 
     .home-page-hero-section-block-content-header-container {
         width: 100%;
-        background-color: aqua;
-        font-size: 60px;
-        line-height: 76.8px;
+        /* background-color: aqua; */
+        font-size: 50px;
+        line-height: 62px;
         font-weight: 900;
     }
-    
     
     
     .home-page-hero-section-block-content-container p {
@@ -445,17 +549,8 @@
         width: 120px;
         height: 42px;
         border-radius: 12px;
-        background-color: greenyellow;
     }
     
-    
-
-
-
-
-
-
-
 
 
     .home-page-hero-section-img {
@@ -474,7 +569,6 @@
     }
 
     .home-page-call-to-action-showcase-area-block-content-container {
-        background-color: red;
         height: 350px;
         width: 40%;
     }
@@ -489,7 +583,6 @@
         font-size: 48px;
         font-weight: 700;
         line-height: 58.09px;
-        background-color: green;
     }
 
     .home-page-call-to-action-showcase-time-block {
@@ -518,6 +611,9 @@
         font-size: 16px;
         line-height: 24px;
     }
+
+
+
     .home-page-call-to-action-showcase-img {
         width: auto; /* Allow width to adjust based on content */
         height: 100%; /* Fill the height of the container */
@@ -525,11 +621,6 @@
         object-fit: cover; /* Fill while maintaining aspect ratio */
         right: 15%;
     }
-
-    
-    
-    
-    
 
 
 

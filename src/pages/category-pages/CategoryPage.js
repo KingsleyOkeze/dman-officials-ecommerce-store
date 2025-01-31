@@ -8,11 +8,13 @@ import { IoIosArrowForward } from "react-icons/io";
 import { SaveProductContext } from '../../contexts/SaveProductContext';
 import axios from 'axios';
 import { SearchContext } from '../../contexts/SearchContext';
+import { AlertContext } from '../../contexts/AlertContext';
 
 function CategoryPage () {
     const { category } = useParams();
     const navigate = useNavigate();
     const [width, setWidth] = useState(window.innerWidth);
+    const { customAlert, showAlert } = useContext(AlertContext);
     const { savedProducts, handleSaveProduct, removeFromSavedProduct } = useContext(SaveProductContext);
     const { searchInput, setSearchInput, searchResult } = useContext(SearchContext);
     const [items, setItems] = useState([]);
@@ -26,6 +28,7 @@ function CategoryPage () {
 
 
     const handlePreviousFunction = async () => {
+        try {
         if (paginationIndex > 0) { 
             const newPaginationIndex = paginationIndex - 1;
             setPaginationIndex(newPaginationIndex);
@@ -46,9 +49,28 @@ function CategoryPage () {
                 
             }
         }
+        } catch (err) {
+            if (err.response) {
+                const status = err.response.status;
+                const errMessage = err.response.data.error;
+
+                if (
+                    status === 400 || 
+                    status === 401 || 
+                    status === 403 || 
+                    status === 404 || 
+                    status === 500
+                ) {
+                    showAlert("error", errMessage)
+                } 
+            } else {
+                showAlert("Error", "An Unknow Error Occured!")
+            }
+        }
     };
 
     const handleNextFunction = async () => {
+        try {
         if (paginationIndex < totalPages - 1) {
             const newPaginationIndex = paginationIndex + 1;
             setPaginationIndex(newPaginationIndex);
@@ -66,6 +88,24 @@ function CategoryPage () {
             if (response.status === 200) {
                 console.log("fetched data", response.data.result)
                 setItems(response.data.result);
+            }
+        }
+        } catch (err) {
+            if (err.response) {
+                const status = err.response.status;
+                const errMessage = err.response.data.error;
+
+                if (
+                    status === 400 || 
+                    status === 403 || 
+                    status === 404 || 
+                    status === 500 || 
+                    status === 401
+                ) {
+                    showAlert("error", errMessage)
+                } 
+            } else {
+                showAlert("Error", "An Unknow Error Occured!")
             }
         }
         
@@ -89,12 +129,27 @@ function CategoryPage () {
 
             if (response.status === 200) {
                 console.log('category fetched is', response.data)
-                // setItems(response.data.result);
+                setItems(response.data.result);
                 setTotalPages(response.data.totalPages)
                 // alert(response.data.totalPages)
             }
         } catch (err) {
             console.log('Error fetching products', err);
+            if (err.response) {
+                const status = err.response.status;
+                const errMessage = err.response.data.error;
+
+                if (
+                    status === 400 || 
+                    status === 403 || 
+                    status === 404 || 
+                    status === 500
+                ) {
+                    showAlert("Error", errMessage)
+                } 
+            } else {
+                showAlert("Error", "An Unknow Error Occured!")
+            }
         } finally {
             setLoading(false); // End loading
         }

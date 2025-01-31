@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 // import "../../styles/pages-styles/category-pages-styles/SalePage.css"
 import "../../styles/pages-styles/category-pages-styles/SalePage.css"
 import cardImage1 from "../../images/cardImage1.png";
@@ -9,206 +9,30 @@ import cardImage5 from "../../images/cardImage5.png";
 import { Link, useNavigate } from "react-router-dom";
 import { IoIosArrowBack } from "react-icons/io";
 import { IoIosArrowForward } from "react-icons/io";
+import axios from "axios";
 
 function SalePage () {
     const navigate = useNavigate();
-    const [sales, setSales] = useState([{
-        image: cardImage1,
-        category: 'men wears',
-        name: 'jean',
-        offerPrice: '4000',
-        price: '5000',
-        id: 1
-    },
-    {
-        image: cardImage2,
-        category: 'men wears',
-        name: 'jean',
-        offerPrice: '4000',
-        price: '5000',
-        id: 2
-    },
-    {
-        image: cardImage3,
-        category: 'men wears',
-        name: 'jean',
-        offerPrice: '4000',
-        price: '5000',
-        id: 3
-    },
-    {
-        image: cardImage4,
-        category: 'men wears',
-        name: 'jean',
-        offerPrice: '4000',
-        price: '5000',
-        id: 4
-    },
-    {
-        image: cardImage5,
-        category: 'men wears',
-        name: 'jean',
-        offerPrice: '4000',
-        price: '5000',
+    const [sales, setSales] = useState([]);
 
-    },
-    {
-        image: cardImage1,
-        category: 'men wears',
-        name: 'jean',
-        offerPrice: '4000',
-        price: '5000',
-        id: 1
-    },
-    {
-        image: cardImage2,
-        category: 'men wears',
-        name: 'jean',
-        offerPrice: '4000',
-        price: '5000',
-        id: 2
-    },
-    {
-        image: cardImage3,
-        category: 'men wears',
-        name: 'jean',
-        offerPrice: '4000',
-        price: '5000',
-        id: 3
-    },
-    {
-        image: cardImage4,
-        category: 'men wears',
-        name: 'jean',
-        offerPrice: '4000',
-        price: '5000',
-        id: 4
-    },
-    {
-        image: cardImage5,
-        category: 'men wears',
-        name: 'jean',
-        offerPrice: '4000',
-        price: '5000',
-    },
-    {
-        image: cardImage1,
-        category: 'men wears',
-        name: 'jean',
-        offerPrice: '4000',
-        price: '5000',
-        id: 1
-    },
-    {
-        image: cardImage2,
-        category: 'men wears',
-        name: 'jean',
-        offerPrice: '4000',
-        price: '5000',
-        id: 2
-    },
-    {
-        image: cardImage3,
-        category: 'men wears',
-        name: 'jean',
-        offerPrice: '4000',
-        price: '5000',
-        id: 3
-    },
-    {
-        image: cardImage4,
-        category: 'men wears',
-        name: 'jean',
-        offerPrice: '4000',
-        price: '5000',
-        id: 4
-    },
-    {
-        image: cardImage5,
-        category: 'men wears',
-        name: 'jean',
-        offerPrice: '4000',
-        price: '5000',
-    },
-    {
-        image: cardImage1,
-        category: 'men wears',
-        name: 'jean',
-        offerPrice: '4000',
-        price: '5000',
-        id: 1
-    },
-    {
-        image: cardImage2,
-        category: 'men wears',
-        name: 'jean',
-        offerPrice: '4000',
-        price: '5000',
-        id: 2
-    },
-    {
-        image: cardImage3,
-        category: 'men wears',
-        name: 'jean',
-        offerPrice: '4000',
-        price: '5000',
-        id: 3
-    },
-    {
-        image: cardImage4,
-        category: 'men wears',
-        name: 'jean',
-        offerPrice: '4000',
-        price: '5000',
-        id: 4
-    },
-    {
-        image: cardImage5,
-        category: 'men wears',
-        name: 'jean',
-        offerPrice: '4000',
-        price: '5000',
-    },
-    {
-        image: cardImage1,
-        category: 'men wears',
-        name: 'jean',
-        offerPrice: '4000',
-        price: '5000',
-        id: 1
-    },
-    {
-        image: cardImage2,
-        category: 'men wears',
-        name: 'jean',
-        offerPrice: '4000',
-        price: '5000',
-        id: 2
-    },
-    {
-        image: cardImage3,
-        category: 'men wears',
-        name: 'jean',
-        offerPrice: '4000',
-        price: '5000',
-        id: 3
-    },
-    {
-        image: cardImage4,
-        category: 'men wears',
-        name: 'jean',
-        offerPrice: '4000',
-        price: '5000',
-        id: 4
-    },
-    {
-        image: cardImage5,
-        category: 'men wears',
-        name: 'jean',
-        offerPrice: '4000',
-        price: '5000',
-    }
-    ]);
+    useEffect(() => {
+        const fetchSaleProducts = async () => {
+            try {
+                const response = await axios.get('/customer/flash-sale-products?page=0&limit=6'); 
+
+                if (response.status === 200) {
+                    setSales(response.data.result);
+                }
+            } catch (error) {
+                
+            } finally {
+                // setLoading(false);
+            }
+        };
+
+        fetchSaleProducts();
+    }, []);
+    
 
     return(
         <div className="sale-page-container">
@@ -222,13 +46,16 @@ function SalePage () {
             <h2 className="sale-page-body-header"><span>Sale:</span>All</h2>
             <div className="sale-page-body-items-container">
                 {
-                    sales.map((sale) => (
-                        <div key={sale.id} className="sale-page-card" onClick={() => navigate("/category-page")}>
-                            <img src={sale.image} className="sale-page-card-img" />
-                            <p className="sale-page-card-description">{sale.category} - {sale.name}</p>
+                    sales.map((sale, id) => (
+                        <div key={sale._id} 
+                            className="sale-page-card" 
+                            onClick={() => navigate(`/product-page/${sale._id}`)}
+                        >
+                            <img src={sale.productImageUrl} className="sale-page-card-img" />
+                            <p className="sale-page-card-description">{sale.productCategory} - {sale.productName}</p>
                             <div className="sale-page-card-price-container">
-                                <p className="sale-page-card-offer-price"><b>₦</b> {sale.offerPrice}</p>
-                                <p className="sale-page-card-price"><b>₦</b> {sale.price}</p>
+                                <p className="sale-page-card-offer-price"><b>₦</b> {sale.productOfferPrice}</p>
+                                <p className="sale-page-card-price"><b>₦</b> {sale.productPrice}</p>
                             </div>
                         </div>
                     ))

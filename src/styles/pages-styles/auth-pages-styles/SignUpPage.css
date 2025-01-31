@@ -7,10 +7,46 @@
     min-height: 100vh;
     background-color: #000000;
     color: #FFFFFF;
-    padding: 20px;
     font-family: Arial, sans-serif;
-    overflow-y: scroll;
+    margin: 0;
+    padding: 0;
+    width: 100%;
 }
+
+
+.signup-page-sub-container {
+    display: flex; 
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-start; /* Align items at the top for better scrolling*/
+    margin-top: 5px;
+    height: calc(100vh - 20px); /* Dynamic height based on viewport*/
+    max-height: 100vh; /* Optional: Constrain height*/
+    width: 100%;
+    overflow-y: auto; /* Enable vertical scrolling */
+    padding-top: 10px; /* Adjust padding to ensure content fits within the scrollable area */
+    box-sizing: border-box; /* Ensure padding doesn't affect dimensions */
+    scroll-behavior: smooth; /* Optional: Smooth scrolling */
+
+}
+
+
+
+/* Hide the scrollbar */
+.signup-page-sub-container::-webkit-scrollbar {
+    width: 0px; /* Hides the scrollbar */
+    background: black; /* Keeps the background black */
+}
+
+.signup-page-sub-container::-webkit-scrollbar-track {
+    background-color: black; /* Matches the plain black background */
+}
+
+.signup-page-sub-container::-webkit-scrollbar-thumb {
+    background-color: transparent; /* Makes the scrollbar thumb invisible */
+}
+
+
 
 .signup-page-head-container {
     margin: auto;
@@ -83,23 +119,30 @@
 
 .sign-up-bottom-instruction-container {
     display: flex;
-    /* justify-content: flex-start; */
-    background-color: #f44336;
+    justify-content: space-between;
     align-items: center;
+    gap: 8px;
+    padding: 10px; 
+    border-radius: 8px;
+}
+
+.sign-up-checkbox-container {
+    flex-basis: 10%;
 }
 
 .sign-up-checkbox {
     width: 20px;
     height: 20px;
-    margin: 0;
-    /* background-color: yellow; */
+    margin: 0; 
 }
-
 
 .sign-up-bottom-instruction-container p {
-    background-color: plum;
-    flex-grow: 1;
+    margin: 0; /* Remove default margin */
+    flex-grow: 1; /* Allow the text to grow and fill space if necessary */
+    color: white; /* Optional: Change text color for better visibility */
+    line-height: 19px;
 }
+
 
 /* Button Styling */
 .signup-page button {
@@ -120,8 +163,25 @@
     background-color: #45a049;
 }
 
+
+
+/* Spinner Animation */
+.signup-page-spinner {
+    width: 16px; /* Adjust size */
+    height: 16px;
+    border: 2px solid #fff; /* Adjust border width */
+    border-top: 2px solid #3498db;
+    border-radius: 50%;
+    animation: spin 0.8s linear infinite;
+}
+
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+
 /* Message Styling */
-.message, .error {
+.signup-page-message, .signup-page-error {
     font-size: 1rem;
     margin-top: 15px;
     text-align: center;
@@ -129,12 +189,12 @@
     border-radius: 4px;
 }
 
-.message {
+.signup-page-message {
     color: #4CAF50;
     background-color: #e7f9ed;
 }
 
-.error {
+.signup-page-error {
     color: #f44336;
     background-color: #fdecea;
 }
@@ -147,18 +207,5 @@
     text-align: center;
 }
 
-/* Responsive Adjustments */
-@media (max-width: 480px) {
-    .signup-page form {
-        padding: 15px;
-    }
 
-    .signup-page h1 {
-        font-size: 1.5rem;
-    }
 
-    .signup-page button {
-        padding: 10px;
-        font-size: 0.9rem;
-    }
-}

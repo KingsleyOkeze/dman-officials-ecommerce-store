@@ -2,39 +2,62 @@ import "../../styles/pages-styles/user-account-page-styles/PurchaseDetailsPage.c
 import { IoArrowBackOutline } from "react-icons/io5";
 import cardImage1 from "../../images/cardImage1.png"
 import { useNavigate, useParams } from "react-router-dom";
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import axios from "axios";
+import { AuthContext } from "../../contexts/AuthContext";
+import { AlertContext } from "../../contexts/AlertContext";
+import Alert from "../../components/Alert";
 
 function PurchaseDetailsPage () {
     const { orderId } = useParams();
     const navigate = useNavigate();
+    const { accessToken, customerId, refreshAccessToken } = useContext(AuthContext);
+     const { customAlert, showAlert } = useContext(AlertContext);
     const [purchasedOrderDetails, setPurchasedOrderDetails] = useState([]);
 
-    useEffect(() => {
-        const handleFetchPurchasedOrderDetails = async () => {
-            let data = localStorage.getItem("customerId");
+    
+    const handleFetchPurchasedOrderDetails = async () => {
+        try {
+            const response = await axios.get(
+                `/customer/fetch-purchased-order-details/${orderId}`, 
+            {
+                params: {
+                        customerId: customerId
+                },
+                headers: {
+                    Authorization: `Bearer ${accessToken}`, // Add token to Authorization header
+                },
+            })
+    
+            if (response.status === 200) {
+                setPurchasedOrderDetails(response.data.order);
+                console.log('purchase order details message', response.data.order);
+            }
+        } catch (err) {
+            console.log('err OrderDetails', err);
+            if (err.response) {
+                const status = err.response.status;
+                const errMessage = err.response.data.error;
 
-            // if (!data) return alert('No user found!');
-    
-            try {
-                const response = await axios.post(`/customer/fetch-purchased-order-details/${orderId}`, {
-                    customerId: data
-                })
-    
-                if (response.status === 200) {
-                    setPurchasedOrderDetails(response.data.order);
-                    console.log('purchase order details message', response.data.order);
+                if (status === 400 || status === 403 || status === 404 || status === 500) {
+                    showAlert(status, errMessage)
+                } else if (status === 401) {
+                    refreshAccessToken(handleFetchPurchasedOrderDetails);
                 }
-            } catch (err) {
-                console.log('err OrderDetails', err)
+            } else {
+                showAlert("Error", "An Unknow Error Occured!")
             }
         }
+    }
 
+    useEffect(() => {
         handleFetchPurchasedOrderDetails();
-    }, []);
+    }, [accessToken, customerId, orderId]);
+
 
     return(
         <div className="purchase-details-container">
+            {customAlert.type ? (<Alert /> ) : ""}
             {purchasedOrderDetails && (
             <>
             <div className="purchase-details-header-container">
