@@ -60,11 +60,13 @@ function TrendingNow () {
                 {trendingNow && trendingNow.length > 0 ? (
                     trendingNow.map((trendingNowItem, index) => (
                         <div key={index} className="home-page-trending-now-card">
-                            <img
-                               src={trendingNowItem.productImageUrl[0]}
-                               className="home-page-trending-now-card-img"
-                               alt={trendingNowItem.productName}
-                            />
+                            <div className="home-page-trending-now-card-image-container">
+                                <img
+                                    src={trendingNowItem.productImageUrl[0]} 
+                                    className="home-page-trending-now-card-img"
+                                    alt={trendingNowItem.productName}
+                                />
+                            </div>
                             <p className="home-page-trending-now-card-description">
                               {trendingNowItem.productName} - {trendingNowItem.color}
                             </p>

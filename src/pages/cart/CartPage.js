@@ -85,10 +85,10 @@ function CartPage () {
                         cartItems.map((cartItem, index) => ( 
                             <div key={index} className="cart-page-card">
                                     <div className="cart-item-image-container">
-                                    <img 
-                                        src={cartItem.productRef.productImageUrl[0]}
-                                        className="cart-item-image"
-                                    />
+                                        <img 
+                                            src={cartItem.productRef.productImageUrl[0]}
+                                            className="cart-item-image"
+                                        />
                                     </div>
                                     <div className="cart-item-description-container">
                                         <p className="cart-item-name">{cartItem.productRef.productName} - {cartItem.color} </p>

@@ -72,7 +72,6 @@
   width: 160px;
   height: 40px;
   border-radius: 20px;
-  /* background: #007bff; */
   background: #000000;
   color: white;
   cursor: pointer;
@@ -82,7 +81,10 @@
 }
 
 .logout-button:hover {
-  background: #0056b3;
+  background: #A9A9A9;
+  /* background: red; */
+  /* color: #000000; */
+  color: #ffffff;
 }
 
 /* Mobile-specific styling */

@@ -39,6 +39,8 @@ import OrderTrackingPage from './pages/user-account/OrderTrackingPage';
 import OrderReviewPage from './pages/order-pages/OrderReviewPage';
 import AllOrdersPage from './pages/user-account/AllOrdersPage';
 import { AuthProvider } from './contexts/AuthContext';
+import { AlertProvider } from './contexts/AlertContext';
+
 
 function App() { 
  
@@ -47,12 +49,13 @@ function App() {
   return (
     <Router>
       <AuthProvider>
+      <AlertProvider>
       <Routes>
           <Route path="/" element={<Dashboard />}>
             <Route index element={<HomePage />}/>
             <Route path="home-page" element={<HomePage />} />
             <Route path="product-page/:productId" element={<ProductPage />} /> 
-            <Route path="category-page/:category" element={<CategoryPage />} />
+            <Route path="/category-page/:category/:subCategory?" element={<CategoryPage />} />
             <Route path="sale-page" element={<SalePage />} /> 
             <Route path="user-details-page" element={<UserDetails />} /> 
             <Route path="order-confirmation-page" element={<OrderConfirmationPage />} />
@@ -96,6 +99,7 @@ function App() {
           {/* Fallback Route for Unknown Paths */}
           <Route path="*" element={<NotFoundPage />} /> {/* This will catch all unknown routes and show the NotFoundPage */}
       </Routes>
+      </AlertProvider>
       </AuthProvider>
     </Router>
   );

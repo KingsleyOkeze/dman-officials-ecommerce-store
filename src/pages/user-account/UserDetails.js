@@ -197,7 +197,7 @@ function UserDetails () {
                                 }
                             </div>
                         </div>
-                        <div className="user-details-profile-label-and-input-div">
+                        {/* <div className="user-details-profile-label-and-input-div">
                             <label>Email</label>
                             <div>
                                 {
@@ -213,7 +213,7 @@ function UserDetails () {
                                 }
                             </div>
                             
-                        </div>
+                        </div> */}
                         <div className="user-details-profile-label-and-input-div">
                             <label>Gender</label>
                             <div>

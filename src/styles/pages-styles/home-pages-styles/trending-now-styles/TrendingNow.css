@@ -13,7 +13,6 @@
 }
 
 
-
 .home-page-trending-now-header-title-and-icon-container {
     display: flex;
     align-items: center;
@@ -59,10 +58,11 @@
 
 
 .home-page-trending-now-card-container {
-    background: #FFFFFF;
+    /* background: #FFFFFF; */
+    background: gold;
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(155px, 1fr));
-    justify-content: center;
+    grid-template-columns: repeat(2, 1fr);
+    justify-content: space-between;
     gap: 15px;
     margin-left: 15px;
     margin-right: 15px;
@@ -71,8 +71,7 @@
 }
 
 .home-page-trending-now-card {
-    /* max-width: 155px; */
-    min-height: 227px;
+    min-height: 300px;
     border-radius: 6.33px;
     background: #F5F3F5;
     display: flex;
@@ -80,9 +79,20 @@
     justify-content: space-between;
 }
 
+.home-page-trending-now-card-image-container {
+    max-width: 100%;
+    height: 240px;
+    background: tomato;
+    border-top-right-radius: 10px;
+    border-top-left-radius: 10px;
+}
+
 .home-page-trending-now-card-img {
     width: 100%;
-    height: 162px;
+    height: 100%;
+    object-fit: cover;
+    border-top-right-radius: 10px;
+    border-top-left-radius: 10px;
 }
 
 
@@ -116,18 +126,11 @@
     margin-left: 5px;
 }
 
-/* .home-page-trending-now-card-btn {
-    width: 82px;
-    height: 23px;
-    border-radius: 7.59px;
-    margin-left: 10px;
-    margin-bottom: 15px;
-} */
 
 .home-page-trending-now-card-btn {
     position: relative;
     width: 82px;
-    height: 23px;
+    height: 35px;
     border-radius: 7.59px;
     margin-left: 10px;
     margin-bottom: 15px;
@@ -172,23 +175,29 @@
   
 
 
+@media (min-width: 768px) {
+    .home-page-trending-now-card-container {
+      grid-template-columns: repeat(3, 1fr);
+      background-color: plum;
+    }
+    
 
+}
 
 
 
 @media (min-width: 986px) {
 
     .home-page-trending-now-card-container {
-        grid-template-columns: repeat(auto-fit, minmax(245px, 1fr));
+        grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+        gap: 15px;
+        justify-content: space-between; 
+        background: red;
     }    
     .home-page-trending-now-card {
-        min-height: 423px;
+        min-height: 350px;
     }
 
-    .home-page-trending-now-card-img {
-        width: 100%;
-        height: 257px;
-    }
 
     .home-page-trending-now-card-description {
         font-size: 16px;
@@ -218,4 +227,6 @@
         height: 35px;
         border-radius: 12px;
     }
+
+    
 }

@@ -77,12 +77,17 @@ function PurchaseDetailsPage () {
                     <div className="purchase-details-card">
                         <div className="purchase-details-card-flex">
                             <div className="purchase-details-card-img-container">
-                                {/* <img src={ purchasedOrderDetails?.orderedItems[0]?.productRef?.productImageUrl[0] } /> */}
+                                <img src={ purchasedOrderDetails?.orderedItems?.[0]?.productRef?.productImageUrl[0] } />
                             </div>
                             <div className="purchase-details-card-description-container">
                                 <div className="purchase-details-card-description-first-child">
-                                    <p className="opurchase-details-card-name">Men trouser and under wear zzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzz zzzzzzzzzz- brown</p>
-                                    <p>Quantity:<span>1</span></p>
+                                    <p className="opurchase-details-card-name">
+                                        {purchasedOrderDetails?.orderedItems?.[0]?.productRef?.productName || "N/A"}
+                                    </p>
+                                    <p>
+                                        Quantity:
+                                        <span>{purchasedOrderDetails?.orderedItems?.[0]?.quantity || 0}</span>
+                                    </p>
                                 </div>
                                 <div className="purchase-details-card-description-second-child">
                                     <p 
@@ -113,13 +118,20 @@ function PurchaseDetailsPage () {
                     <p className="purchase-details-payment-header">PAYMENT INFORMATION</p>
                     <div className="purchase-details-payment-first-child">
                         <p className="purchase-details-payment-first-child-head">Payment Method</p>
-                        <p>Pay with card, bank transfer or USSD</p>
+                        <p>Paid with: {purchasedOrderDetails?.paymentMethod || 'Not identified.'}</p>
                     </div>
                     <div className="purchase-details-payment-second-child">
-                        <p className="purchase-details-payment-second-child-head">Payment Method</p>
+                        <p className="purchase-details-payment-second-child-head">Payment Details</p>
                         <p>Items Total: N9,658</p>
-                        <p>Deli ver Fees: N700</p>
-                        <p>N9,986</p>
+                        <p>Deliver Fees: N700</p>
+                        <p>
+                            {
+                                purchasedOrderDetails?.discountAmountApplied === 0 ? "" 
+                                : 
+                                <p>Discount applied: ₦ {purchasedOrderDetails?.discountAmountApplied}</p>
+                            }
+                        </p>
+                        <p>N{purchasedOrderDetails?.orderTotalAmount}</p>
                     </div>
                 </div>
                 <div className="purchase-details-delivery-container">
@@ -130,7 +142,7 @@ function PurchaseDetailsPage () {
                     </div>
                     <div className="purchase-details-delivery-second-child">
                         <p className="purchase-details-delivery-second-child-head">Shiping Address</p>
-                        <p>45 Adebayo street, Ikeja, Lagos, Nigeria</p>
+                        <p>{purchasedOrderDetails?.address} {purchasedOrderDetails?.country}</p>
                     </div>
                 </div>
             </div>

@@ -153,7 +153,10 @@ function AllOrdersPage () {
                     orders?.map((order, index) => (
                         <div className="all-order-page-card">
                             <div className="all-order-page-card-img-container">
-                              <img src={order.image} />
+                              <img 
+                                  className="all-order-page-card-image"
+                                  src={order.image} 
+                              />
                             </div>
                             <div className="all-order-page-card-description-container">
                                 <div className="all-order-page-card-name-and-order-id-container">

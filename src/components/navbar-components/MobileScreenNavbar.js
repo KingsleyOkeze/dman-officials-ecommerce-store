@@ -7,9 +7,11 @@ import LoginPage from "../../pages/auth/LoginPage";
 import SignUpPage from "../../pages/auth/SignUpPage";
 import { LiaTimesSolid } from "react-icons/lia";
 import { SideDrawerContext } from "../../contexts/SideDrawerContext";
+import { useNavigate } from "react-router-dom";
 
 
 function MobileScreenNavbar() {
+    const navigate = useNavigate();
     const [showLogin, setShowLogin] = useState(false);
     const [showSignUp, setShowSignUp] = useState(false);
     const [showMenDropDown, setShowMenDropDown] = useState(false);
@@ -47,6 +49,7 @@ function MobileScreenNavbar() {
                 />
             </div>
   
+            <div className="mobile-nav-scroll-container">
             {/* Men Section */}
             <div className="mobile-screen-navbar-list-div">
                 <div
@@ -60,9 +63,18 @@ function MobileScreenNavbar() {
                 <div ref={menListRef} className="dropdown-list">
                     <p>Tops</p>
                     <ul>
-                        <li>T-Shirts</li>
-                        <li>Hoodies & Sweaters</li>
-                        <li>Jackets</li>
+                        <li onClick={() => {
+                            toggleSideDrawer()
+                            navigate("/category-page/MensWear/TShirt");
+                        }}>T-Shirts</li>
+                        <li onClick={() => {
+                            toggleSideDrawer()
+                            navigate("/category-page/MensWear/Hoodie")
+                        }}>Hoodies & Sweaters</li>
+                        <li onClick={() => {
+                            toggleSideDrawer()
+                            navigate("/category-page/MensWear/SweatShirt")
+                        }}>Jackets</li>
                     </ul>
                     <p>Bottom</p>
                     <ul>
@@ -117,7 +129,7 @@ function MobileScreenNavbar() {
                 </div>
                 )}
             </div>
-  
+
             {/* Footer Links */}
             <div className="navbar-footer">
                 <p>
@@ -142,7 +154,8 @@ function MobileScreenNavbar() {
                     {showSignUp && <SignUpPage />}
                 </div>
             ) : null}
-      </div>
+            </div>
+        </div>
     );
 }
   

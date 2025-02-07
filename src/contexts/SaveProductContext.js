@@ -12,24 +12,28 @@ export const SaveProductProvider = ({ children }) => {
     const { customAlert, showAlert } = useContext(AlertContext);
     const [savedProducts, setSavedProducts] = useState([]);
     const [paginationIndex, setPaginationIndex] = useState(0); // Track current page
+    const [totalPages, setTotalPages] = useState(0); // Total number of pages (example)
 
     const fetchSavedProduct = async () => {
+        if (!accessToken && !customerId) {
+            return;
+        }
         try {
             const response = await axios.get(
                 `/customer/fetch-saved-product?page=${paginationIndex}&limit=5`, 
                 {
-                params: {
-                    customerId: customerId
+                    params: {
+                        customerId: customerId
+                    },
+                    headers: {
+                        Authorization: `Bearer ${accessToken}`, // Add token to Authorization header
+                    },
                 }
-            },
-            {
-                headers: {
-                  Authorization: `Bearer ${accessToken}`, // Add token to Authorization header
-                },
-            });
+            );
 
             if (response.status === 200) {
                 setSavedProducts(response.data.savedProducts);
+                setTotalPages(response.data.totalPages);
                 console.log('save product message', response.data.savedProducts)
             }
         } catch (err) {
@@ -84,7 +88,7 @@ export const SaveProductProvider = ({ children }) => {
                 if (status === 400 || status === 403 || status === 404 || status === 500) {
                     showAlert(status, errMessage)
                 } else if (status === 401) {
-                    refreshAccessToken(handleSaveProduct);
+                    refreshAccessToken(() => handleSaveProduct(productId));
                 }
             } else {
                 showAlert("Error", "An Unknow Error Occured!")
@@ -112,8 +116,8 @@ export const SaveProductProvider = ({ children }) => {
             });
 
             if (response.status === 200) {
-                alert("removed from saved product!");
-                setSavedProducts(response.data.savedProducts)
+                setSavedProducts(response.data.savedProducts);
+                showAlert("Success", response.data.message);
             }
 
         } catch (err) {
@@ -142,7 +146,10 @@ export const SaveProductProvider = ({ children }) => {
             savedProducts,
             setSavedProducts,
             handleSaveProduct, 
-            removeFromSavedProduct 
+            removeFromSavedProduct,
+            totalPages,
+            paginationIndex,
+            setPaginationIndex
         }}>
             {children}
         </SaveProductContext.Provider>

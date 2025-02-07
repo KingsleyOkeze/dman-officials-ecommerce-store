@@ -11,7 +11,7 @@ import { SearchContext } from '../../contexts/SearchContext';
 import { AlertContext } from '../../contexts/AlertContext';
 
 function CategoryPage () {
-    const { category } = useParams();
+    const { category, subCategory } = useParams();
     const navigate = useNavigate();
     const [width, setWidth] = useState(window.innerWidth);
     const { customAlert, showAlert } = useContext(AlertContext);
@@ -155,26 +155,38 @@ function CategoryPage () {
         }
     };
 
-    const handleCategoryChange = (category) => {
-        setSelectedCategory(category);
-        setSelectedSubCategory(null); // Reset subcategory when the main category changes
-    };
+    // Optional: Update sortBy or other filters to refetch products
+    useEffect(() => {
+        handleFetchCategoryProducts();
+    }, [selectedCategory, selectedSubCategory, sortBy, paginationIndex]);
+
+
+    // const handleCategoryChange = (category) => {
+    //     setSelectedCategory(category);
+    //     setSelectedSubCategory(null); // Reset subcategory when the main category changes
+    // };
     
     const handleSubCategoryChange = (subCategory) => {
         setSelectedSubCategory(subCategory);
     };
     
 
-    // Fetch the category params holds on load of page
     useEffect(() => {
-        handleCategoryChange(category);
-    }, [category]);
+        setSelectedCategory(category);
+        setSelectedSubCategory(subCategory || "");
+    }, [category, subCategory]);
+      
+
+    // // Fetch the category params holds on load of page
+    // useEffect(() => {
+    //     handleCategoryChange(category);
+    // }, [category]);
 
 
     // Fetch products with filters
-    useEffect(() => {
-        handleFetchCategoryProducts();
-    }, [selectedCategory, sortBy]);  // Re-run when category or sortBy changes
+    // useEffect(() => {
+    //     handleFetchCategoryProducts();
+    // }, [selectedCategory, sortBy]);  // Re-run when category or sortBy changes
 
 
     // When user is searching, sset items to display as search result
@@ -261,26 +273,29 @@ function CategoryPage () {
                         items && items.length > 0 ? (
                             items.map((item, id) => (
                                 <div className="category-page-card" key={id}>
-                                    <img src={item.productImageUrl[0]} 
-                                        className="category-card-img" 
-                                        alt={item.productName} 
-                                        onClick={() => {
-                                            navigate(`/product-page/${item._id}`)
-                                        }}
-                                    />
-                                    <p className="item-description">{item.productCategory} - {item.productName}</p>
-                                    <div className="item-price-and-save-container">
-                                        <p className="item-price">
+                                    <div className="category-page-card-image-container">
+                                        <img 
+                                            src={item.productImageUrl[0]} 
+                                            className="category-card-img" 
+                                            alt={item.productName} 
+                                            onClick={() => {
+                                                navigate(`/product-page/${item._id}`)
+                                            }}
+                                        />
+                                    </div>
+                                    <p className="category-page-card-item-description">{item.productCategory} - {item.productName}</p>
+                                    <div className="category-page-card-item-price-and-save-container">
+                                        <p className="category-page-card-item-price">
                                             <b>₦</b> {item.productOfferPrice}
                                         </p>
                                         {isProductSaved(item._id) ? (
                                             <IoIosHeart
-                                                className="save-item-icon"
+                                                className="category-page-card-save-item-icon"
                                                 onClick={() => removeFromSavedProduct(item._id)}
                                             />
                                         ) : (
                                             <IoHeartOutline
-                                                className="save-item-icon"
+                                                className="category-page-card-save-item-icon"
                                                 onClick={() => handleSaveProduct(item._id)}
                                             />
                                         )}

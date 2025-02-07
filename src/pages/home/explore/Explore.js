@@ -56,14 +56,16 @@ function Explore () {
                 {exploreProducts && exploreProducts.length > 0 ? (
                     exploreProducts.map((exploreItem, id) => (
                         <div key={id} className="home-page-explore-card">
-                            <img
-                                src={exploreItem.productImageUrl[0]}
-                                className="home-page-explore-card-img"
-                                alt={exploreItem.productName}
-                                onClick={() => {
-                                    navigate(`/product-page/${exploreItem._id}`);
-                                }}
-                            />
+                            <div className="home-page-explore-card-image-container">
+                                <img
+                                    src={exploreItem.productImageUrl[0]}
+                                    className="home-page-explore-card-img"
+                                    alt={exploreItem.productName}
+                                    onClick={() => {
+                                        navigate(`/product-page/${exploreItem._id}`);
+                                    }}
+                                />
+                            </div>
                             <p className="home-page-explore-card-description">
                                {exploreItem.productName} - {exploreItem.productColor}
                             </p>

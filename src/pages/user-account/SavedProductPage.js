@@ -13,10 +13,17 @@ import Alert from "../../components/Alert";
 function SavedProductPage () {
     const { accessToken, customerId, refreshAccessToken } = useContext(AuthContext); 
     const { customAlert, showAlert } = useContext(AlertContext);
-    const { savedProducts, setSavedProducts, handleSaveProduct, removeFromSavedProduct } = useContext(SaveProductContext);
     const { cartItems, addToCart, removeFromCart } = useContext(CartContext);
-    const [paginationIndex, setPaginationIndex] = useState(0); // Track current page
-    const [totalPages, setTotalPages] = useState(0); // Total number of pages (example)
+    const { 
+        savedProducts, 
+        setSavedProducts, 
+        removeFromSavedProduct,
+        totalPages,
+        paginationIndex,
+        setPaginationIndex  
+    } = useContext(SaveProductContext);
+    // const [paginationIndex, setPaginationIndex] = useState(0); // Track current page
+    // const [totalPages, setTotalPages] = useState(0); // Total number of pages (example)
 
 
     const handlePreviousFunction = async () => {
@@ -125,21 +132,20 @@ function SavedProductPage () {
 
     return(
         <div className="saved-product-page-container">
-          {customAlert.type ? (<Alert /> ) : ""}
           <h3>Saved Product</h3>
           <div className="saved-product-page-main-content-container">
           <div className="saved-product-card-container">
-             {
+             {savedProducts && savedProducts.length > 0 ? ( 
               savedProducts.map((savedProduct, index) => (
                 <div className="saved-product-card">
                   <div className="saved-product-card-img-container">
-                    <img src={savedProduct.productRef.productImageUrl} />
+                    <img src={savedProduct.productRef?.productImageUrl[0]} />
                   </div>
                   <div className="saved-product-description-container">
-                    <p className="saved-product-name">{savedProduct.productRef.productName}</p>
+                    <p className="saved-product-name">{savedProduct.productRef?.productName}</p>
                     <div className="saved-product-size-price-container">
-                      <p>Size: small</p>
-                      <p>{savedProduct.productRef.productPrice}</p>
+                      <p className="saved-product-size-text">Size: small</p>
+                      <p className="saved-product-price-text">₦ {savedProduct.productRef?.productOfferPrice}</p>
                     </div>
                   </div>
                   <div className="saved-product-button-container">
@@ -147,7 +153,7 @@ function SavedProductPage () {
                       <button 
                           className="saved-product-buy-now-button"
                           onClick={() => {
-                            addToCart(savedProduct.productRef._id, 1)
+                            addToCart(savedProduct.productRef?._id, 1)
                           }}
                           >
                             Buy Now
@@ -157,7 +163,7 @@ function SavedProductPage () {
                       <button 
                           className="saved-product-remove-button"
                           onClick={() => {
-                            removeFromSavedProduct(savedProduct.productRef._id)
+                            removeFromSavedProduct(savedProduct._id)
                           }}
                           >
                             Remove
@@ -166,6 +172,9 @@ function SavedProductPage () {
                   </div>
                 </div>
               ))
+              ) : (
+                  <p>No saved product found!</p>
+              )
              }
           </div>
           <div className="saved-product-bottom-pagination-container">

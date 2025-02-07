@@ -26,6 +26,9 @@ export const CartProvider = ({ children }) => {
 
 
     const fetchCart = async () => {
+        if (!accessToken && !customerId) {
+            return;
+        }
         try {
             const response = await axios.get("/customer/fetch-cart", {
                 params: {
@@ -90,7 +93,7 @@ export const CartProvider = ({ children }) => {
             if (response.status === 201) {
                 console.log("added to cart!");
                 setCartItems(response.data.cart)
-                showAlert("success", "This is a success alert!");
+                showAlert("Success", response.data.message);
             }
 
         } catch (err) {
@@ -99,7 +102,7 @@ export const CartProvider = ({ children }) => {
                 const errMessage = err.response.data.error;
 
                 if (status === 400 || status === 403 || status === 404 || status === 500) {
-                    showAlert(status, errMessage)
+                    showAlert("Error", errMessage)
                 } else if (status === 401) {
                     refreshAccessToken(() => addToCart(productId, quantity));
                 }
@@ -129,8 +132,8 @@ export const CartProvider = ({ children }) => {
             });
 
             if (response.status === 200) {
-                alert("removed from cart!");
                 setCartItems(response.data.cart)
+                showAlert("Success", response.data.message);
             }
 
         } catch (err) {
@@ -139,7 +142,7 @@ export const CartProvider = ({ children }) => {
                 const errMessage = err.response.data.error;
 
                 if (status === 400 || status === 403 || status === 404 || status === 500) {
-                    showAlert(status, errMessage)
+                    showAlert("Error", errMessage)
                 } else if (status === 401) {
                     refreshAccessToken(() => removeFromCart(itemId));
                 }
@@ -176,12 +179,7 @@ export const CartProvider = ({ children }) => {
             if (response.status === 200) {
                 // Fetch the full updated cart from backend instead of modifying state manually
                 fetchCart();
-                // setCartItems((prevItems) =>
-                //     prevItems.map(item =>
-                //         item?._id?.toString() === itemId.toString() ? { ...item, quantity: newQuantity } : item
-                //     )
-                // );
-                // Log the cartItems AFTER the state update to verify
+                showAlert("Success", response.data.message);
                 console.log("cartItems after update:", cartItems); // Make sure cartItems are updated.
             }
         } catch (err) {
@@ -190,7 +188,7 @@ export const CartProvider = ({ children }) => {
                 const errMessage = err.response.data.error;
 
                 if (status === 400 || status === 403 || status === 404 || status === 500) {
-                    showAlert(status, errMessage)
+                    showAlert("Error", errMessage)
                 } else if (status === 401) {
                     refreshAccessToken(() => updateQuantity(itemId, newQuantity));
                 }

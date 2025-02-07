@@ -120,11 +120,13 @@ function FlashSale () {
                 {flashSaleProducts && flashSaleProducts.length > 0 ? (
                     flashSaleProducts.map((flashSale, index) => (
                         <div key={index} className="home-page-flash-sale-card">
-                            <img
-                                src={flashSale.productImageUrl[0]} // Assuming the first image is the main one
-                                className="home-page-flash-sale-card-img"
-                                alt={flashSale.productName}
-                            />
+                            <div className="home-page-flash-sale-card-image-container">
+                                <img
+                                    src={flashSale.productImageUrl[0]} // Assuming the first image is the main one
+                                    className="home-page-flash-sale-card-img"
+                                    alt={flashSale.productName}
+                                />
+                            </div>
                             <p className="home-page-flash-sale-card-description">
                                 {flashSale.productName} - {flashSale.productColor[0]}
                             </p>

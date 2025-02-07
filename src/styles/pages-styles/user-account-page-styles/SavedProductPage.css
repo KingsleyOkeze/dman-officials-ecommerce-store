@@ -1,28 +1,31 @@
 .saved-product-page-container {
-    padding: 15px;
-    /* background: #f5f3f5; */
     min-height: 100vh;
-    background: pink;
 }
 
 .saved-product-page-container h3 {
     font-weight: 400;
     font-size: 24px;
     line-height: 31.34px;
+    margin-bottom: 10px;
 }
 
 .saved-product-page-main-content-container {
 
 }
 .saved-product-card-container {
+    display: grid;
+    grid-template-columns: repeat(1, 1fr);
+    justify-content: space-between;
     background: #ffffff;
-    border-radius: 10px;
+    border-top-right-radius: 10px;
+    border-top-left-radius: 10px;
     min-height: 100vh;
     padding: 15px;
     min-height: 100vh;
 }
 
 .saved-product-card {
+    min-height: 378px;
     display: flex;
     flex-direction: column;
     justify-content: space-between;
@@ -34,7 +37,6 @@
 .saved-product-card-img-container {
     width: 100%;
     height: 300px; /* Set a fixed height (adjust as needed) */
-    background: peru;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -69,8 +71,24 @@
     padding-bottom: 20px;
 }
 
-
-
+.saved-product-name {
+    font-weight: 500;
+    line-height: 19.2px;
+    font-size: 14px;
+    color: #000000;
+}
+.saved-product-size-text {
+    font-weight: 400;
+    line-height: 14.4px;
+    font-size: 12px;
+    color: #000000;
+}
+.saved-product-price-text {
+    font-weight: 900;
+    line-height: 19.2px;
+    font-size: 16px;
+    color: #000000;
+}
 .saved-product-button-container {
     display: flex;
     justify-content: space-between;
@@ -79,37 +97,78 @@
 .saved-product-btn-child {
     flex-basis: 48%;
 }
+
+
 .saved-product-buy-now-button {
+    width: 100%;
+    height: 40px;
+    border-radius: 12px;
+    border: none;
     background: #000000;
+    color: #ffffff;
+    font-weight: 500;
+    font-size: 12px;
+    line-height: 21px;
+    cursor: pointer;
+    position: relative;
+    overflow: hidden;
+    transition: background 0.3s ease, transform 0.2s ease, box-shadow 0.3s ease;
+}
+
+.saved-product-buy-now-button:hover {
+    background: #333333; /* Slightly lighter black */
+    transform: translateY(-2px); /* Small lift effect */
+    box-shadow: 0px 4px 10px rgba(255, 255, 255, 0.2);
+}
+
+/* Subtle glow effect when clicked */
+.saved-product-buy-now-button:active {
+    transform: scale(0.98);
+    box-shadow: 0px 2px 5px rgba(255, 255, 255, 0.2);
+}
+
+
+
+
+
+
+
+
+
+
+
+
+.saved-product-remove-button {
+    background: grey;
     color: #ffffff;
     width: 100%;
     height: 40px;
     border-radius: 12px;
     border: none;
+    cursor: pointer;
+    transition: background 0.3s ease, transform 0.2s ease;
+}
+
+.saved-product-remove-button:hover {
+    background: #b3b3b3; /* Lighter grey */
+    transform: translateY(-2px);
+}
+
+.saved-product-remove-button:active {
+    transform: scale(0.98);
 }
 
 
-.saved-product-remove-button {
-    background: grey;
-    color: #000000;
-    width: 100%;
-    height: 40px;
-    border-radius: 12px;
-    border: none;
-}
 
 
 
 
 
 
-
- .saved-product-bottom-pagination-container {
+.saved-product-bottom-pagination-container {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    margin-left: 12px;
-    margin-right: 12px;
     background: #FFFFFF;
     padding-top: 15px;
     padding-left: 12px;
@@ -124,9 +183,6 @@
     display: flex;
     align-items: center;
 }
-
-
-
 
 
 .saved-product-pagination-container {
@@ -188,6 +244,25 @@
 
 
 
+@media (min-width: 480px) { 
+    .saved-product-card-container {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 10px
+    }
+}
+
+
+@media (min-width: 768px) {
+    .saved-product-card-container {
+      grid-template-columns: repeat(3, 1fr);
+      gap: 10px
+    }
+    .saved-product-card {
+        min-height: 300px;
+        background-color: #ff4f4f;
+    }
+    
+}
 
 
 
@@ -199,10 +274,13 @@
 
 @media (min-width: 986px) {
     .saved-product-card-container {
+        display: grid;
+        grid-template-columns: 1fr;
         border-bottom-right-radius: 0px;
         border-bottom-left-radius: 0px;
     }
     .saved-product-card {
+        max-height: 300px;
         display: flex;
         flex-direction: row;
         justify-content: space-between;
@@ -240,7 +318,6 @@
         display: flex;
         justify-content: space-between;
         flex-direction: column;
-        background: pink;
         align-items: flex-start;
         padding-top: 0px;
         padding-bottom: 0px;

@@ -3,22 +3,34 @@ import axios from 'axios';
 import { jwtDecode } from 'jwt-decode';
 import React, { createContext, useState, useContext, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { AlertContext } from './AlertContext';
+import useActivityTracker from '../hooks/useActivityTracker'; // Import the custom hook
+
 
 export const AuthContext = createContext();
 
 export const AuthProvider = ({ children }) => {
     const navigate = useNavigate();
-    // const { showAlert } = useContext(AlertContext);
     const [accessToken, setAccessToken] = useState(sessionStorage.getItem('accessToken') || null);
     const [customerId, setCustomerId] = useState(sessionStorage.getItem('customerId') || null);
+    // Initialize activity tracker once with the correct accessToken and customerId
+    // const { startTimer, stopTimer } = startActivityTracker(accessToken, customerId);
+    const [sessionDuration, setSessionDuration] = useState(0); // To track session duration
 
+    // Use the custom hook
+    const { stopTimer } = useActivityTracker(customerId, accessToken);
+
+    
     const handleLogout = async () => {
-        
+        // Stop the timer and get the session duration
+        const duration = await stopTimer();
+
         try {
             const response = await axios.post(
                 "/customer/logout",
-                {},
+                { 
+                    customerId, 
+                    sessionDuration: duration
+                },
                 { withCredentials: true } // Include credentials for cookies
             );
 
@@ -28,7 +40,6 @@ export const AuthProvider = ({ children }) => {
                 sessionStorage.removeItem('accessToken');
                 setCustomerId(null);
                 setAccessToken(null);
-
                 navigate("/");
             }
       
@@ -89,9 +100,7 @@ export const AuthProvider = ({ children }) => {
     //     initializeAuth();
     // }, []);
 
-    useEffect(() => {
-        console.log('auth access token', accessToken, customerId)
-    }, [accessToken, customerId]);
+    
 
 
     return (

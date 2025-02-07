@@ -45,13 +45,13 @@ function SalePage () {
             
             <h2 className="sale-page-body-header"><span>Sale:</span>All</h2>
             <div className="sale-page-body-items-container">
-                {
+                {sales && sales.length > 0 ? ( 
                     sales.map((sale, id) => (
                         <div key={sale._id} 
                             className="sale-page-card" 
                             onClick={() => navigate(`/product-page/${sale._id}`)}
                         >
-                            <img src={sale.productImageUrl} className="sale-page-card-img" />
+                            <img src={sale.productImageUrl[0]} className="sale-page-card-img" />
                             <p className="sale-page-card-description">{sale.productCategory} - {sale.productName}</p>
                             <div className="sale-page-card-price-container">
                                 <p className="sale-page-card-offer-price"><b>₦</b> {sale.productOfferPrice}</p>
@@ -59,6 +59,9 @@ function SalePage () {
                             </div>
                         </div>
                     ))
+                    ) : (
+                        <p>No product on sale found.</p>
+                    )
                 }
             </div>
             <div className="sale-page-bottom-pagination-container">

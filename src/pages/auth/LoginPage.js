@@ -4,8 +4,9 @@ import "../../styles/pages-styles/auth-pages-styles/LoginPage.css"
 import { Link, useNavigate } from 'react-router-dom';
 import logo from '../../images/dman-logo.png'
 import { SideDrawerContext } from '../../contexts/SideDrawerContext';
-import SlidingNavList from '../../components/navbar-components/SlidingNavList';
 import { AuthContext } from '../../contexts/AuthContext';
+import useActivityTracker from '../../hooks/useActivityTracker'; // Import the custom hook
+import { getUserIpAddress } from '../../utils/getUserIpAddress'; // Adjust the path as needed
 
 
 const LoginPage = () => {
@@ -23,29 +24,45 @@ const LoginPage = () => {
         setActiveComponent,
         toggleSideDrawer
     } = useContext(SideDrawerContext);
+    // Use the custom hook directly
+    const { startTimer } = useActivityTracker();
 
     const handleLogin = async (e) => {
         e.preventDefault();
         setMessage('');
         setError('');
         setLoading(true);
+        
+        
+        const ip = await getUserIpAddress();
+        console.log("IP Response:", ip);
 
         try {
-            const response = await axios.post('/customer/login', { email, password });
-            setMessage(response.data.message);
-            console.log("login response", response.data)
-            // Handle successful login, such as redirecting or storing tokens.
-            sessionStorage.setItem("customerId", response.data.userId);
-            sessionStorage.setItem("accessToken", response.data.accessToken);
-            setCustomerId(response.data.userId);
-            setAccessToken(response.data.accessToken);
-            toggleSideDrawer(); // Close the sliding sidebar
-            navigate("/account");
+            const response = await axios.post('/customer/login', { 
+                email, 
+                password,
+                ip
+            });
 
-            console.log("Login Response:", response.data);
-            console.log("Access Token Set:", response.data.accessToken);
-            console.log("Customer ID Set:", response.data.userId);
+            if (response.status === 200) {
+                setMessage(response.data.message);
+                console.log("login response", response.data)
+                // Handle successful login, such as redirecting or storing tokens.
+                sessionStorage.setItem("customerId", response.data.userId);
+                sessionStorage.setItem("accessToken", response.data.accessToken);
+                setCustomerId(response.data.userId);
+                setAccessToken(response.data.accessToken);
+                toggleSideDrawer(); // Close the sliding sidebar
+                navigate("/account");
 
+                // Start session tracking
+                startTimer(); // Start the session timer
+
+                console.log("Login Response:", response.data);
+                console.log("Access Token Set:", response.data.accessToken);
+                console.log("Customer ID Set:", response.data.userId);
+
+            }
         } catch (err) {
             console.log('login 403 err', err);
             if (err.response) {

@@ -7,7 +7,6 @@ import cardImage4 from "../../images/cardImage4.png";
 import { RiCheckboxBlankFill } from "react-icons/ri";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
-import PaystackPop from '@paystack/inline-js'
 import { CouponContext } from "../../contexts/CouponContext";
 import PrivacyPolicyPage from "../../pages/footer-pages/PrivacyPolicyPage"
 import TermsOfUsePage from "../../pages/footer-pages/TermsOfUsePage";
@@ -15,7 +14,7 @@ import ShippingPolicyPage  from "../../pages/footer-pages/ShippingPolicyPage";
 import ReturnsPolicyPage from "../../pages/footer-pages/ReturnsPolicyPage"
 import { AuthContext } from "../../contexts/AuthContext";
 import { AlertContext } from "../../contexts/AlertContext";
-
+import { handlePayment } from "../../services/paymentService";
 
 function OrderConfirmationPage () {
     const navigate = useNavigate();
@@ -149,7 +148,11 @@ function OrderConfirmationPage () {
                 handlePayment(
                     response.data.customerEmail, 
                     response.data.savedOrder.orderTotalAmount, 
-                    response.data.savedOrder._id
+                    response.data.savedOrder._id,
+                    navigate, 
+                    accessToken, 
+                    refreshAccessToken, 
+                    showAlert
                 );
             }
         } catch (err) {
@@ -169,63 +172,7 @@ function OrderConfirmationPage () {
         }
     }
 
-    // HANDLE PAYMENT
-    async function handlePayment (customerEmail, totalAmount, orderId) {
-        const popup = new PaystackPop()
-  
-        popup.newTransaction({
-            key: process.env.REACT_APP_PAYSTACK_PUBLIC_KEY,
-            email: customerEmail,
-            amount: totalAmount * 100, // Convert amount to kobo
-            onSuccess: async (transaction) => {
-                console.log('onSuccess', transaction);
-                try {
-                    const response = await axios.post("/customer/verify-transaction", { 
-                        reference: transaction.reference,
-                        customerEmail,
-                        orderId
-                    });
-
-                    if (response.data.status === "payment mismatch") {
-                        alert(response.data.message); // Show detailed message
-                        navigate(`/order-review/${orderId}`); // Navigate to a pending review page
-                    } else if (response.status === 200) {
-                        // Payment success
-                        console.log("Payment verified successfully:", response.data);
-                        navigate(`/account/order-tracking/${orderId}`);
-
-                        // Clear all billing state and coupon ("if applied")
-                        setCountry('');
-                        setFirstName('');
-                        setLastName('');
-                        setCompany('');
-                        setAddress('');
-                        setCity('');
-                        setState('');
-                        setPostalCode('');
-                        setPhoneNumber();
-                    } 
-
-                    // Clear coupon if applied
-                    removeCoupon();
-                    
-                } catch (error) {
-                    console.error("Error verifying payment:", error.message);
-                }
-        
-            },
-        onLoad: (response) => {
-          console.log("onLoad: ", response);
-        },
-        onCancel: () => {
-          console.log("onCancel");
-        },
-        onError: (error) => {
-          console.log("Error: ", error.message);
-        }
-        });
-  
-    }
+    
 
     return(
         <div className="order-confirmation-page-container">
@@ -308,9 +255,6 @@ function OrderConfirmationPage () {
                         <p>Incase we need to contact you about your order</p>
                     </div>
                 </div>
-
-
-
 
                 <div className="items-ordered-container">
                 <h2>ITEMS</h2>
@@ -439,9 +383,9 @@ function OrderConfirmationPage () {
             )}
 
 
-
         </div>
     );
 }
+
 
 export default OrderConfirmationPage;

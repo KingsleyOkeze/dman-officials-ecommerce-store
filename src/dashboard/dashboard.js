@@ -3,7 +3,7 @@ import Footer from "../components/Footer";
 import Header from "../components/Header";
 import '../styles/dashboard-style/Dashboard.css';
 import SlidingNavList from "../components/navbar-components/SlidingNavList";
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import AuthSwitchPage from "../pages/auth/AuthSwitchPage";
 import MobileScreenNavbar from "../components/navbar-components/MobileScreenNavbar";
 import { CartProvider } from "../contexts/CartContext";
@@ -12,12 +12,13 @@ import { SideDrawerProvider } from "../contexts/SideDrawerContext";
 import { SaveProductProvider } from "../contexts/SaveProductContext";
 import Overlay from "./Overlay";
 import { CouponProvider } from "../contexts/CouponContext";
-import { AlertProvider } from "../contexts/AlertContext";
+import { AlertContext } from "../contexts/AlertContext";
 import { SearchProvider } from "../contexts/SearchContext";
-import { AuthProvider } from "../contexts/AuthContext";
+import Alert from "../components/Alert";
 
 
 function Dashboard () {
+    const { showAlert, customAlert } = useContext(AlertContext);
     const [showAuthSwitchPage, setShowAuthSwitchPage] = useState(false);
     const [showMobileScreenNavbar, setShowMobileScreenNavbar] = useState(false);
     const [windowWidth, setWindowWidth] = useState(window.innerWidth);
@@ -52,29 +53,26 @@ function Dashboard () {
 
 
     return (
-        <AuthProvider>
-            <AlertProvider>
-                <SideDrawerProvider>
-                    <SearchProvider>
-                        <CouponProvider>
-                            <CartProvider>
-                                <SaveProductProvider> 
-                                    <Overlay />
-                                    <div className="dashboard-container">
-                                        <Header />
-                                        <SideDrawer />
-                                    <div className="dashboard-main-content">
-                                        <Outlet />
-                                    </div> 
-                                        <Footer />
-                                    </div>
-                               </SaveProductProvider>
-                            </CartProvider>
-                        </CouponProvider>
-                    </SearchProvider>
-                </SideDrawerProvider>
-            </AlertProvider>
-        </AuthProvider>
+        <SideDrawerProvider>
+            <SearchProvider>
+                <CouponProvider>
+                    <CartProvider>
+                        <SaveProductProvider> 
+                            <Overlay />
+                            <div className="dashboard-container">
+                                <Header />
+                                <SideDrawer />
+                                {customAlert.type ? (<Alert /> ) : ""}
+                                <div className="dashboard-main-content">
+                                    <Outlet />
+                                </div> 
+                                <Footer />
+                            </div>
+                        </SaveProductProvider>
+                    </CartProvider>
+                </CouponProvider>
+            </SearchProvider>
+        </SideDrawerProvider>
     )
 }
 
