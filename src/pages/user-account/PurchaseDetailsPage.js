@@ -54,6 +54,9 @@ function PurchaseDetailsPage () {
         handleFetchPurchasedOrderDetails();
     }, [accessToken, customerId, orderId]);
 
+    const capitalizeFirstLetter = (string) => {
+        return string.charAt(0).toUpperCase() + string.slice(1);
+    }
 
     return(
         <div className="purchase-details-container">
@@ -81,7 +84,7 @@ function PurchaseDetailsPage () {
                             </div>
                             <div className="purchase-details-card-description-container">
                                 <div className="purchase-details-card-description-first-child">
-                                    <p className="opurchase-details-card-name">
+                                    <p className="purchase-details-card-name">
                                         {purchasedOrderDetails?.orderedItems?.[0]?.productRef?.productName || "N/A"}
                                     </p>
                                     <p>
@@ -118,7 +121,12 @@ function PurchaseDetailsPage () {
                     <p className="purchase-details-payment-header">PAYMENT INFORMATION</p>
                     <div className="purchase-details-payment-first-child">
                         <p className="purchase-details-payment-first-child-head">Payment Method</p>
-                        <p>Paid with: {purchasedOrderDetails?.paymentMethod || 'Not identified.'}</p>
+                        <p>
+                            Paid with: {
+                                purchasedOrderDetails?.paymentMethod && 
+                                capitalizeFirstLetter(purchasedOrderDetails?.paymentMethod) || 'Not identified.'
+                            }
+                        </p>
                     </div>
                     <div className="purchase-details-payment-second-child">
                         <p className="purchase-details-payment-second-child-head">Payment Details</p>

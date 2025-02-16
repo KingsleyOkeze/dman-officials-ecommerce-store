@@ -10,7 +10,7 @@ export async function handlePayment (customerEmail, totalAmount, orderId, naviga
     popup.newTransaction({
         key: process.env.REACT_APP_PAYSTACK_PUBLIC_KEY,
         email: customerEmail,
-        amount: totalAmount * 100, // Convert amount to kobo
+        amount: totalAmount * 1, //100, // Convert amount to kobo
         onSuccess: async (transaction) => {
             console.log('onSuccess', transaction);
             try {
@@ -25,8 +25,7 @@ export async function handlePayment (customerEmail, totalAmount, orderId, naviga
                     }
                 });
 
-                if (response.data.status === "payment mismatch") {
-                    alert(response.data.message); // Show detailed message
+                if (response.data.status === "PaymentMismatch") {
                     navigate(`/order-review/${orderId}`); // Navigate to a pending review page
                 } else if (response.status === 200) {
                     // Payment success

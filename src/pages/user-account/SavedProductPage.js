@@ -8,9 +8,11 @@ import { CartContext } from "../../contexts/CartContext";
 import { AuthContext } from "../../contexts/AuthContext";
 import axios from "axios";
 import { AlertContext } from "../../contexts/AlertContext";
-import Alert from "../../components/Alert";
+import { IoMdArrowBack } from "react-icons/io";
+import { useNavigate } from "react-router-dom";
 
 function SavedProductPage () {
+    const navigate = useNavigate();
     const { accessToken, customerId, refreshAccessToken } = useContext(AuthContext); 
     const { customAlert, showAlert } = useContext(AlertContext);
     const { cartItems, addToCart, removeFromCart } = useContext(CartContext);
@@ -132,7 +134,13 @@ function SavedProductPage () {
 
     return(
         <div className="saved-product-page-container">
-          <h3>Saved Product</h3>
+            <div className="saved-product-page-header-container">
+                <div className="saved-product-page-header-icon-container"
+                    onClick={() => navigate(-1)}>
+                    <IoMdArrowBack className="saved-product-page-header-icon"/>
+                </div>
+                <h3>Saved Product</h3>
+            </div>
           <div className="saved-product-page-main-content-container">
           <div className="saved-product-card-container">
              {savedProducts && savedProducts.length > 0 ? ( 

@@ -55,7 +55,7 @@ function App() {
             <Route index element={<HomePage />}/>
             <Route path="home-page" element={<HomePage />} />
             <Route path="product-page/:productId" element={<ProductPage />} /> 
-            <Route path="/category-page/:category/:subCategory?" element={<CategoryPage />} />
+            <Route path="category-page/:category/:subCategory?" element={<CategoryPage />} />
             <Route path="sale-page" element={<SalePage />} /> 
             <Route path="user-details-page" element={<UserDetails />} /> 
             <Route path="order-confirmation-page" element={<OrderConfirmationPage />} />
@@ -87,7 +87,7 @@ function App() {
             <Route path="about-us-page" element={<AboutUsPage />} />
             <Route path="shipping-policy" element={<ShippingPolicyPage />} />
             <Route path="returns-policy" element={<ReturnsPolicyPage />} />
-            <Route path="contact-policy" element={<ContactPage />} />
+            <Route path="contact" element={<ContactPage />} />
             <Route path="payment-policy" element={<PaymentPolicyPage />} />
             <Route path="disclaimer-page" element={<DisclaimerPage />} />
             <Route path="cookie-policy" element={<CookiePolicyPage />} />

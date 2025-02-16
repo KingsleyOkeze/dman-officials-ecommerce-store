@@ -70,18 +70,32 @@ function CartPage () {
 
     return (
         <div className="cart-page-container">
-            { cartItems.length > 0 ? 
-            <div className="cart-page-sub-container">
-            <div className="cart-page-list-showcase-container">
-                <div className="cart-page-list-showcase-header-container">
-                    <h2>Shopping cart ({cartItems.length})</h2>
-                    <LiaTimesSolid 
-                        className="cart-page-close-page-icon"
-                        onClick={toggleSideDrawer}
-                    />
-                </div>
-                <div className="cart-page-list-container">
-                    {
+            {
+                !accessToken && !customerId ? (
+                    <div className="empty-cart-page-container">
+                        <div className="cart-page-list-showcase-header-container">
+                            <h2>Shopping cart</h2>
+                            <LiaTimesSolid 
+                                    className="cart-page-close-page-icon"
+                                    onClick={toggleSideDrawer}
+                            />
+                        </div>
+                        <p>You need to log in to manage cart.</p>
+                    </div>
+                ) 
+                :
+                cartItems.length > 0 ? 
+                    <div className="cart-page-sub-container">
+                        <div className="cart-page-list-showcase-container">
+                            <div className="cart-page-list-showcase-header-container">
+                                <h2>Shopping cart ({cartItems.length})</h2>
+                                <LiaTimesSolid 
+                                    className="cart-page-close-page-icon"
+                                    onClick={toggleSideDrawer}
+                                />
+                            </div>
+                            <div className="cart-page-list-container">
+                                {
                         cartItems.map((cartItem, index) => ( 
                             <div key={index} className="cart-page-card">
                                     <div className="cart-item-image-container">

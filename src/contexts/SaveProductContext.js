@@ -76,8 +76,8 @@ export const SaveProductProvider = ({ children }) => {
             });
 
             if (response.status === 201) {
-                alert("saved product!");
-                setSavedProducts(response.data.savedProducts)
+                setSavedProducts(response.data.savedProducts);
+                showAlert("Success", response.data.message)
             }
 
         } catch (err) {
@@ -85,8 +85,14 @@ export const SaveProductProvider = ({ children }) => {
                 const status = err.response.status;
                 const errMessage = err.response.data.error;
 
-                if (status === 400 || status === 403 || status === 404 || status === 500) {
-                    showAlert(status, errMessage)
+                if (
+                    status === 400 || 
+                    status === 403 || 
+                    status === 404 || 
+                    status === 409 || 
+                    status === 500
+                ) {
+                    showAlert("Error", errMessage)
                 } else if (status === 401) {
                     refreshAccessToken(() => handleSaveProduct(productId));
                 }
@@ -115,7 +121,7 @@ export const SaveProductProvider = ({ children }) => {
                 },
             });
 
-            if (response.status === 200) {
+            if (response.status === 201) {
                 setSavedProducts(response.data.savedProducts);
                 showAlert("Success", response.data.message);
             }

@@ -16,6 +16,7 @@ import { SaveProductContext } from "../../contexts/SaveProductContext";
 import Alert from "../../components/Alert";
 import { AuthContext } from "../../contexts/AuthContext";
 import { AlertContext } from "../../contexts/AlertContext";
+import CountdownTimer from "./CountdownTimer";
 
 function ProductPage () {
     const { productId } = useParams();
@@ -80,6 +81,19 @@ function ProductPage () {
         setCurrentImageUrl(imageArray[currentImageIndex]);
     };
 
+    // const sizesArray = typeof product.productSize === 'string' 
+    //     ? product.productSize.split(',').map(size => size.trim()) 
+    //     : product.productSize;
+
+    useEffect(() => {
+        console.log(typeof product.productSize)
+    }, [product])
+
+    // Function to add spaces before uppercase letters
+    function formatProductStatus(status) {
+        return status.replace(/([A-Z])/g, ' $1').trim();
+    }
+
     return (
         <div className="product-page-container">
             {customAlert.type ? (<Alert /> ) : ""}
@@ -110,34 +124,59 @@ function ProductPage () {
                             <div className="product-page-product-category">
                                 <p>Women Dress</p>
                                 <GoDotFill className="product-page-product-category-status-icon" />
-                                <p className="product-page-product-category-status-text">In Stock</p>
+                                <p 
+                                    className="product-page-product-category-status-text"
+                                    style={{
+                                        color: product.productStatus === "Available" ? "#008C00"
+                                        :
+                                        product.productStatus === "LimitedStock" ? "#FFA500"
+                                        :
+                                        product.productStatus === "OutOfStock" ? "#B80000"
+                                        :
+                                        "#000000"
+                                    }}
+                                >
+                                    {product.productStatus && formatProductStatus(product.productStatus)}
+                                </p>
                             </div>
                             <p className="product-page-product-name">Women dress name goes here</p>
-                            <div className="product-page-product-time-container">
-                                <p className="product-page-product-time-title">Time Left:</p>
-                                <div className="product-page-product-time-block-container">
-                                    <p>16h</p> : <p>45m</p> : <p>47s</p>
+                            { product.addedTimer && product.timerExpiryDate && (
+                                <div className="product-page-product-time-container">
+                                    <p className="product-page-product-time-title">Time Left:</p>
+                                    <CountdownTimer expiryDate={product.timerExpiryDate} />
                                 </div>
-                            </div>
+                            )}
                             <div className="product-page-product-price-container">
                                 <p className="product-page-product-price-offer">N {product.productOfferPrice}</p>
                                 <p className="product-page-product-price">N {product.productOfferPrice}</p>
                             </div>
                             <p className="product-page-product-color-title-text">Color</p>
                             <ul className="product-page-product-color-boxes-container">
-                                <li></li>
-                                <li></li>
+                                {
+                                    product.productColor
+                                    ? product.productColor.map((itemColor, index) => (
+                                        <li key={index}
+                                            style={{
+                                                background: itemColor.trim().toLowerCase() //=== 'black' ? '#000000' : '#FFFFFF'
+                                            }}
+                                        >
+                                            {itemColor}
+                                        </li>
+                                    ))
+                                    : null
+                                }
                             </ul>
                             <p className="product-page-product-size-title-text">
                                 Size <span>(Size Guide)</span>
                             </p>
                             <ul className="product-page-product-size-container">
-                                <li>XS</li>
-                                <li>S</li>
-                                <li>M</li>
-                                <li>L</li>
-                                <li>XL</li>
-                                <li>XXL</li>
+                                {
+                                    product.productSize 
+                                    ? product.productSize.map((size, index) => (
+                                        <li key={index}>{size.trim()}</li>
+                                    ))
+                                    : null
+                                }
                             </ul>
                             <div className="product-page-product-button-container">
                                 <button 
@@ -231,43 +270,7 @@ function ProductPage () {
     
 }
 
+
+
 export default ProductPage;
 
-
-
-
-
-
-
-{/* <div className="product-page-recommended-section">
-                <h3>You may also like</h3>
-
-                <div className="product-page-recommended-container">
-                {
-                    recommended.map((recommend) => (
-                        <div className="product-page-card">
-                            <img src={recommend.image} className="product-page-card-img"/>
-                            <p className="product-page-card-description">{recommend.name} - {recommend.color}</p>
-                            <div className="product-page-card-price-and-heart-container">
-                                <p className="product-page-card-price"><b>₦</b> {recommend.price}</p>
-                                <p className="product-page-card-heart">
-                                    {productIsSaved === true ?
-                                        <FaRegHeart 
-                                            onClick={() => {
-                                                setProductIsSaved(!productIsSaved)
-                                            }}
-                                        />
-                                        : 
-                                        <FaHeart 
-                                            onClick={() => {
-                                                setProductIsSaved(!productIsSaved)
-                                            }}
-                                        />
-                                    }
-                                </p>
-                            </div>
-                        </div>
-                    ))
-                }
-                </div>   
-            </div> */}

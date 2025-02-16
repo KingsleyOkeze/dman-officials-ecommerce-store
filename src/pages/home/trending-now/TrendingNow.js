@@ -65,6 +65,7 @@ function TrendingNow () {
                                     src={trendingNowItem.productImageUrl[0]} 
                                     className="home-page-trending-now-card-img"
                                     alt={trendingNowItem.productName}
+                                    onClick={() => navigate(`product-page/${trendingNowItem._id}`)}
                                 />
                             </div>
                             <p className="home-page-trending-now-card-description">

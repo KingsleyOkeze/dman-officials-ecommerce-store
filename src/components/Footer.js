@@ -198,7 +198,7 @@ function Footer () {
                                 <Link to="payment-policy" className="link-tag">Payments</Link>
                             </li>
                             <li onClick={scrollToTop}>
-                                <Link to="contact-policy" className="link-tag">Contact us</Link>
+                                <Link to="contact" className="link-tag">Contact us</Link>
                             </li>
                         </ul>
                     </div>
@@ -275,6 +275,7 @@ function Footer () {
                                     href={process.env.REACT_APP_IG_LINK}
                                     target="_blank" // Opens the link in a new tab
                                     rel="noopener noreferrer" // Improves security for external links
+                                    class="a-tag"
                                 >
                                 <GrInstagram className="icon"/>
                                 </a>
@@ -284,9 +285,9 @@ function Footer () {
                                     href={`mailto:${email}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`}
                                     style={{
                                         textDecoration: "none",
-                                        color: "#0072c6", // Blue color for links
                                         fontWeight: "bold",
-                                }}
+                                    }}
+                                    class="a-tag"
                                 >
                                     <MdEmail className="icon"/>
                                 </a>
@@ -301,7 +302,7 @@ function Footer () {
                                 href={process.env.REACT_APP_WHATSAPP_LINK}
                                 target="_blank" // Opens the link in a new tab
                                 rel="noopener noreferrer" // Improves security for external links
-                                className="a-tag"
+                                class="a-tag"
                             >
                                 <ImWhatsapp className="icon"/>
                             </a>

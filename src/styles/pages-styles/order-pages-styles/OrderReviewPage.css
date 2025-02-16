@@ -1,14 +1,14 @@
 .order-review-page-container {
-    max-width: 800px;
+    width: 80%;
     margin: 2rem auto;
     padding: 1.5rem;
     background-color: #f9f9f9;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
     border-radius: 8px;
     font-family: Arial, sans-serif;
-    min-height: 100vh;
   }
   
+
   .order-review-page-container h1 {
     color: #333;
     text-align: center;
@@ -33,14 +33,23 @@
   }
   
   .order-review-page-details h2 {
-    margin-bottom: 0.5rem;
+    margin-bottom: 0.8rem;
     color: #333;
   }
   
   .order-review-page-details p {
     margin: 0.5rem 0;
+    font-size: 15px;
   }
   
+  .order-review-page-details strong {
+    margin-right: 3px
+  }
+
+
+.order-review-page-details h3 {
+    margin-top: 15px;
+}
   .order-review-page-details ul {
     list-style: none;
     padding: 0;
@@ -58,6 +67,7 @@
     display: flex;
     justify-content: space-between;
     margin-top: 1.5rem;
+    gap: 15px
   }
   
   .order-review-page-retry-button {
@@ -69,6 +79,7 @@
     border-radius: 5px;
     cursor: pointer;
     transition: background-color 0.3s;
+    width: 150px;
   }
   
   .order-review-page-retry-button:hover {
@@ -90,3 +101,4 @@
     background-color: #0050b3;
   }
   
+

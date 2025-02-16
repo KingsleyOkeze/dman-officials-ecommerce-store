@@ -8,44 +8,77 @@
     display: none;
 }
 
-.category-page-sub-category-list-container {
-    
+
+.category-page-sub-category-header-and-list-container {
     background:#FFFFFF;
 }
 
-.category-page-options-list-container ul {
-    width: 90%;
-    list-style-type: none;
+
+.category-page-sub-category-list-container {
+    background-color: #FFFFFF;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
     height: 47px;
-    background-color: #ff4f4f;
-    padding: 0; /* Remove any default padding */
-    margin: auto; /* Center the list within its container */
-    display: flex; /* Ensure the list items are displayed inline */
-    flex-wrap: nowrap; /* Prevent wrapping */
-    overflow-x: auto; /* Add horizontal scroll for overflow */
+    overflow-x: auto;
+    padding: 0 20px;
 }
 
-.category-page-options-list-container ul li {
-    display: inline-flex; /* Ensure items align inline */
-    align-items: center; /* Align the text and checkbox vertically */
-    font-size: 16px;
-    line-height: 16.8px;
-
-    /* flex-grow: 1; */
-    flex-shrink: 0;
-    flex-basis: 50px;
-}
 
 .category-list-checkbox {
     display: none;
 }
 
 .category-page-sorted-by-option-container {
-    display: none;
+    text-align: center;
+}
+
+
+.category-page-sorted-by-option-container ul {
+    padding-left: 10px;
+    align-items: center;
+    margin-top: 15px;
+    margin-bottom: 25px;
+    display: inline-flex
+}
+
+
+.category-page-sorted-by-option-container li {
+    display: flex;
+    align-items: center;
+    padding-right: 20px;
+}
+
+.category-list-radio {
+    width: 20px;
+    height: 20px;
+    accent-color: #000000;
+    margin-right: 10px;
+
 }
 
 .category-page-showcase-container {
     
+}
+
+.category-page-items-header-container {
+    font-size: 24px;
+    line-height: 29.05px;
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    margin-left: 15px;
+    margin-right: 15px;
+    margin-bottom: 10px;
+}
+.category-page-items-header-container h2 {
+    font-weight: 700;
+    margin-right: 10px;
+}
+
+.category-page-items-header-extra-details {
+    font-weight: 200;
+    margin: 0;
 }
 
 .category-page-items-header {
@@ -247,11 +280,11 @@
         margin-bottom: 15px;
     }
 
-    .category-page-sub-category-list-container {
+    .category-page-sub-category-header-and-list-container {
         background: #F5F3F5;
     }
 
-    .category-page-options-list-container ul {
+    .category-page-sub-category-list-container {
         display: block;
         flex-wrap: nowrap; 
         overflow-x: hidden; 
@@ -262,12 +295,13 @@
          /* background: red; */
     }
 
-    .category-page-options-list-container ul::-webkit-scrollbar {
+    .category-page-sub-category-list-container::-webkit-scrollbar {
         display: none;
-      }
+    }
 
-      .category-page-options-list-container ul li {
-        display: block;
+    .category-page-sub-category-list {
+        display: flex;
+        align-items: center;
         flex-grow: unset;
         flex-shrink: unset;
         flex-basis: unset;
@@ -277,12 +311,14 @@
         text-decoration: none;
         padding-bottom: 20px;
         white-space: nowrap; /* Prevent line breaks */
-      }
+    }
 
-      .category-page-options-list-container ul li input {
+    .category-page-sub-category-list input {
         background: #F5F3F5;
-      }
-      .category-list-checkbox {
+    }
+
+
+    .category-list-checkbox {
         display: inline-block;
         margin-right: 10px;
         accent-color: #000000;
@@ -295,11 +331,32 @@
         width: 24px;
         height: 24px;
         accent-color: #000000;
+        margin-right: 10px;
 
     }
+
     .category-page-sorted-by-option-container {
         display: block;
         margin-top: 20px;
+        text-align: left;
+    }
+
+
+
+
+    .category-page-sorted-by-option-container ul {
+        padding-left: 10px;
+        align-items: center;
+        margin-top: 10px;
+        display: block;
+    }
+
+
+    .category-page-sorted-by-option-container li {
+        
+        display: flex;
+        align-items: center;
+        padding-bottom: 20px;
     }
 
     .category-page-showcase-container {

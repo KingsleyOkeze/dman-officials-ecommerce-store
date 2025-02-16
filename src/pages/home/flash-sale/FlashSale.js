@@ -125,6 +125,7 @@ function FlashSale () {
                                     src={flashSale.productImageUrl[0]} // Assuming the first image is the main one
                                     className="home-page-flash-sale-card-img"
                                     alt={flashSale.productName}
+                                    onClick={() => navigate(`product-page/${flashSale._id}`)}
                                 />
                             </div>
                             <p className="home-page-flash-sale-card-description">

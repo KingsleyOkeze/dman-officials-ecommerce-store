@@ -5,7 +5,7 @@ import { AuthContext } from './AuthContext';
 export const CouponContext = createContext();
 
 export const CouponProvider = ({ children }) => {
-    const { accessToken, customerId } = useContext(AuthContext); 
+    const { accessToken, customerId, refreshAccessToken } = useContext(AuthContext); 
     const [couponCode, setCouponCode] = useState('');
     const [discountAmount, setDiscountAmount] = useState(0);
     const [couponError, setCouponError] = useState('');
@@ -32,7 +32,7 @@ export const CouponProvider = ({ children }) => {
             // Call server to validate coupon
             const response = await axios.post('/customer/validate-coupon', { 
                 customerId: customerId, 
-                couponCode: code 
+                couponCode: code.replace(/\s+/g, '') // Removes all whitespace from the string
             },
             {
                 headers: {
@@ -52,9 +52,22 @@ export const CouponProvider = ({ children }) => {
                 sessionStorage.setItem('isValidCoupon', 'true');
             } 
             
-        } catch (error) {
-            console.error("Error applying coupon:", error);
-            setCouponError('An error occurred while validating the coupon.', error);
+        } catch (err) {
+            console.error("Error applying coupon:", err);
+            if (err.response) {
+                const status = err.response.status;
+                const errMessage = err.response?.data?.error;
+
+                if (status === 400 || status === 403 || status === 404 || status === 500) {
+                    console.log("log coupon err", errMessage)
+                    setCouponError(errMessage);
+                } else if (status === 401) {
+                    refreshAccessToken(() => applyCoupon(code));
+                }
+            } else {
+                setCouponError("An Unknown error occurred while validating the coupon!")
+            }
+            // setCouponError('An error occurred while validating the coupon.', errMessage);
             setIsValidCoupon(false);
 
             // Clear persisted data

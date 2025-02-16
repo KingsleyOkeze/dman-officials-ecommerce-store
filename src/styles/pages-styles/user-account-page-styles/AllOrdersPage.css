@@ -1,11 +1,30 @@
 .all-order-page-container {
 }
 
+
+.all-order-page-header-container {
+    display: flex;
+    align-items: center;
+    margin-bottom: 15px;
+}
+
+.all-order-page-header-icon-container {
+    width: 24px;
+    height: 24px;
+    background: #074F574D;
+    display: grid;
+    place-items: center;
+    margin-right: 20px;
+}
+.all-order-page-header-icon {
+    font-size: 18px;
+    padding-right: 15px;
+}
+
 .all-order-page-container h3 {
     font-weight: 400;
     font-size: 24px;
     line-height: 31.34px;
-    margin-bottom: 10px;
 }
 
 .all-order-page-main-content {
@@ -36,7 +55,7 @@
 
 
 .all-order-page-card {
-    min-height: 378px;
+    /* min-height: 378px; */
     border: 0.5px solid #808080;
     padding: 10px;
     border-radius: 10px;
@@ -48,7 +67,6 @@
 .all-order-page-card-img-container {
     width: 100%;
     height: 300px;
-    background: peru;
     display: flex;
     align-items: center;
     overflow: hidden; /* Ensures content doesn't overflow the container */
@@ -64,11 +82,9 @@
 
 .all-order-page-card-description-container {
     flex-grow: 1;
-    /* background: yellow; */
     display: flex;
     flex-direction: column;
     justify-content: space-between;
-    background-color: blue;
     margin-bottom: 15px;
 }
 
@@ -122,7 +138,7 @@
 
 
 .all-order-page-card-see-details {
-    background: purple;
+    cursor: pointer;
 }
 
 
@@ -146,9 +162,6 @@
     display: flex;
     align-items: center;
 }
-
-
-
 
 
 .all-order-page-pagination-container {
@@ -185,7 +198,6 @@
 }
 
 .all-order-page-pagination-button:hover:not(:disabled) {
-    background-color: #ff4f4f;
     color: #ffffff;
 }
 
@@ -219,8 +231,7 @@
       gap: 15px
     }
     .all-order-page-card {
-        min-height: 300px;
-        background-color: #ff4f4f;
+        /* min-height: 300px; */
     }
     
 }
@@ -229,15 +240,18 @@
 
 
 @media (min-width: 986px) {
+    .all-order-page-header-icon-container {
+        display: none;
+    }
+
     .all-order-page-card-container {
         display: grid;
         grid-template-columns: 1fr;
         width: 100%;
-        /* background: #000000; */
     }
 
     .all-order-page-card {
-        min-height: 300px;
+        height: 150px;
         display: flex;
         flex-direction: row;
         justify-content: space-between;
@@ -252,17 +266,20 @@
 
     .all-order-page-card-description-container {
         flex-grow: 1;
-        /* background: yellow; */
         display: flex;
         flex-direction: column;
         justify-content: space-between;
     }
 
+    .all-order-page-card-name-and-order-id-container {
+        margin-top: 0;
+    }
+
     .all-order-page-card-status-and-date-container {
         line-height: 19.2px;
     }
+
     .all-order-page-card-see-details {
-        /* width: 100px; */
         white-space: none;
         font-weight: 500;
         font-size: 16px;
@@ -274,4 +291,5 @@
         margin-right: 0px;
         margin-top: 0px;
     }
+
 }

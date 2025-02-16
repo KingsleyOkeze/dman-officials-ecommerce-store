@@ -71,12 +71,12 @@ function AccountPage() {
         </div>
       ) : (
         <div className="account-page-mobile-content">
-          <button
+          {/* <button
             className="back-to-menu"
             onClick={() => setShowMenu(true)} // Go back to menu on mobile
           >
             Back to Menu
-          </button>
+          </button> */}
           <Outlet />
         </div>
       )}

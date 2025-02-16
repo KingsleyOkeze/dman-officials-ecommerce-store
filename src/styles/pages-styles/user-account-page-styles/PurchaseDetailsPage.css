@@ -71,11 +71,24 @@
 .purchase-details-card-img-container img {
     width: 100%;
     height: 100%;
+    object-fit: cover;
 }
 
 .purchase-details-card-description-container {
     padding-top: 15px;
     padding-bottom: 15px;
+    flex-basis: 45%;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    
+}
+
+.purchase-details-card-description-first-child {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    flex-basis: 44%;
 }
 
 .purchase-details-card-name {
@@ -86,16 +99,24 @@
 
 .purchase-details-card-description-second-child {
     display: flex;
+    flex-direction: column;
     justify-content: space-between;
+    flex-basis: 44%;
 }
 
 
 .purchase-details-card-description-second-child-status {
     background: #FFA500;
-    width: 104px;
-    height: 22px;
     border-radius: 7.29px;
     font-size: 12px;
+    line-height: 14.4px;
+    font-weight: 400;
+    align-self: flex-start;
+    border: none;
+    width: auto;
+    display: inline-block; /* Makes the width fit the content */
+    padding: 5px 10px; /* Adds spacing around the text */
+    /* margin-top: 15px; */
 }
 .purchase-details-card-description-second-child-price {
     font-size: 16px;
@@ -110,6 +131,7 @@
     background: #808080;
     border-radius: 10px;
     border: 0.5px solid #808080;
+    cursor: pointer;
 }
 
 
@@ -238,7 +260,6 @@
     .purchase-details-card-description-second-child {
         flex-direction: column;
     }
-
 
     .purchase-details-card-history-btn-container button {
         width: 200px;

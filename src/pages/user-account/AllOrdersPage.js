@@ -1,16 +1,13 @@
 import { useContext, useEffect, useState } from "react";
 import "../../styles/pages-styles/user-account-page-styles/AllOrdersPage.css";
-import cardImage1 from "../../images/cardImage1.png"
-import cardImage2 from "../../images/cardImage2.png";
-import cardImage3 from "../../images/cardImage3.png";
-import cardImage4 from "../../images/cardImage4.png";
 import { IoIosArrowBack } from "react-icons/io";
 import { IoIosArrowForward } from "react-icons/io";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import { AuthContext } from "../../contexts/AuthContext";
 import { AlertContext } from "../../contexts/AlertContext";
-import Alert from "../../components/Alert";
+import { IoMdArrowBack } from "react-icons/io";
+
 
 function AllOrdersPage () {
     const navigate = useNavigate();
@@ -142,8 +139,13 @@ function AllOrdersPage () {
 
     return(
         <div className="all-order-page-container">
-            {customAlert.type ? (<Alert />) : "" }
-            <h3>Orders</h3>
+            <div className="all-order-page-header-container">
+               <div className="all-order-page-header-icon-container"
+                    onClick={() => navigate(-1)}>
+                    <IoMdArrowBack className="all-order-page-header-icon"/>
+                </div>
+               <h3>Orders</h3>
+            </div>
             <div className="all-order-page-main-content">
                 <div className="all-order-page-title">
                    <p>IN PROGRESS/DELIVERED</p>  

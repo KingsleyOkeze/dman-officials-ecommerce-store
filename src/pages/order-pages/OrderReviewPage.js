@@ -49,8 +49,24 @@ function OrderReviewPage ({  onRetryPayment, onContactSupport }) {
     };
 
     const handleContactSupport = () => {
-        onContactSupport(orderDetails.orderId);
+        // onContactSupport(orderDetails.orderId);
+        // Emailing note
+        
     };
+
+    const email = process.env.REACT_APP_EMAIL_LINK
+    const subject = "Payment Mismatch Issue!"; // Optional subject for the email
+    const body = `
+        Hello there! I recently placed an order with an id of ${orderDetails._id} on your website 
+        on ${new Date(orderDetails?.createdAt)?.toLocaleDateString()} with a 
+        total of ₦${orderDetails?.orderTotalAmount?.toLocaleString()} but I 
+        noticed that my account was charged ₦${(orderDetails?.amountCustomerPaid / 100)?.toLocaleString()} 
+        instead. My transaction reference is ${orderDetails?.paymentReference}
+        I believe there is a mismatch in my payment. The amount charged to my account does not 
+        match the total amount on my order, and I am concerned there may have been an error. 
+        Could you please review my transaction details and let me know how this can be resolved? 
+        Thank you for your prompt assistance.`
+        ;
 
     return (
     <div className="order-review-page-container">
@@ -82,13 +98,23 @@ function OrderReviewPage ({  onRetryPayment, onContactSupport }) {
       <div className="order-review-page-actions">
         <button className="order-review-page-retry-button" 
             // onClick={handleRetryPayment}
+            onClick={() => navigate(-1)}
         >
-          Retry Payment
+          Go back
         </button>
         <button className="order-review-page-contact-button" 
             // onClick={handleContactSupport}
         >
-          Contact Support
+          <a
+                href={`mailto:${email}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`}
+                style={{
+                textDecoration: "none",
+                color: "#ffffff", 
+                fontWeight: "bold",
+                }}
+          >
+              Contact Support
+          </a>
         </button>
       </div>
       </>

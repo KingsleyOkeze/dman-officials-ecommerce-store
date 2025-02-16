@@ -1,6 +1,6 @@
 import { useState, useEffect, useContext } from 'react';
 import '../../styles/pages-styles/category-pages-styles/CategoryPage.css';
-import { useNavigate, useParams } from "react-router-dom";
+import { useNavigate, useParams, useLocation } from "react-router-dom";
 import { IoIosHeart } from "react-icons/io";
 import { IoHeartOutline } from "react-icons/io5";
 import { IoIosArrowBack } from "react-icons/io";
@@ -13,6 +13,7 @@ import { AlertContext } from '../../contexts/AlertContext';
 function CategoryPage () {
     const { category, subCategory } = useParams();
     const navigate = useNavigate();
+    const location = useLocation();
     const [width, setWidth] = useState(window.innerWidth);
     const { customAlert, showAlert } = useContext(AlertContext);
     const { savedProducts, handleSaveProduct, removeFromSavedProduct } = useContext(SaveProductContext);
@@ -33,7 +34,7 @@ function CategoryPage () {
             const newPaginationIndex = paginationIndex - 1;
             setPaginationIndex(newPaginationIndex);
             const response = await axios.get(
-                `/customer/fetch-coupons?page=${newPaginationIndex}&limit=12`, 
+                `/customer/fetch-products?page=${newPaginationIndex}&limit=12`, 
                 {
                     params: {
                         category: selectedCategory ? selectedCategory : undefined,
@@ -75,7 +76,7 @@ function CategoryPage () {
             const newPaginationIndex = paginationIndex + 1;
             setPaginationIndex(newPaginationIndex);
             const response = await axios.get(
-                `/customer/fetch-coupons?page=${newPaginationIndex}&limit=12`, 
+                `/customer/fetch-products?page=${newPaginationIndex}&limit=12`, 
                 {
                     params: {
                         category: selectedCategory ? selectedCategory : undefined,
@@ -204,8 +205,21 @@ function CategoryPage () {
     }, []);
 
 
+    // Determine which options to show based on the URL path.
+    let options = [];
+    const path = location.pathname;
+
+    if (path.includes('/MensWear')) {
+        options = ["TShirt", "Hoodie", "SweatShirt"];
+    } else if (path.includes('/FootWear')) {
+        options = ["Bullup500"];
+    } else {
+        options = ["TShirt", "Hoodie", "SweatShirt", "Bullup500"];
+    }
+
+
     const isProductSaved = (productId) => {
-        const result = savedProducts.find((product) => product.productRef._id === productId);
+        const result = savedProducts.find((product) => product.productRef?._id === productId);
         return result ? true : false;
     };
 
@@ -213,25 +227,24 @@ function CategoryPage () {
     return (
         <div className="category-page-container">
             <div className="category-page-options-list-container">
-                <div className="category-page-sub-category-list-container">
+                <div className="category-page-sub-category-header-and-list-container">
                     <p className="category-page-options-list-header">Category</p>
-                    {
-                        ["TShirt", "Hoodie", "SweatShirt", "Bullup500"].map((list, id) => (
-                            <ul>
-                                <li key={id}>
-                                <input
-                                    type="checkbox"
-                                    className="category-list-checkbox"
-                                    checked={selectedSubCategory === list} // Set checked based on state
-                                    onChange={() => handleSubCategoryChange(list)} // Update state on change
-                                />
-                                {list}
-                            </li>
+                    <div className="category-page-sub-category-list-container">
+                        {
+                            options.map((list, id) => (
+                                <div className="category-page-sub-category-list" key={id}>
+                                    <input
+                                        type="checkbox"
+                                        className="category-list-checkbox"
+                                        checked={selectedSubCategory === list} // Set checked based on state
+                                        onChange={() => handleSubCategoryChange(list)} // Update state on change
+                                    />
+                                        {list}
+                                </div>
 
-                            </ul>
-                        ))
-                    }
-                  
+                            ))
+                        }
+                    </div>
                 </div>
                 <div className="category-page-sorted-by-option-container">
                     <p className="category-page-options-list-header">Sorted By</p>
@@ -263,8 +276,11 @@ function CategoryPage () {
             </div>
 
             <div className="category-page-showcase-container">
-                <div className="category-page-items-header">
-                    <p>Men wares:</p> {width ? <p>All</p> : <p>T shirt - Showing {items.length} products</p>}
+                <div className="category-page-items-header-container">
+                    <h2>Men wares:</h2> 
+                    <p className="category-page-items-header-extra-details">
+                        {width ? <span>All</span> : <span>T shirt - Showing {items.length} products</span>}
+                    </p>
                 </div>
                 <div className="category-page-items-container">
                     {loading ? (
