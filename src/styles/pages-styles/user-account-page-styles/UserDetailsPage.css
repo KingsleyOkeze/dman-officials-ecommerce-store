@@ -142,7 +142,8 @@
     .user-details-body-content {
         display: flex;
         justify-content: space-between;
-        align-items: flex-start;
+        gap: 15px
+        /* align-items: flex-start; */
     }
 
     .user-details-profile-container {

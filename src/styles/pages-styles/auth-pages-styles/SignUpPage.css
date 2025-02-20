@@ -27,7 +27,7 @@
     padding-top: 10px; /* Adjust padding to ensure content fits within the scrollable area */
     box-sizing: border-box; /* Ensure padding doesn't affect dimensions */
     scroll-behavior: smooth; /* Optional: Smooth scrolling */
-
+    padding-bottom: 100px;
 }
 
 
@@ -100,6 +100,8 @@
 
 .signup-page input:focus {
     outline: none;
+    border-color: #888; 
+    background-color: #111; 
 }
 
 .signup-page input[type="date"] {
@@ -114,9 +116,10 @@
     font-size: 1rem;
     text-indent: 10px;
     margin-bottom: 15px;
+    max-height: 50px; 
 }
 
-
+  
 .sign-up-bottom-instruction-container {
     display: flex;
     justify-content: space-between;
@@ -160,7 +163,7 @@
 }
 
 .signup-page button:hover {
-    background-color: #45a049;
+    background-color: #e0e0e0;
 }
 
 
@@ -170,7 +173,7 @@
     width: 16px; /* Adjust size */
     height: 16px;
     border: 2px solid #fff; /* Adjust border width */
-    border-top: 2px solid #3498db;
+    border-top: 2px solid #000000;
     border-radius: 50%;
     animation: spin 0.8s linear infinite;
 }
@@ -201,6 +204,7 @@
 
 .sign-up-sign-in-text {
     margin-bottom: 30px;
+    padding-left: 10px;
 }
 
 .sign-up-agreement-text {
@@ -208,4 +212,16 @@
 }
 
 
+.sign-up-bottom-go-back-text {
+    margin-top: 20px;
+    color: #FFFFFF;
+    display: block;
+    cursor: pointer;
+}
 
+
+@media (min-width: 986px) {
+    .sign-up-bottom-go-back-text {
+        display: none;
+    }
+}

@@ -1,4 +1,4 @@
-import { useContext, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import Recommended from "../../components/Recommended";
 import "../../styles/pages-styles/user-account-page-styles/SavedProductPage.css";
 import { IoIosArrowBack } from "react-icons/io";
@@ -20,6 +20,7 @@ function SavedProductPage () {
         savedProducts, 
         setSavedProducts, 
         removeFromSavedProduct,
+        fetchSavedProduct,
         totalPages,
         paginationIndex,
         setPaginationIndex  
@@ -132,11 +133,17 @@ function SavedProductPage () {
     // }, [])
 
 
+    useEffect(() => {
+        fetchSavedProduct();
+    }, []);
+
+
     return(
         <div className="saved-product-page-container">
             <div className="saved-product-page-header-container">
                 <div className="saved-product-page-header-icon-container"
-                    onClick={() => navigate(-1)}>
+                    onClick={() => navigate(-1)}
+                >
                     <IoMdArrowBack className="saved-product-page-header-icon"/>
                 </div>
                 <h3>Saved Product</h3>

@@ -63,7 +63,8 @@ function PurchaseDetailsPage () {
             {customAlert.type ? (<Alert /> ) : ""}
             {purchasedOrderDetails && (
             <>
-            <div className="purchase-details-header-container">
+            <div className="purchase-details-header-container"
+                onClick={() => navigate(-1)}>
                 <IoArrowBackOutline className="purchase-details-header-icon"/>
                 <h3>Order Details</h3>
             </div>

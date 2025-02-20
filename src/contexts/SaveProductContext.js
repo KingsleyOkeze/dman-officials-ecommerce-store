@@ -145,7 +145,6 @@ export const SaveProductProvider = ({ children }) => {
 
     }; 
 
-   
 
     return (
         <SaveProductContext.Provider value={{ 
@@ -153,6 +152,7 @@ export const SaveProductProvider = ({ children }) => {
             setSavedProducts,
             handleSaveProduct, 
             removeFromSavedProduct,
+            fetchSavedProduct,
             totalPages,
             paginationIndex,
             setPaginationIndex

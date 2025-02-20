@@ -125,6 +125,7 @@ const LoginPage = () => {
             >
                 Forget your password
             </p>
+            <p className="login-bottom-go-back-text">Go back</p>
         </div>
         </div>
     );

@@ -4,6 +4,9 @@ import "../../styles/pages-styles/auth-pages-styles/SignUpPage.css";
 import { useNavigate, Link } from 'react-router-dom';
 import logo from '../../images/dman-logo.png'
 import { SideDrawerContext } from '../../contexts/SideDrawerContext';
+import PhoneInput from 'react-phone-input-2';
+import 'react-phone-input-2/lib/style.css';
+import countryList from 'country-list';
 
 
 const SignUpPage = ({ setShowLogin }) => {
@@ -20,13 +23,15 @@ const SignUpPage = ({ setShowLogin }) => {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [confirmPassword, setConfirmPassword] = useState('');
-    const [phoneNumber, setPhoneNumber] = useState(''); 
+    const [phone, setPhone] = useState('');
     const [country, setCountry] = useState('country');
     const [dob, setDob] = useState('');
     const [receiveUpdates, setReceiveUpdates] = useState(false);
     const [message, setMessage] = useState('');
     const [error, setError] = useState('');
     const [loading, setLoading] = useState(false);
+
+    const countries = countryList.getData();
 
     const handleSignUp = async (e) => {
         e.preventDefault();
@@ -45,7 +50,7 @@ const SignUpPage = ({ setShowLogin }) => {
                 lastName,
                 email,
                 password,
-                phoneNumber,
+                phone,
                 country,
                 dob,
                 receiveUpdates
@@ -116,27 +121,40 @@ const SignUpPage = ({ setShowLogin }) => {
                     onChange={(e) => setLastName(e.target.value)}
                     required
                 />
-                <input
-                    type="tel"
-                    id="phoneNumber"
-                    placeholder="Phone number (e.g., +1234567890)"
-                    value={phoneNumber}
-                    onChange={(e) => setPhoneNumber(e.target.value)}
-                    required
+                <PhoneInput
+                    country={'ng'}
+                    value={phone}
+                    onChange={setPhone}
+                    inputProps={{
+                        name: 'phone',
+                        required: true,
+                        autoFocus: true,
+                    }}
+                    containerStyle={{ 
+                        width: '100%', 
+                        marginBottom: '10px',
+                    }}
+                    inputStyle={{ 
+                        width: '100%',
+                        background: '#000000'
+                    }}
                 />
-                <select 
-                    name={country} 
-                    className="sign-up-select"
+                <select
+                    name="country"
                     value={country}
                     onChange={(e) => setCountry(e.target.value)}
+                    className="sign-up-select"
                 >
-                    <option value="Nigeria">Nigeria</option>
-                    <option value="UK">UK</option>
+                    <option value="">Select your country</option>
+                        {countries.map((c) => (
+                            <option key={c.code} value={c.name}>
+                                {c.name}
+                            </option>
+                        ))}
                 </select>
                 <input
                     type="date"
                     id='date'
-                    // value={dob}
                     onChange={(e) => {
                         console.log(e.target.value); // Check if this logs the selected date
                         setDob(e.target.value);
@@ -175,7 +193,13 @@ const SignUpPage = ({ setShowLogin }) => {
             </p>
             <p className="sign-up-agreement-text">
                 By creating an account, you agree to our 
-                <Link>Privacy Policy and Terms of Use</Link>
+                <Link style={{paddingLeft: '5px'}}>Privacy Policy and Terms of Use</Link>
+            </p>
+            <p 
+                className="sign-up-bottom-go-back-text"
+                onClick={() => setShowLogin()}
+            >
+                Go back
             </p>
         </div>
         </div>

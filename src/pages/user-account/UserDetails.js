@@ -14,12 +14,12 @@ function UserDetails () {
     const [isEdittingProfile, setIsEdittingProfile] = useState(false);
     const [isEdittingSecurity, setIsEdittingSecurity] = useState(false);
     const [showPassword, setShowPassword] = useState(false);
-    const [firstName, setFirstName] = useState('Kingsley');
-    const [lastName, setLastName] = useState('Okeze');
-    const [email, setEmail] = useState('gmail.com');
-    const [gender, setGender] = useState('Male');
-    const [dob, setDob] = useState('1-1-1-1');
-    const [phoneNumber, setPhoneNumber] = useState('090000000000');
+    const [firstName, setFirstName] = useState('');
+    const [lastName, setLastName] = useState('');
+    const [email, setEmail] = useState('');
+    const [gender, setGender] = useState('');
+    const [dob, setDob] = useState('');
+    const [phoneNumber, setPhoneNumber] = useState('');
 
     const [currentPassword, setCurrentPassword] = useState("");
     const [newPassword, setNewPassword] = useState("");
@@ -154,7 +154,7 @@ function UserDetails () {
             {customAlert.type ? (<Alert />) : "" }
             <div className="user-details-header-container">
                 <img src={dmanLogo} width={50} height={50}/>
-                <h2>Hello Name</h2>
+                <h2>Hello {firstName} {lastName}</h2>
             </div>
             <div className="user-details-body-content">
                 <div className="user-details-profile-container">

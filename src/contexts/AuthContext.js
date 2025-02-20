@@ -12,8 +12,7 @@ export const AuthProvider = ({ children }) => {
     const navigate = useNavigate();
     const [accessToken, setAccessToken] = useState(sessionStorage.getItem('accessToken') || null);
     const [customerId, setCustomerId] = useState(sessionStorage.getItem('customerId') || null);
-    // Initialize activity tracker once with the correct accessToken and customerId
-    // const { startTimer, stopTimer } = startActivityTracker(accessToken, customerId);
+
     const [sessionDuration, setSessionDuration] = useState(0); // To track session duration
 
     // Use the custom hook
@@ -90,15 +89,15 @@ export const AuthProvider = ({ children }) => {
     };
 
     // Check for access token on app load
-    // useEffect(() => {
-    //     const initializeAuth = async () => {
-    //         if (!accessToken || !customerId) {
-    //             await refreshAccessToken();
-    //         }
-    //     };
+    useEffect(() => {
+        const initializeAuth = async () => {
+            if (!accessToken || !customerId) {
+                await refreshAccessToken();
+            }
+        };
 
-    //     initializeAuth();
-    // }, []);
+        initializeAuth();
+    }, []);
 
     
 
