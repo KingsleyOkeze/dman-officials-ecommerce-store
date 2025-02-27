@@ -62,7 +62,7 @@ export const CouponProvider = ({ children }) => {
                     console.log("log coupon err", errMessage)
                     setCouponError(errMessage);
                 } else if (status === 401) {
-                    refreshAccessToken(() => applyCoupon(code));
+                    await refreshAccessToken(() => applyCoupon(code));
                 }
             } else {
                 setCouponError("An Unknown error occurred while validating the coupon!")
@@ -103,7 +103,9 @@ export const CouponProvider = ({ children }) => {
         //         setCouponError("")
         //     }, 7000);
         // }
-    }, [couponError])
+    }, [couponError]);
+
+    
     return (
         <CouponContext.Provider value={{
             couponCode,

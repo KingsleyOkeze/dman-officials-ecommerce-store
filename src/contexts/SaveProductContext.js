@@ -45,7 +45,7 @@ export const SaveProductProvider = ({ children }) => {
                 if (status === 400 || status === 403 || status === 404 || status === 500) {
                     showAlert(status, errMessage)
                 } else if (status === 401) {
-                    refreshAccessToken(fetchSavedProduct);
+                    await refreshAccessToken(fetchSavedProduct);
                 }
             } else {
                 showAlert("Error", "An Unknow Error Occured!")
@@ -94,7 +94,7 @@ export const SaveProductProvider = ({ children }) => {
                 ) {
                     showAlert("Error", errMessage)
                 } else if (status === 401) {
-                    refreshAccessToken(() => handleSaveProduct(productId));
+                    await refreshAccessToken(() => handleSaveProduct(productId));
                 }
             } else {
                 showAlert("Error", "An Unknow Error Occured!")
@@ -134,7 +134,7 @@ export const SaveProductProvider = ({ children }) => {
                 if (status === 400 || status === 403 || status === 404 || status === 500) {
                     showAlert("Error", errMessage)
                 } else if (status === 401) {
-                    refreshAccessToken(() => removeFromSavedProduct(itemId));
+                    await refreshAccessToken(() => removeFromSavedProduct(itemId));
                 }
             } else {
                 showAlert("Error", "An Unknow Error Occured!")

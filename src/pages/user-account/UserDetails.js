@@ -56,7 +56,7 @@ function UserDetails () {
                 if (status === 400 || status === 403 || status === 404 || status === 500) {
                     showAlert(status, errMessage)
                 } else if (status === 401) {
-                    refreshAccessToken(handleFetchCustomerDetails);
+                    await refreshAccessToken(handleFetchCustomerDetails);
                 }
             } else {
                 showAlert("Error", "An Unknow Error Occured!")
@@ -107,7 +107,7 @@ function UserDetails () {
                 if (status === 400 || status === 403 || status === 404 || status === 500) {
                     showAlert(status, errMessage)
                 } else if (status === 401) {
-                    refreshAccessToken(handleUpdateCustomerDetails);
+                    await refreshAccessToken(handleUpdateCustomerDetails);
                 }
             } else {
                 showAlert("Error", "An Unknow Error Occured!")
@@ -140,7 +140,7 @@ function UserDetails () {
                 if (status === 400 || status === 403 || status === 404 || status === 500) {
                     showAlert(status, errMessage)
                 } else if (status === 401) {
-                    refreshAccessToken(handlePasswordUpdate);
+                    await refreshAccessToken(handlePasswordUpdate);
                 }
             } else {
                 showAlert("Error", "An Unknow Error Occured!")

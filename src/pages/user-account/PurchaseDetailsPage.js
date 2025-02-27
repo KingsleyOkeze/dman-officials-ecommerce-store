@@ -12,7 +12,7 @@ function PurchaseDetailsPage () {
     const { orderId } = useParams();
     const navigate = useNavigate();
     const { accessToken, customerId, refreshAccessToken } = useContext(AuthContext);
-     const { customAlert, showAlert } = useContext(AlertContext);
+    const { customAlert, showAlert } = useContext(AlertContext);
     const [purchasedOrderDetails, setPurchasedOrderDetails] = useState([]);
 
     
@@ -42,7 +42,7 @@ function PurchaseDetailsPage () {
                 if (status === 400 || status === 403 || status === 404 || status === 500) {
                     showAlert(status, errMessage)
                 } else if (status === 401) {
-                    refreshAccessToken(handleFetchPurchasedOrderDetails);
+                    await refreshAccessToken(handleFetchPurchasedOrderDetails);
                 }
             } else {
                 showAlert("Error", "An Unknow Error Occured!")

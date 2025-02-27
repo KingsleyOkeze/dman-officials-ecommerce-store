@@ -6,9 +6,6 @@ function Overlay () {
     const { 
             showSideDrawer, 
             setShowSideDrawer, 
-            activeComponent, 
-            setActiveComponent,
-            toggleSideDrawer
     } = useContext(SideDrawerContext);
     
     return(

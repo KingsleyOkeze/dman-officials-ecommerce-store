@@ -151,7 +151,7 @@
 .login-page-message, .login-page-error {
     font-size: 1rem;
     margin-top: 15px;
-    padding: 10px;
+    padding: 10px 0px;
     width: 100%;
     max-width: 400px;
     text-align: center;

@@ -48,7 +48,7 @@ function OrderTrackingPage () {
                     if (status === 400 || status === 403 || status === 404 || status === 500) {
                         showAlert(status, errMessage)
                     } else if (status === 401) {
-                        refreshAccessToken(fetchOrderTrackingStatus);
+                        await refreshAccessToken(fetchOrderTrackingStatus);
                     }
                 } else {
                     showAlert("Error", "An Unknow Error Occured!")

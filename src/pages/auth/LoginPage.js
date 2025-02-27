@@ -42,7 +42,11 @@ const LoginPage = () => {
                 email, 
                 password,
                 ip
-            });
+            }, 
+            { 
+                withCredentials: true 
+            }
+            );
 
             if (response.status === 200) {
                 setMessage(response.data.message);

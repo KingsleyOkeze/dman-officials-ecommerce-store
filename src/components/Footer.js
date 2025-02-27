@@ -275,7 +275,7 @@ function Footer () {
                                     href={process.env.REACT_APP_IG_LINK}
                                     target="_blank" // Opens the link in a new tab
                                     rel="noopener noreferrer" // Improves security for external links
-                                    class="a-tag"
+                                    className="a-tag"
                                 >
                                 <GrInstagram className="icon"/>
                                 </a>
@@ -287,7 +287,7 @@ function Footer () {
                                         textDecoration: "none",
                                         fontWeight: "bold",
                                     }}
-                                    class="a-tag"
+                                    className="a-tag"
                                 >
                                     <MdEmail className="icon"/>
                                 </a>
@@ -302,7 +302,7 @@ function Footer () {
                                 href={process.env.REACT_APP_WHATSAPP_LINK}
                                 target="_blank" // Opens the link in a new tab
                                 rel="noopener noreferrer" // Improves security for external links
-                                class="a-tag"
+                                className="a-tag"
                             >
                                 <ImWhatsapp className="icon"/>
                             </a>
@@ -316,5 +316,6 @@ function Footer () {
         </div>
     )
 }
+
 
 export default Footer;

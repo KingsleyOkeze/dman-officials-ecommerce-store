@@ -74,7 +74,7 @@ function Header () {
                 {messages[currentMessageIndex]}
             </p>
        </div>
-       {windowWidth <= 980 ? 
+       {windowWidth <= 986 ? 
         <div className="sm-header-container">
             <div 
                 className="sm-header-logo" 

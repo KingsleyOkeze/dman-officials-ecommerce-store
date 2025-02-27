@@ -51,7 +51,7 @@ export const AuthProvider = ({ children }) => {
                 if (status === 400 || status === 403 || status === 404 || status === 500) {
                     // showAlert(status, errMessage)
                 } else if (status === 401) {
-                    refreshAccessToken(handleLogout);
+                    await refreshAccessToken(handleLogout);
                 }
             } else {
                 // showAlert("Error", "An Unknow Error Occured!")
@@ -65,8 +65,15 @@ export const AuthProvider = ({ children }) => {
                 {},
                 { withCredentials: true }
             );
+            
+            if (response.status !== 200) {  // Check for non-200 status
+                console.error("Refresh token request failed:", response.status, response.data);
+                handleLogout(); // Logout immediately on refresh failure
+                return null; // Or throw an error
+            }
+          
             console.log('Refresh token response:', response.data.accessToken);
-            const decoded = jwtDecode( response.data.accessToken);
+            const decoded = jwtDecode(response.data.accessToken);
             sessionStorage.setItem('accessToken', response.data.accessToken); // Store new access token in sessionStorage
             sessionStorage.setItem("customerId", decoded.userId);
 
@@ -87,20 +94,7 @@ export const AuthProvider = ({ children }) => {
             return null;
         }
     };
-
-    // Check for access token on app load
-    useEffect(() => {
-        const initializeAuth = async () => {
-            if (!accessToken || !customerId) {
-                await refreshAccessToken();
-            }
-        };
-
-        initializeAuth();
-    }, []);
-
     
-
 
     return (
         <AuthContext.Provider value={{ 

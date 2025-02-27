@@ -14,24 +14,42 @@ import axios from "axios";
 function SalePage () {
     const navigate = useNavigate();
     const [sales, setSales] = useState([]);
+    const [paginationIndex, setPaginationIndex] = useState(0); // Track current page
+    const [totalPages, setTotalPages] = useState(0); // Total number of pages (example)
+
+    const fetchSaleProducts = async () => {
+        try {
+            const response = await axios.get('/customer/flash-sale-products?page=0&limit=6'); 
+
+            if (response.status === 200) {
+                setSales(response.data.result);
+            }
+        } catch (error) {
+            
+        } finally {
+            // setLoading(false);
+        }
+    };
 
     useEffect(() => {
-        const fetchSaleProducts = async () => {
-            try {
-                const response = await axios.get('/customer/flash-sale-products?page=0&limit=6'); 
-
-                if (response.status === 200) {
-                    setSales(response.data.result);
-                }
-            } catch (error) {
-                
-            } finally {
-                // setLoading(false);
-            }
-        };
-
         fetchSaleProducts();
     }, []);
+
+    useEffect(() => {
+        fetchSaleProducts();
+    }, [paginationIndex]);
+      
+    const handlePreviousFunction = () => {
+        if (paginationIndex > 0) {
+          setPaginationIndex(paginationIndex - 1);
+        }
+    };
+      
+    const handleNextFunction = () => {
+        if (paginationIndex < totalPages) {
+          setPaginationIndex(paginationIndex + 1);
+        }
+    };
     
 
     return(
@@ -65,18 +83,28 @@ function SalePage () {
                 }
             </div>
             <div className="sale-page-bottom-pagination-container">
-                <div>
-                    <IoIosArrowBack />
-                    <p>Previous page</p>
+                    <button
+                        className="sale-page-pagination-button pagination-prev"
+                        onClick={handlePreviousFunction}
+                        disabled={paginationIndex === 0}
+                    >
+                        <IoIosArrowBack />
+                        <span>Previous page</span>
+                    </button>
+                    {/* <div> */}
+                        <span className="sale-page-pagination-status">
+                            {paginationIndex + 1} / {totalPages ? totalPages : 0 }
+                        </span>
+                    {/* </div> */}
+                    <button
+                        className="sale-page-pagination-button pagination-next"
+                        onClick={handleNextFunction}
+                        disabled={paginationIndex + 1 === totalPages}
+                    >
+                        Next page
+                        <IoIosArrowForward />
+                    </button>
                 </div>
-                <div>
-                    <p>1/5</p>
-                </div>
-                <div>
-                    <p>Next page</p>
-                    <IoIosArrowForward />
-                </div>
-            </div>
            
         </div>
     )

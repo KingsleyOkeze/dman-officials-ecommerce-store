@@ -25,117 +25,27 @@ function SavedProductPage () {
         paginationIndex,
         setPaginationIndex  
     } = useContext(SaveProductContext);
-    // const [paginationIndex, setPaginationIndex] = useState(0); // Track current page
-    // const [totalPages, setTotalPages] = useState(0); // Total number of pages (example)
-
-
-    const handlePreviousFunction = async () => {
-        try {
-      if (paginationIndex > 0) { 
-          const newPaginationIndex = paginationIndex - 1;
-          setPaginationIndex(newPaginationIndex);
-          const response = await axios.get(
-              `/customer/fetch-saved-product?page=${newPaginationIndex}&limit=5`,
-              {
-                params: {
-                    customerId: customerId
-                },  
-                headers: {
-                    Authorization: `Bearer ${accessToken}`, // Add token to Authorization header
-                }
-              }
-          );
-  
-          if (response.status === 200) {
-              console.log("fetched data", response.data.result)
-              setSavedProducts(response.data.result);
-              
-          }
-      }
-          } catch (err) {
-              if (err.response) {
-              const status = err.response.status;
-              const errMessage = err.response.data.error;
-
-              if (status === 400 || status === 403 || status === 404 || status === 500) {
-                  showAlert(status, errMessage)
-              } else if (status === 401) {
-                  refreshAccessToken(handlePreviousFunction);
-              }
-              } else {
-                  showAlert("Error", "An Unknow Error Occured!")
-              }
-          }
-    };
-
-    const handleNextFunction = async () => {
-      try {
-      if (paginationIndex < totalPages - 1) {
-          const newPaginationIndex = paginationIndex + 1;
-          setPaginationIndex(newPaginationIndex);
-          const response = await axios.get(
-              `/customer/fetch-saved-product?page=${newPaginationIndex}&limit=5`,
-              {
-                params: {
-                    customerId: customerId
-                },
-                headers: {
-                    Authorization: `Bearer ${accessToken}`, // Add token to Authorization header
-                },
-              }
-          );
-      
-          if (response.status === 200) {
-              console.log("fetched data", response.data.result)
-              setSavedProducts(response.data.result);
-          }
-      }
-      } catch (err) {
-        if (err.response) {
-          const status = err.response.status;
-          const errMessage = err.response.data.error;
-
-          if (status === 400 || status === 403 || status === 404 || status === 500) {
-              showAlert(status, errMessage)
-          } else if (status === 401) {
-              refreshAccessToken(handlePreviousFunction);
-          }
-          } else {
-          showAlert("Error", "An Unknow Error Occured!")
-          }   
-      }
-      
-    };
-
-    // useEffect(() => {
-    //   const fetchSavedProduct = async () => {
-    //       try {
-    //           const response = await axios.post(`/customer/fetch-saved-product?page=${paginationIndex}&limit=5`, {
-    //               customerId: customerId
-    //           },
-    //           {
-    //               headers: {
-    //                 Authorization: `Bearer ${accessToken}`, // Add token to Authorization header
-    //               },
-    //           });
-
-    //           if (response.status === 200) {
-    //               setSavedProducts(response.data.savedProducts);
-    //               setTotalPages(response.data.totalPages)
-    //               console.log('save product message', response.data.savedProducts)
-    //           }
-    //       } catch (err) {
-    //           console.log('err fetching save product', err)
-    //       }
-          
-    //   }
-    //   fetchSavedProduct();
-    // }, [])
 
 
     useEffect(() => {
         fetchSavedProduct();
     }, []);
+
+    useEffect(() => {
+        fetchSavedProduct();
+    }, [paginationIndex]);
+      
+    const handlePreviousFunction = () => {
+        if (paginationIndex > 0) {
+          setPaginationIndex(paginationIndex - 1);
+        }
+    };
+      
+    const handleNextFunction = () => {
+        if (paginationIndex < totalPages) {
+          setPaginationIndex(paginationIndex + 1);
+        }
+    };
 
 
     return(
@@ -152,7 +62,7 @@ function SavedProductPage () {
           <div className="saved-product-card-container">
              {savedProducts && savedProducts.length > 0 ? ( 
               savedProducts.map((savedProduct, index) => (
-                <div className="saved-product-card">
+                <div className="saved-product-card" key={savedProduct._id}>
                   <div className="saved-product-card-img-container">
                     <img src={savedProduct.productRef?.productImageUrl[0]} />
                   </div>
@@ -221,5 +131,6 @@ function SavedProductPage () {
         </div>
     )
 }
+
 
 export default SavedProductPage;

@@ -53,7 +53,7 @@ export const CartProvider = ({ children }) => {
                 if (status === 400 || status === 403 || status === 404 || status === 500) {
                     showAlert(status, errMessage)
                 } else if (status === 401) {
-                    refreshAccessToken(fetchCart);
+                    await refreshAccessToken(fetchCart);
                 }
             } else {
                 showAlert("Error", "An Unknow Error Occured!")
@@ -104,7 +104,7 @@ export const CartProvider = ({ children }) => {
                 if (status === 400 || status === 403 || status === 404 || status === 500) {
                     showAlert("Error", errMessage)
                 } else if (status === 401) {
-                    refreshAccessToken(() => addToCart(productId, quantity));
+                    await refreshAccessToken(() => addToCart(productId, quantity));
                 }
             } else {
                 showAlert("Error", "An Unknow Error Occured!")
@@ -144,7 +144,7 @@ export const CartProvider = ({ children }) => {
                 if (status === 400 || status === 403 || status === 404 || status === 500) {
                     showAlert("Error", errMessage)
                 } else if (status === 401) {
-                    refreshAccessToken(() => removeFromCart(itemId));
+                    await refreshAccessToken(() => removeFromCart(itemId));
                 }
             } else {
                 showAlert("Error", "An Unknow Error Occured!")
@@ -190,7 +190,7 @@ export const CartProvider = ({ children }) => {
                 if (status === 400 || status === 403 || status === 404 || status === 500) {
                     showAlert("Error", errMessage)
                 } else if (status === 401) {
-                    refreshAccessToken(() => updateQuantity(itemId, newQuantity));
+                    await refreshAccessToken(() => updateQuantity(itemId, newQuantity));
                 }
             } else {
                 showAlert("Error", "An Unknow Error Occured!")
