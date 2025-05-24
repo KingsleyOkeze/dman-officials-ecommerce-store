@@ -100,17 +100,17 @@ function CartPage () {
                             <div key={index} className="cart-page-card">
                                     <div className="cart-item-image-container">
                                         <img 
-                                            src={cartItem.productRef.productImageUrl[0]}
+                                            src={cartItem?.productRef?.productImageUrl[0]}
                                             className="cart-item-image"
                                         />
                                     </div>
                                     <div className="cart-item-description-container">
-                                        <p className="cart-item-name">{cartItem.productRef.productName} - {cartItem.color} </p>
+                                        <p className="cart-item-name">{cartItem?.productRef?.productName} - {cartItem.color} </p>
                                         <p className="cart-item-size">Size: {cartItem.size}</p>
                                         <p className="cart-item-color">Color: <RiCheckboxBlankFill style={{color: 'brown'}}/></p>
                                         <p className="cart-item-price">
-                                            <b>{cartItem.productRef.currency}</b> 
-                                            {cartItem.productRef.productOfferPrice} 
+                                            <b>{cartItem?.productRef?.currency}</b> 
+                                            {cartItem?.productRef?.productOfferPrice} 
                                         </p>
                                     </div>
                                     <div className="cart-item-quantity-container">

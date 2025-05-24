@@ -136,8 +136,22 @@ function MobileScreenNavbar() {
                     <span onClick={() => setShowLogin(true)}>Sign in</span> /{" "}
                      <span onClick={() => setShowSignUp(true)}>Register</span>
                 </p>
-                <p>FAQ</p>
-                <p>Contact us</p>
+                <p 
+                    onClick={() => {
+                        navigate("/faq-page")
+                        toggleSideDrawer()
+                    }}
+                >
+                    FAQ
+                </p>
+                <p 
+                    onClick={() => {
+                        navigate("/contact")
+                        toggleSideDrawer()
+                    }}
+                >
+                    Contact us
+                </p>
             </div>
   
             {/* Login and Sign Up Modals */}
