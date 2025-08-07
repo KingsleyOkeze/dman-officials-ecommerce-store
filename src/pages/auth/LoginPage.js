@@ -5,7 +5,7 @@ import { Link, useNavigate } from 'react-router-dom';
 import logo from '../../images/dman-logo.png'
 import { SideDrawerContext } from '../../contexts/SideDrawerContext';
 import { AuthContext } from '../../contexts/AuthContext';
-import useActivityTracker from '../../hooks/useActivityTracker'; // Import the custom hook
+// import useActivityTracker from '../../hooks/useActivityTracker'; // Import the custom hook
 import { getUserIpAddress } from '../../utils/getUserIpAddress'; // Adjust the path as needed
 
 
@@ -25,7 +25,7 @@ const LoginPage = () => {
         toggleSideDrawer
     } = useContext(SideDrawerContext);
     // Use the custom hook directly
-    const { startTimer } = useActivityTracker();
+    // const { startTimer } = useActivityTracker();
 
     const handleLogin = async (e) => {
         e.preventDefault();
@@ -60,7 +60,7 @@ const LoginPage = () => {
                 navigate("/account");
 
                 // Start session tracking
-                startTimer(); // Start the session timer
+                // startTimer(); // Start the session timer
 
                 console.log("Login Response:", response.data);
                 console.log("Access Token Set:", response.data.accessToken);

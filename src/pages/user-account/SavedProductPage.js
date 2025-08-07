@@ -58,51 +58,60 @@ function SavedProductPage () {
                 </div>
                 <h3>Saved Product</h3>
             </div>
-          <div className="saved-product-page-main-content-container">
-          <div className="saved-product-card-container">
-             {savedProducts && savedProducts.length > 0 ? ( 
-              savedProducts.map((savedProduct, index) => (
-                <div className="saved-product-card" key={savedProduct._id}>
-                  <div className="saved-product-card-img-container">
-                    <img src={savedProduct.productRef?.productImageUrl[0]} />
-                  </div>
-                  <div className="saved-product-description-container">
-                    <p className="saved-product-name">{savedProduct.productRef?.productName}</p>
-                    <div className="saved-product-size-price-container">
-                      <p className="saved-product-size-text">Size: small</p>
-                      <p className="saved-product-price-text">₦ {savedProduct.productRef?.productOfferPrice}</p>
-                    </div>
-                  </div>
-                  <div className="saved-product-button-container">
-                    <div className="saved-product-btn-child">
-                      <button 
-                          className="saved-product-buy-now-button"
-                          onClick={() => {
-                            addToCart(savedProduct.productRef?._id, 1)
-                          }}
-                          >
-                            Buy Now
-                      </button>
-                    </div>
-                    <div className="saved-product-btn-child">
-                      <button 
-                          className="saved-product-remove-button"
-                          onClick={() => {
-                            removeFromSavedProduct(savedProduct._id)
-                          }}
-                          >
-                            Remove
-                          </button>
-                    </div>
-                  </div>
+            <div className="saved-product-page-main-content-container">
+                <div className="saved-product-card-container">
+                    {savedProducts && savedProducts.length > 0 ? ( 
+                    savedProducts.map((savedProduct, index) => (
+                        <div className="saved-product-card" key={savedProduct._id}>
+                            <div className="saved-product-card-img-container">
+                                <img src={savedProduct.productRef?.productImageUrl[0]} />
+                            </div>
+                            <div className="saved-product-description-container">
+                                <p className="saved-product-name">{savedProduct.productRef?.productName}</p>
+                                <div className="saved-product-size-price-container">
+                                    <p className="saved-product-size-text">Size: small</p>
+                                    <p className="saved-product-price-text">₦ {savedProduct.productRef?.productOfferPrice}</p>
+                                </div>
+                            </div>
+                            <div className="saved-product-button-container">
+                                <div className="saved-product-btn-child">
+                                    <button 
+                                        className="saved-product-buy-now-button"
+                                        style={{
+                                            background: savedProduct.productRef?.isDeleted ? '#A0A0A0' : '#000000',
+                                            cursor: savedProduct.productRef?.isDeleted ? 'not-allowed' : 'pointer'
+                                        }}
+                                        disabled={savedProduct.productRef?.isDeleted}
+                                        onClick={() => {
+                                            if (savedProduct.productRef?.isDeleted) {
+                                                showAlert("Error", "Product has been discontinued")
+                                            } else {
+                                                addToCart(savedProduct.productRef?._id, 1)
+                                            }
+                                        }}
+                                    >
+                                        { savedProduct.productRef?.isDeleted ? 'Discontinued' : 'Buy Now' }
+                                    </button>
+                                </div>
+                                <div className="saved-product-btn-child">
+                                    <button 
+                                        className="saved-product-remove-button"
+                                        onClick={() => {
+                                            removeFromSavedProduct(savedProduct._id)
+                                        }}
+                                    >
+                                        Remove
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    ))
+                    ) : (
+                        <p>No saved product found!</p>
+                    )
+                    }
                 </div>
-              ))
-              ) : (
-                  <p>No saved product found!</p>
-              )
-             }
-          </div>
-          <div className="saved-product-bottom-pagination-container">
+                <div className="saved-product-bottom-pagination-container">
                     <button
                         className="saved-product-pagination-button pagination-prev"
                         onClick={handlePreviousFunction}
@@ -124,10 +133,8 @@ function SavedProductPage () {
                         Next page
                         <IoIosArrowForward />
                     </button>
+                </div>
             </div>
-
-            </div>
-
         </div>
     )
 }

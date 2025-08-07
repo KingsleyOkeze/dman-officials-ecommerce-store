@@ -3,8 +3,6 @@ import axios from 'axios';
 import { jwtDecode } from 'jwt-decode';
 import React, { createContext, useState, useContext, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import useActivityTracker from '../hooks/useActivityTracker'; // Import the custom hook
-
 
 export const AuthContext = createContext();
 
@@ -13,22 +11,14 @@ export const AuthProvider = ({ children }) => {
     const [accessToken, setAccessToken] = useState(sessionStorage.getItem('accessToken') || null);
     const [customerId, setCustomerId] = useState(sessionStorage.getItem('customerId') || null);
 
-    const [sessionDuration, setSessionDuration] = useState(0); // To track session duration
-
-    // Use the custom hook
-    const { stopTimer } = useActivityTracker(customerId, accessToken);
-
     
     const handleLogout = async () => {
-        // Stop the timer and get the session duration
-        const duration = await stopTimer();
 
         try {
             const response = await axios.post(
                 "/customer/logout",
                 { 
                     customerId, 
-                    sessionDuration: duration
                 },
                 { withCredentials: true } // Include credentials for cookies
             );
