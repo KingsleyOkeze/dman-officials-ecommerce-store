@@ -8,7 +8,7 @@ import Alert from "../../components/Alert";
 
 function UserOverviewPage() {
     const navigate = useNavigate();
-    const { accessToken, customerId, refreshAccessToken } = useContext(AuthContext); 
+    const { accessToken, customerId } = useContext(AuthContext); 
     const { customAlert, showAlert } = useContext(AlertContext);
     const [userDetails, setUserDetails] = useState([]);
 
@@ -36,9 +36,8 @@ function UserOverviewPage() {
 
                 if (status === 400 || status === 403 || status === 404 || status === 500) {
                     showAlert(status, errMessage)
-                } else if (status === 401) {
-                    await refreshAccessToken(handleFetchUserDetails);
-                }
+                } 
+                // 401 errors are handled by AuthContext interceptor
             } else {
                 showAlert("Error", "An Unknow Error Occured!")
             }
@@ -80,7 +79,7 @@ function UserOverviewPage() {
         <div className="user-overview-address-box">
             <div className="user-overview-address-header">
                 <h4>Address</h4>
-                <button className="user-overview-change-button">change</button>
+                {/* <button className="user-overview-change-button">change</button> */}
             </div>
             <p className="user-overview-address-subheader">Your default shipping address:</p>
             <ul className="user-overview-address-list">

@@ -22,6 +22,7 @@
     /* height: 321px; */
     height: 78vh;
     border-radius: 10px;
+    cursor: pointer;
 }
 
 .product-page-product-img-container img {

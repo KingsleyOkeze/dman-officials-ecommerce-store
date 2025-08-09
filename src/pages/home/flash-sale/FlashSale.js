@@ -1,11 +1,13 @@
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import "../../../styles/pages-styles/home-pages-styles/flash-sale-styles/FlashSale.css";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
+import { CartContext } from "../../../contexts/CartContext";
 
 
 function FlashSale () {
     const navigate = useNavigate();
+    const { addToCart } = useContext(CartContext);
     const [flashSaleProducts, setFlashSaleProducts] = useState([]);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
@@ -139,7 +141,10 @@ function FlashSale () {
                                     <b>₦</b>{flashSale.productPrice}
                                 </p>
                             </div>
-                            <button className="home-page-flash-sale-card-btn">Add to Cart</button>
+                            <button 
+                                className="home-page-flash-sale-card-btn"
+                                onClick={() => addToCart(flashSale._id, 1)}
+                            >Add to Cart</button>
                         </div>
                     ))
                     ) : (

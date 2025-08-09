@@ -122,7 +122,7 @@ function ProductPage () {
                         </div>
                         <div className="product-page-product-overview-container">
                             <div className="product-page-product-category">
-                                <p>Women Dress</p>
+                                <p>{product.productCategory}</p>
                                 <GoDotFill className="product-page-product-category-status-icon" />
                                 <p 
                                     className="product-page-product-category-status-text"
@@ -133,13 +133,17 @@ function ProductPage () {
                                         :
                                         product.productStatus === "OutOfStock" ? "#B80000"
                                         :
+                                        product.productStatus === "Discontinued" ? "#4f0202ff"
+                                        :
                                         "#000000"
                                     }}
                                 >
                                     {product.productStatus && formatProductStatus(product.productStatus)}
                                 </p>
                             </div>
-                            <p className="product-page-product-name">Women dress name goes here</p>
+                            <p className="product-page-product-name">
+                                {product.productName}
+                            </p>
                             { product.addedTimer && product.timerExpiryDate && (
                                 <div className="product-page-product-time-container">
                                     <p className="product-page-product-time-title">Time Left:</p>
@@ -160,7 +164,7 @@ function ProductPage () {
                                                 background: itemColor.trim().toLowerCase() //=== 'black' ? '#000000' : '#FFFFFF'
                                             }}
                                         >
-                                            {itemColor}
+                                            {/* {itemColor} */}
                                         </li>
                                     ))
                                     : null
@@ -195,6 +199,7 @@ function ProductPage () {
                                 </button>
                                 <button 
                                     className="product-page-product-save-button"
+                                    // style={background: product "#008C00"}
                                     onClick={() => {
                                         handleSaveProduct(product._id)
                                     }}>
@@ -215,7 +220,9 @@ function ProductPage () {
                         </p>
                     </div>
                     <div className="lg-product-page-recommended-component-container">
-                        <Recommended />
+                        <Recommended 
+                            productDetails={product}
+                        />
                     </div>
                 </div>
                 <div className="product-page-delivery-and-return-container">

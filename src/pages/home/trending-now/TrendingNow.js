@@ -1,10 +1,12 @@
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import "../../../styles/pages-styles/home-pages-styles/trending-now-styles/TrendingNow.css"
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
+import { CartContext } from "../../../contexts/CartContext";
 
 function TrendingNow () {
     const navigate = useNavigate();
+    const { addToCart } = useContext(CartContext);
     const [trendingNow, setTrendingNow] = useState([]);
     const [selectedCategory, setSelectedCategory] = useState("TrendingNow");  // For selected category
     const [selectedSubCategory, setSelectedSubCategory] = useState(""); // For selected subcategory
@@ -79,7 +81,12 @@ function TrendingNow () {
                                   <b>₦</b> {trendingNowItem.productPrice}
                              </p>
                             </div>
-                                <button className="home-page-trending-now-card-btn">Add to Cart</button>
+                                <button 
+                                    className="home-page-trending-now-card-btn"
+                                    onClick={() => addToCart(trendingNowItem._id, 1)}
+                                >
+                                    Add to Cart
+                                </button>
                             </div>
                     ))
                     ) : (

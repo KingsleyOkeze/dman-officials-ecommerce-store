@@ -8,7 +8,7 @@ export const SaveProductContext = createContext();
 
 // Create a provider component
 export const SaveProductProvider = ({ children }) => {
-    const { accessToken, customerId, refreshAccessToken } = useContext(AuthContext); 
+    const { accessToken, customerId } = useContext(AuthContext); 
     const { customAlert, showAlert } = useContext(AlertContext);
     const [savedProducts, setSavedProducts] = useState([]);
     const [paginationIndex, setPaginationIndex] = useState(0); // Track current page
@@ -44,9 +44,8 @@ export const SaveProductProvider = ({ children }) => {
 
                 if (status === 400 || status === 403 || status === 404 || status === 500) {
                     showAlert(status, errMessage)
-                } else if (status === 401) {
-                    await refreshAccessToken(fetchSavedProduct);
-                }
+                } 
+                // 401 errors are handled by AuthContext interceptor
             } else {
                 showAlert("Error", "An Unknow Error Occured!")
             }
@@ -93,9 +92,8 @@ export const SaveProductProvider = ({ children }) => {
                     status === 500
                 ) {
                     showAlert("Error", errMessage)
-                } else if (status === 401) {
-                    await refreshAccessToken(() => handleSaveProduct(productId));
-                }
+                } 
+                // 401 errors are handled by AuthContext interceptor
             } else {
                 showAlert("Error", "An Unknow Error Occured!")
             }
@@ -121,7 +119,7 @@ export const SaveProductProvider = ({ children }) => {
                 },
             });
 
-            if (response.status === 201) {
+            if (response.status === 200) {
                 setSavedProducts(response.data.savedProducts);
                 showAlert("Success", response.data.message);
             }
@@ -133,9 +131,8 @@ export const SaveProductProvider = ({ children }) => {
 
                 if (status === 400 || status === 403 || status === 404 || status === 500) {
                     showAlert("Error", errMessage)
-                } else if (status === 401) {
-                    await refreshAccessToken(() => removeFromSavedProduct(itemId));
-                }
+                } 
+                // 401 errors are handled by AuthContext interceptor
             } else {
                 showAlert("Error", "An Unknow Error Occured!")
             }

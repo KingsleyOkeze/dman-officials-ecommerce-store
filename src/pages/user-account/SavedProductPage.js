@@ -13,8 +13,8 @@ import { useNavigate } from "react-router-dom";
 
 function SavedProductPage () {
     const navigate = useNavigate();
-    const { accessToken, customerId, refreshAccessToken } = useContext(AuthContext); 
-    const { customAlert, showAlert } = useContext(AlertContext);
+    const { accessToken, customerId } = useContext(AuthContext); 
+    const { showAlert } = useContext(AlertContext);
     const { cartItems, addToCart, removeFromCart } = useContext(CartContext);
     const { 
         savedProducts, 
@@ -26,27 +26,26 @@ function SavedProductPage () {
         setPaginationIndex  
     } = useContext(SaveProductContext);
 
-
-    useEffect(() => {
-        fetchSavedProduct();
-    }, []);
-
-    useEffect(() => {
-        fetchSavedProduct();
-    }, [paginationIndex]);
-      
     const handlePreviousFunction = () => {
         if (paginationIndex > 0) {
-          setPaginationIndex(paginationIndex - 1);
+            setPaginationIndex(paginationIndex - 1);
         }
     };
       
     const handleNextFunction = () => {
         if (paginationIndex < totalPages) {
-          setPaginationIndex(paginationIndex + 1);
+            setPaginationIndex(paginationIndex + 1);
         }
     };
 
+    useEffect(() => {
+        fetchSavedProduct();
+    }, [accessToken, customerId, paginationIndex]);
+      
+
+    if (!savedProducts) {
+        return <p>Loading...</p>;
+    }
 
     return(
         <div className="saved-product-page-container">
@@ -61,79 +60,79 @@ function SavedProductPage () {
             <div className="saved-product-page-main-content-container">
                 <div className="saved-product-card-container">
                     {savedProducts && savedProducts.length > 0 ? ( 
-                    savedProducts.map((savedProduct, index) => (
-                        <div className="saved-product-card" key={savedProduct._id}>
-                            <div className="saved-product-card-img-container">
-                                <img src={savedProduct.productRef?.productImageUrl[0]} />
-                            </div>
-                            <div className="saved-product-description-container">
-                                <p className="saved-product-name">{savedProduct.productRef?.productName}</p>
-                                <div className="saved-product-size-price-container">
-                                    <p className="saved-product-size-text">Size: small</p>
-                                    <p className="saved-product-price-text">₦ {savedProduct.productRef?.productOfferPrice}</p>
+                        savedProducts.map((savedProduct, index) => (
+                            <div className="saved-product-card" key={savedProduct._id}>
+                                <div className="saved-product-card-img-container">
+                                    <img src={savedProduct.productRef?.productImageUrl[0]} />
+                                </div>
+                                <div className="saved-product-description-container">
+                                    <p className="saved-product-name">{savedProduct.productRef?.productName}</p>
+                                    <div className="saved-product-size-price-container">
+                                        <p className="saved-product-size-text">Size: small</p>
+                                        <p className="saved-product-price-text">₦ {savedProduct.productRef?.productOfferPrice}</p>
+                                    </div>
+                                </div>
+                                <div className="saved-product-button-container">
+                                    <div className="saved-product-btn-child">
+                                        <button 
+                                            className="saved-product-buy-now-button"
+                                            style={{
+                                                background: savedProduct?.productRef?.isDeleted ? '#A0A0A0' : '#000000',
+                                                cursor: savedProduct?.productRef?.isDeleted ? 'not-allowed' : 'pointer'
+                                            }}
+                                            disabled={savedProduct?.productRef?.isDeleted}
+                                            onClick={() => {
+                                                if (savedProduct?.productRef?.isDeleted) {
+                                                    showAlert("Error", "Product has been discontinued")
+                                                } else {
+                                                    addToCart(savedProduct?.productRef?._id, 1)
+                                                }
+                                            }}
+                                        >
+                                            { savedProduct?.productRef?.isDeleted ? 'Discontinued' : 'Buy Now' }
+                                        </button>
+                                    </div>
+                                    <div className="saved-product-btn-child">
+                                        <button 
+                                            className="saved-product-remove-button"
+                                            onClick={() => {
+                                                removeFromSavedProduct(savedProduct._id)
+                                            }}
+                                        >
+                                            Remove
+                                        </button>
+                                    </div>
                                 </div>
                             </div>
-                            <div className="saved-product-button-container">
-                                <div className="saved-product-btn-child">
-                                    <button 
-                                        className="saved-product-buy-now-button"
-                                        style={{
-                                            background: savedProduct.productRef?.isDeleted ? '#A0A0A0' : '#000000',
-                                            cursor: savedProduct.productRef?.isDeleted ? 'not-allowed' : 'pointer'
-                                        }}
-                                        disabled={savedProduct.productRef?.isDeleted}
-                                        onClick={() => {
-                                            if (savedProduct.productRef?.isDeleted) {
-                                                showAlert("Error", "Product has been discontinued")
-                                            } else {
-                                                addToCart(savedProduct.productRef?._id, 1)
-                                            }
-                                        }}
-                                    >
-                                        { savedProduct.productRef?.isDeleted ? 'Discontinued' : 'Buy Now' }
-                                    </button>
-                                </div>
-                                <div className="saved-product-btn-child">
-                                    <button 
-                                        className="saved-product-remove-button"
-                                        onClick={() => {
-                                            removeFromSavedProduct(savedProduct._id)
-                                        }}
-                                    >
-                                        Remove
-                                    </button>
-                                </div>
-                            </div>
-                        </div>
-                    ))
+                        ))
                     ) : (
                         <p>No saved product found!</p>
                     )
                     }
                 </div>
-                <div className="saved-product-bottom-pagination-container">
-                    <button
-                        className="saved-product-pagination-button pagination-prev"
-                        onClick={handlePreviousFunction}
-                        disabled={paginationIndex === 0}
-                    >
-                        <IoIosArrowBack />
-                        <span>Previous page</span>
-                    </button>
-                    {/* <div> */}
-                        <span className="saved-product-pagination-status">
-                            {paginationIndex + 1} / {totalPages ? totalPages : 0 }
-                        </span>
-                    {/* </div> */}
-                    <button
-                        className="saved-product-pagination-button pagination-next"
-                        onClick={handleNextFunction}
-                        disabled={paginationIndex + 1 === totalPages}
-                    >
-                        Next page
-                        <IoIosArrowForward />
-                    </button>
-                </div>
+                    {savedProducts?.length > 0 && (
+                        <div className="saved-product-bottom-pagination-container">
+                            <button
+                                className="saved-product-pagination-button pagination-prev"
+                                onClick={handlePreviousFunction}
+                                disabled={paginationIndex === 0}
+                            >
+                                <IoIosArrowBack />
+                                <span>Previous page</span>
+                            </button>
+                            <span className="saved-product-pagination-status">
+                                { totalPages ? paginationIndex + 1 : 0} / {totalPages ? totalPages : 0 }
+                            </span>
+                            <button
+                                className="saved-product-pagination-button pagination-next"
+                                onClick={handleNextFunction}
+                                disabled={paginationIndex + 1 === totalPages}
+                            >
+                                Next page
+                                <IoIosArrowForward />
+                            </button>
+                        </div>
+                    )}
             </div>
         </div>
     )

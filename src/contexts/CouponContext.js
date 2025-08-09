@@ -5,7 +5,7 @@ import { AuthContext } from './AuthContext';
 export const CouponContext = createContext();
 
 export const CouponProvider = ({ children }) => {
-    const { accessToken, customerId, refreshAccessToken } = useContext(AuthContext); 
+    const { accessToken, customerId } = useContext(AuthContext); 
     const [couponCode, setCouponCode] = useState('');
     const [discountAmount, setDiscountAmount] = useState(0);
     const [couponError, setCouponError] = useState('');
@@ -61,9 +61,8 @@ export const CouponProvider = ({ children }) => {
                 if (status === 400 || status === 403 || status === 404 || status === 500) {
                     console.log("log coupon err", errMessage)
                     setCouponError(errMessage);
-                } else if (status === 401) {
-                    await refreshAccessToken(() => applyCoupon(code));
-                }
+                } 
+                // 401 errors are handled by AuthContext interceptor
             } else {
                 setCouponError("An Unknown error occurred while validating the coupon!")
             }

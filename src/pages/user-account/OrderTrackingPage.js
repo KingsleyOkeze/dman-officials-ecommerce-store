@@ -13,8 +13,8 @@ import { AuthContext } from "../../contexts/AuthContext";
 function OrderTrackingPage () {
     const { orderId } = useParams();
     const [order, setOrder] = useState({});
-    const { accessToken, customerId, refreshAccessToken } = useContext(AuthContext); 
-    const { showAlert, customAlert } = useContext(AlertContext);
+    const { accessToken, customerId } = useContext(AuthContext); 
+    const { showAlert } = useContext(AlertContext);
 
     // Define possible statuses in the order they should progress.
     const statusArr = ["Pending", "Processing", "Shipped", "Delivered", "Cancelled"];
@@ -47,9 +47,8 @@ function OrderTrackingPage () {
     
                     if (status === 400 || status === 403 || status === 404 || status === 500) {
                         showAlert(status, errMessage)
-                    } else if (status === 401) {
-                        await refreshAccessToken(fetchOrderTrackingStatus);
-                    }
+                    } 
+                    // 401 errors are handled by AuthContext interceptor
                 } else {
                     showAlert("Error", "An Unknow Error Occured!")
                 }

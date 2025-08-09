@@ -11,7 +11,7 @@ import Alert from "../../components/Alert";
 function PurchaseDetailsPage () {
     const { orderId } = useParams();
     const navigate = useNavigate();
-    const { accessToken, customerId, refreshAccessToken } = useContext(AuthContext);
+    const { accessToken, customerId } = useContext(AuthContext);
     const { customAlert, showAlert } = useContext(AlertContext);
     const [purchasedOrderDetails, setPurchasedOrderDetails] = useState([]);
 
@@ -41,9 +41,8 @@ function PurchaseDetailsPage () {
 
                 if (status === 400 || status === 403 || status === 404 || status === 500) {
                     showAlert(status, errMessage)
-                } else if (status === 401) {
-                    await refreshAccessToken(handleFetchPurchasedOrderDetails);
-                }
+                } 
+                // 401 errors are handled by AuthContext interceptor
             } else {
                 showAlert("Error", "An Unknow Error Occured!")
             }
@@ -58,9 +57,12 @@ function PurchaseDetailsPage () {
         return string.charAt(0).toUpperCase() + string.slice(1);
     }
 
+    if (!purchasedOrderDetails || purchasedOrderDetails.length === 0) {
+        return <p>Loading...</p>;
+    }
+
     return(
         <div className="purchase-details-container">
-            {customAlert.type ? (<Alert /> ) : ""}
             {purchasedOrderDetails && (
             <>
             <div className="purchase-details-header-container"
@@ -70,7 +72,7 @@ function PurchaseDetailsPage () {
             </div>
             <div className="purchase-details-main-detail-container">
                 <div className="purchase-details-main-detail-top-description-container">
-                    <p className="purchase-details-main-detail-top-description-header">ORDER ID: 09657054598</p>
+                    <p className="purchase-details-main-detail-top-description-header">ORDER ID: {purchasedOrderDetails?._id}</p>
                     <div className="purchase-details-main-detail-top-description">
                         <p>1 item</p>
                         <p>Order placed on 13th Oct, 2024</p>
@@ -131,8 +133,8 @@ function PurchaseDetailsPage () {
                     </div>
                     <div className="purchase-details-payment-second-child">
                         <p className="purchase-details-payment-second-child-head">Payment Details</p>
-                        <p>Items Total: N9,658</p>
-                        <p>Deliver Fees: N700</p>
+                        <p>Items Total: N<span> {purchasedOrderDetails?.orderedItems[0]?.price} </span></p>
+                        <p>Deliver Fees: N1000</p>
                         <p>
                             {
                                 purchasedOrderDetails?.discountAmountApplied === 0 ? "" 

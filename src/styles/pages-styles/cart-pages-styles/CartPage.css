@@ -333,12 +333,31 @@
     height: 100vh;
 }
 
-.empty-cart-page-container h2 {
-    /* width: 100%; */
+
+.empty-cart-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.empty-cart-header h2 {
     font-weight: 800;
     font-size: 16px;
     line-height: 19.2px;
+    margin: 0;
 }
+
+.empty-cart-header-close-icon {
+    cursor: pointer;
+    font-size: 22px;
+    color: #333;
+    transition: color 0.2s ease;
+}
+
+.empty-cart-header-close-icon:hover {
+    color: #ff4d4d;
+}
+
 
 
 .empty-cart-page-container p {

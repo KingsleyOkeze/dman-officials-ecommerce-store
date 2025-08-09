@@ -9,7 +9,7 @@ import { AlertContext } from '../../contexts/AlertContext';
 import Alert from '../../components/Alert';
 
 function UserDetails () {
-    const { accessToken, customerId, refreshAccessToken } = useContext(AuthContext); 
+    const { accessToken, customerId } = useContext(AuthContext); 
     const { customAlert, showAlert } = useContext(AlertContext);
     const [isEdittingProfile, setIsEdittingProfile] = useState(false);
     const [isEdittingSecurity, setIsEdittingSecurity] = useState(false);
@@ -55,9 +55,8 @@ function UserDetails () {
 
                 if (status === 400 || status === 403 || status === 404 || status === 500) {
                     showAlert(status, errMessage)
-                } else if (status === 401) {
-                    await refreshAccessToken(handleFetchCustomerDetails);
-                }
+                } 
+                // 401 errors are handled by AuthContext interceptor
             } else {
                 showAlert("Error", "An Unknow Error Occured!")
             }
@@ -106,9 +105,8 @@ function UserDetails () {
 
                 if (status === 400 || status === 403 || status === 404 || status === 500) {
                     showAlert(status, errMessage)
-                } else if (status === 401) {
-                    await refreshAccessToken(handleUpdateCustomerDetails);
-                }
+                } 
+                // 401 errors are handled by AuthContext interceptor
             } else {
                 showAlert("Error", "An Unknow Error Occured!")
             }
@@ -139,9 +137,8 @@ function UserDetails () {
 
                 if (status === 400 || status === 403 || status === 404 || status === 500) {
                     showAlert(status, errMessage)
-                } else if (status === 401) {
-                    await refreshAccessToken(handlePasswordUpdate);
-                }
+                } 
+                // 401 errors are handled by AuthContext interceptor
             } else {
                 showAlert("Error", "An Unknow Error Occured!")
             }

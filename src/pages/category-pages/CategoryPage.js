@@ -277,7 +277,7 @@ function CategoryPage () {
 
             <div className="category-page-showcase-container">
                 <div className="category-page-items-header-container">
-                    <h2>Men wares:</h2> 
+                    <h2>{category}:</h2> 
                     <p className="category-page-items-header-extra-details">
                         {width ? <span>All</span> : <span>T shirt - Showing {items.length} products</span>}
                     </p>
@@ -334,7 +334,7 @@ function CategoryPage () {
                     </button>
                     {/* <div> */}
                         <span className="category-page-pagination-status">
-                            {paginationIndex + 1} / {totalPages ? totalPages : 0 }
+                            {totalPages ? paginationIndex + 1 : 0} / {totalPages ? totalPages : 0}
                         </span>
                     {/* </div> */}
                     <button

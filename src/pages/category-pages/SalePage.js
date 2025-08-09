@@ -93,7 +93,7 @@ function SalePage () {
                     </button>
                     {/* <div> */}
                         <span className="sale-page-pagination-status">
-                            {paginationIndex + 1} / {totalPages ? totalPages : 0 }
+                            {totalPages ? paginationIndex + 1 : 0} / {totalPages ? totalPages : 0}
                         </span>
                     {/* </div> */}
                     <button

@@ -10,12 +10,12 @@ import { CouponContext } from '../../contexts/CouponContext';
 import { LiaTimesSolid } from "react-icons/lia";
 import { AuthContext } from '../../contexts/AuthContext';
 import { AlertContext } from '../../contexts/AlertContext';
-
+import { FiX } from "react-icons/fi";
 
 function CartPage () {
     const navigate = useNavigate();
-    const { accessToken, customerId, refreshAccessToken } = useContext(AuthContext);
-    const { customAlert, showAlert } = useContext(AlertContext);
+    const { accessToken, customerId } = useContext(AuthContext);
+    const { showAlert } = useContext(AlertContext);
     const { cartItems, updateQuantity, removeFromCart, loadingId, actionType, setActionType } = useContext(CartContext); 
     const { applyCoupon, couponCode, setCouponCode, discountAmount, couponError, isValidCoupon } = useContext(CouponContext);
     const { toggleSideDrawer } = useContext(SideDrawerContext); 
@@ -47,9 +47,8 @@ function CartPage () {
 
                 if (status === 400 || status === 403 || status === 404 || status === 500) {
                     showAlert(status, errMessage)
-                } else if (status === 401) {
-                    refreshAccessToken(fetchCartTotalPrice);
-                }
+                } 
+                // 401 errors are handled by AuthContext interceptor
             } else {
                 showAlert("Error", "An Unknow Error Occured!")
             }
@@ -105,9 +104,21 @@ function CartPage () {
                                         />
                                     </div>
                                     <div className="cart-item-description-container">
-                                        <p className="cart-item-name">{cartItem?.productRef?.productName} - {cartItem.color} </p>
-                                        <p className="cart-item-size">Size: {cartItem.size}</p>
-                                        <p className="cart-item-color">Color: <RiCheckboxBlankFill style={{color: 'brown'}}/></p>
+                                        <p className="cart-item-name">
+                                            {cartItem?.productRef?.productName} - {cartItem?.productRef?.productColor[0]} 
+                                        </p>
+                                        <p className="cart-item-size">
+                                            Size: {cartItem?.productRef?.productSize}
+                                        </p>
+                                        <p className="cart-item-color">
+                                            Color: <RiCheckboxBlankFill 
+                                                        style={{
+                                                            color: cartItem?.productRef?.productColor[0] ?
+                                                                cartItem?.productRef?.productColor[0].replace(/\s+/g, '').toLowerCase()
+                                                                : 'brown'
+                                                        }}
+                                                    />
+                                        </p>
                                         <p className="cart-item-price">
                                             <b>{cartItem?.productRef?.currency}</b> 
                                             {cartItem?.productRef?.productOfferPrice} 
@@ -232,7 +243,13 @@ function CartPage () {
              : 
              <div className="empty-cart-page-container">
 
-                <h2>Shopping cart</h2>
+                <div className="empty-cart-header">
+                    <h2>Shopping cart</h2>
+                    <FiX 
+                        className="empty-cart-header-close-icon"
+                        onClick={toggleSideDrawer}
+                    />
+                </div>
                 <p>Your cart is empty</p>
             </div>
             }

@@ -10,7 +10,7 @@ export const CartContext = createContext();
 // Create a provider component
 export const CartProvider = ({ children }) => {
     const [cartItems, setCartItems] = useState([]);
-    const { accessToken, customerId, refreshAccessToken } = useContext(AuthContext);
+    const { accessToken, customerId } = useContext(AuthContext);
     const { showAlert } = useContext(AlertContext);
 
     const { 
@@ -52,9 +52,8 @@ export const CartProvider = ({ children }) => {
 
                 if (status === 400 || status === 403 || status === 404 || status === 500) {
                     showAlert(status, errMessage)
-                } else if (status === 401) {
-                    await refreshAccessToken(fetchCart);
-                }
+                } 
+                // 401 errors are handled by AuthContext interceptor
             } else {
                 showAlert("Error", "An Unknow Error Occured!")
             }
@@ -103,9 +102,8 @@ export const CartProvider = ({ children }) => {
 
                 if (status === 400 || status === 403 || status === 404 || status === 500) {
                     showAlert("Error", errMessage)
-                } else if (status === 401) {
-                    await refreshAccessToken(() => addToCart(productId, quantity));
-                }
+                } 
+                // 401 errors are handled by AuthContext interceptor
             } else {
                 showAlert("Error", "An Unknow Error Occured!")
             }
@@ -143,9 +141,8 @@ export const CartProvider = ({ children }) => {
 
                 if (status === 400 || status === 403 || status === 404 || status === 500) {
                     showAlert("Error", errMessage)
-                } else if (status === 401) {
-                    await refreshAccessToken(() => removeFromCart(itemId));
-                }
+                } 
+                // 401 errors are handled by AuthContext interceptor
             } else {
                 showAlert("Error", "An Unknow Error Occured!")
             }
@@ -189,9 +186,8 @@ export const CartProvider = ({ children }) => {
 
                 if (status === 400 || status === 403 || status === 404 || status === 500) {
                     showAlert("Error", errMessage)
-                } else if (status === 401) {
-                    await refreshAccessToken(() => updateQuantity(itemId, newQuantity));
-                }
+                } 
+                // 401 errors are handled by AuthContext interceptor
             } else {
                 showAlert("Error", "An Unknow Error Occured!")
             }

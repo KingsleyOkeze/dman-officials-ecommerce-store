@@ -4,7 +4,6 @@ import axios from 'axios';
 
 export async function handlePayment (customerEmail, totalAmount, orderId, navigate, accessToken, refreshAccessToken, showAlert) {
     // const { customAlert, showAlert } = useContext(AlertContext);
-    // const { accessToken, refreshAccessToken } = useContext(AuthContext); 
     const popup = new PaystackPop();
 
     popup.newTransaction({
@@ -40,21 +39,15 @@ export async function handlePayment (customerEmail, totalAmount, orderId, naviga
                     const status = err.response.status;
                     const errMessage = err.response.data.error;
     
-                    if (status === 400 || status === 403 || status === 404 || status === 500) {
+                    if (
+                        status === 400 || 
+                        status === 403 || 
+                        status === 404 || 
+                        status === 500
+                    ) {
                         showAlert(status, errMessage)
-                    } else if (status === 401) {
-                        refreshAccessToken(() => {
-                            handlePayment(
-                                customerEmail,
-                                totalAmount,
-                                orderId,
-                                navigate,
-                                accessToken,
-                                refreshAccessToken,
-                                showAlert
-                            );
-                        });
-                    }
+                    } 
+                    // 401 errors are handled by AuthContext interceptor
                 } else {
                     showAlert("Error", "An Unknow Error Occured!")
                 }

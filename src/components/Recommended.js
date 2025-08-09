@@ -1,89 +1,58 @@
-import "../styles/components-styles/Recommended.css"
-import cardImage1 from "../images/cardImage1.png";
-import cardImage2 from "../images/cardImage2.png";
-import cardImage3 from "../images/cardImage3.png";
-import cardImage4 from "../images/cardImage4.png";
-import { useState } from "react";
+import "../styles/components-styles/Recommended.css";
+import { useEffect, useState } from "react";
+import axios from "axios";
 
 
-function Recommended () {
-    const [recommended, setRecommended] = useState([{
-        image: cardImage1,
-        description: 'men wears, recommended-item, recommended-item',
-        name: 'jean',
-        price: '5000',
-        color: 'red',
-        id: 1
-    },
-    {
-        image: cardImage2,
-        description: 'men wears',
-        name: 'jean',
-        price: '5000',
-        color: 'red',
-        id: 2
-    },
-    {
-        image: cardImage3,
-        description: 'men wears',
-        name: 'jean',
-        price: '5000',
-        color: 'red',
-        id: 3
-    },
-    {
-        image: cardImage4,
-        description: 'men wears',
-        name: 'jean',
-        price: '5000',
-        color: 'red',
-        id: 4
-    },
-    {
-        image: cardImage2,
-        description: 'men wears',
-        name: 'jean',
-        price: '5000',
-        color: 'red',
-        id: 2
-    },
-    {
-        image: cardImage3,
-        description: 'men wears',
-        name: 'jean',
-        price: '5000',
-        color: 'red',
-        id: 3
-    },
-    {
-        image: cardImage4,
-        description: 'men wears',
-        name: 'jean',
-        price: '5000',
-        color: 'red',
-        id: 4
-    },
-    ]);
-    
+function Recommended ({ productDetails }) {
+    const [recommendedProducts, setRecommendedProducts] = useState([]);
+    const [isLoading, setIsLoading] = useState(true);
+   
+    useEffect(() => {
+        const fetchRecommendedProducts = async () => {
+            if (!productDetails || !productDetails._id) return;
+            try {
+                const response = await axios.get(`/customer/recommended-product/${productDetails._id}`);
+                if (response.status === 200) {
+                    console.log(response.data.products)
+                    setRecommendedProducts(response.data.products);
+                }
+            } catch (error) {
+                console.error("Error fetching recommended products:", error);
+            } finally {
+                setIsLoading(false);
+            }
+        };
+
+        fetchRecommendedProducts();
+    }, [productDetails]);
+
     return(
         <div className="recommended-container">
             <div className="recommended-container-header">
               <h3>Recommended For You</h3>
               <button>See All</button>
             </div>
-              <div className="recommended-card-container">
-                {
-                    recommended.map((item, index) => ( 
-                        <div key={index} className="recommended-card">
-                            <img src={item.image} />
-                            <div className="recommended-item-description-container">
-                                <p className="recommended-item-name">{item.name} - {item.description} - {item.color} </p>
-                            </div>   
-                            <p className="recommended-item-price"><b>₦</b> {item.price}</p>
-                        </div>
-                    ))
-                }
-              </div>
+            <div className="recommended-card-container">
+                {isLoading ? (
+                    <p>Loading recommendations...</p>
+                    ) : recommendedProducts.length > 0 ? (
+                        recommendedProducts.map((item, index) => (
+                            <div key={index} className="recommended-card">
+                                <img 
+                                    src={item?.productImageUrl[0]} 
+                                    alt={item.productName} 
+                                    className="recommended-card-img"
+                                />
+                                <div className="recommended-item-description-container">
+                                    <p className="recommended-item-name">{item?.productName} - {item?.productDescription} - {item?.productColor[0]} </p>
+                                </div>
+                                <p className="recommended-item-price"><b>₦</b> {item?.productPrice}</p>
+                            </div>
+                        ))
+                    ) : (
+                    <p>No recommended products found.</p>
+                )}
+            </div>
         </div>
     )
 }
