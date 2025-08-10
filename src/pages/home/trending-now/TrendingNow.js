@@ -6,7 +6,7 @@ import { CartContext } from "../../../contexts/CartContext";
 
 function TrendingNow () {
     const navigate = useNavigate();
-    const { addToCart } = useContext(CartContext);
+    const { addToCart, loadingId } = useContext(CartContext);
     const [trendingNow, setTrendingNow] = useState([]);
     const [selectedCategory, setSelectedCategory] = useState("TrendingNow");  // For selected category
     const [selectedSubCategory, setSelectedSubCategory] = useState(""); // For selected subcategory
@@ -84,8 +84,13 @@ function TrendingNow () {
                                 <button 
                                     className="home-page-trending-now-card-btn"
                                     onClick={() => addToCart(trendingNowItem._id, 1)}
+                                    disabled={loadingId === trendingNowItem._id} // Use loadingId to check against the current item's ID
                                 >
-                                    Add to Cart
+                                    {loadingId === trendingNowItem._id ? ( // Use loadingId for conditional rendering
+                                        <span className="home-page-trending-now-btn-spinner" />
+                                    ) : (
+                                        "Add to Cart"
+                                    )}
                                 </button>
                             </div>
                     ))

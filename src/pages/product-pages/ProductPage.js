@@ -22,7 +22,7 @@ function ProductPage () {
     const { productId } = useParams();
     const { accessToken, customerId } = useContext(AuthContext); 
     const { customAlert, showAlert } = useContext(AlertContext);
-    const { cartItems, addToCart, removeFromCart, clearCart } = useContext(CartContext); 
+    const { addToCart, loadingId } = useContext(CartContext); 
     const { savedProducts, handleSaveProduct, removeFromSavedProduct } = useContext(SaveProductContext);
     const [product, setProduct] = useState({});
     const [currentImageUrl, setCurrentImageUrl] = useState(product?.productImageUrl?.length > 0 ? product.productImageUrl[0] : null);
@@ -193,9 +193,18 @@ function ProductPage () {
                                             showAlert("error", "You need to login first.")
                                         }
                                         
-                                    }}>
-                                    <GrBasket className="product-page-product-add-to-cart-icon" />
-                                    Add to cart
+                                    }}
+                                    disabled={loadingId === product._id} // Use loadingId to check against the current item's ID
+                                >
+                                        {loadingId === product._id ? ( // Use loadingId for conditional rendering
+                                        <span className="product-page-product-add-to-cart-btn-spinner" />
+                                    ) : (
+                                        <span>
+                                            <GrBasket className="product-page-product-add-to-cart-icon" />
+                                            <>Add to cart</>
+                                        </span>
+                                    )}
+                                    
                                 </button>
                                 <button 
                                     className="product-page-product-save-button"

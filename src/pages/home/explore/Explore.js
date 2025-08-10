@@ -6,7 +6,7 @@ import { CartContext } from "../../../contexts/CartContext";
 
 function Explore () {
     const navigate = useNavigate();
-    const { cartItems, addToCart, removeFromCart, clearCart } = useContext(CartContext); 
+    const { addToCart, loadingId } = useContext(CartContext); 
     const [exploreProducts, setExploreProducts] = useState([]);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
@@ -23,6 +23,7 @@ function Explore () {
                 setError("An error occurred while fetching products.");
             } finally {
                 setLoading(false);
+                console.log("explore product", exploreProducts)
             }
         };
 
@@ -83,8 +84,13 @@ function Explore () {
                                     // Add to Cart logic
                                     addToCart(exploreItem._id, 1);
                                 }}
+                                disabled={loadingId === exploreItem._id}
                             >
-                                Add to Cart
+                                {loadingId === exploreItem._id ? ( // Use loadingId for conditional rendering
+                                        <span className="home-page-explore-card-btn-spinner" />
+                                    ) : (
+                                        "Add to Cart"
+                                )}
                             </button>
                         </div>
                     ))

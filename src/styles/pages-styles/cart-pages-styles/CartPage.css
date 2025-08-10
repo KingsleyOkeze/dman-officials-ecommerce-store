@@ -61,7 +61,6 @@
 }
 
 .cart-item-image-container {
-    background-color: red;
     width: 100%;
     height: 155px;
     border-radius: 6px;
@@ -175,16 +174,6 @@
     0% { transform: rotate(0deg); }
     100% { transform: rotate(360deg); }
 }
-
-
-
-
-
-
-
-
-
-
 
 
 

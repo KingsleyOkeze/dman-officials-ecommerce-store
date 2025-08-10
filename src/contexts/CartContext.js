@@ -74,8 +74,12 @@ export const CartProvider = ({ children }) => {
     // Function to add an item to the cart
     const addToCart = async (productId, quantity) => {
         if (!accessToken && !customerId) {
-            showAlert("Error", "You need to login first!")
+            showAlert("Error", "You need to login first!");
+            setLoadingId(null); // Reset loadingId to null
+            return;
         }
+
+        setLoadingId(productId);
 
         try {
             const response = await axios.post("/customer/add-to-cart", {
@@ -108,6 +112,9 @@ export const CartProvider = ({ children }) => {
                 showAlert("Error", "An Unknow Error Occured!")
             }
             console.log("err adding to cart ", err)
+        } finally {
+            setLoadingId(null); // Reset loadingId to null
+            console.log("Loading id is", loadingId)
         }
 
     };
@@ -115,8 +122,12 @@ export const CartProvider = ({ children }) => {
     // Function to remove an item from the cart
     const removeFromCart = async (itemId) => {
         if (!accessToken && !customerId) {
-            showAlert("Error", "You need to login first!")
+            showAlert("Error", "You need to login first!");
+            setLoadingId(null); // Reset loadingId to null
+            return;
         }
+
+        setLoadingId(itemId); // Set loadingId to the item ID 
 
         try {
             const response = await axios.post("/customer/remove-from-cart", {
@@ -147,6 +158,8 @@ export const CartProvider = ({ children }) => {
                 showAlert("Error", "An Unknow Error Occured!")
             }
             console.log("err removing from cart ", err)
+        } finally {
+            setLoadingId(null);  // Stop the spinner after the request is complete
         }
 
         // setCartItems((prevItems) => prevItems.filter(item => item.productId !== productId));
@@ -155,12 +168,15 @@ export const CartProvider = ({ children }) => {
     // Function to update the quantity of an item in the cart
     const updateQuantity = async (itemId, newQuantity) => {
         if (!accessToken && !customerId) {
-            showAlert("Error", "You need to login first!")
+            showAlert("Error", "You need to login first!");
+            setLoadingId(null); // Reset loadingId to null
+            return;
         }
 
         if (newQuantity < 1) return; // Prevent updating with invalid quantity
 
         setLoadingId(itemId);
+
         try {
             const response = await axios.post("/customer/update-cart", { // Assuming you have this endpoint
                 customerId: customerId,
@@ -194,8 +210,7 @@ export const CartProvider = ({ children }) => {
             console.error("Error updating quantity", err);
 
         } finally {
-            setLoadingId(null);
-            setActionType("");
+            setLoadingId(null); // Reset loadingId to null
         }
         
     };

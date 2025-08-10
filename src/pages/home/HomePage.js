@@ -49,7 +49,11 @@ function HomePage () {
                             Shop Now
                     </button>
                 </div>
-                <img src={hero1} className="home-page-hero-section-img" />
+                <img 
+                    // src={hero1} 
+                    src={"https://res.cloudinary.com/dvgqi0ajq/image/upload/c_limit,f_auto,q_auto,w_1200/v1754851542/yblyd3ztccr4qggjf2w6.png"}
+                    className="home-page-hero-section-img" 
+                />
             </div>
             <div className="home-page-flat-empty-area">
 
@@ -63,7 +67,10 @@ function HomePage () {
                 <p className="home-page-categories-sub-header">Shop by Category</p>
                 <div className="home-page-categories-card-container">
                     <div className="home-page-categories-card">
-                        <img src={homeCategory1} />
+                        <img 
+                            // src={homeCategory1} 
+                            src={"https://res.cloudinary.com/dvgqi0ajq/image/upload/c_limit,f_auto,q_auto,w_1200/v1754853605/lfhmc8e2dwfbfhufjftj.png"}
+                        />
                         <button 
                             onClick={() => {
                                 navigate("/category-page/MensWear")
@@ -73,7 +80,10 @@ function HomePage () {
                         </button>
                     </div>
                     <div className="home-page-categories-card">
-                        <img src={homeCategory2} />
+                        <img 
+                            // src={homeCategory2} 
+                            src={"https://res.cloudinary.com/dvgqi0ajq/image/upload/c_limit,f_auto,q_auto,w_1200/v1754852426/xztbosxli4hezlxjz5zt.png"}
+                        />
                         <button
                             onClick={() => {
                                 navigate("/category-page/FootWear")
@@ -83,7 +93,10 @@ function HomePage () {
                         </button>
                     </div>
                     <div className="home-page-categories-card">
-                        <img src={homeCategory3} />
+                        <img 
+                            // src={homeCategory3} 
+                            src={"https://res.cloudinary.com/dvgqi0ajq/image/upload/c_limit,f_auto,q_auto,w_1200/v1754852466/ebh42bjpk5de3yr8ef4y.png"}
+                        />
                         <button>Accessories</button>
                     </div>
                 </div>
@@ -135,8 +148,11 @@ function HomePage () {
                             Buy Now
                     </button>
                 </div>
-                <img src={bottomShowcaseImg} 
-                    className="home-page-call-to-action-showcase-img"/>
+                <img 
+                    // src={bottomShowcaseImg} 
+                    src={"https://res.cloudinary.com/dvgqi0ajq/image/upload/c_limit,f_auto,q_auto,w_1200/v1754853740/kkbufzgpcrohzzppaewc.png"}
+                    className="home-page-call-to-action-showcase-img"
+                />
             </div>
 
             {/*Explore product*/}
@@ -152,7 +168,11 @@ function HomePage () {
             
             <div className="home-page-new-arrival-section-container">
                 <div className="home-page-new-arrival-first-section-container">
-                    <img src={unleash1} className="home-page-new-arrival-section-img"/>
+                    <img 
+                        // src={unleash1} 
+                        src={"https://res.cloudinary.com/dvgqi0ajq/image/upload/c_limit,f_auto,q_auto,w_1200/v1754852489/svjqiljgjfoukdzqcdoc.png"}
+                        className="home-page-new-arrival-section-img"
+                    />
                     <div className="home-page-new-arrival-section-block-content-container">
                         <p className="home-page-new-arrival-section-block-content-head">Men's Collection</p>
                         <p className="home-page-new-arrival-section-block-body-content">
@@ -163,7 +183,11 @@ function HomePage () {
                     </div> 
                 </div>
                 <div className="home-page-new-arrival-second-section-container">
-                    <img src={unleash2} className="home-page-new-arrival-section-img"/>
+                    <img 
+                        // src={unleash2} 
+                        src={"https://res.cloudinary.com/dvgqi0ajq/image/upload/c_limit,f_auto,q_auto,w_1200/v1754852482/qopx3a8nm0wca7iewp55.jpg"}
+                        className="home-page-new-arrival-section-img"
+                    />
                     <div className="home-page-new-arrival-section-block-content-container">
                         <p className="home-page-new-arrival-section-block-content-head">Accessories</p>
                         <p className="home-page-new-arrival-section-block-body-content">
@@ -174,7 +198,11 @@ function HomePage () {
                     </div> 
                 </div>
                 <div className="home-page-new-arrival-third-section-container">
-                    <img src={unleash3} className="home-page-new-arrival-section-img"/>
+                    <img 
+                        // src={unleash3} 
+                        src={"https://res.cloudinary.com/dvgqi0ajq/image/upload/c_limit,f_auto,q_auto,w_1200/v1754852487/w3eoacuvpr6cmizsves9.jpg"}
+                        className="home-page-new-arrival-section-img"
+                    />
                     <div className="home-page-new-arrival-section-block-content-container">
                         <p className="home-page-new-arrival-section-block-content-head">Foot Wear</p>
                         <p className="home-page-new-arrival-section-block-body-content">

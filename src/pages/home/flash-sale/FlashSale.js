@@ -7,7 +7,7 @@ import { CartContext } from "../../../contexts/CartContext";
 
 function FlashSale () {
     const navigate = useNavigate();
-    const { addToCart } = useContext(CartContext);
+    const { addToCart, loadingId } = useContext(CartContext);
     const [flashSaleProducts, setFlashSaleProducts] = useState([]);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
@@ -113,7 +113,10 @@ function FlashSale () {
                     <button
                         onClick={() => {
                             navigate("/category-page/Sale")
-                        }}>See All</button>
+                        }}
+                    >
+                        See All
+                    </button>
                 </div>
             </div>
 
@@ -144,7 +147,14 @@ function FlashSale () {
                             <button 
                                 className="home-page-flash-sale-card-btn"
                                 onClick={() => addToCart(flashSale._id, 1)}
-                            >Add to Cart</button>
+                                disabled={loadingId === flashSale._id} // Use loadingId to check against the current item's ID
+                            >
+                                {loadingId === flashSale._id ? ( // Use loadingId for conditional rendering
+                                        <span className="home-page-flash-sale-card-btn-spinner" />
+                                    ) : (
+                                        "Add to Cart"
+                                )}
+                            </button>
                         </div>
                     ))
                     ) : (
