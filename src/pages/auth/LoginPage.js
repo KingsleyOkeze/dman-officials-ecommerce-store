@@ -51,9 +51,7 @@ const LoginPage = () => {
             if (response.status === 200) {
                 setMessage(response.data.message);
                 console.log("login response", response.data)
-                // Handle successful login, such as redirecting or storing tokens.
-                sessionStorage.setItem("customerId", response.data.userId);
-                sessionStorage.setItem("accessToken", response.data.accessToken);
+                // Handle successful login, such as redirecting 
                 setCustomerId(response.data.userId);
                 setAccessToken(response.data.accessToken);
                 toggleSideDrawer(); // Close the sliding sidebar

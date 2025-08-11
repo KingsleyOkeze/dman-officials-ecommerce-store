@@ -184,12 +184,6 @@ function CategoryPage () {
     // }, [category]);
 
 
-    // Fetch products with filters
-    // useEffect(() => {
-    //     handleFetchCategoryProducts();
-    // }, [selectedCategory, sortBy]);  // Re-run when category or sortBy changes
-
-
     // When user is searching, sset items to display as search result
     useEffect(() => {
         setItems(searchResult);
@@ -256,7 +250,7 @@ function CategoryPage () {
                                 name="sortBy" 
                                 onChange={() =>{
                                     setSortBy("latest")
-                                    }}
+                                }}
                             />
                                 Latest
                         </li>

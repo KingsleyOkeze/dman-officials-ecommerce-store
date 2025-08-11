@@ -179,7 +179,14 @@ function HomePage () {
                             This e-commerce website is a user-friendly and responsive 
                             online platform that provides a seamless shopping experience.
                         </p>
-                        <button>Shop Now</button>
+                        <button
+                            className="home-page-new-arrival-section-btn"
+                            onClick={() => {
+                                navigate("/category-page/MensWear");
+                            }}
+                        >
+                            Shop Now
+                        </button>
                     </div> 
                 </div>
                 <div className="home-page-new-arrival-second-section-container">
@@ -194,7 +201,14 @@ function HomePage () {
                             This e-commerce website is a user-friendly and responsive 
                             online platform that provides a seamless shopping experience.
                         </p>
-                        <button>Shop Now</button>
+                        <button
+                            className="home-page-new-arrival-section-btn"
+                            onClick={() => {
+                                navigate("/category-page/Accessories");
+                            }}
+                        >
+                            Shop Now
+                        </button>
                     </div> 
                 </div>
                 <div className="home-page-new-arrival-third-section-container">
@@ -209,7 +223,14 @@ function HomePage () {
                             This e-commerce website is a user-friendly and responsive 
                             online platform that provides a seamless shopping experience.
                         </p>
-                        <button>Shop Now</button>
+                        <button
+                            className="home-page-new-arrival-section-btn"
+                            onClick={() => {
+                                navigate("/category-page/FootWear");
+                            }}
+                        >
+                            Shop Now
+                        </button>
                     </div> 
                 </div>
             </div>
@@ -234,14 +255,14 @@ function HomePage () {
                     <BiSupport className="home-page-bottom-highlight-icon"/>
                     <div className="home-page-bottom-child-div">
                         <p className="home-page-bottom-highlight-title">Online Support</p>
-                        <p className="home-page-bottom-highlight-body-text">Free shipping for order above N5999</p>
+                        <p className="home-page-bottom-highlight-body-text">Support available 24/7 at your need.</p>
                     </div>
                 </div>
                 <div className="home-page-bottom-highlight-div">
                     <IoCardOutline className="home-page-bottom-highlight-icon"/>
                     <div className="home-page-bottom-child-div">
                         <p className="home-page-bottom-highlight-title">Flexible payment</p>
-                        <p className="home-page-bottom-highlight-body-text">Free shipping for order above N5999</p>
+                        <p className="home-page-bottom-highlight-body-text">Pay with Card, Bank transfer and USSD.</p>
                     </div>
                 </div>
             </div>

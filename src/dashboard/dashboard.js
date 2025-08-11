@@ -14,7 +14,6 @@ import Overlay from "./Overlay";
 import { CouponProvider } from "../contexts/CouponContext";
 import { AlertContext } from "../contexts/AlertContext";
 import { SearchProvider } from "../contexts/SearchContext";
-import Alert from "../components/Alert";
 
 
 function Dashboard () {
@@ -62,7 +61,6 @@ function Dashboard () {
                             <div className="dashboard-container">
                                 <Header />
                                 <SideDrawer />
-                                {customAlert.type ? (<Alert /> ) : ""}
                                 <div className="dashboard-main-content">
                                     <Outlet />
                                 </div> 

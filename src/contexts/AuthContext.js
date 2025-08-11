@@ -8,9 +8,9 @@ export const AuthContext = createContext();
 
 export const AuthProvider = ({ children }) => {
     const navigate = useNavigate();
-    // Store access token and customer ID from session storage
-    const [accessToken, setAccessToken] = useState(sessionStorage.getItem('accessToken') || null);
-    const [customerId, setCustomerId] = useState(sessionStorage.getItem('customerId') || null);
+    const [accessToken, setAccessToken] = useState(null);
+    const [customerId, setCustomerId] = useState(null);
+
     const isRefreshing = useRef(false); // Track if we're refreshing the token
     const failedRequests = useRef([]); // Queue for failed requests
 
@@ -22,9 +22,6 @@ export const AuthProvider = ({ children }) => {
         } catch (error) {
             console.error('Logout error:', error.message);
         } finally {
-            // Always clear session and redirect
-            sessionStorage.removeItem('accessToken');
-            sessionStorage.removeItem('customerId');
             setAccessToken(null);
             setCustomerId(null);
             navigate('/');
@@ -79,8 +76,6 @@ export const AuthProvider = ({ children }) => {
                         const newAccessToken = response.data.accessToken;
                         const decoded = jwtDecode(newAccessToken);
                         console.log('New access token received:', newAccessToken);
-                        sessionStorage.setItem('accessToken', newAccessToken);
-                        sessionStorage.setItem('customerId', decoded.userId);
                         setAccessToken(newAccessToken);
                         setCustomerId(decoded.userId);
 
@@ -118,6 +113,21 @@ export const AuthProvider = ({ children }) => {
             axios.interceptors.response.eject(interceptor);
         };
     }, []);
+
+    useEffect(() => {
+        if (accessToken) {
+            try {
+                const decoded = jwtDecode(accessToken);
+                setCustomerId(decoded.userId);
+            } catch (err) {
+                console.error("Invalid access token:", err);
+                setCustomerId(null);
+            }
+        } else {
+            setCustomerId(null);
+        }
+    }, [accessToken]);
+
 
     return (
         <AuthContext.Provider
