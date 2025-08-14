@@ -1,0 +1,41 @@
+.auth-switch-page-container {
+    width: 100%;
+    height: 100vh;
+   
+}
+
+
+.auth-switch-page-container-head {
+    display: flex;
+    height: 37px;
+    background-color: #000000;
+    margin-bottom: 10px;
+}
+
+.auth-switch-page-container-head p {
+    height: 100%;
+    display: grid;
+    place-items: center;
+
+}
+.auth-switch-page-container-head p:nth-child(1) {
+    background-color: #000000;
+    flex-basis: 50%;
+    text-align: center;
+    color: #FFFFFF;
+}
+
+
+
+.auth-switch-page-container-head p:nth-child(2) {
+    background-color: #000000;
+    flex-basis: 50%;
+    text-align: center;
+    color: #FFFFFF;
+}
+
+
+
+.auth-content {
+    background-color: yellow;
+}

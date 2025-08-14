@@ -1,0 +1,77 @@
+.order-tracking-page-container {
+    padding: 15px;
+    background: #f5f3f5;
+}
+
+.order-tracking-header-container {
+    display: flex;
+    align-items: center;
+    margin-bottom: 15px;
+}
+
+.order-tracking-header-icon-container {
+    width: 24px;
+    height: 24px;
+    background: #074F574D;
+    display: grid;
+    place-items: center;
+    margin-right: 20px;
+}
+.order-tracking-header-icon {
+    font-size: 18px;
+    padding-right: 15px;
+}
+
+.order-tracking-details {
+    background: #ffffff;
+}
+
+.product-status {
+    /* border-top: 1px solid #000000; */
+    border-left: 1px solid #000000;
+    padding-left: 30px;
+    padding-bottom: 30px;
+    position: relative;
+}
+
+.product-status-title {
+    padding-bottom: 20px;
+    font-weight: 400;
+    font-size: 16px;
+    line-height: 19.2px;
+}
+
+.product-status-description {
+    font-size: 12px;
+    line-height: 14.4px;
+}
+
+
+.order-tracking-icon {
+    border: 1px solid #000000;
+    background: #000000;
+    color: #ffffff;
+    border-radius: 15px;
+    font-size: 18px;
+    padding: 5px;
+    width: 24px;
+    height: 24px;
+    position: absolute;
+    top: 10px; /* Adjust vertically to sit perfectly over the top border */
+    left: 0px; /* Adjust horizontally to sit perfectly over the left border */
+    transform: translate(-50%, -50%); /* Centers the icon on the intersection of the borders */
+}
+
+.order-tracking-circle-icon {
+    border: 1px solid #000000;
+    background: #000000;
+    border-radius: 15px;
+    font-size: 18px;
+    padding: 5px;
+    width: 24px;
+    height: 24px;
+    position: absolute;
+    top: 10px; /* Adjust vertically to sit perfectly over the top border */
+    left: 0px; /* Adjust horizontally to sit perfectly over the left border */
+    transform: translate(-50%, -50%); /* Centers the icon on the intersection of the borders */
+}

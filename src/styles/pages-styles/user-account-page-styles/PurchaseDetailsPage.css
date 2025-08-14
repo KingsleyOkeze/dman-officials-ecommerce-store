@@ -1,0 +1,295 @@
+.purchase-details-container {
+    background: #f5f3f5;
+    padding: 15px;
+}
+
+.purchase-details-header-container {
+    display: flex;
+    align-items: center;
+    margin-bottom: 15px;
+}
+
+.purchase-details-header-icon {
+    background: #074F574D;
+    border-radius: 10px;
+    display: grid;
+    place-items: center;
+    width: 36px;
+    height: 36px;
+    margin-right: 15px;
+}
+
+.purchase-details-header-container h3 {
+    font-weight: 400;
+    line-height: 31.34px;
+    font-size: 24px;
+}
+
+.purchase-details-main-detail-container {
+    background: #ffffff;
+    padding: 10px;
+    border-radius: 10px;
+}
+
+.purchase-details-main-detail-top-description-container {
+
+}
+
+.purchase-details-main-detail-top-description-header {
+    font-size: 16px;
+    font-weight: 700;
+    line-height: 24px;
+    padding-bottom: 15px;
+}
+
+.purchase-details-main-detail-top-description {
+    line-height: 30px;
+    font-size: 18px;
+    font-weight: 400;
+    margin-bottom: 35px;
+}
+
+.purchase-details-card-head {
+    font-size: 16px;
+    line-height: 24px;
+    font-weight: 700;
+    padding-bottom: 10px;
+}
+
+.purchase-details-card {
+    border-radius: 10px;
+    border: 0.5px solid #808080;
+    padding: 10px;
+}
+
+.purchase-details-card-img-container {
+    width: 100%;
+    height: 350px;
+    /* height: 100%; */
+    border-radius: 6px;
+}
+
+.purchase-details-card-img-container img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.purchase-details-card-description-container {
+    padding-top: 15px;
+    padding-bottom: 15px;
+    flex-basis: 45%;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    
+}
+
+.purchase-details-card-description-first-child {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    flex-basis: 44%;
+}
+
+.purchase-details-card-name {
+    font-size: 16px;
+    line-height: 19.2px;
+    font-weight: 500;
+    margin-bottom: 10px;
+}
+
+.purchase-details-card-description-second-child {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    flex-basis: 44%;
+}
+
+
+.purchase-details-card-description-second-child-status {
+    background: #FFA500;
+    border-radius: 7.29px;
+    font-size: 12px;
+    line-height: 14.4px;
+    font-weight: 400;
+    align-self: flex-start;
+    border: none;
+    width: auto;
+    display: inline-block; /* Makes the width fit the content */
+    padding: 5px 10px; /* Adds spacing around the text */
+    margin-top: 15px;
+}
+.purchase-details-card-description-second-child-price {
+    font-size: 16px;
+    line-height: 19.2px;
+    font-weight: 900;
+    margin-top: 10px;
+}
+
+
+.purchase-details-card-history-btn-container button {
+    width: 100%;
+    height: 40px;
+    background: #808080;
+    border-radius: 10px;
+    border: 0.5px solid #808080;
+    cursor: pointer;
+}
+
+
+.purchase-details-card-bottom-text {
+    padding-top: 15px;
+    font-size: 12px;
+    font-weight: 600;
+    line-height: 19.2px;
+    color: #000000;
+    width: 100%;
+    white-space: none;
+    text-align: center;
+}
+
+
+.purchase-details-payment-and-delivery-container {
+    margin-top: 20px;
+}
+
+.purchase-details-payment-container {
+    background: #ffffff;
+    border-radius: 10px;
+    padding: 15px;
+    margin-bottom: 15px;
+}
+
+.purchase-details-payment-header {
+    font-weight: 700;
+    font-size: 16px;
+    line-height: 24px;
+    color: #000000;
+    padding-bottom: 25px;
+}
+
+.purchase-details-payment-first-child {
+    padding-bottom: 15px;
+    line-height: 27px;
+}
+.purchase-details-payment-first-child-head {
+    font-size: 18px;
+    font-weight: 800;
+    line-height: 27px;
+    color: #000000;
+}
+
+
+.purchase-details-payment-second-child {
+    line-height: 27px;
+}
+.purchase-details-payment-second-child-head {
+    font-size: 18px;
+    font-weight: 800;
+    line-height: 27px;
+    color: #000000;
+}
+
+
+
+.purchase-details-delivery-container {
+    background: #ffffff;
+    border-radius: 10px;
+    padding: 15px;
+    margin-bottom: 15px;
+}
+
+.purchase-details-delivery-header {
+    font-weight: 700;
+    font-size: 16px;
+    line-height: 24px;
+    color: #000000;
+    padding-bottom: 25px;
+}
+
+.purchase-details-delivery-first-child {
+    padding-bottom: 15px;
+    line-height: 27px;
+}
+.purchase-details-delivery-first-child-head {
+    font-size: 18px;
+    font-weight: 800;
+    line-height: 27px;
+    color: #000000;
+}
+
+
+.purchase-details-delivery-second-child {
+    line-height: 27px;
+}
+.purchase-details-delivery-second-child-head {
+    font-size: 18px;
+    font-weight: 800;
+    line-height: 27px;
+    color: #000000;
+}
+
+
+@media (min-width: 800px) {
+    .purchase-details-card {
+        height: 160px;
+        display: flex;
+        flex-direction: column;
+    }
+
+    .purchase-details-card-flex {
+        display: flex;
+        gap: 15px;
+    }
+
+    .purchase-details-card-img-container {
+        width: 127px;
+        height: 118px;
+        border-radius: 6px;
+    }
+
+    .purchase-details-card-description-container {
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+        flex-grow: 1;
+        padding: 0;
+    }
+
+    .purchase-details-card-name {
+    }
+
+    .purchase-details-card-description-second-child {
+        flex-direction: column;
+    }
+
+    .purchase-details-card-history-btn-container button {
+        width: 200px;
+        height: 40px;
+    }
+
+    .purchase-details-card-bottom-text {
+        padding: 0;
+        margin-top: auto;
+        text-align: left;
+        font-weight: 600;
+        font-size: 16px;
+        line-height: 19.2px;
+
+    }
+
+    .purchase-details-payment-and-delivery-container {
+        display: flex;
+        justify-content: space-between;
+    }
+
+    .purchase-details-payment-container {
+        flex-basis: 45%;
+    }
+
+    .purchase-details-delivery-container {
+        flex-basis: 45%;
+    }
+
+}

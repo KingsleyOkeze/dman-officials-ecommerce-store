@@ -1,0 +1,297 @@
+.all-order-page-container {
+}
+
+
+.all-order-page-header-container {
+    display: flex;
+    align-items: center;
+    margin-bottom: 15px;
+}
+
+.all-order-page-header-icon-container {
+    width: 24px;
+    height: 24px;
+    background: #074F574D;
+    display: grid;
+    place-items: center;
+    margin-right: 20px;
+}
+.all-order-page-header-icon {
+    font-size: 18px;
+    padding-right: 15px;
+}
+
+.all-order-page-container h3 {
+    font-weight: 400;
+    font-size: 24px;
+    line-height: 31.34px;
+}
+
+.all-order-page-main-content {
+    background: #ffffff;
+    padding: 15px;
+    border-radius: 10px;
+}
+
+.all-order-page-title {
+    height: 54px;
+    font-size: 16px;
+    font-weight: 700;
+    line-height: 24px;
+    color: #808080;
+}
+
+
+.all-order-page-card-container {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    justify-content: space-between;
+    gap: 15px;
+    flex-grow: 1; 
+    overflow-x: hidden; /* Prevent horizontal scroll */
+}
+
+
+.all-order-page-card {
+    max-height: 378px;
+    display: flex; 
+    flex-direction: column;
+    border: 0.5px solid #808080;
+    padding: 10px;
+    border-radius: 10px;
+    box-shadow: 0 0px 0.9px #808080;
+    
+}
+
+
+.all-order-page-card-img-container {
+    width: 100%;
+    height: 300px;
+    display: flex;
+    align-items: center;
+    overflow: hidden; /* Ensures content doesn't overflow the container */
+    border-radius: 6px; /* Matches the image's border radius */
+}
+
+.all-order-page-card-image {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+
+.all-order-page-card-description-container {
+    flex-grow: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    margin-bottom: 15px;
+}
+
+.all-order-page-card-name-and-order-id-container {
+    margin-top: 15px;
+    margin-bottom: 15px;
+    line-height: 19.2px;
+}
+
+.all-order-page-card-name {
+    font-size: 16px;
+    line-height: 19.2px;
+    font-weight: 500;
+    padding-bottom: 15px;
+}
+
+
+.all-order-page-card-order-id {
+    font-weight: 400;
+    line-height: 14.4px;
+    font-size: 12px;
+    color: #808080;
+}
+
+.all-order-page-card-order-id  span {
+    color: #000000;
+    font-weight: 500;
+}
+
+
+.all-order-page-card-status {
+    font-size: 12px;
+    line-height: 14.4px;
+    font-weight: 400;
+    align-self: center;
+    border-radius: 7.29px;
+    border: none;
+    width: auto;
+    display: inline-block; /* Makes the width fit the content */
+    padding: 5px 10px; /* Adds spacing around the text */
+    margin-top: 15px;
+}
+
+
+.all-order-page-card-deliveryDate {
+    font-size: 16px;
+    line-height: 19.2px;
+    font-weight: 600;
+    padding-top: 8px;
+}
+
+
+.all-order-page-card-see-details {
+    cursor: pointer;
+}
+
+
+.all-order-page-bottom-pagination-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-left: 12px;
+    margin-right: 12px;
+    background: #FFFFFF;
+    padding-top: 15px;
+    padding-left: 12px;
+    padding-right: 12px;
+    padding-bottom: 15px;
+    border-bottom-right-radius: 10px;
+    border-bottom-left-radius: 10px;
+}
+
+
+.all-order-page-bottom-pagination-container div {
+    display: flex;
+    align-items: center;
+}
+
+
+.all-order-page-pagination-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 20px;
+    text-align: center;
+    padding: 15px 0;
+    background-color: #ffffff;
+    border-top: 1px solid #ddd;
+    border-radius: 0 0 12px 12px; /* Match table's rounded corners */
+    width: 100%;
+}
+
+.all-order-page-pagination-button {
+    display: flex; /* Use flexbox for layout */
+    align-items: center; /* Vertically align items */
+    justify-content: center; /* Center-align horizontally */
+    background-color: #000000;
+    color: #ffffff;
+    font-size: 16px;
+    font-weight: 500;
+    padding: 8px 16px;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: all 0.3s ease-in-out;
+}
+
+.all-order-page-pagination-button:disabled {
+    background-color: #cccccc;
+    cursor: not-allowed;
+}
+
+.all-order-page-pagination-button:hover:not(:disabled) {
+    color: #ffffff;
+}
+
+.all-order-page-pagination-prev {
+    margin-right: 10px;
+}
+
+.all-order-page-pagination-next {
+    margin-left: 10px;
+}
+
+.all-order-page-pagination-status {
+    font-size: 16px;
+    font-weight: 500;
+    color: #000000;
+}
+
+
+
+@media (min-width: 480px) { 
+    .all-order-page-card-container {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 15px
+    }
+}
+
+
+@media (min-width: 768px) {
+    .all-order-page-card-container {
+      grid-template-columns: repeat(3, 1fr);
+      gap: 15px
+    }
+    .all-order-page-card {
+        /* min-height: 300px; */
+    }
+    
+}
+
+
+
+
+@media (min-width: 986px) {
+    .all-order-page-header-icon-container {
+        display: none;
+    }
+
+    .all-order-page-card-container {
+        display: grid;
+        /* grid-template-columns: repeat(auto-fit, minmax(450px, 1fr)); */
+        grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+        /* width: 100%; */
+    }
+
+    .all-order-page-card {
+        max-height: 150px;
+        display: flex;
+        flex-direction: row;
+        justify-content: space-between;
+        gap: 15px;
+        height: auto;
+    }
+
+    .all-order-page-card-img-container {
+        width: 127px;
+        height: 118px;
+        border-radius: 6px;
+    }
+
+    .all-order-page-card-description-container {
+        flex-grow: 1;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+    }
+
+    .all-order-page-card-name-and-order-id-container {
+        margin-top: 0;
+    }
+
+    .all-order-page-card-status-and-date-container {
+        line-height: 19.2px;
+    }
+
+    .all-order-page-card-see-details {
+        white-space: none;
+        font-weight: 500;
+        font-size: 16px;
+        line-height: 19.2px;
+        height: 19px;
+    }
+
+    .all-order-page-bottom-pagination-container {
+        margin-right: 0px;
+        margin-top: 0px;
+    }
+
+}

@@ -1,0 +1,170 @@
+/* Default styles for mobile-first design */
+.account-page-container {
+  display: flex;
+  flex-direction: column;
+  padding: 15px;
+  background: #f5f3f5;
+  min-height: 100vh;
+}
+
+.account-page-menu-container {
+  background: #ffffff;
+  padding: 20px;
+  text-align: center;
+  border-radius: 10px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-between;
+  height: 80vh;
+  margin-top: 20px;
+}
+
+.account-logo {
+  width: 50px;
+  height: 50px;
+  /* margin-top: 40px;
+  margin-bottom: 10px; */
+}
+
+.account-page-user-name {
+  font-size: 30px;
+  font-weight: bold;
+  /* margin: 5px 0; */
+}
+
+.account-page-welcome-message {
+  font-size: 16px;
+  color: #777;
+  margin: 10px 0;
+}
+
+.account-list {
+  width: 100%;
+  text-align: left;
+  /* margin-top: 30px; */
+}
+
+.account-list p {
+  padding: 20px 10px;
+  border-bottom: 1px solid #ddd;
+  cursor: pointer;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.account-list p:hover {
+  background-color: #f0f0f0;
+}
+
+.account-list p::after {
+  content: "→"; /* Right arrow */
+  font-size: 18px;
+  /* color: #007bff; */
+  color: #000000;
+}
+
+.logout-button {
+  width: 160px;
+  height: 40px;
+  border-radius: 20px;
+  background: #000000;
+  color: white;
+  cursor: pointer;
+  margin-top: 40px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  border: none;
+}
+
+.logout-button:hover {
+  background: #A9A9A9;
+  /* background: red; */
+  /* color: #000000; */
+  color: #ffffff;
+}
+
+/* Mobile-specific styling */
+/* @media (max-width: 786px) { */
+  
+
+  /* .back-to-menu {
+    margin-bottom: 15px;
+    padding: 8px 16px;
+    border: none;
+    background: #007bff;
+    color: white;
+    border-radius: 5px;
+    cursor: pointer;
+  } */
+
+  
+
+
+  .back-to-menu {
+    width: 100px;
+    height: 35px;
+    border-radius: 12px;
+    border: none;
+    background: #000000;
+    color: #ffffff;
+    font-weight: 500;
+    font-size: 12px;
+    line-height: 21px;
+    cursor: pointer;
+    position: relative;
+    overflow: hidden;
+    transition: background 0.3s ease, transform 0.2s ease, box-shadow 0.3s ease;
+}
+
+.back-to-menu:hover {
+    background: #333333; /* Slightly lighter black */
+    transform: translateY(-2px); /* Small lift effect */
+    box-shadow: 0px 4px 10px rgba(255, 255, 255, 0.2);
+}
+
+/* Subtle glow effect when clicked */
+.back-to-menu:active {
+    transform: scale(0.98);
+    box-shadow: 0px 2px 5px rgba(255, 255, 255, 0.2);
+}
+
+
+
+
+
+
+/* } */
+
+/* Desktop-specific styling (min-width: 986px) */
+@media (min-width: 986px) {
+  .account-page-container {
+    flex-direction: row;
+  }
+
+  .account-page-menu-container {
+    width: 226px;
+    max-height: 50vh;
+    flex-shrink: 0;
+    border-radius: 10px;
+    overflow: hidden; 
+    margin-top: 0px;
+  }
+
+  .account-logo {
+    display: none
+  }
+
+  .account-page-user-name {
+    display: none
+  }
+  
+  .account-page-welcome-message {
+    display: none
+  }
+
+  .account-page-main-content-container {
+    flex-grow: 1;
+    margin-left: 20px;
+  }
+}
