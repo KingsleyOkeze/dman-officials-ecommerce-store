@@ -5,7 +5,7 @@ import cardImage2 from "../../images/cardImage2.png";
 import cardImage3 from "../../images/cardImage3.png";
 import cardImage4 from "../../images/cardImage4.png";
 import { RiCheckboxBlankFill } from "react-icons/ri";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
 import axios from "axios";
 import { CouponContext } from "../../contexts/CouponContext";
 import PrivacyPolicyPage from "../../pages/footer-pages/PrivacyPolicyPage"
@@ -18,37 +18,9 @@ import { handlePayment } from "../../services/paymentService";
 
 function OrderConfirmationPage () {
     const navigate = useNavigate();
+    const location = useLocation();
     const { accessToken, customerId } = useContext(AuthContext);
-    const [itemsOrdered, setItemsOrdered] = useState([
-        {
-            image: cardImage1,
-            name: 'This is part of dman officials,',
-            color: 'brown',
-            size: 'small',
-            price: '5000'
-        },
-        {
-            image: cardImage2,
-            name: 'This is part of dman officials,',
-            color: 'brown',
-            size: 'small',
-            price: '5000'
-        },
-        {
-            image: cardImage3,
-            name: 'This is part of dman officials,',
-            color: 'brown',
-            size: 'small',
-            price: '5000'
-        },
-        {
-            image: cardImage4,
-            name: 'This is part of dman officials,',
-            color: 'brown',
-            size: 'small',
-            price: '5000'
-        }
-    ]);
+    const [itemsOrdered, setItemsOrdered] = useState([]);
 
     const { 
         applyCoupon, 
@@ -79,6 +51,15 @@ function OrderConfirmationPage () {
     // Calculate final total price after discount and adding shipping fee
     const finalTotalPrice = Math.max(totalPrice - discountAmount + shippingPrice, 0); // Prevent negative total
 
+
+    // Get cart items from navigation state
+    useEffect(() => {
+        if (location.state && location.state.cartItems) {
+            setItemsOrdered(location.state.cartItems);
+            console.log("cart items is", location.state.cartItems)
+        }
+    }, [location.state]);
+
     const fetchCartTotalPrice = async () => {
         try {
             const response = await axios.get("/customer/fetch-cart-total-price", {
@@ -100,11 +81,14 @@ function OrderConfirmationPage () {
                 const status = err.response.status;
                 const errMessage = err.response.data.error;
 
-                if (status === 400 || status === 403 || status === 404 || status === 500) {
+                if (
+                    status === 400 || 
+                    status === 403 || 
+                    status === 404 || 
+                    status === 500
+                ) {
                     showAlert(status, errMessage)
-                } else if (status === 401) {
-                    refreshAccessToken(fetchCartTotalPrice);
-                }
+                } 
             } else {
                 showAlert("Error", "An Unknow Error Occured!")
             }
@@ -161,11 +145,14 @@ function OrderConfirmationPage () {
                 const status = err.response.status;
                 const errMessage = err.response.data.error;
 
-                if (status === 400 || status === 403 || status === 404 || status === 500) {
+                if (
+                    status === 400 || 
+                    status === 403 || 
+                    status === 404 || 
+                    status === 500
+                ) {
                     showAlert(status, errMessage)
-                } else if (status === 401) {
-                    refreshAccessToken(handlePlaceOrder);
-                }
+                } 
             } else {
                 showAlert("Error", "An Unknow Error Occured!")
             }
@@ -261,12 +248,18 @@ function OrderConfirmationPage () {
                     {
                         itemsOrdered.map((item, index) => (
                             <div key={index} className="items-ordered-card">
-                                <img src={item.image} width={150} height={139}/>
+                                <div className="items-ordered-card-img-container">
+                                    <img 
+                                        width={150}
+                                        height={124}
+                                        src={item?.productRef?.productImageUrl[0]} alt={item?.productRef?.productName}
+                                    />
+                                </div>
                                 <div className="items-ordered-card-description">
-                                    <p>{item.name} - {item.color}</p>
-                                    <p>{item.color}</p>
+                                    <p>{item?.productRef?.productName} - {item.color}</p>
+                                    <p>Quantity: {item.quantity}</p>
                                     <p><RiCheckboxBlankFill width={20} height={20}/></p>
-                                    <p>{item.price}</p>
+                                    <p>N {item?.productRef?.productPrice}</p>
                                 </div>
                             </div>
                         ))

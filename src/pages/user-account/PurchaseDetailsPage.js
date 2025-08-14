@@ -6,7 +6,7 @@ import { useContext, useEffect, useState } from "react";
 import axios from "axios";
 import { AuthContext } from "../../contexts/AuthContext";
 import { AlertContext } from "../../contexts/AlertContext";
-import Alert from "../../components/Alert";
+import {formatDate} from "../../utils/dateFormatter";
 
 function PurchaseDetailsPage () {
     const { orderId } = useParams();
@@ -114,7 +114,12 @@ function PurchaseDetailsPage () {
                                 </button>
                             </div>
                         </div>
-                        <p className="purchase-details-card-bottom-text">Delivered between 28th friday october</p>
+                        <p 
+                            className="purchase-details-card-bottom-text"
+                        >
+                            {/* Delivered between 28th friday october */}
+                            Last updated {formatDate(purchasedOrderDetails?.updatedAt)}
+                        </p>
                     </div>
 
                 </div>

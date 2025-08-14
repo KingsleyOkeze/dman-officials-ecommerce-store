@@ -1,9 +1,11 @@
 import "../styles/components-styles/Recommended.css";
 import { useEffect, useState } from "react";
 import axios from "axios";
+import { useNavigate } from "react-router-dom";
 
 
 function Recommended ({ productDetails }) {
+    const navigate = useNavigate();
     const [recommendedProducts, setRecommendedProducts] = useState([]);
     const [isLoading, setIsLoading] = useState(true);
    
@@ -26,11 +28,23 @@ function Recommended ({ productDetails }) {
         fetchRecommendedProducts();
     }, [productDetails]);
 
+    const scrollToTop = () => {
+        window.scrollTo({ top: 0, behavior: "smooth" });
+    }
+
     return(
         <div className="recommended-container">
             <div className="recommended-container-header">
               <h3>Recommended For You</h3>
-              <button>See All</button>
+              <button
+                onClick={() => {
+                    navigate(
+                    `/category-page/${productDetails.productCategory}/${productDetails.productSubCategory}`
+                    );
+                }}
+                >
+                    See All
+              </button>
             </div>
             <div className="recommended-card-container">
                 {isLoading ? (
@@ -38,13 +52,32 @@ function Recommended ({ productDetails }) {
                     ) : recommendedProducts.length > 0 ? (
                         recommendedProducts.map((item, index) => (
                             <div key={index} className="recommended-card">
-                                <img 
-                                    src={item?.productImageUrl[0]} 
-                                    alt={item.productName} 
-                                    className="recommended-card-img"
-                                />
+                                <div className="recommended-card-img-container">
+                                    <img 
+                                        src={item?.productImageUrl[0]} 
+                                        alt={item?.productName} 
+                                        className="recommended-card-img"
+                                        onClick={() => {
+                                            navigate(`/product-page/${item?._id}`);
+                                            scrollToTop();
+                                        }}
+                                    />
+                                </div>
                                 <div className="recommended-item-description-container">
-                                    <p className="recommended-item-name">{item?.productName} - {item?.productDescription} - {item?.productColor[0]} </p>
+                                    <p 
+                                        className="recommended-item-name"
+                                    >
+                                        {item?.productName} 
+                                        - 
+                                        {
+                                            item?.productBrand ? item?.productBrand :
+                                            item?.productCategory ? item?.productCategory :
+                                            item?.productSubCategory ? item?.productSubCategory :
+                                            ""
+                                        } 
+                                        - 
+                                        {item?.productColor[0]} 
+                                    </p>
                                 </div>
                                 <p className="recommended-item-price"><b>₦</b> {item?.productPrice}</p>
                             </div>

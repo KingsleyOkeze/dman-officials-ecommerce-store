@@ -2,14 +2,14 @@
 import PaystackPop from '@paystack/inline-js'
 import axios from 'axios';
 
-export async function handlePayment (customerEmail, totalAmount, orderId, navigate, accessToken, refreshAccessToken, showAlert) {
+export async function handlePayment (customerEmail, totalAmount, orderId, navigate, accessToken,  showAlert) {
     // const { customAlert, showAlert } = useContext(AlertContext);
     const popup = new PaystackPop();
 
     popup.newTransaction({
         key: process.env.REACT_APP_PAYSTACK_PUBLIC_KEY,
         email: customerEmail,
-        amount: totalAmount * 1, //100, // Convert amount to kobo
+        amount: totalAmount * 100, // Convert amount to kobo
         onSuccess: async (transaction) => {
             console.log('onSuccess', transaction);
             try {

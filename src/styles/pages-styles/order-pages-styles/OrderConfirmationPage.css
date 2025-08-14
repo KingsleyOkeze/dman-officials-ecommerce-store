@@ -146,12 +146,28 @@
     gap: 10px;
 }
 
+
+.items-ordered-card-img-container {
+    max-width: 150px;
+    max-height: 139px;
+    flex-basis: 40%;
+}
+.items-ordered-card img{ 
+    width: 100%; 
+    height: 100%;
+    object-fit: cover;
+}
+
+
 .items-ordered-card-description {
-    height: 124px;
+    /* height: 124px; */
     display: flex;
     flex-direction: column;
     justify-content: space-between;
     line-height: 19.2px;
+    flex-basis: 55%;
+    flex-grow: 1; /* Allow the description to take up remaining space */
+    height: 139px; /* Match the height of the image container */
 }
 
 
@@ -229,8 +245,17 @@
     width: 100%;
     height: 40px;
     font-size: 16px;
-    color: #FFFFFF
+    color: #FFFFFF;
+    border: none;
+    cursor: pointer;
+    transition: transform 0.25s ease, background-color 0.25s ease;
 }
+
+.confirm-order-button:hover {
+    transform: scale(1.05);
+    background-color: #1a1a1a; /* subtle darkening */
+}
+
 
 .order-policy-list {
     list-style-type: none;

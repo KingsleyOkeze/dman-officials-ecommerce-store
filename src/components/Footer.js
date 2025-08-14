@@ -96,10 +96,13 @@ function Footer () {
         }
     }, [windowWidth]);
 
+
+
     const scrollToTop = () => {
         window.scrollTo({ top: 0, behavior: "smooth" });
     }
 
+    
     // Emailing note
     const email = process.env.REACT_APP_EMAIL_LINK
     const subject = "Hello there!"; // Optional subject for the email
@@ -115,7 +118,6 @@ function Footer () {
                     height={50}
                     onClick={() => {
                         navigate("/");
-                        scrollToTop();
                     }}
                 />
             </div>
@@ -145,19 +147,19 @@ function Footer () {
                         </div>
                         
                         <ul ref={dmanListRef}>
-                            <li onClick={scrollToTop}>
+                            <li>
                                 <Link to="category-page/MensWear" className="link-tag">Mens Wear</Link>
                             </li>
-                            <li onClick={scrollToTop}>
+                            <li>
                                 <Link to="category-page/FootWear" className="link-tag">Foot Wear</Link>
                             </li>
-                            <li onClick={scrollToTop}>
+                            <li>
                                 <Link className="link-tag">Accessories</Link>
                             </li>
-                            <li onClick={scrollToTop}>
+                            <li>
                                 <Link to="sale-page" className="link-tag">Sale</Link>
                             </li>
-                            <li onClick={scrollToTop}>
+                            <li>
                                 <Link to="about-us-page" className="link-tag">About Us</Link>
                             </li>
                         </ul>
@@ -185,19 +187,19 @@ function Footer () {
                             </div>
                         </div>
                         <ul ref={helpListRef}>   
-                            <li onClick={scrollToTop}>
+                            <li>
                                 <Link to="faq-page" className="link-tag">FAQ</Link>
                             </li>
-                            <li onClick={scrollToTop}>
+                            <li>
                                 <Link to="shipping-policy" className="link-tag">Shipping</Link>
                             </li>
-                            <li onClick={scrollToTop}>
+                            <li>
                                 <Link to="returns-policy" className="link-tag">Returns</Link>
                             </li>
-                            <li onClick={scrollToTop}>
+                            <li>
                                 <Link to="payment-policy" className="link-tag">Payments</Link>
                             </li>
-                            <li onClick={scrollToTop}>
+                            <li>
                                 <Link to="contact" className="link-tag">Contact us</Link>
                             </li>
                         </ul>
@@ -226,19 +228,19 @@ function Footer () {
                             </div>
                         </div>
                         <ul ref={legalListRef}>
-                            <li onClick={scrollToTop}>
+                            <li>
                                 <Link to="terms-of-use-page" className="link-tag">Terms and Service</Link>
                             </li>
-                            <li onClick={scrollToTop}>
+                            <li>
                                 <Link to="privacy-policy" className="link-tag">Privacy Policy</Link>
                             </li>
-                            <li onClick={scrollToTop}>
+                            <li>
                                 <Link to="cookie-policy" className="link-tag">Cookie Policy</Link>
                             </li>
-                            <li onClick={scrollToTop}>
+                            <li>
                                 <Link to="disclaimer-page" className="link-tag">Desclaimer</Link>
                             </li>
-                            <li onClick={scrollToTop}>
+                            <li>
                                 <Link to="warrant-and-return-policy" className="link-tag">Warranty and Return Agreement</Link>
                             </li>
                         </ul>

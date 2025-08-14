@@ -43,7 +43,7 @@ function ProductPage () {
             
         }
         fetchProductDetails();
-    }, []);
+    }, [productId]);
 
 
     useEffect(() => {
@@ -96,7 +96,6 @@ function ProductPage () {
 
     return (
         <div className="product-page-container">
-            {customAlert.type ? (<Alert /> ) : ""}
             {product && ( 
             <div className="product-page-sub-container">
                 <div className="product-page-product-showcase-and-details-and-recommended-container">
@@ -277,7 +276,9 @@ function ProductPage () {
                     </div>
                 </div>
                 <div className="sm-product-page-recommended-component-container">
-                    <Recommended />
+                    <Recommended 
+                        productDetails={product}
+                    />
                 </div>
             </div>
             )}

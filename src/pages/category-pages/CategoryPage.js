@@ -14,14 +14,14 @@ function CategoryPage () {
     const { category, subCategory } = useParams();
     const navigate = useNavigate();
     const location = useLocation();
-    const [width, setWidth] = useState(window.innerWidth);
+    const [screenWidth, setScreenWidth] = useState(window.innerWidth);
     const { customAlert, showAlert } = useContext(AlertContext);
     const { savedProducts, handleSaveProduct, removeFromSavedProduct } = useContext(SaveProductContext);
     const { searchInput, setSearchInput, searchResult } = useContext(SearchContext);
     const [items, setItems] = useState([]);
     const [loading, setLoading] = useState(true); // loading state
     const [selectedCategory, setSelectedCategory] = useState("");  // For selected category
-    const [selectedSubCategory, setSelectedSubCategory] = useState(""); // For selected subcategory
+    const [selectedSubCategory, setSelectedSubCategory] = useState("All"); // For selected subcategory
     const [sortBy, setSortBy] = useState("");  // For sorting option
 
     const [paginationIndex, setPaginationIndex] = useState(0); // Track current page
@@ -169,12 +169,14 @@ function CategoryPage () {
     
     const handleSubCategoryChange = (subCategory) => {
         setSelectedSubCategory(subCategory);
+        setPaginationIndex(0); // Reset to first page when changing subcategory
     };
     
 
     useEffect(() => {
         setSelectedCategory(category);
-        setSelectedSubCategory(subCategory || "");
+        setSelectedSubCategory(subCategory ? subCategory : "All");
+        setPaginationIndex(0);
     }, [category, subCategory]);
       
 
@@ -193,7 +195,7 @@ function CategoryPage () {
     // Handle getting current screen size so as to dynamically change
     // the header layout On different screen size
     useEffect(() => {
-        const handleResize = () => setWidth(window.innerWidth);
+        const handleResize = () => setScreenWidth(window.innerWidth);
         window.addEventListener('resize', handleResize);
         return () => window.removeEventListener('resize', handleResize);
     }, []);
@@ -204,11 +206,11 @@ function CategoryPage () {
     const path = location.pathname;
 
     if (path.includes('/MensWear')) {
-        options = ["TShirt", "Hoodie", "SweatShirt"];
+        options = ["All", "TShirt", "Hoodie", "SweatShirt"];
     } else if (path.includes('/FootWear')) {
-        options = ["Bullup500"];
+        options = ["All", "Bullup500"];
     } else {
-        options = ["TShirt", "Hoodie", "SweatShirt", "Bullup500"];
+        options = ["All", "TShirt", "Hoodie", "SweatShirt", "Bullup500"];
     }
 
 
@@ -233,7 +235,14 @@ function CategoryPage () {
                                         checked={selectedSubCategory === list} // Set checked based on state
                                         onChange={() => handleSubCategoryChange(list)} // Update state on change
                                     />
-                                        {list}
+                                        <span
+                                            onClick={() => {
+                                                if (screenWidth) {
+                                                    handleSubCategoryChange(list)
+                                                }
+                                            }}>
+                                            {list}
+                                        </span>
                                 </div>
 
                             ))
@@ -273,7 +282,7 @@ function CategoryPage () {
                 <div className="category-page-items-header-container">
                     <h2>{category}:</h2> 
                     <p className="category-page-items-header-extra-details">
-                        {width ? <span>All</span> : <span>T shirt - Showing {items.length} products</span>}
+                        {screenWidth ? <span>All</span> : <span>T shirt - Showing {items.length} products</span>}
                     </p>
                 </div>
                 <div className="category-page-items-container">

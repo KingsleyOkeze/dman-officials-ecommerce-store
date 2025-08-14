@@ -53,6 +53,14 @@
     border-radius: 12px;
     background: #000000;
     color: #FFFFFF;
+    border: none;
+    cursor: pointer;
+    transition: transform 0.25s ease, background-color 0.25s ease;
+}
+
+.home-page-trending-now-see-all-button-container button:hover {
+    transform: scale(1.05);
+    background-color: #1a1a1a; /* subtle darkening */
 }
 
 

@@ -63,7 +63,10 @@ function SavedProductPage () {
                         savedProducts.map((savedProduct, index) => (
                             <div className="saved-product-card" key={savedProduct._id}>
                                 <div className="saved-product-card-img-container">
-                                    <img src={savedProduct.productRef?.productImageUrl[0]} />
+                                    <img 
+                                        src={savedProduct.productRef?.productImageUrl[0]} 
+                                        onClick={() => navigate(`/product-page/${savedProduct._id}`)}
+                                    />
                                 </div>
                                 <div className="saved-product-description-container">
                                     <p className="saved-product-name">{savedProduct.productRef?.productName}</p>

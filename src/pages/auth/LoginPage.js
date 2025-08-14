@@ -63,7 +63,8 @@ const LoginPage = () => {
                 console.log("Login Response:", response.data);
                 console.log("Access Token Set:", response.data.accessToken);
                 console.log("Customer ID Set:", response.data.userId);
-
+                // sessionStorage.setItem('customer_accessToken', response.data.accessToken);
+                // sessionStorage.setItem('customerId', response.data.userId);
             }
         } catch (err) {
             console.log('login 403 err', err);

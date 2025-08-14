@@ -4,7 +4,7 @@
 }
 
 .sale-page-hero-section-container {
-    background-image: url("../../../images/unleash1.png");
+    /* background-image: url("../../../images/unleash1.png"); */
     background-size: cover; /* Cover the entire element */
     background-position: center; /* Center the image */
     background-repeat: no-repeat; /* Don't repeat the image */

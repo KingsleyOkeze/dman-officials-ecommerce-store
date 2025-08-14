@@ -54,7 +54,12 @@ function SalePage () {
 
     return(
         <div className="sale-page-container">
-            <div className="sale-page-hero-section-container">
+            <div 
+                className="sale-page-hero-section-container"
+                style={{
+                    backgroundImage: 'url("https://res.cloudinary.com/dvgqi0ajq/image/upload/c_limit,f_auto,q_auto,w_1200/v1754852489/svjqiljgjfoukdzqcdoc.png")'
+                    }
+                }>
                 <div className="sale-page-hero-section-block-content-container">
                     <h2 className="sale-page-hero-section-block-content-head-text">D.MAN</h2>
                     <h2 className="sale-page-hero-section-block-content-sub-head-text">Sales up to 50% off</h2>

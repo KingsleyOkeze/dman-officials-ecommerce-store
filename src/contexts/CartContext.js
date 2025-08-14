@@ -74,6 +74,7 @@ export const CartProvider = ({ children }) => {
     // Function to add an item to the cart
     const addToCart = async (productId, quantity) => {
         if (!accessToken && !customerId) {
+            console.log("Error", "You need to login first!")
             showAlert("Error", "You need to login first!");
             setLoadingId(null); // Reset loadingId to null
             return;

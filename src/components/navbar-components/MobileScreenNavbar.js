@@ -8,10 +8,12 @@ import SignUpPage from "../../pages/auth/SignUpPage";
 import { LiaTimesSolid } from "react-icons/lia";
 import { SideDrawerContext } from "../../contexts/SideDrawerContext";
 import { useNavigate } from "react-router-dom";
+import { AuthContext } from "../../contexts/AuthContext";
 
 
 function MobileScreenNavbar() {
     const navigate = useNavigate();
+    const { accessToken } = useContext(AuthContext);
     const [showLogin, setShowLogin] = useState(false);
     const [showSignUp, setShowSignUp] = useState(false);
     const [showMenDropDown, setShowMenDropDown] = useState(false);
@@ -133,8 +135,13 @@ function MobileScreenNavbar() {
             {/* Footer Links */}
             <div className="navbar-footer">
                 <p>
-                    <span onClick={() => setShowLogin(true)}>Sign in</span> /{" "}
-                     <span onClick={() => setShowSignUp(true)}>Register</span>
+                    <span onClick={() => setShowLogin(true)}>
+                        {!accessToken ? 'Sign in' : ''}
+                    </span> 
+                        {!accessToken ? '/{" "}' : ''}
+                     <span onClick={() => setShowSignUp(true)}>
+                        {!accessToken ? 'Register' : ''}
+                    </span>
                 </p>
                 <p 
                     onClick={() => {

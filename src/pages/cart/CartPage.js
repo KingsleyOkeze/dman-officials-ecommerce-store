@@ -67,6 +67,12 @@ function CartPage () {
 
     const finalTotalPrice = totalPrice - discountAmount; // Calculate final price after discount
 
+    const handleCheckout = () => {
+        toggleSideDrawer();
+        // Pass cartItems data to the state object during navigation
+        navigate("/order-confirmation-page", { state: { cartItems: cartItems } });
+    };
+
     return (
         <div className="cart-page-container">
             {
@@ -202,12 +208,10 @@ function CartPage () {
                     {/* Checkout Button */}
                     <button 
                         className="cart-checkout-button" 
-                        onClick={() => {
-                            toggleSideDrawer();
-                            navigate("/order-confirmation-page");
-                        }}>
-                            Checkout {currency} <span>{finalTotalPrice.toFixed(2)}</span>
-                        </button>
+                        onClick={handleCheckout}
+                    >
+                        Checkout {currency} <span>{finalTotalPrice.toFixed(2)}</span>
+                    </button>
                     <p className="cart-checkout-button-bottom-text">You are eligible for free shipping</p>
                 </div>
                 

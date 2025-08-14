@@ -40,69 +40,72 @@ import OrderReviewPage from './pages/order-pages/OrderReviewPage';
 import AllOrdersPage from './pages/user-account/AllOrdersPage';
 import { AuthProvider } from './contexts/AuthContext';
 import { AlertProvider } from './contexts/AlertContext';
+import ScrollToTop from './components/ScrollToTop';
+import Alert from './components/Alert';
 
 
 function App() { 
- 
-  axios.defaults.baseURL = process.env.REACT_APP_BASE_URL;
+    axios.defaults.baseURL = process.env.REACT_APP_BASE_URL;
 
-  return (
-    <Router>
-      <AuthProvider>
-      <AlertProvider>
-      <Routes>
-          <Route path="/" element={<Dashboard />}>
-            <Route index element={<HomePage />}/>
-            <Route path="home-page" element={<HomePage />} />
-            <Route path="product-page/:productId" element={<ProductPage />} /> 
-            <Route path="category-page/:category/:subCategory?" element={<CategoryPage />} />
-            <Route path="sale-page" element={<SalePage />} /> 
-            <Route path="user-details-page" element={<UserDetails />} /> 
-            <Route path="order-confirmation-page" element={<OrderConfirmationPage />} />
-            <Route path="order-review/:orderId" element={<OrderReviewPage />} />
-            <Route path="card-payment-page" element={<CardPaymentPage />} />
-            <Route path="ussd-payment-page" element={<USSDPaymentPage />} />
-            <Route path="ussd-instruction-page" element={<USSDInstructionPage />} />
-            <Route path="bank-transfer-page" element={<BankTransferPage />} />
-            
-            <Route path="sign-up-email-verification/:token" element={<SignUpVerification/>} />
-            <Route path="email-sent/:userId" element={<EmailSentPage />} />
-            <Route path="forget-password" element={<ForgotPassword />} />
-            <Route path="reset-password/:token" element={<ResetPassword />} />
-      
-             {/* Protected Routes */}
-            <Route path="/" element={<ProtectedRoute allowedRoles={['Customer']} />}>
-                <Route path="account" element={<AccountPage />}>
-                    <Route index element={<UserOverviewPage />} />
-                    <Route path="saved-product" element={<SavedProductPage />} />
-                    <Route path="all-orders" element={<AllOrdersPage />} />
-                    <Route path="order-tracking/:orderId" element={<OrderTrackingPage />} />
-                    <Route path="user-overview" element={<UserOverviewPage />} />
-                    <Route path="user-details" element={<UserDetails />} />
-                    <Route path="purchase-details/:orderId" element={<PurchaseDetailsPage />} />
-                </Route>
-            </Route>
+    return (
+        <Router>
+            <AuthProvider>
+                <AlertProvider>
+                    <ScrollToTop /> 
+                    <Alert />
+                    <Routes>
+                        <Route path="/" element={<Dashboard />}>
+                            <Route index element={<HomePage />} />
+                            <Route path="home-page" element={<HomePage />} />
+                            <Route path="product-page/:productId" element={<ProductPage />} /> 
+                            <Route path="category-page/:category/:subCategory?" element={<CategoryPage />} />
+                            <Route path="sale-page" element={<SalePage />} /> 
+                            <Route path="user-details-page" element={<UserDetails />} /> 
+                            <Route path="order-confirmation-page" element={<OrderConfirmationPage />} />
+                            <Route path="order-review/:orderId" element={<OrderReviewPage />} />
+                            <Route path="card-payment-page" element={<CardPaymentPage />} />
+                            <Route path="ussd-payment-page" element={<USSDPaymentPage />} />
+                            <Route path="ussd-instruction-page" element={<USSDInstructionPage />} />
+                            <Route path="bank-transfer-page" element={<BankTransferPage />} />
+                            
+                            <Route path="sign-up-email-verification/:token" element={<SignUpVerification/>} />
+                            <Route path="email-sent/:userId" element={<EmailSentPage />} />
+                            <Route path="forget-password" element={<ForgotPassword />} />
+                            <Route path="reset-password/:token" element={<ResetPassword />} />
 
-            <Route path="faq-page" element={<FaqPage />} />
-            <Route path="about-us-page" element={<AboutUsPage />} />
-            <Route path="shipping-policy" element={<ShippingPolicyPage />} />
-            <Route path="returns-policy" element={<ReturnsPolicyPage />} />
-            <Route path="contact" element={<ContactPage />} />
-            <Route path="payment-policy" element={<PaymentPolicyPage />} />
-            <Route path="disclaimer-page" element={<DisclaimerPage />} />
-            <Route path="cookie-policy" element={<CookiePolicyPage />} />
-            <Route path="warrant-and-return-policy" element={<WarrantyAndReturnsPolicyPage />} />
-            <Route path="terms-of-use-page" element={<TermsOfUsePage />} />
-            <Route path="privacy-policy" element={<PrivacyPolicyPage />} />
-          </Route>
+                            {/* Protected Routes */}
+                            <Route path="/" element={<ProtectedRoute allowedRoles={['Customer']} />}>
+                                <Route path="account" element={<AccountPage />}>
+                                    <Route index element={<UserOverviewPage />} />
+                                    <Route path="saved-product" element={<SavedProductPage />} />
+                                    <Route path="all-orders" element={<AllOrdersPage />} />
+                                    <Route path="order-tracking/:orderId" element={<OrderTrackingPage />} />
+                                    <Route path="user-overview" element={<UserOverviewPage />} />
+                                    <Route path="user-details" element={<UserDetails />} />
+                                    <Route path="purchase-details/:orderId" element={<PurchaseDetailsPage />} />
+                                </Route>
+                            </Route>
 
-          {/* Fallback Route for Unknown Paths */}
-          <Route path="*" element={<NotFoundPage />} /> {/* This will catch all unknown routes and show the NotFoundPage */}
-      </Routes>
-      </AlertProvider>
-      </AuthProvider>
-    </Router>
-  );
+                            <Route path="faq-page" element={<FaqPage />} />
+                            <Route path="about-us-page" element={<AboutUsPage />} />
+                            <Route path="shipping-policy" element={<ShippingPolicyPage />} />
+                            <Route path="returns-policy" element={<ReturnsPolicyPage />} />
+                            <Route path="contact" element={<ContactPage />} />
+                            <Route path="payment-policy" element={<PaymentPolicyPage />} />
+                            <Route path="disclaimer-page" element={<DisclaimerPage />} />
+                            <Route path="cookie-policy" element={<CookiePolicyPage />} />
+                            <Route path="warrant-and-return-policy" element={<WarrantyAndReturnsPolicyPage />} />
+                            <Route path="terms-of-use-page" element={<TermsOfUsePage />} />
+                            <Route path="privacy-policy" element={<PrivacyPolicyPage />} />
+                        </Route>
+
+                        {/* Fallback Route */}
+                        <Route path="*" element={<NotFoundPage />} />
+                    </Routes>
+                </AlertProvider>
+            </AuthProvider>
+        </Router>
+    );
 }
 
 export default App;

@@ -193,6 +193,7 @@
     display: flex;
     flex-direction: column;
     justify-content: space-between;
+    cursor: pointer;
 }
 
 .home-page-categories-card img {
@@ -213,6 +214,15 @@
     margin-left: auto;
     margin-right: auto;
     margin-bottom: 10px;
+    border: none;
+    cursor: pointer;
+    display: block;
+    transition: transform 0.25s ease, background-color 0.25s ease;
+}
+
+.home-page-categories-card button:hover {
+    transform: scale(1.04); /* slight grow */
+    background-color: #1a1a1a; /* subtle hover darkening */
 }
 
 

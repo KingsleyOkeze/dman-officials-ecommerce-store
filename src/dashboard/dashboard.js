@@ -2,7 +2,6 @@ import { Outlet, useLocation, useNavigate } from "react-router-dom";
 import Footer from "../components/Footer";
 import Header from "../components/Header";
 import '../styles/dashboard-style/Dashboard.css';
-import SlidingNavList from "../components/navbar-components/SlidingNavList";
 import { useContext, useEffect, useState } from "react";
 import AuthSwitchPage from "../pages/auth/AuthSwitchPage";
 import MobileScreenNavbar from "../components/navbar-components/MobileScreenNavbar";

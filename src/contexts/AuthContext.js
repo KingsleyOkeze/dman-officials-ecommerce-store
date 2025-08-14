@@ -8,8 +8,14 @@ export const AuthContext = createContext();
 
 export const AuthProvider = ({ children }) => {
     const navigate = useNavigate();
+    // Store access token and customer ID from session storage
+    // const [accessToken, setAccessToken] = useState(sessionStorage.getItem('customer_accessToken') || null);
+    // const [customerId, setCustomerId] = useState(sessionStorage.getItem('customerId') || null);
+
+
     const [accessToken, setAccessToken] = useState(null);
     const [customerId, setCustomerId] = useState(null);
+
 
     const isRefreshing = useRef(false); // Track if we're refreshing the token
     const failedRequests = useRef([]); // Queue for failed requests
@@ -22,6 +28,15 @@ export const AuthProvider = ({ children }) => {
         } catch (error) {
             console.error('Logout error:', error.message);
         } finally {
+            // Always clear session and redirect
+            // Clear coupon-related session storage
+            sessionStorage.removeItem('couponCode');
+            sessionStorage.removeItem('discountAmount');
+            sessionStorage.removeItem('isValidCoupon');
+
+            // Optionally: clear all session data
+            sessionStorage.clear();
+            
             setAccessToken(null);
             setCustomerId(null);
             navigate('/');
@@ -76,6 +91,8 @@ export const AuthProvider = ({ children }) => {
                         const newAccessToken = response.data.accessToken;
                         const decoded = jwtDecode(newAccessToken);
                         console.log('New access token received:', newAccessToken);
+                        // sessionStorage.setItem('customer_accessToken', newAccessToken);
+                        // sessionStorage.setItem('customerId', decoded.userId);
                         setAccessToken(newAccessToken);
                         setCustomerId(decoded.userId);
 
@@ -114,20 +131,23 @@ export const AuthProvider = ({ children }) => {
         };
     }, []);
 
+    
     useEffect(() => {
-        if (accessToken) {
+        const rehydrateAuth = async () => {
             try {
-                const decoded = jwtDecode(accessToken);
+                const res = await axios.post('/customer/refresh-token', {}, { withCredentials: true });
+                const decoded = jwtDecode(res.data.accessToken);
+                setAccessToken(res.data.accessToken);
                 setCustomerId(decoded.userId);
             } catch (err) {
-                console.error("Invalid access token:", err);
+                console.log("No valid session, user must login");
+                setAccessToken(null);
                 setCustomerId(null);
             }
-        } else {
-            setCustomerId(null);
-        }
-    }, [accessToken]);
+        };
 
+        rehydrateAuth();
+    }, []);
 
     return (
         <AuthContext.Provider
