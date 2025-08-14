@@ -20,13 +20,7 @@ function MobileScreenNavbar() {
     const [showAccessoryDropDown, setShowAccessoryDropDown] = useState(false);
     const [showFootwearDropDown, setShowFootwearDropDown] = useState(false);
   
-    const { 
-        showSideDrawer, 
-        setShowSideDrawer, 
-        activeComponent, 
-        setActiveComponent,
-        toggleSideDrawer
-    } = useContext(SideDrawerContext);  
+    const { toggleSideDrawer } = useContext(SideDrawerContext);  
     
     const menListRef = useRef(null);
     const accessoryListRef = useRef(null);
