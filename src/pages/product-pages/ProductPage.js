@@ -13,7 +13,6 @@ import { useParams } from "react-router-dom";
 import axios from "axios";
 import { CartContext } from "../../contexts/CartContext";
 import { SaveProductContext } from "../../contexts/SaveProductContext";
-import Alert from "../../components/Alert";
 import { AuthContext } from "../../contexts/AuthContext";
 import { AlertContext } from "../../contexts/AlertContext";
 import CountdownTimer from "./CountdownTimer";
@@ -21,9 +20,9 @@ import CountdownTimer from "./CountdownTimer";
 function ProductPage () {
     const { productId } = useParams();
     const { accessToken, customerId } = useContext(AuthContext); 
-    const { customAlert, showAlert } = useContext(AlertContext);
+    const { showAlert } = useContext(AlertContext);
     const { addToCart, loadingId } = useContext(CartContext); 
-    const { savedProducts, handleSaveProduct, removeFromSavedProduct } = useContext(SaveProductContext);
+    const { handleSaveProduct } = useContext(SaveProductContext);
     const [product, setProduct] = useState({});
     const [currentImageUrl, setCurrentImageUrl] = useState(product?.productImageUrl?.length > 0 ? product.productImageUrl[0] : null);
     const [currentImageIndex, setCurrentImageIndex] = useState(0);
@@ -34,16 +33,16 @@ function ProductPage () {
                 const response = await axios.get(`/customer/fetch-product-details/${productId}`);
 
                 if (response.status === 200) {
-                    console.log('fetch product details page', response.data)
                     setProduct(response.data.result)
                 }
             } catch (err) {
-                console.log('err fetch product details page', err)
+                // console.log('err fetch product details page', err);
+                showAlert('Error', err?.response?.data?.error)
             }
             
         }
         fetchProductDetails();
-    }, [productId]);
+    }, []);
 
 
     useEffect(() => {

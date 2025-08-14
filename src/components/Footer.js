@@ -61,7 +61,7 @@ function Footer () {
     useEffect(() => {
         const handleResize = () => {
           setWindowWidth(window.innerWidth);
-          console.log('Window width:', window.innerWidth);
+        //   console.log('Window width:', window.innerWidth);
         };
     
         window.addEventListener('resize', handleResize);
@@ -118,6 +118,7 @@ function Footer () {
                     height={50}
                     onClick={() => {
                         navigate("/");
+                        scrollToTop();
                     }}
                 />
             </div>

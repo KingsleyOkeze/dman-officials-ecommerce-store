@@ -23,7 +23,6 @@ function Explore () {
                 setError("An error occurred while fetching products.");
             } finally {
                 setLoading(false);
-                console.log("explore product", exploreProducts)
             }
         };
 

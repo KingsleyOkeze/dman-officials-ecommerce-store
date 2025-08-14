@@ -1,10 +1,12 @@
 import axios from "axios";
-import { createContext, useEffect, useState, useRef } from "react";
+import { createContext, useEffect, useState, useRef, useContext } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
+import { AlertContext } from "./AlertContext";
 
 export const SearchContext = createContext(); 
 
 export const SearchProvider = ({ children }) => {
+    const { showAlert } = useContext(AlertContext);
     const [searchInput, setSearchInput] = useState('');
     const [searchResult, setSearchResult] = useState([]);
     const navigate = useNavigate();
@@ -20,7 +22,6 @@ export const SearchProvider = ({ children }) => {
                 );
 
                 if (response.status === 200) {
-                    console.log('search result is', response.data.result);
                     setSearchResult(response.data.result);
                 if (location.pathname !== "/category-page/search") {
                     previousPath.current = location.pathname; // Save the current path
@@ -28,16 +29,16 @@ export const SearchProvider = ({ children }) => {
                 }
             }
             } catch (err) {
-            // if (err.response) {
-            //     const status = err.response.status;
-            //     const errMessage = err.response.data.error;
-            //     if (status) {
-            //         showAlert("error", errMessage);
-            //     }
-            // } else {
-            //     showAlert("error", "Unknown error occurred while searching!");
-            // }
-            console.log("err searching ", err)
+            if (err.response) {
+                const status = err.response.status;
+                const errMessage = err.response.data.error;
+                if (status) {
+                    showAlert("Error", errMessage);
+                }
+            } else {
+                showAlert("Error", "Unknown error occurred while searching!");
+            }
+            // console.log("err searching ", err)
             }
         } else {
             navigate(previousPath.current); // Redirect if searchInput is empty

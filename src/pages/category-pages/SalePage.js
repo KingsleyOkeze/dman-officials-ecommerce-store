@@ -1,11 +1,5 @@
 import { useEffect, useState } from "react";
-// import "../../styles/pages-styles/category-pages-styles/SalePage.css"
 import "../../styles/pages-styles/category-pages-styles/SalePage.css"
-import cardImage1 from "../../images/cardImage1.png";
-import cardImage2 from "../../images/cardImage2.png";
-import cardImage3 from "../../images/cardImage3.png";
-import cardImage4 from "../../images/cardImage4.png";
-import cardImage5 from "../../images/cardImage5.png";
 import { Link, useNavigate } from "react-router-dom";
 import { IoIosArrowBack } from "react-icons/io";
 import { IoIosArrowForward } from "react-icons/io";

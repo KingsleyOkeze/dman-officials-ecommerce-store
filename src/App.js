@@ -21,7 +21,6 @@ import BankTransferPage from './pages/payment-pages/BankTransferPayment';
 import AboutUsPage from './pages/footer-pages/AboutUsPage';
 import SavedProductPage from './pages/user-account/SavedProductPage';
 import AccountPage from './pages/user-account/AccountPage';
-import ProductHistoryPage from './pages/user-account/OrderTrackingPage';
 import UserOverviewPage from './pages/user-account/UserOverviewPage';
 import PurchaseDetailsPage from './pages/user-account/PurchaseDetailsPage';
 import ProductPage from './pages/product-pages/ProductPage';
@@ -48,8 +47,8 @@ function App() {
 
     return (
         <Router>
-            <AuthProvider>
-                <AlertProvider>
+            <AlertProvider>
+                <AuthProvider>
                     <ScrollToTop /> 
                     <Alert />
                     <Routes>
@@ -101,8 +100,8 @@ function App() {
                         {/* Fallback Route */}
                         <Route path="*" element={<NotFoundPage />} />
                     </Routes>
-                </AlertProvider>
-            </AuthProvider>
+                </AuthProvider>
+            </AlertProvider>
         </Router>
     );
 }

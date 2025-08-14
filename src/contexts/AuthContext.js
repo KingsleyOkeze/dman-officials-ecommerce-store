@@ -1,18 +1,16 @@
 import axios from 'axios';
 import { jwtDecode } from 'jwt-decode';
-import React, { createContext, useState, useEffect, useRef } from 'react';
+import React, { createContext, useState, useEffect, useRef, useContext } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { AlertContext } from './AlertContext';
 
 // Create AuthContext to share login info across customer app
 export const AuthContext = createContext();
 
 export const AuthProvider = ({ children }) => {
     const navigate = useNavigate();
-    // Store access token and customer ID from session storage
-    // const [accessToken, setAccessToken] = useState(sessionStorage.getItem('customer_accessToken') || null);
-    // const [customerId, setCustomerId] = useState(sessionStorage.getItem('customerId') || null);
-
-
+    const { showAlert } = useContext(AlertContext);
+    // Store access token and customer ID 
     const [accessToken, setAccessToken] = useState(null);
     const [customerId, setCustomerId] = useState(null);
 
@@ -24,9 +22,10 @@ export const AuthProvider = ({ children }) => {
     const handleLogout = async () => {
         try {
             await axios.post('/customer/logout', { customerId }, { withCredentials: true });
-            console.log('User logged out successfully');
+            // console.log('User logged out successfully');
         } catch (error) {
-            console.error('Logout error:', error.message);
+            // console.error('Logout error:', error.message);
+            showAlert("Error", error.message)
         } finally {
             // Always clear session and redirect
             // Clear coupon-related session storage
@@ -36,7 +35,7 @@ export const AuthProvider = ({ children }) => {
 
             // Optionally: clear all session data
             sessionStorage.clear();
-            
+
             setAccessToken(null);
             setCustomerId(null);
             navigate('/');
@@ -90,9 +89,7 @@ export const AuthProvider = ({ children }) => {
 
                         const newAccessToken = response.data.accessToken;
                         const decoded = jwtDecode(newAccessToken);
-                        console.log('New access token received:', newAccessToken);
-                        // sessionStorage.setItem('customer_accessToken', newAccessToken);
-                        // sessionStorage.setItem('customerId', decoded.userId);
+                        // console.log('New access token received:', newAccessToken);
                         setAccessToken(newAccessToken);
                         setCustomerId(decoded.userId);
 
@@ -140,7 +137,7 @@ export const AuthProvider = ({ children }) => {
                 setAccessToken(res.data.accessToken);
                 setCustomerId(decoded.userId);
             } catch (err) {
-                console.log("No valid session, user must login");
+                // console.log("No valid session, user must login");
                 setAccessToken(null);
                 setCustomerId(null);
             }

@@ -12,7 +12,7 @@ function PurchaseDetailsPage () {
     const { orderId } = useParams();
     const navigate = useNavigate();
     const { accessToken, customerId } = useContext(AuthContext);
-    const { customAlert, showAlert } = useContext(AlertContext);
+    const { showAlert } = useContext(AlertContext);
     const [purchasedOrderDetails, setPurchasedOrderDetails] = useState([]);
 
     
@@ -31,7 +31,6 @@ function PurchaseDetailsPage () {
     
             if (response.status === 200) {
                 setPurchasedOrderDetails(response.data.order);
-                console.log('purchase order details message', response.data.order);
             }
         } catch (err) {
             console.log('err OrderDetails', err);

@@ -53,13 +53,13 @@ export const CouponProvider = ({ children }) => {
             } 
             
         } catch (err) {
-            console.error("Error applying coupon:", err);
+            // console.error("Error applying coupon:", err);
             if (err.response) {
                 const status = err.response.status;
                 const errMessage = err.response?.data?.error;
 
                 if (status === 400 || status === 403 || status === 404 || status === 500) {
-                    console.log("log coupon err", errMessage)
+                    // console.log("log coupon err", errMessage)
                     setCouponError(errMessage);
                 } 
                 // 401 errors are handled by AuthContext interceptor

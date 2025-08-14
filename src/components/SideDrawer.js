@@ -6,13 +6,7 @@ import MobileScreenNavbar from "./navbar-components/MobileScreenNavbar";
 import { SideDrawerContext } from "../contexts/SideDrawerContext";
 
 function SideDrawer () {
-    const { 
-        showSideDrawer, 
-        setShowSideDrawer, 
-        activeComponent, 
-        setActiveComponent,
-        toggleSideDrawer
-    } = useContext(SideDrawerContext); 
+    const { showSideDrawer, activeComponent } = useContext(SideDrawerContext); 
     
     return(
         <div

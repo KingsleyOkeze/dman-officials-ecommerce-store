@@ -1,4 +1,4 @@
-import { Outlet, useLocation, useNavigate } from "react-router-dom";
+import { Outlet } from "react-router-dom";
 import Footer from "../components/Footer";
 import Header from "../components/Header";
 import '../styles/dashboard-style/Dashboard.css';
@@ -11,7 +11,6 @@ import Overlay from "./Overlay";
 import { CouponProvider } from "../contexts/CouponContext";
 import { SearchProvider } from "../contexts/SearchContext";
 
-
 function Dashboard () {
     const [showAuthSwitchPage, setShowAuthSwitchPage] = useState(false);
     const [showMobileScreenNavbar, setShowMobileScreenNavbar] = useState(false);
@@ -20,7 +19,7 @@ function Dashboard () {
     useEffect(() => {
         const handleResize = () => {
           setWindowWidth(window.innerWidth);
-          console.log('Window width:', window.innerWidth);
+        //   console.log('Window width:', window.innerWidth);
         };
     
         window.addEventListener('resize', handleResize);

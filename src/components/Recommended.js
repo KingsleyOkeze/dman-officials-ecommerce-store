@@ -1,11 +1,13 @@
 import "../styles/components-styles/Recommended.css";
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
+import { AlertContext } from "../contexts/AlertContext";
 
 
 function Recommended ({ productDetails }) {
     const navigate = useNavigate();
+    const { showAlert } = useContext(AlertContext);
     const [recommendedProducts, setRecommendedProducts] = useState([]);
     const [isLoading, setIsLoading] = useState(true);
    
@@ -15,11 +17,11 @@ function Recommended ({ productDetails }) {
             try {
                 const response = await axios.get(`/customer/recommended-product/${productDetails._id}`);
                 if (response.status === 200) {
-                    console.log(response.data.products)
                     setRecommendedProducts(response.data.products);
                 }
             } catch (error) {
-                console.error("Error fetching recommended products:", error);
+                // console.error("Error fetching recommended products:", error);
+                showAlert("Error", error?.response?.data?.error)
             } finally {
                 setIsLoading(false);
             }

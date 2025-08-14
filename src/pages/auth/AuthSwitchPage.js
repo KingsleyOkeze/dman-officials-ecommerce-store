@@ -1,6 +1,6 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import "../../styles/pages-styles/auth-pages-styles/AuthSwitchPage.css"
-import { Link, Outlet, useLocation, useNavigate  } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import LoginPage from "./LoginPage";
 import SignUpPage from "./SignUpPage";
 

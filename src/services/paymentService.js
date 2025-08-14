@@ -3,7 +3,6 @@ import PaystackPop from '@paystack/inline-js'
 import axios from 'axios';
 
 export async function handlePayment (customerEmail, totalAmount, orderId, navigate, accessToken,  showAlert) {
-    // const { customAlert, showAlert } = useContext(AlertContext);
     const popup = new PaystackPop();
 
     popup.newTransaction({
@@ -11,7 +10,7 @@ export async function handlePayment (customerEmail, totalAmount, orderId, naviga
         email: customerEmail,
         amount: totalAmount * 100, // Convert amount to kobo
         onSuccess: async (transaction) => {
-            console.log('onSuccess', transaction);
+            // console.log('onSuccess', transaction);
             try {
                 const response = await axios.post("/customer/verify-transaction", { 
                     reference: transaction.reference,
@@ -33,7 +32,7 @@ export async function handlePayment (customerEmail, totalAmount, orderId, naviga
                 } 
                 
             } catch (err) {
-                console.error("Error verifying payment:", err);
+                // console.error("Error verifying payment:", err);
 
                 if (err.response) {
                     const status = err.response.status;
@@ -55,13 +54,13 @@ export async function handlePayment (customerEmail, totalAmount, orderId, naviga
     
         },
     onLoad: (response) => {
-      console.log("onLoad: ", response);
+    //   console.log("onLoad: ", response);
     },
     onCancel: () => {
-      console.log("onCancel");
+    //   console.log("onCancel");
     },
     onError: (error) => {
-      console.log("Error: ", error.message);
+    //   console.log("Error: ", error.message);
     }
     });
 
