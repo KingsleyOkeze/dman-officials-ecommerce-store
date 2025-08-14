@@ -114,7 +114,12 @@ const LoginPage = () => {
             >
                 Forget your password
             </p>
-            <p className="login-bottom-go-back-text">Go back</p>
+            <p 
+                className="login-bottom-go-back-text"
+                onClick={toggleSideDrawer}
+            >
+                Go back
+            </p>
         </div>
         </div>
     );

@@ -21,8 +21,9 @@
   
 .navbar-close-icon {
     font-size: 30px;
-    color: yellowgreen;
+    color: white;
     cursor: pointer;
+    margin-right: 20px;
 }
   
 
