@@ -1,11 +1,10 @@
 import React, { useContext, useState } from 'react';
 import axios from 'axios';
 import "../../styles/pages-styles/auth-pages-styles/LoginPage.css"
-import { Link, useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import logo from '../../images/dman-logo.png'
 import { SideDrawerContext } from '../../contexts/SideDrawerContext';
 import { AuthContext } from '../../contexts/AuthContext';
-// import useActivityTracker from '../../hooks/useActivityTracker'; // Import the custom hook
 import { getUserIpAddress } from '../../utils/getUserIpAddress'; // Adjust the path as needed
 
 
@@ -17,15 +16,7 @@ const LoginPage = () => {
     const [message, setMessage] = useState('');
     const [error, setError] = useState('');
     const [loading, setLoading] = useState(false);
-    const { 
-        showSideDrawer, 
-        setShowSideDrawer, 
-        activeComponent, 
-        setActiveComponent,
-        toggleSideDrawer
-    } = useContext(SideDrawerContext);
-    // Use the custom hook directly
-    // const { startTimer } = useActivityTracker();
+    const {  toggleSideDrawer } = useContext(SideDrawerContext);
 
     const handleLogin = async (e) => {
         e.preventDefault();
@@ -50,21 +41,16 @@ const LoginPage = () => {
 
             if (response.status === 200) {
                 setMessage(response.data.message);
-                console.log("login response", response.data)
                 // Handle successful login, such as redirecting 
                 setCustomerId(response.data.userId);
                 setAccessToken(response.data.accessToken);
                 toggleSideDrawer(); // Close the sliding sidebar
                 navigate("/account");
 
-                // Start session tracking
-                // startTimer(); // Start the session timer
 
-                console.log("Login Response:", response.data);
-                console.log("Access Token Set:", response.data.accessToken);
-                console.log("Customer ID Set:", response.data.userId);
-                // sessionStorage.setItem('customer_accessToken', response.data.accessToken);
-                // sessionStorage.setItem('customerId', response.data.userId);
+                // console.log("Login Response:", response.data);
+                // console.log("Access Token Set:", response.data.accessToken);
+                // console.log("Customer ID Set:", response.data.userId);
             }
         } catch (err) {
             console.log('login 403 err', err);

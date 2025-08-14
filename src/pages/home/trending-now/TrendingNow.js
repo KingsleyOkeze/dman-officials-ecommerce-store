@@ -23,11 +23,10 @@ function TrendingNow () {
             });
 
             if (response.status === 200) {
-                console.log('trending now category fetched is', response.data.result)
                 setTrendingNow(response.data.result);
             }
         } catch (err) {
-            console.log('Error fetching trending now products', err);
+            // console.log('Error fetching trending now products', err);
         } finally {
         }
     };

@@ -14,8 +14,15 @@ export const SideDrawerProvider  = ({ children }) => {
     }
 
     return (
-        <SideDrawerContext.Provider value={{ showSideDrawer, setShowSideDrawer,  activeComponent,  setActiveComponent, toggleSideDrawer }}>
-                {children}
+        <SideDrawerContext.Provider value={{ 
+            showSideDrawer, 
+            setShowSideDrawer,  
+            activeComponent,  
+            setActiveComponent, 
+            toggleSideDrawer 
+            }}
+        >
+            {children}
         </SideDrawerContext.Provider>
     );
 }

@@ -9,7 +9,7 @@ export const SaveProductContext = createContext();
 // Create a provider component
 export const SaveProductProvider = ({ children }) => {
     const { accessToken, customerId } = useContext(AuthContext); 
-    const { customAlert, showAlert } = useContext(AlertContext);
+    const { showAlert } = useContext(AlertContext);
     const [savedProducts, setSavedProducts] = useState([]);
     const [paginationIndex, setPaginationIndex] = useState(0); // Track current page
     const [totalPages, setTotalPages] = useState(0); // Total number of pages (example)
@@ -34,10 +34,9 @@ export const SaveProductProvider = ({ children }) => {
             if (response.status === 200) {
                 setSavedProducts(response.data.savedProducts);
                 setTotalPages(response.data.totalPages);
-                console.log('save product message', response.data.savedProducts)
             }
         } catch (err) {
-            console.log('err fetching save product', err);
+            // console.log('err fetching save product', err);
             if (err.response) {
                 const status = err.response.status;
                 const errMessage = err.response.data.error;
@@ -97,7 +96,7 @@ export const SaveProductProvider = ({ children }) => {
             } else {
                 showAlert("Error", "An Unknow Error Occured!")
             }
-            console.log("err ading to cart ", err)
+            // console.log("err ading to cart ", err)
         }
 
     };
@@ -136,7 +135,7 @@ export const SaveProductProvider = ({ children }) => {
             } else {
                 showAlert("Error", "An Unknow Error Occured!")
             }
-            console.log("err removing from saved product ", err)
+            // console.log("err removing from saved product ", err)
         }
       
 

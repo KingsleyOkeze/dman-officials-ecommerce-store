@@ -16,8 +16,22 @@ function CartPage () {
     const navigate = useNavigate();
     const { accessToken, customerId } = useContext(AuthContext);
     const { showAlert } = useContext(AlertContext);
-    const { cartItems, updateQuantity, removeFromCart, loadingId, actionType, setActionType } = useContext(CartContext); 
-    const { applyCoupon, couponCode, setCouponCode, discountAmount, couponError, isValidCoupon } = useContext(CouponContext);
+    const { 
+        cartItems, 
+        updateQuantity, 
+        removeFromCart, 
+        loadingId, 
+        actionType, 
+        setActionType 
+    } = useContext(CartContext); 
+    const { 
+        applyCoupon, 
+        couponCode, 
+        setCouponCode, 
+        discountAmount, 
+        couponError, 
+        isValidCoupon 
+    } = useContext(CouponContext);
     const { toggleSideDrawer } = useContext(SideDrawerContext); 
     const [currency, setCurrency] = useState('₦');
     const [totalPrice, setTotalPrice] = useState(0);
@@ -36,11 +50,9 @@ function CartPage () {
 
             if (response.status === 200) {
                 setTotalPrice(response.data.totalPrice);
-                console.log('cart total price message', response.data)
-                // alert('cart message', response.data.totalPrice)
             }
         } catch (err) {
-            console.log('err fetching cart', err);
+            // console.log('err fetching cart', err);
             if (err.response) {
                 const status = err.response.status;
                 const errMessage = err.response.data.error;

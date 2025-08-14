@@ -131,8 +131,7 @@ function CategoryPage () {
             if (response.status === 200) {
                 console.log('category fetched is', response.data)
                 setItems(response.data.result);
-                setTotalPages(response.data.totalPages)
-                // alert(response.data.totalPages)
+                setTotalPages(response.data.totalPages);
             }
         } catch (err) {
             console.log('Error fetching products', err);
@@ -162,11 +161,6 @@ function CategoryPage () {
     }, [selectedCategory, selectedSubCategory, sortBy, paginationIndex]);
 
 
-    // const handleCategoryChange = (category) => {
-    //     setSelectedCategory(category);
-    //     setSelectedSubCategory(null); // Reset subcategory when the main category changes
-    // };
-    
     const handleSubCategoryChange = (subCategory) => {
         setSelectedSubCategory(subCategory);
         setPaginationIndex(0); // Reset to first page when changing subcategory
@@ -179,12 +173,6 @@ function CategoryPage () {
         setPaginationIndex(0);
     }, [category, subCategory]);
       
-
-    // // Fetch the category params holds on load of page
-    // useEffect(() => {
-    //     handleCategoryChange(category);
-    // }, [category]);
-
 
     // When user is searching, sset items to display as search result
     useEffect(() => {

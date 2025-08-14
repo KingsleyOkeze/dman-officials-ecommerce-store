@@ -31,7 +31,6 @@ function AllOrdersPage() {
             );
 
             if (response.status === 200) {
-                console.log('fetch-all-customer-orders', response.data.result);
                 setOrders(response.data.result);
                 setTotalPages(response.data.totalPages);
             }
@@ -67,7 +66,6 @@ function AllOrdersPage() {
 
     useEffect(() => {
         if (accessToken) {
-            console.log('called', accessToken);
             handleFetchOrders();
         }
     }, [accessToken, customerId]);

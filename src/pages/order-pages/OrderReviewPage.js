@@ -3,8 +3,10 @@ import { useNavigate, useParams } from 'react-router-dom';
 import '../../styles/pages-styles/order-pages-styles/OrderReviewPage.css'; // Include your custom styles here
 import axios from 'axios';
 import { AuthContext } from '../../contexts/AuthContext';
+import { AlertContext } from '../../contexts/AlertContext';
 
 function OrderReviewPage({ onRetryPayment, onContactSupport }) {
+    const { showAlert } = useContext(AlertContext);
     const { orderId } = useParams(); // Extract orderId from the URL
     const navigate = useNavigate();
     const { accessToken, customerId } = useContext(AuthContext);
@@ -24,10 +26,11 @@ function OrderReviewPage({ onRetryPayment, onContactSupport }) {
 
             if (response.status === 200) {
                 setOrderDetails(response.data.order);
-                console.log('OrderDetails message', response.data.order);
             }
-        } catch (err) {
-            console.log('err OrderDetails', err)
+        } catch (error) {
+            // console.log('err OrderDetails', err)
+            showAlert("Error", error?.response?.data?.error);
+
         }
     }
 

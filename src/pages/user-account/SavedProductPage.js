@@ -1,12 +1,10 @@
 import { useContext, useEffect, useState } from "react";
-import Recommended from "../../components/Recommended";
 import "../../styles/pages-styles/user-account-page-styles/SavedProductPage.css";
 import { IoIosArrowBack } from "react-icons/io";
 import { IoIosArrowForward } from "react-icons/io";
 import { SaveProductContext } from "../../contexts/SaveProductContext";
 import { CartContext } from "../../contexts/CartContext";
 import { AuthContext } from "../../contexts/AuthContext";
-import axios from "axios";
 import { AlertContext } from "../../contexts/AlertContext";
 import { IoMdArrowBack } from "react-icons/io";
 import { useNavigate } from "react-router-dom";
@@ -15,10 +13,9 @@ function SavedProductPage () {
     const navigate = useNavigate();
     const { accessToken, customerId } = useContext(AuthContext); 
     const { showAlert } = useContext(AlertContext);
-    const { cartItems, addToCart, removeFromCart } = useContext(CartContext);
+    const { addToCart } = useContext(CartContext);
     const { 
         savedProducts, 
-        setSavedProducts, 
         removeFromSavedProduct,
         fetchSavedProduct,
         totalPages,

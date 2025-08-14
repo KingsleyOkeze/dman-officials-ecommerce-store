@@ -1,7 +1,6 @@
 import "../../styles/pages-styles/user-account-page-styles/AccountPage.css";
 import { Outlet, useNavigate, useLocation } from "react-router-dom";
 import { useState, useEffect, useContext } from "react";
-import axios from "axios";
 import dmanLogo from "../../images/dman-black-logo.png"
 import { AuthContext } from "../../contexts/AuthContext";
 

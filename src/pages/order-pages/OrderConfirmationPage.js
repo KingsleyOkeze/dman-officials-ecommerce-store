@@ -1,9 +1,5 @@
 import { useContext, useEffect, useState } from "react";
 import '../../styles/pages-styles/order-pages-styles/OrderConfirmationPage.css';
-import cardImage1 from "../../images/cardImage1.png";
-import cardImage2 from "../../images/cardImage2.png";
-import cardImage3 from "../../images/cardImage3.png";
-import cardImage4 from "../../images/cardImage4.png";
 import { RiCheckboxBlankFill } from "react-icons/ri";
 import { useNavigate, useLocation } from "react-router-dom";
 import axios from "axios";

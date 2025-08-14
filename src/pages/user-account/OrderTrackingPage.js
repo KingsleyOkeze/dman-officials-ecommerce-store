@@ -40,7 +40,7 @@ function OrderTrackingPage () {
                 }
 
             } catch(err) {
-                console.error("Error fetching product:", err);
+                // console.error("Error fetching product:", err);
                 if (err.response) {
                     const status = err.response.status;
                     const errMessage = err.response.data.error;

@@ -25,7 +25,6 @@ function UserOverviewPage() {
             });
 
             if (response.status === 200) {
-                console.log('fetch-all-customer-details', response.data.customer)
                 setUserDetails(response.data.customer);
             }
 

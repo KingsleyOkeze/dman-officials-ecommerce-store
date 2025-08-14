@@ -21,13 +21,7 @@ function Header () {
     const [showSearchIcon, setShowSearchIcon] = useState(true);
     const [showMenuIcon, setShowMenuIcon] = useState(true);
     const { accessToken } = useContext(AuthContext);
-    const { 
-            showSideDrawer, 
-            setShowSideDrawer, 
-            activeComponent, 
-            setActiveComponent,
-            toggleSideDrawer
-    } = useContext(SideDrawerContext); 
+    const {  setActiveComponent, toggleSideDrawer } = useContext(SideDrawerContext); 
     const { searchInput, setSearchInput, handleSearchInput } = useContext(SearchContext);
 
     // Top benefit slide effect
@@ -47,13 +41,10 @@ function Header () {
         return () => clearInterval(interval); // Clean up the interval on unmount
     }, []);
     
-
-    // const isAuthenticated = localStorage.getItem('accessToken'); // Check if the access token exists
-
     useEffect(() => {
         const handleResize = () => {
           setWindowWidth(window.innerWidth);
-          console.log('Window width:', window.innerWidth);
+        //   console.log('Window width:', window.innerWidth);
         };
     
         window.addEventListener('resize', handleResize);

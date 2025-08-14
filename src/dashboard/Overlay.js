@@ -3,10 +3,7 @@ import { SideDrawerContext } from "../contexts/SideDrawerContext";
 import "../styles/dashboard-style/Overlay.css";
 
 function Overlay () {
-    const { 
-            showSideDrawer, 
-            setShowSideDrawer, 
-    } = useContext(SideDrawerContext);
+    const { showSideDrawer, setShowSideDrawer } = useContext(SideDrawerContext);
     
     return(
         <div 

@@ -1,10 +1,5 @@
 import { useContext, useEffect, useState } from "react";
 import "../../styles/pages-styles/home-pages-styles/HomePage.css"
-import hero1 from "../../images/hero1.png";
-import unleash1 from "../../images/unleash1.png";
-import unleash2 from "../../images/unleash2.jpg";
-import unleash3 from "../../images/unleash3.jpg";
-import bottomShowcaseImg from "../../images/bottomShowcaseImg.png";
 import { FaHeart } from "react-icons/fa";
 import { FaRegHeart } from "react-icons/fa6";
 import { TbRectangleVerticalFilled } from "react-icons/tb";
@@ -12,20 +7,15 @@ import { TbTruckDelivery } from "react-icons/tb";
 import { GrMoney } from "react-icons/gr";
 import { BiSupport } from "react-icons/bi";
 import { IoCardOutline } from "react-icons/io5";
-import homeCategory1 from "../../images/homeCategory1.png";
-import homeCategory2 from "../../images/homeCategory2.png";
-import homeCategory3 from "../../images/homeCategory3.png";
 import { useNavigate} from "react-router-dom";
-import axios from "axios";
 import { CartContext } from "../../contexts/CartContext";
 import FlashSale from "./flash-sale/FlashSale"
 import TrendingNow from "./trending-now/TrendingNow";
 import Explore from "./explore/Explore";
 
 function HomePage () {
-    const navigate = useNavigate()
-    const { cartItems, addToCart, removeFromCart, clearCart } = useContext(CartContext); 
-
+    const navigate = useNavigate();
+    
     return(
         <div className="home-page-container">
             <div className="home-page-hero-section-container">

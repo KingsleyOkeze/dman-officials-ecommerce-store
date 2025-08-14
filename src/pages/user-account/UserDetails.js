@@ -6,11 +6,10 @@ import { FaEyeSlash } from "react-icons/fa6";
 import axios from 'axios';
 import { AuthContext } from '../../contexts/AuthContext';
 import { AlertContext } from '../../contexts/AlertContext';
-import Alert from '../../components/Alert';
 
 function UserDetails () {
     const { accessToken, customerId } = useContext(AuthContext); 
-    const { customAlert, showAlert } = useContext(AlertContext);
+    const { showAlert } = useContext(AlertContext);
     const [isEdittingProfile, setIsEdittingProfile] = useState(false);
     const [isEdittingSecurity, setIsEdittingSecurity] = useState(false);
     const [showPassword, setShowPassword] = useState(false);
@@ -48,7 +47,7 @@ function UserDetails () {
             }
 
         } catch (err) {
-            console.log("Err fetching customer details", err);
+            // console.log("Err fetching customer details", err);
             if (err.response) {
                 const status = err.response.status;
                 const errMessage = err.response.data.error;
@@ -87,8 +86,6 @@ function UserDetails () {
             });
 
             if (response.status === 200) {
-                console.log("customer details updated", response.data);
-
                 setFirstName(response.data.customer.firstName);
                 setLastName(response.data.customer.lastName);
                 setEmail(response.data.customer.email);
@@ -98,7 +95,7 @@ function UserDetails () {
             }
 
         } catch (err) {
-            console.log("Err fetching customer details", err);
+            // console.log("Err fetching customer details", err);
             if (err.response) {
                 const status = err.response.status;
                 const errMessage = err.response.data.error;
@@ -148,7 +145,6 @@ function UserDetails () {
 
     return(
         <div className="user-details-page-container">
-            {customAlert.type ? (<Alert />) : "" }
             <div className="user-details-header-container">
                 <img src={dmanLogo} width={50} height={50}/>
                 <h2>Hello {firstName} {lastName}</h2>

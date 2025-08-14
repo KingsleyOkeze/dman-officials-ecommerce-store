@@ -11,13 +11,7 @@ import countryList from 'country-list';
 
 const SignUpPage = ({ setShowLogin }) => {
     const navigate = useNavigate();
-    const { 
-        showSideDrawer, 
-        setShowSideDrawer, 
-        activeComponent, 
-        setActiveComponent,
-        toggleSideDrawer
-    } = useContext(SideDrawerContext);
+    const { toggleSideDrawer } = useContext(SideDrawerContext);
     const [firstName, setFirstName] = useState('');
     const [lastName, setLastName] = useState('');
     const [email, setEmail] = useState('');
@@ -56,13 +50,12 @@ const SignUpPage = ({ setShowLogin }) => {
                 receiveUpdates
             });
             setMessage(response.data.message);
-            console.log(response.data.message)
             // Close the opened side drawer
             toggleSideDrawer()
             // Redirect to a verification page after signup.
             navigate(`/email-sent/${response.data.userId}`)
         } catch (err) {
-            console.log("error signing up", err)
+            // console.log("error signing up", err)
             setError(err.response?.data?.error || 'Sign-up failed.');
         } finally {
             setLoading(false);

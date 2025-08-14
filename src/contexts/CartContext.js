@@ -12,17 +12,9 @@ export const CartProvider = ({ children }) => {
     const [cartItems, setCartItems] = useState([]);
     const { accessToken, customerId } = useContext(AuthContext);
     const { showAlert } = useContext(AlertContext);
-
-    const { 
-        showSideDrawer, 
-        setShowSideDrawer, 
-        activeComponent, 
-        setActiveComponent,
-        toggleSideDrawer
-    } = useContext(SideDrawerContext);
+    const { showSideDrawer } = useContext(SideDrawerContext);
     const [loadingId, setLoadingId] = useState(null);
     const [actionType, setActionType] = useState("");
-
 
 
     const fetchCart = async () => {
@@ -42,7 +34,7 @@ export const CartProvider = ({ children }) => {
             if (response.status === 200) {
                 setCartItems(response.data.cart);
                 
-                console.log('cart message', response.data)
+                // console.log('cart message', response.data)
             }
         } catch (err) {
             console.log('err fetching cart', err);
@@ -74,7 +66,7 @@ export const CartProvider = ({ children }) => {
     // Function to add an item to the cart
     const addToCart = async (productId, quantity) => {
         if (!accessToken && !customerId) {
-            console.log("Error", "You need to login first!")
+            // console.log("Error", "You need to login first!")
             showAlert("Error", "You need to login first!");
             setLoadingId(null); // Reset loadingId to null
             return;
@@ -95,7 +87,7 @@ export const CartProvider = ({ children }) => {
             });
 
             if (response.status === 201) {
-                console.log("added to cart!");
+                // console.log("added to cart!");
                 setCartItems(response.data.cart)
                 showAlert("Success", response.data.message);
             }
@@ -112,10 +104,10 @@ export const CartProvider = ({ children }) => {
             } else {
                 showAlert("Error", "An Unknow Error Occured!")
             }
-            console.log("err adding to cart ", err)
+            // console.log("err adding to cart ", err)
         } finally {
             setLoadingId(null); // Reset loadingId to null
-            console.log("Loading id is", loadingId)
+            // console.log("Loading id is", loadingId)
         }
 
     };
@@ -158,7 +150,7 @@ export const CartProvider = ({ children }) => {
             } else {
                 showAlert("Error", "An Unknow Error Occured!")
             }
-            console.log("err removing from cart ", err)
+            // console.log("err removing from cart ", err)
         } finally {
             setLoadingId(null);  // Stop the spinner after the request is complete
         }
@@ -194,7 +186,7 @@ export const CartProvider = ({ children }) => {
                 // Fetch the full updated cart from backend instead of modifying state manually
                 fetchCart();
                 showAlert("Success", response.data.message);
-                console.log("cartItems after update:", cartItems); // Make sure cartItems are updated.
+                // console.log("cartItems after update:", cartItems); // Make sure cartItems are updated.
             }
         } catch (err) {
             if (err.response) {
@@ -208,7 +200,7 @@ export const CartProvider = ({ children }) => {
             } else {
                 showAlert("Error", "An Unknow Error Occured!")
             }
-            console.error("Error updating quantity", err);
+            // console.error("Error updating quantity", err);
 
         } finally {
             setLoadingId(null); // Reset loadingId to null
