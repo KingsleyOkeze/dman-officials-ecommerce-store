@@ -1,5 +1,5 @@
 import './App.css';
-import { BrowserRouter as Router, Routes, Route, useLocation } from 'react-router-dom';
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import Dashboard from './dashboard/Dashboard';
 import CategoryPage from './pages/category-pages/CategoryPage';
 import UserDetails from './pages/user-account/UserDetails';
@@ -20,7 +20,6 @@ import USSDInstructionPage from './pages/payment-pages/USSDInstructionPage';
 import BankTransferPage from './pages/payment-pages/BankTransferPayment';
 import AboutUsPage from './pages/footer-pages/AboutUsPage';
 import SavedProductPage from './pages/user-account/SavedProductPage';
-// import OrdersPage from './pages/user-account/AllOrdersPage';
 import AccountPage from './pages/user-account/AccountPage';
 import ProductHistoryPage from './pages/user-account/OrderTrackingPage';
 import UserOverviewPage from './pages/user-account/UserOverviewPage';

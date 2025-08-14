@@ -2,21 +2,17 @@ import { Outlet, useLocation, useNavigate } from "react-router-dom";
 import Footer from "../components/Footer";
 import Header from "../components/Header";
 import '../styles/dashboard-style/Dashboard.css';
-import { useContext, useEffect, useState } from "react";
-import AuthSwitchPage from "../pages/auth/AuthSwitchPage";
-import MobileScreenNavbar from "../components/navbar-components/MobileScreenNavbar";
+import { useEffect, useState } from "react";
 import { CartProvider } from "../contexts/CartContext";
 import SideDrawer from "../components/SideDrawer";
 import { SideDrawerProvider } from "../contexts/SideDrawerContext";
 import { SaveProductProvider } from "../contexts/SaveProductContext";
 import Overlay from "./Overlay";
 import { CouponProvider } from "../contexts/CouponContext";
-import { AlertContext } from "../contexts/AlertContext";
 import { SearchProvider } from "../contexts/SearchContext";
 
 
 function Dashboard () {
-    const { showAlert, customAlert } = useContext(AlertContext);
     const [showAuthSwitchPage, setShowAuthSwitchPage] = useState(false);
     const [showMobileScreenNavbar, setShowMobileScreenNavbar] = useState(false);
     const [windowWidth, setWindowWidth] = useState(window.innerWidth);
