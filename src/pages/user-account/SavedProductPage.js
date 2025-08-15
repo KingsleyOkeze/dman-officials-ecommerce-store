@@ -118,7 +118,7 @@ function SavedProductPage () {
                                 disabled={paginationIndex === 0}
                             >
                                 <IoIosArrowBack />
-                                <span>Previous page</span>
+                                <span>Previous</span>
                             </button>
                             <span className="saved-product-pagination-status">
                                 { totalPages ? paginationIndex + 1 : 0} / {totalPages ? totalPages : 0 }
@@ -128,7 +128,7 @@ function SavedProductPage () {
                                 onClick={handleNextFunction}
                                 disabled={paginationIndex + 1 === totalPages}
                             >
-                                Next page
+                                <span>Next</span>
                                 <IoIosArrowForward />
                             </button>
                         </div>
