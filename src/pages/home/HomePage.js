@@ -12,9 +12,15 @@ import { CartContext } from "../../contexts/CartContext";
 import FlashSale from "./flash-sale/FlashSale"
 import TrendingNow from "./trending-now/TrendingNow";
 import Explore from "./explore/Explore";
+import CountdownTimer from "./count-down/CountdownTimer";
 
 function HomePage () {
     const navigate = useNavigate();
+
+    // Set a target date for the countdown (e.g., 30 days from now)
+    const targetDate = new Date();
+    targetDate.setDate(targetDate.getDate() + 30);
+    
     
     return(
         <div className="home-page-container">
@@ -106,7 +112,8 @@ function HomePage () {
                         <p>Enhance Your</p>
                         <p>Fashion Lifestyle</p>
                     </div>
-                    <div className="home-page-call-to-action-showcase-timer-container">
+                    <CountdownTimer targetDate={targetDate} /> 
+                    {/* <div className="home-page-call-to-action-showcase-timer-container">
                         <div className="home-page-call-to-action-showcase-time-block">
                             <>
                                 <p>23</p>
@@ -131,7 +138,7 @@ function HomePage () {
                                 <small>Secs</small>
                             </>
                         </div>
-                    </div>
+                    </div> */}
                     <button 
                         className="home-page-call-to-action-showcase-btn"
                         >

@@ -1,6 +1,5 @@
 import "../../styles/pages-styles/user-account-page-styles/PurchaseDetailsPage.css"
 import { IoArrowBackOutline } from "react-icons/io5";
-import cardImage1 from "../../images/cardImage1.png"
 import { useNavigate, useParams } from "react-router-dom";
 import { useContext, useEffect, useState } from "react";
 import axios from "axios";
@@ -31,6 +30,7 @@ function PurchaseDetailsPage () {
     
             if (response.status === 200) {
                 setPurchasedOrderDetails(response.data.order);
+                console.log(response.data.order);
             }
         } catch (err) {
             console.log('err OrderDetails', err);
@@ -59,6 +59,9 @@ function PurchaseDetailsPage () {
     if (!purchasedOrderDetails || purchasedOrderDetails.length === 0) {
         return <p>Loading...</p>;
     }
+
+    // Check if the order is cancelled or deleted
+    const isCancelledOrDeleted = purchasedOrderDetails?.orderStatus === "Cancelled" || purchasedOrderDetails?.orderStatus === "Deleted";
 
     return(
         <div className="purchase-details-container">
@@ -100,24 +103,25 @@ function PurchaseDetailsPage () {
                                     >
                                         {purchasedOrderDetails?.orderStatus}
                                     </p>
-                                    <p  className="purchase-details-card-description-second-child-price">N 9680</p>
+                                    <p className="purchase-details-card-description-second-child-price">N {purchasedOrderDetails?.orderedItems?.[0]?.price}</p>
                                 </div>
                             </div>
                             <div className="purchase-details-card-history-btn-container">
                                 <button
-                                    onClick={() => {
-                                        navigate(`/account/order-tracking/${purchasedOrderDetails?._id}`)
-                                    }}
+                                    onClick={!isCancelledOrDeleted ? () => navigate(`/account/order-tracking/${purchasedOrderDetails?._id}`) : undefined}
+                                    disabled={isCancelledOrDeleted}
                                 >
-                                    Product Tracking
+                                    {isCancelledOrDeleted ? `Order ${purchasedOrderDetails?.orderStatus}` : `Product Tracking`}
                                 </button>
                             </div>
                         </div>
                         <p 
                             className="purchase-details-card-bottom-text"
                         >
-                            {/* Delivered between 28th friday october */}
-                            Last updated {formatDate(purchasedOrderDetails?.updatedAt)}
+                            {/* Conditional message based on order status */}
+                            {isCancelledOrDeleted ? 
+                                `This order was ${purchasedOrderDetails?.orderStatus.toLowerCase()}. Tracking is not available.` :
+                                `Last updated ${formatDate(purchasedOrderDetails?.updatedAt)}`}
                         </p>
                     </div>
 

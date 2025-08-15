@@ -60,24 +60,34 @@ function MobileScreenNavbar() {
                     <p>Tops</p>
                     <ul>
                         <li onClick={() => {
-                            toggleSideDrawer()
-                            navigate("/category-page/MensWear/TShirt");
-                        }}>T-Shirts</li>
+                                toggleSideDrawer()
+                                navigate("/category-page/MensWear/TShirt");
+                            }}
+                        >
+                            T-Shirts
+                        </li>
+                        <li 
+                            onClick={() => {
+                                toggleSideDrawer()
+                                navigate("/category-page/MensWear/Hoodie")
+                            }}
+                        >
+                            Hoodies & Sweaters
+                        </li>
                         <li onClick={() => {
-                            toggleSideDrawer()
-                            navigate("/category-page/MensWear/Hoodie")
-                        }}>Hoodies & Sweaters</li>
-                        <li onClick={() => {
-                            toggleSideDrawer()
-                            navigate("/category-page/MensWear/SweatShirt")
-                        }}>Jackets</li>
+                                toggleSideDrawer()
+                                navigate("/category-page/MensWear/SweatShirt")
+                            }}
+                        >
+                            Jackets
+                        </li>
                     </ul>
-                    <p>Bottom</p>
+                    {/* <p>Bottom</p>
                     <ul>
                         <li>Shorts</li>
                         <li>Trousers</li>
                         <li>Pants</li>
-                    </ul>
+                    </ul> */}
                 </div>
             )}
             </div>
@@ -87,7 +97,7 @@ function MobileScreenNavbar() {
                 <div
                     className="mobile-screen-navbar-list-head-drop-down"
                     onClick={() =>
-                    toggleDropdown(setShowAccessoryDropDown, showAccessoryDropDown)
+                        toggleDropdown(setShowAccessoryDropDown, showAccessoryDropDown)
                     }
                 >
                     <p>Accessories</p>
@@ -96,9 +106,22 @@ function MobileScreenNavbar() {
                 {showAccessoryDropDown && (
                 <div ref={accessoryListRef} className="dropdown-list">
                     <ul>
-                        <li>Shoes</li>
-                        <li>Hats</li>
-                        <li>Watches</li>
+                        {/* <li
+                            onClick={() => {
+                                navigate("/category-page/Accessories/Shoes")
+                            }}
+                        >
+                            Shoes
+                        </li> */}
+                        {/* <li>Hats</li> */}
+                        <li
+                            onClick={() => {
+                                toggleSideDrawer();
+                                navigate("/category-page/Accessories/Watches");
+                            }}
+                        >
+                            Watches
+                        </li>
                     </ul>
                 </div>
                 )}
@@ -118,9 +141,16 @@ function MobileScreenNavbar() {
                 {showFootwearDropDown && (
                 <div ref={footwearListRef} className="dropdown-list">
                     <ul>
-                        <li>Sneakers</li>
-                        <li>Boots</li>
-                        <li>Slippers</li>
+                        <li
+                            onClick={() => {
+                                toggleSideDrawer();
+                                navigate("/category-page/FootWear/Sneakers");
+                            }}
+                        >
+                            Sneakers
+                        </li>
+                        {/* <li>Boots</li>
+                        <li>Slippers</li> */}
                     </ul>
                 </div>
                 )}
@@ -132,23 +162,23 @@ function MobileScreenNavbar() {
                     <span onClick={() => setShowLogin(true)}>
                         {!accessToken ? 'Sign in' : ''}
                     </span> 
-                        {!accessToken ? '/{" "}' : ''}
+                        {!accessToken ? ' / ' : ''}
                      <span onClick={() => setShowSignUp(true)}>
                         {!accessToken ? 'Register' : ''}
                     </span>
                 </p>
                 <p 
                     onClick={() => {
-                        navigate("/faq-page")
-                        toggleSideDrawer()
+                        navigate("/faq-page");
+                        toggleSideDrawer();
                     }}
                 >
                     FAQ
                 </p>
                 <p 
                     onClick={() => {
-                        navigate("/contact")
-                        toggleSideDrawer()
+                        navigate("/contact");
+                        toggleSideDrawer();
                     }}
                 >
                     Contact us

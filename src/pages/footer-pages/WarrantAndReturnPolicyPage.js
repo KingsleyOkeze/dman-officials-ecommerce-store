@@ -16,7 +16,7 @@ function WarrantyAndReturnsPolicyPage() {
       <section className="warranty-policy-section">
         <h2 className="warranty-policy-subtitle">Return Policy</h2>
         <p className="warranty-policy-text">
-          We accept returns within 30 days of purchase. Returned items must be in their original condition with all packaging intact.
+          We accept returns within 7 days of purchase. Returned items must be in their original condition with all packaging intact.
         </p>
       </section>
 

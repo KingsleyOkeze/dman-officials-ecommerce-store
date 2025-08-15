@@ -58,6 +58,7 @@
   
 .dropdown-list li {
     margin-bottom: 5px;
+    cursor: pointer;
 }
   
 .navbar-footer {

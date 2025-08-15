@@ -17,18 +17,18 @@ function PaymentPolicyPage () {
       <div className="payment-section">
         <h2>Bank Transfers</h2>
         <p>
-          For bank transfers, please select this option during checkout. You will receive our banking details to complete the transaction.
-          Note that it may take up to 3 business days to confirm a bank transfer payment.
+          For bank transfers, please select this option during checkout. You will receive our
+          banking details to complete the transaction.
         </p>
       </div>
 
-      <div className="payment-section">
+      {/* <div className="payment-section">
         <h2>Adding or Changing Payment Method</h2>
         <p>
           You can add or change your preferred payment method in your account settings. Simply go to “Payment Methods,” select “Add New,” and enter your new payment details.
           For security, you may be asked to verify any changes made.
         </p>
-      </div>
+      </div> */}
 
       <div className="payment-section">
         <h2>Vouchers</h2>
@@ -41,7 +41,7 @@ function PaymentPolicyPage () {
       <div className="payment-section">
         <h2>Further Information</h2>
         <p>
-          If you need more details or have specific questions about payments, feel free to reach out to our support team at <strong>support@example.com</strong> or by phone at <strong>(123) 456-7890</strong>.
+          If you need more details or have specific questions about payments, feel free to reach out to our support team at <strong>{process.env.REACT_APP_CUSTOMER_SUPPORT_EMAIL}</strong> or by phone at <strong>{process.env.REACT_APP_CUSTOMER_SUPPORT_PHONE_NUMBER}</strong>.
           We’re here to help!
         </p>
       </div>

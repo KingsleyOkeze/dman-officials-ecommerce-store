@@ -10,7 +10,8 @@ function AccountPage() {
     const location = useLocation(); // Get current route
     const [isMobile, setIsMobile] = useState(false);
     const [showMenu, setShowMenu] = useState(true);
-
+    const [loading, setLoading] = useState(false); // New state for loading
+    
     // Determine initial state of showMenu based on location
     useEffect(() => {
         const handleResize = () => {

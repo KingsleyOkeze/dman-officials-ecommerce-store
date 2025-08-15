@@ -270,7 +270,15 @@ function CategoryPage () {
                 <div className="category-page-items-header-container">
                     <h2>{category}:</h2> 
                     <p className="category-page-items-header-extra-details">
-                        {screenWidth ? <span>All</span> : <span>T shirt - Showing {items.length} products</span>}
+                        {/* {screenWidth ? <span>All</span> : <span>T shirt - Showing {items.length} products</span>} */}
+                        {
+                            selectedSubCategory ? selectedSubCategory : <span>All</span>
+                        }   
+                        {
+                            screenWidth >= 986 ? <span> - showing {items.length} products</span> : 
+                            <span> - {items.length} products</span>
+                        }
+                        
                     </p>
                 </div>
                 <div className="category-page-items-container">

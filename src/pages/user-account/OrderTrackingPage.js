@@ -1,27 +1,31 @@
 import "../../styles/pages-styles/user-account-page-styles/OrderTrackingPage.css"
-import { BsCartCheck } from "react-icons/bs";
-import { FaCircle } from "react-icons/fa";
-import { BsTruck } from "react-icons/bs";
-import { PiPackageLight } from "react-icons/pi";
+import { BsCartCheck, BsTruck, BsXCircle, BsArchive } from "react-icons/bs";
+import { FaCircle, FaBox } from "react-icons/fa";
 import { IoMdArrowBack } from "react-icons/io";
 import { useContext, useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
+import { useParams, useNavigate } from "react-router-dom";
 import axios from "axios";
 import { AlertContext } from "../../contexts/AlertContext";
 import { AuthContext } from "../../contexts/AuthContext";
 
 function OrderTrackingPage () {
     const { orderId } = useParams();
+    const navigate = useNavigate();
     const [order, setOrder] = useState({});
+    const [loading, setLoading] = useState(true);
     const { accessToken, customerId } = useContext(AuthContext); 
     const { showAlert } = useContext(AlertContext);
 
-    // Define possible statuses in the order they should progress.
-    const statusArr = ["Pending", "Processing", "Shipped", "Delivered", "Cancelled"];
-
-
+    const statusMap = [
+        { status: "Pending", icon: BsCartCheck, title: "Order Placed", description: "Your order has been successfully placed and is awaiting confirmation." },
+        { status: "Processing", icon: FaCircle, title: "Order Confirmed", description: "We are confirming the details of your order and preparing it for dispatch." },
+        { status: "Shipped", icon: BsTruck, title: "Product Shipped", description: "Your order is on its way. A tracking number will be provided shortly." },
+        { status: "Delivered", icon: FaBox, title: "Product Delivered", description: "Your order has been successfully delivered. Thank you for your purchase!" },
+    ];
+    
     useEffect(() => {
         const fetchOrderTrackingStatus = async () => { 
+            setLoading(true);
             try {
                 const response = await axios.get(
                     `/customer/fetch-purchased-order-details/${orderId}`,
@@ -30,138 +34,104 @@ function OrderTrackingPage () {
                             customerId: customerId
                         },
                         headers: {
-                          Authorization: `Bearer ${accessToken}`, // Add token to Authorization header
+                            Authorization: `Bearer ${accessToken}`,
                         },
-                })
+                    });
             
                 if (response.status === 200) {
                     setOrder(response.data.order);
-
                 }
-
             } catch(err) {
-                // console.error("Error fetching product:", err);
                 if (err.response) {
                     const status = err.response.status;
                     const errMessage = err.response.data.error;
-    
                     if (status === 400 || status === 403 || status === 404 || status === 500) {
-                        showAlert(status, errMessage)
+                        showAlert(status, errMessage);
                     } 
-                    // 401 errors are handled by AuthContext interceptor
                 } else {
-                    showAlert("Error", "An Unknow Error Occured!")
+                    showAlert("Error", "An Unknown Error Occurred!");
                 }
-            };
-        }
+            } finally {
+                setLoading(false);
+            }
+        };
 
         fetchOrderTrackingStatus();
 
-    }, [orderId]);
+    }, [orderId, accessToken, customerId, showAlert]);
 
-    // Calculate the index of the current order status.
-    const currentStatusIndex = order.orderStatus ? statusArr.indexOf(order.orderStatus) : -1;
-    const isCancelled = order.orderStatus === "Cancelled";
+    const handleGoBack = () => {
+        navigate(-1);
+    };
+
+    const currentStatusIndex = statusMap.findIndex(s => s.status === order.orderStatus);
+    const isCancelledOrDeleted = order.orderStatus === "Cancelled" || order.orderStatus === "Deleted";
+
+    // Create a lookup map for timestamps from the statusHistory array
+    const statusTimestamps = {};
+    if (order.statusHistory) {
+        order.statusHistory.forEach(history => {
+            statusTimestamps[history.status] = history.timestamp;
+        });
+    }
+
+    if (loading) {
+        return <div className="loading-container">Loading order details...</div>;
+    }
 
     return(
         <div className="order-tracking-page-container">
             <div className="order-tracking-header-container">
-                <div className="order-tracking-header-icon-container">
+                <div className="order-tracking-header-icon-container" onClick={handleGoBack}>
                    <IoMdArrowBack className="order-tracking-header-icon"/>
                 </div>
-                <h3>Product History</h3>
+                <h3>Order History</h3>
             </div>
             <div className="order-tracking-details">
-                <div className="product-status">
-                    <BsCartCheck 
-                        className="order-tracking-icon"
-                        style={{
-                            background: isCancelled
-                              ? "#cc0000" // red for cancellation
-                              : currentStatusIndex >= 0
-                              ? "#000000"
-                              : "#e0e0e0",
-                            color: isCancelled ? "#ffffff" : currentStatusIndex >= 0 ? "#ffffff" : "#9e9e9e",
-                        }}
-              
-                    />
-                    <p className="product-status-title">Order Placed</p>
-                    <div className="product-status-description">
-                        <p>Your order has been successfully placed and is being processed</p>
-                        <p>2024-10-23 7:30am</p>
+                {isCancelledOrDeleted ? (
+                    <div className="product-status cancelled">
+                        <BsXCircle className="order-tracking-icon cancelled-icon" />
+                        <p className="product-status-title">Order {order.orderStatus}</p>
+                        <div className="product-status-description">
+                            <p>This order has been {order.orderStatus.toLowerCase()} and will not be fulfilled.</p>
+                            <p>Date: {new Date(statusTimestamps[order.orderStatus] || order.updatedAt).toLocaleString()}</p>
+                        </div>
                     </div>
-                </div>
-                <div className="product-status">
-                    <FaCircle className="order-tracking-circle-icon"
-                        style={{
-                            background: isCancelled
-                              ? "#cc0000"
-                              : currentStatusIndex >= 1
-                              ? "#000000"
-                              : "#e0e0e0",
-                            color: isCancelled ? "#ffffff" : currentStatusIndex >= 1 ? "#ffffff" : "#9e9e9e",
-                        }}              
-                    />
-                    <p className="product-status-title">Confirmation in progress</p>
-                    <div className="product-status-description">
-                        <p>We are confirming the details of your order. This may take few minutes</p>
-                        <p>2024-10-23 7:30am</p>
-                    </div>
-                </div>
-                <div className="product-status">
-                    <FaCircle className="order-tracking-circle-icon"
-                        style={{
-                            background: isCancelled
-                              ? "#cc0000"
-                              : currentStatusIndex >= 2
-                              ? "#000000"
-                              : "#e0e0e0",
-                            color: isCancelled ? "#ffffff" : currentStatusIndex >= 2 ? "#ffffff" : "#9e9e9e",
-                        }}
-                    />
-                    <p className="product-status-title">Shipping in progress</p>
-                    <div className="product-status-description">
-                        <p>Your order has been prepared for shipping.</p>
-                        <p>2024-10-23 7:30am</p>
-                    </div>
-                </div>
-                <div className="product-status">
-                    <BsTruck className="order-tracking-icon"
-                        style={{
-                            background: isCancelled
-                              ? "#cc0000"
-                              : currentStatusIndex >= 3
-                              ? "#000000"
-                              : "#e0e0e0",
-                            color: isCancelled ? "#ffffff" : currentStatusIndex >= 3 ? "#ffffff" : "#9e9e9e",
-                        }}
-                    />
-                    <p className="product-status-title">Product shipped</p>
-                    <div className="product-status-description">
-                        <p>Your order has been shipped. A tracking number will be provided.</p>
-                        <p>2024-10-23 7:30am</p>
-                    </div>
-                </div>
-                <div className="product-status">
-                    <PiPackageLight className="order-tracking-icon"
-                        style={{
-                            background: isCancelled
-                              ? "#cc0000"
-                              : currentStatusIndex >= 4
-                              ? "#000000"
-                              : "#e0e0e0",
-                            color: isCancelled ? "#ffffff" : currentStatusIndex >= 4 ? "#ffffff" : "#9e9e9e",
-                        }}
-                    />
-                    <p className="product-status-title">Product delivered</p>
-                    <div className="product-status-description">
-                        <p>Your order has been delivered.</p>
-                        <p>2024-10-23 7:30am</p>
-                    </div>
-                </div>
+                ) : (
+                    statusMap.map((step, index) => {
+                        const isCompleted = index <= currentStatusIndex;
+                        const icon = step.icon;
+                        const timestamp = statusTimestamps[step.status]; // Use the timestamp from the new history array
+
+                        return (
+                            <div 
+                                key={index} 
+                                className={`product-status ${isCompleted ? 'completed' : ''}`}
+                            >
+                                <div className="icon-container">
+                                    {isCompleted && <span className="completed-line"></span>}
+                                    {icon({ 
+                                        className: "order-tracking-icon",
+                                        style: {
+                                            background: isCompleted ? "#000000" : "#e0e0e0",
+                                            color: isCompleted ? "#ffffff" : "#9e9e9e",
+                                        }
+                                    })}
+                                </div>
+                                <div className="text-content">
+                                    <p className="product-status-title">{step.title}</p>
+                                    <div className="product-status-description">
+                                        <p>{step.description}</p>
+                                        {isCompleted && timestamp && <p>Date: {new Date(timestamp).toLocaleString()}</p>}
+                                    </div>
+                                </div>
+                            </div>
+                        );
+                    })
+                )}
             </div>
         </div>
-    )
+    );
 }
 
 export default OrderTrackingPage;

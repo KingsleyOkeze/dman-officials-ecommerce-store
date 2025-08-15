@@ -186,7 +186,29 @@ const SignUpPage = ({ setShowLogin }) => {
             </p>
             <p className="sign-up-agreement-text">
                 By creating an account, you agree to our 
-                <Link style={{paddingLeft: '5px'}}>Privacy Policy and Terms of Use</Link>
+                <Link 
+                    style={{
+                        paddingLeft: '5px',
+                        paddingRight: '5px'
+                    }}
+                    onClick={() => {
+                        toggleSideDrawer()
+                    }}
+                >
+                    Privacy Policy 
+                </Link>
+                and 
+                <Link
+                    to="/terms-of-use-page"
+                    style={{
+                        paddingLeft: '5px',
+                    }}
+                    onClick={() => {
+                        toggleSideDrawer()
+                    }}
+                >
+                    Terms of Use
+                </Link>
             </p>
             <p 
                 className="sign-up-bottom-go-back-text"
