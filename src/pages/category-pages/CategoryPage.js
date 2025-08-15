@@ -329,7 +329,7 @@ function CategoryPage () {
                         disabled={paginationIndex === 0}
                     >
                         <IoIosArrowBack />
-                        <span>Previous page</span>
+                        <span>Previous</span>
                     </button>
                     {/* <div> */}
                         <span className="category-page-pagination-status">
@@ -341,7 +341,7 @@ function CategoryPage () {
                         onClick={handleNextFunction}
                         disabled={paginationIndex + 1 === totalPages}
                     >
-                        Next page
+                        <span>Next</span>
                         <IoIosArrowForward />
                     </button>
                 </div>

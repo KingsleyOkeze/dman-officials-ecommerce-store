@@ -17,6 +17,7 @@ function SalePage () {
 
             if (response.status === 200) {
                 setSales(response.data.result);
+                setTotalPages(response.data.totalPages);
             }
         } catch (error) {
             
@@ -60,7 +61,7 @@ function SalePage () {
                 </div>
             </div>
             
-            <h2 className="sale-page-body-header"><span>Sale:</span>All</h2>
+            <h2 className="sale-page-body-header"><span>Sale: </span>All</h2>
             <div className="sale-page-body-items-container">
                 {sales && sales.length > 0 ? ( 
                     sales.map((sale, id) => (
@@ -88,7 +89,7 @@ function SalePage () {
                         disabled={paginationIndex === 0}
                     >
                         <IoIosArrowBack />
-                        <span>Previous page</span>
+                        <span>Previous</span>
                     </button>
                     {/* <div> */}
                         <span className="sale-page-pagination-status">
@@ -100,7 +101,7 @@ function SalePage () {
                         onClick={handleNextFunction}
                         disabled={paginationIndex + 1 === totalPages}
                     >
-                        Next page
+                        <span>Next</span>
                         <IoIosArrowForward />
                     </button>
                 </div>
