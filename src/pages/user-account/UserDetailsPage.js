@@ -7,7 +7,7 @@ import axios from 'axios';
 import { AuthContext } from '../../contexts/AuthContext';
 import { AlertContext } from '../../contexts/AlertContext';
 
-function UserDetails () {
+function UserDetailsPage () {
     const { accessToken, customerId } = useContext(AuthContext); 
     const { showAlert } = useContext(AlertContext);
     const [isEdittingProfile, setIsEdittingProfile] = useState(false);
@@ -23,6 +23,9 @@ function UserDetails () {
     const [currentPassword, setCurrentPassword] = useState("");
     const [newPassword, setNewPassword] = useState("");
     const [confirmPassword, setConfirmPassword] = useState("");
+
+    const [isProfileSaving, setIsProfileSaving] = useState(false); //state for profile saving
+    const [isPasswordSaving, setIsPasswordSaving] = useState(false); //state for password saving
 
     const handleFetchCustomerDetails = async () => {
         try {
@@ -68,6 +71,7 @@ function UserDetails () {
 
     const handleUpdateCustomerDetails = async (e) => {
         e.preventDefault();
+        setIsProfileSaving(true); // Start profile saving
 
         try {
             const response = await axios.post("/customer/update-customer-details", {
@@ -107,12 +111,15 @@ function UserDetails () {
             } else {
                 showAlert("Error", "An Unknow Error Occured!")
             }
+        } finally {
+            setIsProfileSaving(false); // End profile saving
         }
     };
 
 
     const handlePasswordUpdate = async (e) => {
         e.preventDefault();
+        setIsPasswordSaving(true); // Start password saving
 
         try {
             const response = await axios.post('/customer/update-account-password', {
@@ -126,19 +133,25 @@ function UserDetails () {
                   Authorization: `Bearer ${accessToken}`, // Add token to Authorization header
                 },
             });
-            alert(response.data.message);
+            showAlert("Success", response.data.message);
+            // Clear password fields on success
+            setCurrentPassword('');
+            setNewPassword('');
+            setConfirmPassword('');
         } catch (err) {
             if (err.response) {
                 const status = err.response.status;
                 const errMessage = err.response.data.error;
 
                 if (status === 400 || status === 403 || status === 404 || status === 500) {
-                    showAlert(status, errMessage)
+                    showAlert("Error", errMessage)
                 } 
                 // 401 errors are handled by AuthContext interceptor
             } else {
                 showAlert("Error", "An Unknow Error Occured!")
             }
+        } finally {
+            setIsPasswordSaving(false); // End password saving
         }
     };
     
@@ -261,11 +274,13 @@ function UserDetails () {
                             </div>
                         </div>
                         {
-                            isEdittingProfile ? <button 
-                                className="user-details-save-button"
-                                type="submit"
+                            isEdittingProfile ? 
+                                <button 
+                                    className="user-details-save-button"
+                                    type="submit"
+                                    disabled={isProfileSaving} // Disable the button while saving
                                 >
-                                    Save
+                                    {isProfileSaving ? <span className="profile-spinner"></span> : 'Save'}
                                 </button>
                             :
                             <p className="user-details-bottom-info-text">Feel free to edit your 
@@ -334,9 +349,9 @@ function UserDetails () {
                                 <button 
                                     type="submit"
                                     className="user-details-security-save-button"
-                                
+                                    disabled={isPasswordSaving} // Disable the button while saving
                                 >
-                                    Save
+                                    {isPasswordSaving ? <span className="security-spinner"></span> : 'Save'}
                                 </button>
                             </form>
                         
@@ -352,4 +367,4 @@ function UserDetails () {
     )
 }
 
-export default UserDetails;
+export default UserDetailsPage;

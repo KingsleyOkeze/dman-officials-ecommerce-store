@@ -2,7 +2,7 @@ import './App.css';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import Dashboard from './dashboard/Dashboard';
 import CategoryPage from './pages/category-pages/CategoryPage';
-import UserDetails from './pages/user-account/UserDetails';
+import UserDetails from './pages/user-account/UserDetailsPage';
 import FaqPage from './pages/footer-pages/FaqPage';
 import ShippingPolicyPage from './pages/footer-pages/ShippingPolicyPage';
 import ReturnsPolicyPage from './pages/footer-pages/ReturnsPolicyPage';

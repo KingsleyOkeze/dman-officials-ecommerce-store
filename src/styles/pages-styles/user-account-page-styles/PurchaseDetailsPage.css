@@ -138,6 +138,12 @@
 }
 
 
+.purchase-details-card-history-btn-container button:disabled {
+    background-color: #888888; 
+    cursor: not-allowed;
+    color: #cccccc; 
+}
+
 .purchase-details-card-bottom-text {
     padding-top: 15px;
     font-size: 12px;

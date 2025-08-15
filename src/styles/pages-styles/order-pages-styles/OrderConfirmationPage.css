@@ -214,6 +214,18 @@
     color: #FFFFFF;
 }
 
+
+.order-apply-coupon-button-spinner {
+    display: inline-block;
+    width: 16px;
+    height: 16px;
+    border: 2px solid #e0e0e0; /* Match button text color */
+    border-top: 2px solid #000000; /* Match button background color */
+    border-radius: 50%;
+    animation: spin 0.8s linear infinite;
+}
+
+
 .order-coupon-error-message {
     text-align: center;
     font-size: 12.5px;
@@ -255,6 +267,22 @@
     transform: scale(1.05);
     background-color: #1a1a1a; /* subtle darkening */
 }
+
+.confirm-order-button-spinner {
+    display: inline-block;
+    width: 16px; /* Adjust size */
+    height: 16px;
+    border: 2px solid #e0e0e0; /* Match button hover background */
+    border-top: 2px solid #000000; /* Black color for the rotating part */
+    border-radius: 50%;
+    animation: spin 0.8s linear infinite;
+}
+
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+
 
 
 .order-policy-list {

@@ -35,7 +35,9 @@ function CartPage () {
     const { toggleSideDrawer } = useContext(SideDrawerContext); 
     const [currency, setCurrency] = useState('₦');
     const [totalPrice, setTotalPrice] = useState(0);
-
+    const [isApplyingCoupon, setIsApplyingCoupon] = useState(false); // New state for coupon button
+    const [isCheckingOut, setIsCheckingOut] = useState(false); // New state for checkout button
+    
 
     const fetchCartTotalPrice = async () => {
         try {
@@ -73,13 +75,19 @@ function CartPage () {
     }, [cartItems]);
 
     
-    const handleApplyCoupon = () => {
-        applyCoupon(couponCode); // Call the context function to apply the coupon
+    const handleApplyCoupon = async () => {
+        setIsApplyingCoupon(true); // Start loading
+        try {
+            await applyCoupon(couponCode);
+        } finally {
+            setIsApplyingCoupon(false); // End loading
+        }
     };
 
     const finalTotalPrice = totalPrice - discountAmount; // Calculate final price after discount
 
     const handleCheckout = () => {
+        setIsCheckingOut(true); // Start loading
         toggleSideDrawer();
         // Pass cartItems data to the state object during navigation
         navigate("/order-confirmation-page", { state: { cartItems: cartItems } });
@@ -207,10 +215,11 @@ function CartPage () {
                             onChange={(e) => setCouponCode(e.target.value)}
                         />
                         <button
-                             className="cart-checkout-coupon-code-button"
-                             onClick={handleApplyCoupon}
-                            >
-                                Apply
+                            className="cart-checkout-coupon-code-button"
+                            onClick={handleApplyCoupon}
+                            disabled={isApplyingCoupon} // Disable the button while loading
+                        >
+                            {isApplyingCoupon ? <span className="apply-coupon-spinner"></span> : 'Apply'}
                         </button>
                     </div>
                     <div className="cart-coupon-response-message-container" >
@@ -221,8 +230,13 @@ function CartPage () {
                     <button 
                         className="cart-checkout-button" 
                         onClick={handleCheckout}
+                        disabled={isCheckingOut} // Disable the button while loading
                     >
-                        Checkout {currency} <span>{finalTotalPrice.toFixed(2)}</span>
+                        {isCheckingOut ? (
+                            <span className="checkout-spinner"></span>
+                        ) : (
+                            `Checkout ${currency} ${finalTotalPrice.toFixed(2)}`
+                        )}
                     </button>
                     <p className="cart-checkout-button-bottom-text">You are eligible for free shipping</p>
                 </div>

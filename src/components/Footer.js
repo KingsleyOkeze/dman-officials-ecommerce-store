@@ -155,7 +155,7 @@ function Footer () {
                                 <Link to="category-page/FootWear" className="link-tag">Foot Wear</Link>
                             </li>
                             <li>
-                                <Link className="link-tag">Accessories</Link>
+                                <Link to="category-page/Accessories" className="link-tag">Accessories</Link>
                             </li>
                             <li>
                                 <Link to="sale-page" className="link-tag">Sale</Link>

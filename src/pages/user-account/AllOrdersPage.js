@@ -7,6 +7,7 @@ import axios from "axios";
 import { AuthContext } from "../../contexts/AuthContext";
 import { AlertContext } from "../../contexts/AlertContext";
 import { IoMdArrowBack } from "react-icons/io";
+import {formatDate} from "../../utils/dateFormatter";
 
 function AllOrdersPage() {
     const navigate = useNavigate();
@@ -31,6 +32,7 @@ function AllOrdersPage() {
             );
 
             if (response.status === 200) {
+                console.log(response.data.result)
                 setOrders(response.data.result);
                 setTotalPages(response.data.totalPages);
             }
@@ -91,13 +93,13 @@ function AllOrdersPage() {
                                 <div className="all-order-page-card-img-container">
                                     <img
                                         className="all-order-page-card-image"
-                                        src={order.image}
+                                        src={order?.image}
                                     />
                                 </div>
                                 <div className="all-order-page-card-description-container">
                                     <div className="all-order-page-card-name-and-order-id-container">
                                         <p className="all-order-page-card-name">{order.name}</p>
-                                        <p className="all-order-page-card-order-id">Order ID: <span>{order.orderId}</span></p>
+                                        <p className="all-order-page-card-order-id">Order ID: <span>{order?.orderId}</span></p>
                                     </div>
                                     <div className="all-order-page-card-status-and-date-container">
                                         <p
@@ -106,13 +108,17 @@ function AllOrdersPage() {
                                                 background: order.status.includes("delivered") ? "#008C00" :
                                                     order.status.includes("cancelled") ? "#808080" : "#FFA500"
                                             }}> {order.status}</p>
-                                        <p className="all-order-page-card-deliveryDate">{order.deliveryDate}</p>
+                                        <p className="all-order-page-card-deliveryDate">{formatDate(order.lastUpdated)}</p>
                                     </div>
                                 </div>
                                 <div className="all-order-page-card-see-details">
-                                    <p onClick={() => {
-                                        navigate(`/account/purchase-details/${order.orderId}`);
-                                    }}>See Details</p>
+                                    <p 
+                                        onClick={() => {
+                                            navigate(`/account/purchase-details/${order.orderId}`);
+                                        }}
+                                    >
+                                        See Details
+                                    </p>
                                 </div>
                             </div>
                         ))

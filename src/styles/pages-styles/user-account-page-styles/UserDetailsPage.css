@@ -1,6 +1,5 @@
 /* Mobile view css styling */
 .user-details-page-container {
-    width: 100%;
     background: #F5F3F5;
     padding-left: 15px;
     padding-right: 15px;
@@ -80,6 +79,37 @@
     height: 40px;
     margin-top: 10px;
 }
+
+
+/* Spinner for the Profile "Save" button */
+.profile-spinner {
+    display: inline-block;
+    width: 16px; 
+    height: 16px;
+    border: 2px solid #e0e0e0;
+    border-top: 2px solid #000000;
+    border-radius: 50%;
+    animation: spin 0.8s linear infinite;
+}
+
+/* Spinner for the Security "Save" button */
+.security-spinner {
+    display: inline-block;
+    width: 16px;
+    height: 16px;
+    border: 2px solid #e0e0e0;
+    border-top: 2px solid #000000;
+    border-radius: 50%;
+    animation: spin 0.8s linear infinite;
+}
+
+/* The spin animation can be shared by both spinners */
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+
+
 .user-details-bottom-info-text {
     font-style: italic;
 }

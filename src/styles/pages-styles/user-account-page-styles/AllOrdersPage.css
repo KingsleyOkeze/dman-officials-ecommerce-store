@@ -146,12 +146,8 @@
     display: flex;
     justify-content: space-between;
     align-items: center;
-    margin-left: 12px;
-    margin-right: 12px;
     background: #FFFFFF;
     padding-top: 15px;
-    padding-left: 12px;
-    padding-right: 12px;
     padding-bottom: 15px;
     border-bottom-right-radius: 10px;
     border-bottom-left-radius: 10px;
@@ -200,6 +196,7 @@
 .all-order-page-pagination-button:hover:not(:disabled) {
     color: #ffffff;
 }
+
 
 .all-order-page-pagination-prev {
     margin-right: 10px;

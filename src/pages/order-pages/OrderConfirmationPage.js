@@ -17,15 +17,15 @@ function OrderConfirmationPage () {
     const location = useLocation();
     const { accessToken, customerId } = useContext(AuthContext);
     const [itemsOrdered, setItemsOrdered] = useState([]);
-
+    const [loading, setLoading] = useState(false);
+    const [couponLoading, setCouponLoading] = useState(false);
     const { 
         applyCoupon, 
         couponCode, 
         setCouponCode, 
         discountAmount, 
         couponError, 
-        isValidCoupon, 
-        removeCoupon 
+        isValidCoupon
     } = useContext(CouponContext);
     const {refreshAccessToken} = useContext(AuthContext);
     const {showAlert} = useContext(AlertContext);
@@ -97,11 +97,25 @@ function OrderConfirmationPage () {
     }, [accessToken, customerId]);
 
     
-    const handleApplyCoupon = () => {
-        applyCoupon(couponCode); // Call the context function to apply the coupon
+    const handleApplyCoupon = async () => {
+        // Start loading
+        setCouponLoading(true); 
+
+        try {
+            // Since applyCoupon in your CouponContext is an async function
+            await applyCoupon(couponCode); 
+        } catch (err) {
+            // The coupon context likely handles this, but it's good to have a catch block.
+            // console.error("Error applying coupon:", err);
+        } finally {
+            // Stop loading, regardless of success or failure
+            setCouponLoading(false); 
+        }
     };
 
     const handlePlaceOrder = async () => {
+        setLoading(true); // Start loading
+        setCouponLoading(true); // Start coupon loading
         try {
             const response = await axios.post("/customer/place-order", {
                 customerId: customerId,
@@ -152,6 +166,9 @@ function OrderConfirmationPage () {
             } else {
                 showAlert("Error", "An Unknow Error Occured!")
             }
+        } finally {
+            setLoading(false); // Stop loading, regardless of the outcome
+            setCouponLoading(false); // Stop coupon loading
         }
     }
 
@@ -280,8 +297,9 @@ function OrderConfirmationPage () {
                             <button 
                                 className="order-coupon-apply-button"
                                 onClick={handleApplyCoupon}
-                                >
-                                    Apply
+                                disabled={couponLoading} // Disable the button while loading
+                            >
+                                {couponLoading ? <span className="order-apply-coupon-button-spinner"></span> : 'Apply'}
                             </button>
                         </div>
                         {couponError && <p className="order-coupon-error-message">{couponError}</p>}
@@ -303,8 +321,9 @@ function OrderConfirmationPage () {
                         <button 
                             className="confirm-order-button" 
                             onClick={handlePlaceOrder}
+                            disabled={loading} // Disable the button while loading
                         >
-                            Confirm order
+                            {loading ? <span className="confirm-order-button-spinner"></span> : 'Confirm order'}
                         </button>
                     </div>
 
