@@ -179,6 +179,7 @@
 
 .cart-item-remove-text-and-icon-container {
     text-align: right;
+    cursor: pointer;
 }
 
 .cart-checkout-section {
@@ -288,6 +289,7 @@
     margin-top: 30px;
     margin-bottom: 40px;
     text-align: center;
+    font-size: 14px;
 }
 
 .cart-instruction-container {
@@ -299,6 +301,7 @@
     background:#F5F3F5;
     border-radius: 10px;
     margin-bottom: 50px;
+    font-size: 12.5px;
 }
 
 .cart-payment-instruction-container h3 {
@@ -315,6 +318,7 @@
     padding: 15px;
     background: #F5F3F5;
     border-radius: 10px;
+    font-size: 12.5px;
 }
 
 .cart-shipping-instruction-container h3 {
@@ -342,6 +346,7 @@
 
 .cart-item-remove-icon {
     padding-right: 9px;
+    cursor: pointer;
 }
 
 .empty-cart-page-container {

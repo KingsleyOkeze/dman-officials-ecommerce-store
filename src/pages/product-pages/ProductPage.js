@@ -22,9 +22,13 @@ function ProductPage () {
     const { accessToken, customerId } = useContext(AuthContext); 
     const { showAlert } = useContext(AlertContext);
     const { addToCart, loadingId } = useContext(CartContext); 
-    const { handleSaveProduct } = useContext(SaveProductContext);
+    const { handleSaveProduct, loadingSelectedProductId } = useContext(SaveProductContext);
     const [product, setProduct] = useState({});
-    const [currentImageUrl, setCurrentImageUrl] = useState(product?.productImageUrl?.length > 0 ? product.productImageUrl[0] : null);
+    const [currentImageUrl, setCurrentImageUrl] = useState(
+        product?.productImageUrl?.length > 0 ? 
+        product.productImageUrl[0] : 
+        null
+    );
     const [currentImageIndex, setCurrentImageIndex] = useState(0);
 
     useEffect(() => {
@@ -121,7 +125,20 @@ function ProductPage () {
                         <div className="product-page-product-overview-container">
                             <div className="product-page-product-category">
                                 <p>{product.productCategory}</p>
-                                <GoDotFill className="product-page-product-category-status-icon" />
+                                <GoDotFill 
+                                    className="product-page-product-category-status-icon" 
+                                    style={{
+                                        color: product.productStatus === "Available" ? "#008C00"
+                                        :
+                                        product.productStatus === "LimitedStock" ? "#FFA500"
+                                        :
+                                        product.productStatus === "OutOfStock" ? "#B80000"
+                                        :
+                                        product.productStatus === "Discontinued" ? "#4f0202ff"
+                                        :
+                                        "#000000"
+                                    }}
+                                />
                                 <p 
                                     className="product-page-product-category-status-text"
                                     style={{
@@ -206,11 +223,24 @@ function ProductPage () {
                                 </button>
                                 <button 
                                     className="product-page-product-save-button"
-                                    // style={background: product "#008C00"}
                                     onClick={() => {
-                                        handleSaveProduct(product._id)
-                                    }}>
-                                    <FaRegHeart className="product-page-product-save-icon" />
+                                        if (accessToken) {
+                                            handleSaveProduct(product._id)
+                                        } else {
+                                            showAlert("error", "You need to login first.")
+                                        }
+                                        
+                                    }}
+                                    disabled={loadingSelectedProductId === product._id} // Use loadingSelectedProductId to check against the current item's ID
+                                >
+
+                                    {loadingSelectedProductId === product._id ? ( // Use loadingSelectedProductId for conditional rendering
+                                        <span className="product-page-product-save-btn-spinner" />
+                                    ) : (
+                                        <span>
+                                            <FaRegHeart className="product-page-product-save-icon" />
+                                        </span>
+                                    )}
                                 </button>
                             </div>
                         </div>
@@ -258,9 +288,9 @@ function ProductPage () {
                             <h3>Returns</h3>
                         </div>
                         <p>
-                            At [Your Store Name], we want to ensure you're completely
+                            At DMAN, we want to ensure you're completely
                             satisfied with your purchase. If for any reason you're not
-                            delighted, you can return it within 30 days of delivery. To be
+                            delighted, you can return it within 7 days of delivery. To be
                             eligible, items must be in their original condition, unworn,
                             and in their original packaging. Please contact our customer
                             service team to obtain a Return Merchandise Authorization (RMA)

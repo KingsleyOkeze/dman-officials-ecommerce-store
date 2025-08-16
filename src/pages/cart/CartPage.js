@@ -245,8 +245,9 @@ function CartPage () {
                     <div className="cart-payment-instruction-container">
                         <h3>Payment information</h3>
                         <p>Secure payments via Visa, Mastercard, 
-                            PayPal & Bank Transfer. 5-7 day refunds. 
-                            Contact [support email/phone number] for 
+                            & Bank Transfer. 
+                            <br></br> <br></br>
+                            Contact support: [{process.env.REACT_APP_CUSTOMER_SUPPORT_EMAIL}/{process.env.REACT_APP_CUSTOMER_SUPPORT_PHONE_NUMBER}] for 
                             inquiries.
                         </p>
                     </div>
@@ -255,14 +256,17 @@ function CartPage () {
                         <p>
                             Shipping:
                             Orders processed within 24-48 hours
-                            Delivery: 3-7 business days (domestic)
-                            Delivery: 7-14 business days (international)
+                            <br></br> <br></br>
+                            Delivery: 3-5 business days (domestic)
+                            <br></br> <br></br>
+                            Delivery: 9-12 business days (international)
                             <br></br> <br></br>
                             Returns:
-                            Accepted within 30 days
+                            Accepted within 7 days
                             Items must be unused, in original packaging
-                            Refunds in original payment method, minus shipping
-                            Contact [support email/phone number] for inquiries
+                            Refunds in original payment method, minus shipping.
+                            <br></br> <br></br>
+                            Contact support: [{process.env.REACT_APP_CUSTOMER_SUPPORT_EMAIL}/{process.env.REACT_APP_CUSTOMER_SUPPORT_PHONE_NUMBER}] for inquiries
                             Track your order via email updates
                         </p>
                     </div>
