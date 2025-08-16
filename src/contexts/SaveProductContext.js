@@ -13,6 +13,8 @@ export const SaveProductProvider = ({ children }) => {
     const [savedProducts, setSavedProducts] = useState([]);
     const [paginationIndex, setPaginationIndex] = useState(0); // Track current page
     const [totalPages, setTotalPages] = useState(0); // Total number of pages (example)
+    const [loadingSelectedProductId, setLoadingSelectedProductId] = useState(null);
+
 
     const fetchSavedProduct = async () => {
         if (!accessToken && !customerId) {
@@ -59,8 +61,12 @@ export const SaveProductProvider = ({ children }) => {
     // Function to save a product
     const handleSaveProduct = async (productId) => {
         if (!accessToken && !customerId) {
-            showAlert("Error", "You need to login first!")
+            showAlert("Error", "You need to login first!");
+            setLoadingSelectedProductId(null); // Reset loadingId to null
+            return;
         }
+
+        setLoadingSelectedProductId(productId);
 
         try {
             const response = await axios.post("/customer/save-product", {
@@ -97,6 +103,9 @@ export const SaveProductProvider = ({ children }) => {
                 showAlert("Error", "An Unknow Error Occured!")
             }
             // console.log("err ading to cart ", err)
+        } finally {
+            setLoadingSelectedProductId(null); // Reset loadingId to null
+            // console.log("Loading id is", loadingId)
         }
 
     };
@@ -105,7 +114,11 @@ export const SaveProductProvider = ({ children }) => {
     const removeFromSavedProduct = async (itemId) => {
         if (!accessToken && !customerId) {
             showAlert("Error", "You need to login first!")
+            setLoadingSelectedProductId(null); // Reset loadingId to null
+            return;
         }
+
+        setLoadingSelectedProductId(itemId); // Set loadingId to the item ID 
 
         try {
             const response = await axios.post("/customer/remove-from-saved-product", {
@@ -136,6 +149,8 @@ export const SaveProductProvider = ({ children }) => {
                 showAlert("Error", "An Unknow Error Occured!")
             }
             // console.log("err removing from saved product ", err)
+        } finally {
+            setLoadingSelectedProductId(null);  // Stop the spinner after the request is complete
         }
       
 
@@ -149,6 +164,7 @@ export const SaveProductProvider = ({ children }) => {
             handleSaveProduct, 
             removeFromSavedProduct,
             fetchSavedProduct,
+            loadingSelectedProductId,
             totalPages,
             paginationIndex,
             setPaginationIndex

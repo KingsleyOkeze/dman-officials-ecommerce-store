@@ -4,7 +4,6 @@
 }
 
 .sale-page-hero-section-container {
-    /* background-image: url("../../../images/unleash1.png"); */
     background-size: cover; /* Cover the entire element */
     background-position: center; /* Center the image */
     background-repeat: no-repeat; /* Don't repeat the image */
@@ -57,7 +56,6 @@
 .sale-page-body-items-container {
     display: grid;
     grid-template-columns: repeat(1, 1fr);
-    /* background: gold; */
     justify-content: center;
     gap: 15px;
     border-top-right-radius: 10px;
@@ -70,7 +68,6 @@
 
 
 .sale-page-card {
-    /* max-width: 250px; */
     min-height: 300px;
     border-radius: 10px;
     background: #F5F3F5;

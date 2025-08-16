@@ -94,6 +94,7 @@ function Header () {
                 
                 <img src={logo} width={24} height={24}
                      onClick={() => navigate("/")}
+                     style={{ cursor: 'pointer' }}
                 />
             </div>
             <div 
@@ -153,6 +154,7 @@ function Header () {
             <div className="lg-header-logo">
                 <img src={logo} width={50} height={50}
                     onClick={() => navigate("/")}
+                     style={{ cursor: 'pointer' }}
                 />
             </div>
            
