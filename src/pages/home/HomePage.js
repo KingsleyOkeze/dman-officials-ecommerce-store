@@ -23,11 +23,11 @@ function HomePage () {
     // Carousel images
     const heroImages = [
         {
-            src: "https://res.cloudinary.com/dvgqi0ajq/image/upload/v1754851542/yblyd3ztccr4qggjf2w6.png",
+            src: "https://res.cloudinary.com/dvgqi0ajq/image/upload/c_limit,f_auto,q_auto,w_1240/v1754851542/yblyd3ztccr4qggjf2w6.png",
             alt: "Hero Image 1 - Fashion Collection"
         },
         {
-            src: "https://res.cloudinary.com/dvgqi0ajq/image/upload/v1757089476/mhxybpjqfhbqgkz95xql.png",
+            src: "https://res.cloudinary.com/dvgqi0ajq/image/upload/c_limit,f_auto,q_auto,w_1240/v1757089476/mhxybpjqfhbqgkz95xql.png",
             alt: "Hero Image 2 - Fashion Collection"
         }
     ];
