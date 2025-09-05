@@ -1,17 +1,17 @@
 .alert-container {
     width: 100%;
-    display: flex; /* Use flexbox for better alignment */
-    align-items: center; /* Vertically align items */
-    justify-content: center; /* Center content horizontally */
-    height: 90px;
-    padding: 0 15px; /* Add padding for spacing */
+    display: flex;
+    align-items: center;
+    justify-content: center; 
+    height: 70px;
+    padding: 0px 15px; /* Add padding for spacing */
     font-weight: 500;
     font-size: 15px;
     line-height: 18px;
     color: #FFFFFF;
     z-index: 101;
     position: fixed;
-    top: 2.9%; 
+    top: 3%;
     left: 50%;
     transform: translate(-50%, -50%);
 }
@@ -45,25 +45,7 @@
 
 @media (min-width: 986px) {
     .alert-container {
-        top: 3.5%;
+        top: 3%;
         height: 45px;
     }
 }
-/* 
-.alert-container {
-    width: 100%;
-    height: 45px;
-    font-weight: 500;
-    font-size: 15px;
-    line-height: 18px;
-    color: #FFFFFF;
-    z-index: 10;
-    position: fixed;
-    top: 50%; /* Add this line 
-    left: 50%; /* Add this line 
-    transform: translate(-50%, -50%); /* Add this line 
-    background-color: #008C00; 
-    padding: 10px;
-    border-radius: 5px; 
-    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.2); 
-  } */

@@ -12,14 +12,17 @@ function ForgotPassword() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+
     try {
       const response = await axios.post('/customer/forget-password', { email });
       setMessage(response.data.message);
       setIsResendDisabled(true);
       setTimeout(() => setIsResendDisabled(false), 60000); // Resend enabled after 1 minute
     } catch (error) {
-      setMessage('Error sending reset link. Please try again.');
-    }
+      console.log("Error forgot password", error)
+      // setMessage('Error sending reset link. Please try again.');
+      setMessage(error?.response?.data?.error);
+    } 
   };
 
   return (

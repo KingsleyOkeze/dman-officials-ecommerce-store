@@ -118,15 +118,25 @@
 
 
 
+.home-page-hero-section-img-container {
+    position: absolute;
+    width: 95%;
+    height: 100vh;
+    right: 1px;
+    bottom: 0;
+}
 
 .home-page-hero-section-img {
-    width: 50%;
-    height: 100vh;
+    width: 100%;
+    height: 100%;
     object-fit: cover;
     position: absolute;
-    right: 0px;
-    bottom: 0px;
+    opacity: 0;
+    transition: opacity 1s ease-in-out;
+}
 
+.home-page-hero-section-img.active {
+    opacity: 1;
 }
 
 

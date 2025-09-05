@@ -1,14 +1,10 @@
-import { useContext, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import "../../styles/pages-styles/home-pages-styles/HomePage.css"
-import { FaHeart } from "react-icons/fa";
-import { FaRegHeart } from "react-icons/fa6";
-import { TbRectangleVerticalFilled } from "react-icons/tb";
 import { TbTruckDelivery } from "react-icons/tb";
 import { GrMoney } from "react-icons/gr";
 import { BiSupport } from "react-icons/bi";
 import { IoCardOutline } from "react-icons/io5";
 import { useNavigate} from "react-router-dom";
-import { CartContext } from "../../contexts/CartContext";
 import FlashSale from "./flash-sale/FlashSale"
 import TrendingNow from "./trending-now/TrendingNow";
 import Explore from "./explore/Explore";
@@ -21,7 +17,30 @@ function HomePage () {
     const targetDate = new Date();
     targetDate.setDate(targetDate.getDate() + 30);
     
-    
+    // State for current image index
+    const [currentImageIndex, setCurrentImageIndex] = useState(0);
+
+    // Carousel images
+    const heroImages = [
+        {
+            src: "https://res.cloudinary.com/dvgqi0ajq/image/upload/v1754851542/yblyd3ztccr4qggjf2w6.png",
+            alt: "Hero Image 1 - Fashion Collection"
+        },
+        {
+            src: "https://res.cloudinary.com/dvgqi0ajq/image/upload/v1757089476/mhxybpjqfhbqgkz95xql.png",
+            alt: "Hero Image 2 - Fashion Collection"
+        }
+    ];
+
+    // Effect to cycle images
+    useEffect(() => {
+        const interval = setInterval(() => {
+            setCurrentImageIndex((prevIndex) => (prevIndex + 1) % heroImages.length);
+        }, 5000); // Change every 5 seconds
+
+        return () => clearInterval(interval); 
+    }, [heroImages.length]);
+
     return(
         <div className="home-page-container">
             <div className="home-page-hero-section-container">
@@ -45,11 +64,18 @@ function HomePage () {
                             Shop Now
                     </button>
                 </div>
-                <img 
-                    // src={hero1} 
-                    src={"https://res.cloudinary.com/dvgqi0ajq/image/upload/c_limit,f_auto,q_auto,w_1200/v1754851542/yblyd3ztccr4qggjf2w6.png"}
-                    className="home-page-hero-section-img" 
-                />
+                <div className="home-page-hero-section-img-container">
+                    {heroImages.map((image, index) => (
+                        <img
+                            key={index}
+                            src={image.src}
+                            alt={image.alt}
+                            className={`home-page-hero-section-img ${
+                                index === currentImageIndex ? 'active' : ''
+                            }`}
+                        />
+                    ))}
+                </div>
             </div>
             <div className="home-page-flat-empty-area">
 
@@ -93,7 +119,13 @@ function HomePage () {
                             // src={homeCategory3} 
                             src={"https://res.cloudinary.com/dvgqi0ajq/image/upload/c_limit,f_auto,q_auto,w_1200/v1754852466/ebh42bjpk5de3yr8ef4y.png"}
                         />
-                        <button>Accessories</button>
+                        <button
+                            onClick={() => {
+                                navigate("/category-page/Accessories")
+                            }}
+                        >
+                            Accessories
+                        </button>
                     </div>
                 </div>
                 
@@ -113,32 +145,6 @@ function HomePage () {
                         <p>Fashion Lifestyle</p>
                     </div>
                     <CountdownTimer targetDate={targetDate} /> 
-                    {/* <div className="home-page-call-to-action-showcase-timer-container">
-                        <div className="home-page-call-to-action-showcase-time-block">
-                            <>
-                                <p>23</p>
-                                <small>Days</small>
-                            </>
-                        </div>
-                        <div className="home-page-call-to-action-showcase-time-block">
-                            <>
-                                <p>08</p>
-                                <small>Hours</small>
-                            </>
-                        </div>
-                        <div className="home-page-call-to-action-showcase-time-block">
-                            <>
-                                <p>59</p>
-                                <small>Mins</small>
-                            </>
-                        </div>
-                        <div className="home-page-call-to-action-showcase-time-block">
-                            <>
-                                <p>12</p>
-                                <small>Secs</small>
-                            </>
-                        </div>
-                    </div> */}
                     <button 
                         className="home-page-call-to-action-showcase-btn"
                         >

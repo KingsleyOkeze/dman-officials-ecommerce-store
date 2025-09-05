@@ -15,7 +15,7 @@ function Explore () {
         // Fetch Explore Products from the API
         const fetchExploreProducts = async () => {
             try {
-                const response = await axios.get("/customer/fetch-explore-products?page=0&limit=3");
+                const response = await axios.get("/customer/fetch-explore-products?page=0&limit=6");
                 if (response.status === 200) {
                     setExploreProducts(response.data.result);
                 } 

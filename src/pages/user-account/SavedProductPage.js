@@ -13,7 +13,7 @@ function SavedProductPage () {
     const navigate = useNavigate();
     const { accessToken, customerId } = useContext(AuthContext); 
     const { showAlert } = useContext(AlertContext);
-    const { addToCart } = useContext(CartContext);
+    const { addToCart} = useContext(CartContext);
     const { 
         savedProducts, 
         removeFromSavedProduct,
@@ -22,7 +22,7 @@ function SavedProductPage () {
         paginationIndex,
         setPaginationIndex  
     } = useContext(SaveProductContext);
-
+   
     const handlePreviousFunction = () => {
         if (paginationIndex > 0) {
             setPaginationIndex(paginationIndex - 1);

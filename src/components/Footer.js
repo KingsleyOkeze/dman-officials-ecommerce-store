@@ -258,7 +258,7 @@ function Footer () {
                         <li><input type="radio" /> Both</li>
                     </ul>
                     <div className="email-input-container">
-                        <input type="text" placeholder="Your faourite email..."></input>
+                        <input type="text" placeholder="Your favorite email..."></input>
                         <button>Submit</button>
                     </div>
                     

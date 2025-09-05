@@ -14,8 +14,7 @@ export const SaveProductProvider = ({ children }) => {
     const [paginationIndex, setPaginationIndex] = useState(0); // Track current page
     const [totalPages, setTotalPages] = useState(0); // Total number of pages (example)
     const [loadingSelectedProductId, setLoadingSelectedProductId] = useState(null);
-
-
+    
     const fetchSavedProduct = async () => {
         if (!accessToken && !customerId) {
             return;

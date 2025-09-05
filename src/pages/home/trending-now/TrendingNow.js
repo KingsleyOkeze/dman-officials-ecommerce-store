@@ -14,7 +14,7 @@ function TrendingNow () {
 
     const fetchTrendingNowProducts = async () => {
         try {
-            const response = await axios.get("/customer/fetch-trending-now-products?page=0&limit=3", {
+            const response = await axios.get("/customer/fetch-trending-now-products?page=0&limit=6", {
                 params: {
                     category: selectedCategory ? selectedCategory : undefined,
                     subCategory: selectedSubCategory ? selectedSubCategory : undefined,

@@ -79,7 +79,7 @@ const LoginPage = () => {
                     Welcome back!.
                 </p>
                 <p className="login-page-head-instruction">
-                    Login below to access your account.
+                    Signin below to access your account.
                 </p>
             </div>
             <form onSubmit={handleLogin}>
@@ -118,7 +118,7 @@ const LoginPage = () => {
                 className="login-bottom-go-back-text"
                 onClick={toggleSideDrawer}
             >
-                Go back
+                {'< Go back'}
             </p>
         </div>
         </div>

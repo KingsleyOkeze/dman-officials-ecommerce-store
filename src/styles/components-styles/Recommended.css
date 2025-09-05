@@ -5,7 +5,6 @@
     padding: 10px;
 }
 
-
 .recommended-container h3 {
     height: 24px;
     font-weight: 700;
@@ -17,7 +16,6 @@
     display: flex;
     justify-content: space-between;
     align-items: center;
-    /* background-color: aqua; */
 }
 
 .recommended-container-header button { 
@@ -25,49 +23,65 @@
     border-radius: 12px;
     width: 115px;
     height: 42px;
-    color: #F5F3F5
+    color: #F5F3F5;
 }
 
 .recommended-card-container {
     display: grid;
     grid-auto-flow: column;
-    grid-template-columns: repeat(auto-fill, 1fr);
-    /* grid-template-columns: repeat(auto-fill, 157px); Fixed width for items on small screens */
+    grid-auto-columns: 157px;
     gap: 15px;
-    /* justify-content: center; */
     padding: 15px;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    scroll-snap-type: x mandatory;
+    padding-bottom: 20px;
+    scrollbar-width: auto;
+    scrollbar-color: #9DA7A9 #F5F3F5;
+    width: 100%;
+    box-sizing: border-box;
+}
 
-    /* --- New styles for horizontal scrolling --- */
-    overflow-x: auto; /* Enable horizontal scrolling when content overflows */
-    -webkit-overflow-scrolling: touch; /* Smooth scrolling on iOS */
-    scroll-snap-type: x mandatory; /* Optional: for snapping to card boundaries */
-    padding-bottom: 20px; /* Add some padding for the scrollbar if it appears */
+.recommended-card-container::-webkit-scrollbar {
+    height: 10px;
+    display: block;
+}
+
+.recommended-card-container::-webkit-scrollbar-track {
+    background: #F5F3F5;
+    border-radius: 10px;
+}
+
+.recommended-card-container::-webkit-scrollbar-thumb {
+    background: #9DA7A9;
+    border-radius: 10px;
+}
+
+.recommended-card-container::-webkit-scrollbar-thumb:hover {
+    background: #6B7280;
 }
 
 .recommended-card {
     min-height: 240px;
     border-radius: 10px;
     background: #F5F3F5;
-    box-shadow: 0px 0px 2px  #9DA7A9; 
+    box-shadow: 0px 0px 2px #9DA7A9;
     display: flex;
     flex-direction: column;
     box-sizing: border-box;
     border-radius: 12px;
-    box-sizing: border-box;
-    
-    scroll-snap-align: start; /* Optional: for scroll-snapping */
-    flex-shrink: 0; /* Important for flex to prevent cards from shrinking */
-    /* If using grid with grid-auto-flow: column, grid items generally don't shrink by default */
+    scroll-snap-align: start;
+    flex-shrink: 0;
+    min-width: 157px; /* Ensure cards don’t shrink below intended width */
 }
 
 .recommended-card-img-container {
     max-width: 100%;
-    height:  162px;
+    height: 162px;
     cursor: pointer;
 }
 
-
-.recommended-card-img{
+.recommended-card-img {
     width: 100%;
     height: 100%;
     object-fit: cover;
@@ -84,19 +98,18 @@
     padding-top: 10px;
     padding-bottom: 20px;
     padding-left: 20px;
-    padding-right: 20px
+    padding-right: 20px;
 }
 
-
 .recommended-item-name {
-    /* Add these properties for multi-line text truncation */
     display: -webkit-box;
-    -webkit-line-clamp: 2; /* Limit to 2 lines, adjust as needed */
+    -webkit-line-clamp: 2;
     -webkit-box-orient: vertical;
     overflow: hidden;
     text-overflow: ellipsis;
-    word-break: break-word; /* Prevents long words from overflowing */
+    word-break: break-word;
 }
+
 .recommended-item-price {
     text-align: left;
     margin-top: auto;
@@ -104,88 +117,124 @@
     padding-bottom: 20px;
 }
 
-
 @media (min-width: 480px) {
     .recommended-card-container {
-        grid-template-columns: repeat(auto-fill, 200px); /* Adjust card width for this breakpoint */
-        grid-auto-flow: column; /* Keep for horizontal scrolling */
-        overflow-x: auto; /* Keep for horizontal scrolling */
+        grid-auto-flow: column;
+        grid-auto-columns: 200px;
+        gap: 15px;
+        overflow-x: auto;
         scroll-snap-type: x mandatory;
         padding-bottom: 20px;
+        scrollbar-width: auto;
+        scrollbar-color: #9DA7A9 #F5F3F5;
+        width: 100%;
+        box-sizing: border-box;
+    }
+
+    .recommended-card-container::-webkit-scrollbar {
+        height: 10px;
+        display: block;
+    }
+
+    .recommended-card-container::-webkit-scrollbar-track {
+        background: #F5F3F5;
+        border-radius: 10px;
+    }
+
+    .recommended-card-container::-webkit-scrollbar-thumb {
+        background: #9DA7A9;
+        border-radius: 10px;
+    }
+
+    .recommended-card-container::-webkit-scrollbar-thumb:hover {
+        background: #6B7280;
     }
 
     .recommended-card {
         min-height: 340px;
         border-radius: 10px;
         background: #F5F3F5;
-        box-shadow: 0px 0px 2px  #9DA7A9; 
+        box-shadow: 0px 0px 2px #9DA7A9;
         display: flex;
         flex-direction: column;
         box-sizing: border-box;
         border-radius: 12px;
-
-        flex-shrink: 0; /* Important for scrollable flex items */
-        scroll-snap-align: start;
+        flex-shrink: 0;
+        min-width: 200px;
     }
 
-    /* Apply the fixed height to the image container here */
-    .recommended-card-img-container { /* This class is from your HTML */
-        height: 200px; /* Or whatever fixed height you desire for large screens */
+    .recommended-card-img-container {
+        height: 200px;
         width: 100%;
     }
 
-    .recommended-card-img { /* This class is from your HTML */
+    .recommended-card-img {
         width: 100%;
-        height: 100%; /* Make the image fill the fixed height of its container */
-        object-fit: cover; 
+        height: 100%;
+        object-fit: cover;
         border-top-left-radius: 12px;
         border-top-right-radius: 12px;
     }
-
 }
-
 
 @media (min-width: 986px) {
     .recommended-card-container {
         display: grid;
-        grid-template-columns: repeat(auto-fill, minmax(245px, 1fr));
+        grid-auto-flow: column; /* Keep horizontal flow */
+        grid-auto-columns: 245px; /* Fixed width instead of minmax */
         gap: 10px;
         justify-content: center;
         padding: 15px;
+        overflow-x: auto; /* Keep scrollbar */
+        scroll-snap-type: x mandatory;
+        padding-bottom: 20px;
+        scrollbar-width: auto;
+        scrollbar-color: #9DA7A9 #F5F3F5;
+        width: 100%;
+        box-sizing: border-box;
+    }
 
+    .recommended-card-container::-webkit-scrollbar {
+        height: 10px;
+        display: block;
+    }
 
-        /* --- REMOVE HORIZONTAL SCROLLING PROPERTIES --- */
-        grid-auto-flow: row; /* Default row flow (explicitly set for clarity) */
-        overflow-x: unset; /* Or hidden, to prevent horizontal scroll */
-        scroll-snap-type: none; /* Disable snapping */
-        padding-bottom: 15px; /* Adjust padding if scrollbar space isn't needed */
+    .recommended-card-container::-webkit-scrollbar-track {
+        background: #F5F3F5;
+        border-radius: 10px;
+    }
+
+    .recommended-card-container::-webkit-scrollbar-thumb {
+        background: #9DA7A9;
+        border-radius: 10px;
+    }
+
+    .recommended-card-container::-webkit-scrollbar-thumb:hover {
+        background: #6B7280;
     }
 
     .recommended-card {
         min-height: 378px;
         border-radius: 10px;
         background: #F5F3F5;
-        box-shadow: 0px 0px 2px  #9DA7A9; 
+        box-shadow: 0px 0px 2px #9DA7A9;
         display: flex;
         flex-direction: column;
         box-sizing: border-box;
         border-radius: 12px;
-
-        /* Remove flex-shrink and scroll-snap-align if they cause issues with wrapping */
-        flex-shrink: unset; /* Or 1, if you want them to shrink */
-        scroll-snap-align: none;
+        flex-shrink: 0;
+        min-width: 245px;
     }
 
-    /* Apply the fixed height to the image container here */
-    .recommended-card-img-container { 
-        height: 240px; 
+    .recommended-card-img-container {
+        height: 240px;
         width: 100%;
     }
 
-    .recommended-card-img { /* This class is from your HTML */
+    .recommended-card-img {
         width: 100%;
-        height: 100%; /* Make the image fill the fixed height of its container */
-        object-fit: cover; 
+        height: 100%;
+        object-fit: cover;
         border-top-left-radius: 12px;
         border-top-right-radius: 12px;
     }
