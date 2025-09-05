@@ -186,7 +186,7 @@ function ProductPage () {
                                 }
                             </ul>
                             <p className="product-page-product-size-title-text">
-                                Size <span>(Size Guide)</span>
+                                Size {/* <span>(Size Guide)</span> */}
                             </p>
                             <ul className="product-page-product-size-container">
                                 {

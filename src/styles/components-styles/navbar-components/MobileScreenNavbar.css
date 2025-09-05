@@ -53,6 +53,7 @@
   
 .dropdown-list ul {
     list-style: none;
+    padding-top: 11px;
     padding-left: 15px;
 }
   
@@ -87,7 +88,7 @@
     top: 20px;
     right: 20px;
     font-size: 30px;
-    color: yellowgreen;
+    color: white;
     cursor: pointer;
 }
   

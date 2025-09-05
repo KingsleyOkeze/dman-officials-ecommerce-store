@@ -23,7 +23,8 @@ function ResetPassword () {
         }, 2000);
       }
     } catch (error) {
-      setMessage('Error resetting password. Please try again.');
+      // setMessage('Error resetting password. Please try again.');
+      setMessage(error?.response?.data?.error);
     }
   };
 
