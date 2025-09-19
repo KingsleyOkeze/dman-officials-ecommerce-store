@@ -4,6 +4,8 @@ import { Link, useNavigate } from "react-router-dom";
 import { IoIosArrowBack } from "react-icons/io";
 import { IoIosArrowForward } from "react-icons/io";
 import axios from "axios";
+import { Helmet } from "react-helmet-async";
+
 
 function SalePage () {
     const navigate = useNavigate();
@@ -49,6 +51,13 @@ function SalePage () {
 
     return(
         <div className="sale-page-container">
+            <Helmet>
+                <title>Sale | Dman Officials Store</title>
+                <meta
+                name="description"
+                content={`Shop flash sale products with up to 50% off at Dman Officials Store. Page ${paginationIndex + 1} of ${totalPages || 1}.`}
+                />
+            </Helmet>
             <div 
                 className="sale-page-hero-section-container"
                 style={{

@@ -54,14 +54,14 @@ export const CartProvider = ({ children }) => {
     };
 
     useEffect(() => {
-        fetchCart();
-    }, [])
+        if (accessToken && customerId) {
+            const debounceFetch = setTimeout(() => {
+                fetchCart();
+            }, 300);
+            return () => clearTimeout(debounceFetch);
+        }
+    }, [accessToken, customerId, showSideDrawer]);
 
-    useEffect(() => {
-        fetchCart();
-    }, [showSideDrawer]);
-
-    
 
     // Function to add an item to the cart
     const addToCart = async (productId, quantity) => {
@@ -209,8 +209,35 @@ export const CartProvider = ({ children }) => {
     };
 
     // Function to clear the cart
-    const clearCart = () => {
-        setCartItems([]);
+    const clearCart = async () => {
+        // setCartItems([]);
+
+        if (!accessToken || !customerId) {
+            showAlert("Error", "You need to login first!");
+            return;
+        }
+
+        try {
+            const response = await axios.delete(`/customer/clear-cart/${customerId}`, {
+                headers: { Authorization: `Bearer ${accessToken}` },
+            });
+
+            if (response.status === 200) {
+                setCartItems([]);
+                console.log('Cart cleared successfully!')
+                showAlert("Success", response.data.message || "Cart cleared successfully!");
+            }
+        } catch (err) {
+            if (err.response) {
+                const status = err.response.status;
+                const errMessage = err.response.data.error;
+                if ([400, 403, 404, 500].includes(status)) {
+                    showAlert("Error", errMessage);
+                }
+            } else {
+                showAlert("Error", "An Unknown Error Occurred!");
+            }
+        }
     };
 
     return (

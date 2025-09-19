@@ -8,6 +8,8 @@ import { AuthContext } from "../../contexts/AuthContext";
 import { AlertContext } from "../../contexts/AlertContext";
 import { IoMdArrowBack } from "react-icons/io";
 import {formatDate} from "../../utils/dateFormatter";
+import { Helmet } from 'react-helmet-async';
+
 
 function AllOrdersPage() {
     const navigate = useNavigate();
@@ -75,6 +77,13 @@ function AllOrdersPage() {
 
     return (
         <div className="all-order-page-container">
+            <Helmet>
+                <title>Orders | Dman Officials Store</title>
+                <meta
+                name="description"
+                content={`View your ${orders.length} order${orders.length !== 1 ? 's' : ''} at Dman Officials Store. Track order status and review purchase details.`}
+                />
+            </Helmet>
             <div className="all-order-page-header-container">
                 <div className="all-order-page-header-icon-container"
                     onClick={() => navigate(-1)}>

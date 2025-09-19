@@ -1,7 +1,7 @@
 import { useContext, useEffect, useState } from "react";
 import '../../styles/pages-styles/order-pages-styles/OrderConfirmationPage.css';
 import { RiCheckboxBlankFill } from "react-icons/ri";
-import { useNavigate, useLocation } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import { CouponContext } from "../../contexts/CouponContext";
 import PrivacyPolicyPage from "../../pages/footer-pages/PrivacyPolicyPage"
@@ -11,10 +11,12 @@ import ReturnsPolicyPage from "../../pages/footer-pages/ReturnsPolicyPage"
 import { AuthContext } from "../../contexts/AuthContext";
 import { AlertContext } from "../../contexts/AlertContext";
 import { handlePayment } from "../../services/paymentService";
+import { CartContext } from "../../contexts/CartContext";
+import { Helmet } from 'react-helmet-async';
+
 
 function OrderConfirmationPage () {
     const navigate = useNavigate();
-    const location = useLocation();
     const { accessToken, customerId } = useContext(AuthContext);
     const [itemsOrdered, setItemsOrdered] = useState([]);
     const [loading, setLoading] = useState(false);
@@ -29,6 +31,7 @@ function OrderConfirmationPage () {
     } = useContext(CouponContext);
     const {refreshAccessToken} = useContext(AuthContext);
     const {showAlert} = useContext(AlertContext);
+    const {cartItems, clearCart} = useContext(CartContext);
     const [showModal, setShowModal] = useState(false);
     const [pageToShowOnModal, setPageToShowOnModal] = useState("");
     const [country, setCountry] = useState('Nigeria');
@@ -46,15 +49,6 @@ function OrderConfirmationPage () {
 
     // Calculate final total price after discount and adding shipping fee
     const finalTotalPrice = Math.max(totalPrice - discountAmount + shippingPrice, 0); // Prevent negative total
-
-
-    // Get cart items from navigation state
-    useEffect(() => {
-        if (location.state && location.state.cartItems) {
-            setItemsOrdered(location.state.cartItems);
-            console.log("cart items is", location.state.cartItems)
-        }
-    }, [location.state]);
 
     const fetchCartTotalPrice = async () => {
         try {
@@ -146,7 +140,8 @@ function OrderConfirmationPage () {
                     navigate, 
                     accessToken, 
                     refreshAccessToken, 
-                    showAlert
+                    showAlert,
+                    clearCart
                 );
             }
         } catch (err) {
@@ -176,6 +171,13 @@ function OrderConfirmationPage () {
 
     return(
         <div className="order-confirmation-page-container">
+            <Helmet>
+                <title>Order Confirmation | Dman Officials Store</title>
+                <meta
+                name="description"
+                content="Confirm your order details, enter shipping information, and apply coupons at Dman Officials Store."
+                />
+            </Helmet>
             <div className="order-delivery-address-and-items-ordered-container">
                 <div className="order-delivery-address-container">
                     <div className="order-delivery-address-header">
@@ -257,15 +259,18 @@ function OrderConfirmationPage () {
                 </div>
 
                 <div className="items-ordered-container">
-                <h2>ITEMS</h2>
-                    {
-                        itemsOrdered.map((item, index) => (
+                    <h2>ITEMS</h2>
+                    {cartItems.length === 0 ? (
+                        <p style={{ fontStyle: 'italic' }}>Items is empty</p>
+                    ) : (
+                        cartItems.map((item, index) => (
                             <div key={index} className="items-ordered-card">
                                 <div className="items-ordered-card-img-container">
                                     <img 
                                         width={150}
                                         height={124}
-                                        src={item?.productRef?.productImageUrl[0]} alt={item?.productRef?.productName}
+                                        src={item?.productRef?.productImageUrl[0]} 
+                                        alt={item?.productRef?.productName}
                                     />
                                 </div>
                                 <div className="items-ordered-card-description">
@@ -276,7 +281,7 @@ function OrderConfirmationPage () {
                                 </div>
                             </div>
                         ))
-                    }
+                    )}
                 </div>
 
             </div>

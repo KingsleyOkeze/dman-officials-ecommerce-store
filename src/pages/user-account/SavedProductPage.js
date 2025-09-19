@@ -8,6 +8,8 @@ import { AuthContext } from "../../contexts/AuthContext";
 import { AlertContext } from "../../contexts/AlertContext";
 import { IoMdArrowBack } from "react-icons/io";
 import { useNavigate } from "react-router-dom";
+import { Helmet } from 'react-helmet-async';
+
 
 function SavedProductPage () {
     const navigate = useNavigate();
@@ -41,11 +43,24 @@ function SavedProductPage () {
       
 
     if (!savedProducts) {
-        return <p>Loading...</p>;
+        <div className="loading-container">
+            <Helmet>
+                <title>Saved Products | Dman Officials Store</title>
+                <meta name="description" content="Loading your saved products at Dman Officials Store." />
+            </Helmet>
+            <p>Loading...</p>
+        </div>
     }
 
     return(
         <div className="saved-product-page-container">
+            <Helmet>
+                <title>Saved Products | Dman Officials Store</title>
+                <meta
+                    name="description"
+                    content={`View your ${savedProducts.length} saved product${savedProducts.length !== 1 ? 's' : ''} at Dman Officials Store. Add to cart or manage your wishlist.`}
+                />
+            </Helmet>
             <div className="saved-product-page-header-container">
                 <div className="saved-product-page-header-icon-container"
                     onClick={() => navigate(-1)}
@@ -62,7 +77,9 @@ function SavedProductPage () {
                                 <div className="saved-product-card-img-container">
                                     <img 
                                         src={savedProduct.productRef?.productImageUrl[0]} 
-                                        onClick={() => navigate(`/product-page/${savedProduct._id}`)}
+                                        onClick={() => {
+                                            console.log("clicked saved product", savedProduct._id)
+                                            navigate(`/product-page/${savedProduct.productRef._id}`)}}
                                     />
                                 </div>
                                 <div className="saved-product-description-container">

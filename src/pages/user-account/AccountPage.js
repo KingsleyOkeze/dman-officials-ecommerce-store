@@ -3,6 +3,8 @@ import { Outlet, useNavigate, useLocation } from "react-router-dom";
 import { useState, useEffect, useContext } from "react";
 import dmanLogo from "../../images/dman-black-logo.png"
 import { AuthContext } from "../../contexts/AuthContext";
+import { Helmet } from 'react-helmet-async';
+
 
 function AccountPage() {
     const navigate = useNavigate();
@@ -40,9 +42,40 @@ function AccountPage() {
       if (isMobile) setShowMenu(false); // Hide menu on mobile after navigation
     };
 
+  // Determine title and meta description based on the current route
+  const getPageTitleAndDescription = () => {
+    switch (location.pathname) {
+      case '/account/user-overview':
+        return {
+          title: 'Account Overview | Dman Officials Store',
+          description: 'View and manage your Dman Officials Store account details, including personal information and settings.',
+        };
+      case '/account/all-orders':
+        return {
+          title: 'Orders | Dman Officials Store',
+          description: 'Review your order history and track orders at Dman Officials Store.',
+        };
+      case '/account/saved-product':
+        return {
+          title: 'Saved Products | Dman Officials Store',
+          description: 'Manage your saved products and wishlists at Dman Officials Store.',
+        };
+      default:
+        return {
+          title: 'Account | Dman Officials Store',
+          description: 'Manage your Dman Officials Store account, including orders, saved products, and personal details.',
+        };
+    }
+  };
 
+  const { title, description } = getPageTitleAndDescription();
+  
   return (
     <div className={`account-page-container ${isMobile ? "mobile" : ""}`}>
+      <Helmet>
+        <title>{title}</title>
+        <meta name="description" content={description} />
+      </Helmet>
       {showMenu ? (
         <div className="account-page-menu-container">
           <img src={dmanLogo} alt="D.MAN Logo" className="account-logo" />

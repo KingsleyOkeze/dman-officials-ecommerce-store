@@ -1,9 +1,15 @@
 import React from 'react';
 import '../../styles/pages-styles/footer-pages-styles/PrivacyPolicyPage.css';
+import { Helmet } from "react-helmet-async";
+
 
 function PrivacyPolicyPage() {
   return (
     <div className="privacy-policy-container">
+      <Helmet>
+        <title>Privacy Policy | Dman Officials Store</title>
+        <meta name="description" content="Read our privacy policy to learn how Dman Officials Store collects, uses, and protects your personal information." />
+      </Helmet>
       <h1 className="privacy-policy-title">Privacy Policy</h1>
 
       <section className="privacy-policy-section">

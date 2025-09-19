@@ -1,10 +1,16 @@
 import React from 'react';
 import '../../styles/pages-styles/footer-pages-styles/ReturnsPolicyPage.css';
+import { Helmet } from "react-helmet-async";
+
 
 
 function ReturnsPolicyPage () {
   return (
     <div className="returns-container">
+      <Helmet>
+        <title>Returns Policy | Dman Officials Store</title>
+        <meta name="description" content="Read Dman Officials Store's returns policy for details on eligibility, how to initiate a return, and the refund process." />
+      </Helmet>
       <h1>Return Policy</h1>
       
       <div className="returns-section">

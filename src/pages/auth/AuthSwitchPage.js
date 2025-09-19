@@ -5,30 +5,31 @@ import LoginPage from "./LoginPage";
 import SignUpPage from "./SignUpPage";
 
 function AuthSwitchPage ({ isOpen, toggleSideDrawer }) {
-    const location = useLocation(); // Get current location
-    const navigate = useNavigate(); 
+    const location = useLocation();
+    const navigate = useNavigate();
     const [showLogin, setShowLogin] = useState(true);
 
     return (
         <div className="auth-switch-page-container">
             <div className="auth-switch-page-container-head">
-                <p onClick={() => {
-                    setShowLogin(true);
-                }}
-                style={{ 
-                    borderBottom: showLogin ? "2px solid #ffffff" : "none", padding: "10px" 
-                }}
-                >Login</p>
-                <p onClick={() => {
-                    setShowLogin(false);
-                }}
-                style={{ 
-                    borderBottom: showLogin === false ? "2px solid #ffffff" : "none", padding: "10px" 
-                }}
-                >Sign Up</p>
+                <p 
+                    onClick={() => {
+                        setShowLogin(true);
+                    }}
+                    className={showLogin ? "active-tab" : ""}
+                >
+                    Login
+                </p>
+                <p 
+                    onClick={() => {
+                        setShowLogin(false);
+                    }}
+                    className={!showLogin ? "active-tab" : ""}
+                >
+                    Sign Up
+                </p>
             </div>
 
-            {/* Child Routes Render Here */}
             <div className="auth-content">
                 {
                     showLogin ? 
@@ -41,7 +42,6 @@ function AuthSwitchPage ({ isOpen, toggleSideDrawer }) {
                         />
                 }
             </div>
-            
         </div>
     );
 }

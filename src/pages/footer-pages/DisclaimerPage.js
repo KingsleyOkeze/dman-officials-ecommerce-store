@@ -1,9 +1,15 @@
 import React from 'react';
 import "../../styles/pages-styles/footer-pages-styles/DisclaimerPage.css";
+import { Helmet } from "react-helmet-async";
+
 
 function DisclaimerPage() {
   return (
     <div className="disclaimer-container">
+      <Helmet>
+        <title>Disclaimer | Dman Officials Store</title>
+        <meta name="description" content="Read the official disclaimer for Dman Officials Store regarding site content and liability." />
+      </Helmet>
       <h1 className="disclaimer-title">Disclaimer</h1>
 
       <section className="disclaimer-section">

@@ -28,7 +28,7 @@ function Header () {
     const messages = [
         "Unmissable New Arrival up To 50% Off",
         "Buy One Get One Free on Selected Items",
-        "Free Shipping on Orders Above $50",
+        "Free Shipping on Orders Above N50,000",
         "Exclusive Deals for Members Only",
       ];
     

@@ -9,190 +9,150 @@ import { SaveProductContext } from '../../contexts/SaveProductContext';
 import axios from 'axios';
 import { SearchContext } from '../../contexts/SearchContext';
 import { AlertContext } from '../../contexts/AlertContext';
+import { Helmet } from 'react-helmet-async';
 
-function CategoryPage () {
-    const { category, subCategory } = useParams();
+
+function CategoryPage() {
+    const { category: urlCategory, subCategory: urlSubCategory } = useParams();  // Rename to avoid confusion
     const navigate = useNavigate();
     const location = useLocation();
     const [screenWidth, setScreenWidth] = useState(window.innerWidth);
     const { customAlert, showAlert } = useContext(AlertContext);
     const { savedProducts, handleSaveProduct, removeFromSavedProduct } = useContext(SaveProductContext);
-    const { searchInput, setSearchInput, searchResult } = useContext(SearchContext);
+    const { searchInput, searchResult } = useContext(SearchContext);
     const [items, setItems] = useState([]);
-    const [loading, setLoading] = useState(true); // loading state
-    const [selectedCategory, setSelectedCategory] = useState("");  // For selected category
-    const [selectedSubCategory, setSelectedSubCategory] = useState("All"); // For selected subcategory
-    const [sortBy, setSortBy] = useState("");  // For sorting option
+    const [loading, setLoading] = useState(true);
+    const [selectedCategory, setSelectedCategory] = useState(urlCategory || "");  // Initial from params
+    const [selectedSubCategory, setSelectedSubCategory] = useState(urlSubCategory || "All");
+    const [sortBy, setSortBy] = useState("");
+    const [paginationIndex, setPaginationIndex] = useState(0);
+    const [totalPages, setTotalPages] = useState(0);
+    const [limit, setLimit] = useState(12);
 
-    const [paginationIndex, setPaginationIndex] = useState(0); // Track current page
-    const [totalPages, setTotalPages] = useState(0); // Total number of pages (example)
-
-
-    const handlePreviousFunction = async () => {
-        try {
-        if (paginationIndex > 0) { 
-            const newPaginationIndex = paginationIndex - 1;
-            setPaginationIndex(newPaginationIndex);
-            const response = await axios.get(
-                `/customer/fetch-products?page=${newPaginationIndex}&limit=12`, 
-                {
-                    params: {
-                        category: selectedCategory ? selectedCategory : undefined,
-                        subCategory: selectedSubCategory ? selectedSubCategory : undefined,
-                        sortBy: sortBy ? sortBy : undefined, // Pass selected sorting option
-                        searchInput: searchInput ? searchInput : undefined
-                },
-            });
-    
-            if (response.status === 200) {
-                console.log("fetched data", response.data.result)
-                setItems(response.data.result);
-                
-            }
-        }
-        } catch (err) {
-            if (err.response) {
-                const status = err.response.status;
-                const errMessage = err.response.data.error;
-
-                if (
-                    status === 400 || 
-                    status === 401 || 
-                    status === 403 || 
-                    status === 404 || 
-                    status === 500
-                ) {
-                    showAlert("error", errMessage)
-                } 
-            } else {
-                showAlert("Error", "An Unknow Error Occured!")
-            }
+    const calculateLimit = () => {
+        const width = window.innerWidth;
+        if (width < 768) return 8;
+        else if (width < 986) return 12;
+        else {
+            const cols = Math.floor((width - 250) / 250);
+            return Math.min(cols * 3, 24);
         }
     };
 
-    const handleNextFunction = async () => {
+    const handleFetchCategoryProducts = async (currentLimit, page = paginationIndex) => {
+        setLoading(true);
         try {
-        if (paginationIndex < totalPages - 1) {
-            const newPaginationIndex = paginationIndex + 1;
-            setPaginationIndex(newPaginationIndex);
+            // Use urlCategory directly to avoid state timing issue
+            console.log('Fetching products for category:', urlCategory, 'subCategory:', selectedSubCategory, 'page:', page, 'limit:', currentLimit);
             const response = await axios.get(
-                `/customer/fetch-products?page=${newPaginationIndex}&limit=12`, 
+                `/customer/fetch-products?page=${page}&limit=${currentLimit}`,
                 {
                     params: {
-                        category: selectedCategory ? selectedCategory : undefined,
-                        subCategory: selectedSubCategory ? selectedSubCategory : undefined,
-                        sortBy: sortBy ? sortBy : undefined, // Pass selected sorting option
-                        searchInput: searchInput ? searchInput : undefined
-                },
-            });
-        
+                        category: urlCategory || undefined,  // Use direct from useParams (sync)
+                        subCategory: selectedSubCategory !== "All" ? selectedSubCategory : undefined,
+                        sortBy: sortBy || undefined,
+                        searchInput: (urlCategory === 'Search' ? searchInput : undefined) || undefined,  // Only send searchInput for search
+                    },
+                }
+            );
             if (response.status === 200) {
-                console.log("fetched data", response.data.result)
-                setItems(response.data.result);
-            }
-        }
-        } catch (err) {
-            if (err.response) {
-                const status = err.response.status;
-                const errMessage = err.response.data.error;
-
-                if (
-                    status === 400 || 
-                    status === 403 || 
-                    status === 404 || 
-                    status === 500 || 
-                    status === 401
-                ) {
-                    showAlert("error", errMessage)
-                } 
-            } else {
-                showAlert("Error", "An Unknow Error Occured!")
-            }
-        }
-        
-    };
-
-
-    const handleFetchCategoryProducts = async () => {
-        console.log('sort by is', sortBy)
-        setLoading(true); // Start loading
-        try {
-            const response = await axios.get(
-                `/customer/fetch-products?page=${paginationIndex}&limit=12`, 
-                {
-                    params: {
-                        category: selectedCategory ? selectedCategory : undefined,
-                        subCategory: selectedSubCategory ? selectedSubCategory : undefined,
-                        sortBy: sortBy ? sortBy : undefined, // Pass selected sorting option
-                        searchInput: searchInput ? searchInput : undefined
-                },
-            });
-
-            if (response.status === 200) {
-                console.log('category fetched is', response.data)
+                console.log('Fetched items:', response.data.result.length);
                 setItems(response.data.result);
                 setTotalPages(response.data.totalPages);
             }
         } catch (err) {
-            console.log('Error fetching products', err);
+            console.error('Error fetching products', err);
             if (err.response) {
                 const status = err.response.status;
-                const errMessage = err.response.data.error;
-
-                if (
-                    status === 400 || 
-                    status === 403 || 
-                    status === 404 || 
-                    status === 500
-                ) {
-                    showAlert("Error", errMessage)
-                } 
+                const errMessage = err.response.data.error || "Failed to fetch products";
+                if ([400, 401, 403, 404, 500].includes(status)) {
+                    showAlert("error", errMessage);
+                }
             } else {
-                showAlert("Error", "An Unknow Error Occured!")
+                showAlert("Error", "An Unknown Error Occurred!");
             }
         } finally {
-            setLoading(false); // End loading
+            setLoading(false);
         }
     };
 
-    // Optional: Update sortBy or other filters to refetch products
-    useEffect(() => {
-        handleFetchCategoryProducts();
-    }, [selectedCategory, selectedSubCategory, sortBy, paginationIndex]);
+    const handlePreviousFunction = async () => {
+        if (paginationIndex > 0) {
+            const newPaginationIndex = paginationIndex - 1;
+            setPaginationIndex(newPaginationIndex);
+            await handleFetchCategoryProducts(limit, newPaginationIndex);
+        }
+    };
 
+    const handleNextFunction = async () => {
+        if (paginationIndex < totalPages - 1) {
+            const newPaginationIndex = paginationIndex + 1;
+            setPaginationIndex(newPaginationIndex);
+            await handleFetchCategoryProducts(limit, newPaginationIndex);
+        }
+    };
 
     const handleSubCategoryChange = (subCategory) => {
         setSelectedSubCategory(subCategory);
-        setPaginationIndex(0); // Reset to first page when changing subcategory
-    };
-    
-
-    useEffect(() => {
-        setSelectedCategory(category);
-        setSelectedSubCategory(subCategory ? subCategory : "All");
         setPaginationIndex(0);
-    }, [category, subCategory]);
-      
+        handleFetchCategoryProducts(limit, 0);
+    };
 
-    // When user is searching, sset items to display as search result
+    // Handle URL params update (set state, but don't fetch here to avoid timing)
     useEffect(() => {
-        setItems(searchResult);
-    }, [searchInput]);
+        console.log('URL params:', { urlCategory, urlSubCategory });
+        setSelectedCategory(urlCategory || '');
+        setSelectedSubCategory(urlSubCategory || "All");
+        setPaginationIndex(0);
+        setItems([]); // Clear items on param change
+    }, [urlCategory, urlSubCategory]);
 
-
-    // Handle getting current screen size so as to dynamically change
-    // the header layout On different screen size
+    // Fetch for non-search categories (depends on urlCategory to ensure sync)
     useEffect(() => {
-        const handleResize = () => setScreenWidth(window.innerWidth);
+        if (urlCategory && urlCategory !== 'Search') {
+            const initialLimit = calculateLimit();
+            setLimit(initialLimit);
+            handleFetchCategoryProducts(initialLimit, 0);
+        }
+    }, [urlCategory, selectedSubCategory, sortBy]);  // Depend on urlCategory directly
+
+    // For search page: Use searchResult directly, no API fetch (prevents override)
+    useEffect(() => {
+        if (urlCategory === 'Search' && searchInput.length > 0) {
+            console.log('Using searchResult for search page:', searchResult.length);
+            setItems(searchResult);
+            setLoading(false);  // No loading for searchResult
+            setTotalPages(1);  // Assume single page for searchResult (adjust if paginated)
+        } else if (urlCategory === 'Search' && searchInput.length === 0) {
+            setItems([]);  // Clear if empty search
+        }
+    }, [urlCategory, searchInput, searchResult]);
+
+    // Handle resize for dynamic limit (only for non-search)
+    useEffect(() => {
+        let debounceTimer;
+        const handleResize = () => {
+            clearTimeout(debounceTimer);
+            debounceTimer = setTimeout(() => {
+                const newLimit = calculateLimit();
+                if (newLimit !== limit && urlCategory !== 'Search') {
+                    setLimit(newLimit);
+                    setPaginationIndex(0);
+                    handleFetchCategoryProducts(newLimit, 0);
+                }
+                setScreenWidth(window.innerWidth);
+            }, 300);
+        };
         window.addEventListener('resize', handleResize);
-        return () => window.removeEventListener('resize', handleResize);
-    }, []);
+        return () => {
+            window.removeEventListener('resize', handleResize);
+            clearTimeout(debounceTimer);
+        };
+    }, [limit, urlCategory]);
 
-
-    // Determine which options to show based on the URL path.
+    // Category options based on URL
     let options = [];
     const path = location.pathname;
-
     if (path.includes('/MensWear')) {
         options = ["All", "TShirt", "Hoodie", "SweatShirt"];
     } else if (path.includes('/FootWear')) {
@@ -201,66 +161,66 @@ function CategoryPage () {
         options = ["All", "TShirt", "Hoodie", "SweatShirt", "Bullup500"];
     }
 
-
     const isProductSaved = (productId) => {
-        const result = savedProducts.find((product) => product.productRef?._id === productId);
-        return result ? true : false;
+        return savedProducts.some((product) => product.productRef?._id === productId);
     };
 
+    const getTitle = () => {
+        if (urlCategory === 'search') return `Search: ${searchInput || 'All'} | Dman Officials Store`;
+        if (urlCategory && selectedSubCategory !== 'All') return `${urlCategory} - ${selectedSubCategory} | Dman Officials Store`;
+        return `${urlCategory || 'Category'} | Dman Officials Store`;
+    };
 
     return (
         <div className="category-page-container">
+            <Helmet>
+                <title>{getTitle()}</title>
+                <meta
+                    name="description"
+                    content={`Explore ${urlCategory || 'products'} ${selectedSubCategory !== 'All' ? `- ${selectedSubCategory}` : ''} at Dman Officials Store.`}
+                />
+            </Helmet>
             <div className="category-page-options-list-container">
                 <div className="category-page-sub-category-header-and-list-container">
                     <p className="category-page-options-list-header">Category</p>
                     <div className="category-page-sub-category-list-container">
-                        {
-                            options.map((list, id) => (
-                                <div className="category-page-sub-category-list" key={id}>
-                                    <input
-                                        type="checkbox"
-                                        className="category-list-checkbox"
-                                        checked={selectedSubCategory === list} // Set checked based on state
-                                        onChange={() => handleSubCategoryChange(list)} // Update state on change
-                                    />
-                                        <span
-                                            onClick={() => {
-                                                if (screenWidth) {
-                                                    handleSubCategoryChange(list)
-                                                }
-                                            }}>
-                                            {list}
-                                        </span>
-                                </div>
-
-                            ))
-                        }
+                        {options.map((list, id) => (
+                            <div className="category-page-sub-category-list" key={id}>
+                                <input
+                                    type="checkbox"
+                                    className="category-list-checkbox"
+                                    checked={selectedSubCategory === list}
+                                    onChange={() => handleSubCategoryChange(list)}
+                                />
+                                <span onClick={() => handleSubCategoryChange(list)}>
+                                    {list}
+                                </span>
+                            </div>
+                        ))}
                     </div>
                 </div>
                 <div className="category-page-sorted-by-option-container">
                     <p className="category-page-options-list-header">Sorted By</p>
                     <ul>
                         <li>
-                            <input 
-                                type="radio" 
-                                className="category-list-radio" 
-                                name="sortBy" 
-                                onChange={() =>{
-                                    setSortBy("latest")
-                                }}
+                            <input
+                                type="radio"
+                                className="category-list-radio"
+                                name="sortBy"
+                                checked={sortBy === "latest"}
+                                onChange={() => setSortBy("latest")}
                             />
-                                Latest
+                            Latest
                         </li>
                         <li>
-                            <input 
-                                type="radio" 
-                                className="category-list-radio" 
-                                name="sortBy" 
-                                onChange={() => {
-                                    setSortBy("oldest")
-                                    }}
+                            <input
+                                type="radio"
+                                className="category-list-radio"
+                                name="sortBy"
+                                checked={sortBy === "oldest"}
+                                onChange={() => setSortBy("oldest")}
                             />
-                                Oldest
+                            Oldest
                         </li>
                     </ul>
                 </div>
@@ -268,58 +228,57 @@ function CategoryPage () {
 
             <div className="category-page-showcase-container">
                 <div className="category-page-items-header-container">
-                    <h2>{category}:</h2> 
+                    <h2>{selectedCategory || 'Category'}:</h2>
                     <p className="category-page-items-header-extra-details">
-                        {/* {screenWidth ? <span>All</span> : <span>T shirt - Showing {items.length} products</span>} */}
-                        {
-                            selectedSubCategory ? selectedSubCategory : <span>All</span>
-                        }   
-                        {
-                            screenWidth >= 986 ? <span> - showing {items.length} products</span> : 
-                            <span> - {items.length} products</span>
-                        }
-                        
+                        {selectedSubCategory !== "All" ? selectedSubCategory : <span>All</span>}
+                        <span> - {items.length} products</span>
                     </p>
                 </div>
                 <div className="category-page-items-container">
                     {loading ? (
-                        <p>Loading products...</p> // Show loading state
-                    ) : (
-                        items && items.length > 0 ? (
-                            items.map((item, id) => (
-                                <div className="category-page-card" key={id}>
-                                    <div className="category-page-card-image-container">
-                                        <img 
-                                            src={item.productImageUrl[0]} 
-                                            className="category-card-img" 
-                                            alt={item.productName} 
-                                            onClick={() => {
-                                                navigate(`/product-page/${item._id}`)
-                                            }}
-                                        />
-                                    </div>
-                                    <p className="category-page-card-item-description">{item.productCategory} - {item.productName}</p>
-                                    <div className="category-page-card-item-price-and-save-container">
-                                        <p className="category-page-card-item-price">
-                                            <b>₦</b> {item.productOfferPrice}
-                                        </p>
-                                        {isProductSaved(item._id) ? (
-                                            <IoIosHeart
-                                                className="category-page-card-save-item-icon"
-                                                onClick={() => removeFromSavedProduct(item._id)}
-                                            />
-                                        ) : (
-                                            <IoHeartOutline
-                                                className="category-page-card-save-item-icon"
-                                                onClick={() => handleSaveProduct(item._id)}
-                                            />
-                                        )}
-                                    </div>
+                        <p>Loading products...</p>
+                    ) : items && items.length > 0 ? (
+                        items.map((item, id) => (
+                            <div className="category-page-card" key={id}>
+                                <div className="category-page-card-image-container">
+                                    <img
+                                        src={item.productImageUrl[0]}
+                                        className="category-card-img"
+                                        alt={item.productName}
+                                        onClick={() => navigate(`/product-page/${item._id}`)}
+                                    />
                                 </div>
-                            ))
-                        ) : (
-                            <p>No products found in this category.</p> // Handle empty product list
-                        )
+                                <p className="category-page-card-item-description">
+                                    {item.productCategory} - {item.productName}
+                                </p>
+                                <div className="category-page-card-item-price-and-save-container">
+                                    <p className="category-page-card-item-price">
+                                        <b>₦</b> {item.productOfferPrice}
+                                    </p>
+                                    {isProductSaved(item._id) ? (
+                                        <IoIosHeart
+                                            className="category-page-card-save-item-icon"
+                                            onClick={() => removeFromSavedProduct(item._id)}
+                                        />
+                                    ) : (
+                                        <IoHeartOutline
+                                            className="category-page-card-save-item-icon"
+                                            onClick={() => handleSaveProduct(item._id)}
+                                        />
+                                    )}
+                                </div>
+                            </div>
+                        ))
+                    ) : (
+                        <p>
+                            No products found in {selectedCategory || 'this category'}.{' '}
+                            <span
+                                style={{ color: '#ff4f4f', cursor: 'pointer' }}
+                                onClick={() => navigate('/category-page/MensWear')}
+                            >
+                                Explore MensWear instead!
+                            </span>
+                        </p>
                     )}
                 </div>
                 <div className="category-page-bottom-pagination-container">
@@ -331,11 +290,9 @@ function CategoryPage () {
                         <IoIosArrowBack />
                         <span>Previous</span>
                     </button>
-                    {/* <div> */}
-                        <span className="category-page-pagination-status">
-                            {totalPages ? paginationIndex + 1 : 0} / {totalPages ? totalPages : 0}
-                        </span>
-                    {/* </div> */}
+                    <span className="category-page-pagination-status">
+                        {totalPages ? paginationIndex + 1 : 0} / {totalPages || 0}
+                    </span>
                     <button
                         className="category-page-pagination-button pagination-next"
                         onClick={handleNextFunction}
@@ -346,9 +303,8 @@ function CategoryPage () {
                     </button>
                 </div>
             </div>
-
         </div>
-    )
+    );
 }
 
 export default CategoryPage;

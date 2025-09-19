@@ -4,37 +4,63 @@ import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import { CartContext } from "../../../contexts/CartContext";
 
-
-function FlashSale () {
+function FlashSale() {
     const navigate = useNavigate();
     const { addToCart, loadingId } = useContext(CartContext);
     const [flashSaleProducts, setFlashSaleProducts] = useState([]);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
     const [timer, setTimer] = useState({ days: 0, hours: 0, minutes: 0, seconds: 0 });
+    const [limit, setLimit] = useState(6); // Initial default; updated on mount/resize
+
+    const calculateLimit = () => {
+        const width = window.innerWidth;
+        if (width < 768) {
+            return 4; // 2 columns × 2 rows for mobile
+        } else if (width < 986) {
+            return 6; // 3 columns × 2 rows for tablet
+        } else {
+            const cols = Math.floor(width / 250); // Approx columns based on min card width
+            return Math.min(cols * 2, 20); // ~2 rows, capped at 20 to avoid over-fetching
+        }
+    };
+
+    const fetchFlashSaleProducts = async (currentLimit) => {
+        try {
+            const response = await axios.get(`/customer/flash-sale-products?page=0&limit=${currentLimit}`);
+            if (response.status === 200) {
+                setFlashSaleProducts(response.data.result);
+            }
+        } catch (error) {
+            setError(error.message);
+        } finally {
+            setLoading(false);
+        }
+    };
 
     useEffect(() => {
-        const fetchFlashSaleProducts = async () => {
-            try {
-                const response = await axios.get('/customer/flash-sale-products?page=0&limit=6'); 
+        const initialLimit = calculateLimit();
+        setLimit(initialLimit);
+        fetchFlashSaleProducts(initialLimit);
 
-                if (response.status === 200) {
-                    setFlashSaleProducts(response.data.result);
+        // Debounced resize handler to refetch only if limit changes
+        let debounceTimer;
+        const handleResize = () => {
+            clearTimeout(debounceTimer);
+            debounceTimer = setTimeout(() => {
+                const newLimit = calculateLimit();
+                if (newLimit !== limit) {
+                    setLimit(newLimit);
+                    fetchFlashSaleProducts(newLimit);
                 }
-            } catch (error) {
-                setError(error.message);
-            } finally {
-                setLoading(false);
-            }
+            }, 300); // Debounce 300ms
         };
 
-        fetchFlashSaleProducts();
-    }, []);
+        window.addEventListener("resize", handleResize);
+        return () => window.removeEventListener("resize", handleResize);
+    }, [limit]); // Refetch on limit change
 
     useEffect(() => {
-        // This line ensures that if there are no flash sale products available 
-        // (i.e., the length of flashSaleProducts is zero), the subsequent logic 
-        // for calculating the countdown timer does not execute.
         if (!flashSaleProducts || flashSaleProducts.length === 0) return;
 
         const now = new Date();
@@ -46,7 +72,7 @@ function FlashSale () {
         }
 
         const soonestExpiryDate = new Date(Math.min(...activeProducts.map(product => new Date(product.timerExpiryDate))));
-        
+
         const interval = setInterval(() => {
             const distance = soonestExpiryDate - new Date();
 
@@ -69,8 +95,6 @@ function FlashSale () {
 
     if (loading) return <p>Loading flash sale products...</p>;
     if (error) return <p>Error fetching flash sale products: {error}</p>;
-
-    // Return an empty fragment if there are no flash sale products
     if (!flashSaleProducts || flashSaleProducts.length === 0) return <></>;
 
     return (
@@ -78,14 +102,10 @@ function FlashSale () {
             <div className="home-page-flash-sale-timer-and-see-all-btn-container">
                 <div className="home-page-flash-sale-title-and-timer-container">
                     <div className="home-page-flash-sale-header-title-and-icon-container">
-                        <div className="home-page-flash-sale-header-bar-icon">
-                            {/* Icon here */}
-                        </div>
+                        <div className="home-page-flash-sale-header-bar-icon"></div>
                         <p className="home-page-flash-sale-title-header">Today</p>
                     </div>
                     <p className="home-page-flash-sale-sub-header">Flash Sales</p>
-
-                    {/* Timer for Flash Sales */}
                     {timer.days > 0 || timer.hours > 0 || timer.minutes > 0 || timer.seconds > 0 ? (
                         <div className="home-page-flash-sale-timer-container">
                             <div className="home-page-flash-sale-time-block">
@@ -110,24 +130,19 @@ function FlashSale () {
                     )}
                 </div>
                 <div className="home-page-flash-sale-see-all-button-container">
-                    <button
-                        onClick={() => {
-                            navigate("/category-page/Sale")
-                        }}
-                    >
+                    <button onClick={() => navigate("/category-page/Sale")}>
                         See All
                     </button>
                 </div>
             </div>
 
-            {/* Flash Sale Products */}
             <div className="home-page-flash-sale-card-container">
                 {flashSaleProducts && flashSaleProducts.length > 0 ? (
                     flashSaleProducts.map((flashSale, index) => (
                         <div key={index} className="home-page-flash-sale-card">
                             <div className="home-page-flash-sale-card-image-container">
                                 <img
-                                    src={flashSale.productImageUrl[0]} // Assuming the first image is the main one
+                                    src={flashSale.productImageUrl[0]}
                                     className="home-page-flash-sale-card-img"
                                     alt={flashSale.productName}
                                     onClick={() => navigate(`product-page/${flashSale._id}`)}
@@ -141,35 +156,31 @@ function FlashSale () {
                                     <b>₦</b> {flashSale.productOfferPrice}
                                 </p>
                                 <p className="home-page-flash-sale-card-price">
-                                    <b>₦</b>{flashSale.productPrice}
+                                    <b>₦</b> {flashSale.productPrice}
                                 </p>
                             </div>
-                            <button 
+                            <button
                                 className="home-page-flash-sale-card-btn"
                                 onClick={() => addToCart(flashSale._id, 1)}
-                                disabled={loadingId === flashSale._id} // Use loadingId to check against the current item's ID
+                                disabled={loadingId === flashSale._id}
                             >
-                                {loadingId === flashSale._id ? ( // Use loadingId for conditional rendering
-                                        <span className="home-page-flash-sale-card-btn-spinner" />
-                                    ) : (
-                                        "Add to Cart"
+                                {loadingId === flashSale._id ? (
+                                    <span className="home-page-flash-sale-card-btn-spinner" />
+                                ) : (
+                                    "Add to Cart"
                                 )}
                             </button>
                         </div>
                     ))
-                    ) : (
-                        <p className="home-page-flash-sale-error">
-                            No products available in sale category.
-                        </p>
-                    )
-                }
+                ) : (
+                    <p className="home-page-flash-sale-error">
+                        No products available in sale category.
+                    </p>
+                )}
             </div>
         </>
     );
 }
 
 export default FlashSale;
-
-
-
 

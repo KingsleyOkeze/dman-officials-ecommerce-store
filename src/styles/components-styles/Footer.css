@@ -28,7 +28,7 @@
 }
 
 
-.footer-newsletter-container {
+/* .footer-newsletter-container {
     order: 1;
     width: 100%;
     padding-bottom: 40px;
@@ -101,7 +101,7 @@
 .radio-input {
     margin-top: 15px;
     margin-right: 5px;
-}
+} */
 
 
 
@@ -285,43 +285,50 @@
         padding-left: 50px;
         padding-right: 50px;
         flex-grow: 1;
+        padding-left: auto;
     }
     
     .footer-nav-list-container {
         display: flex;
         justify-content: space-between;
-        flex-basis: 50%;
+        /* flex-basis: 50%; */
+        flex-basis: 100%;
+        /* background: red; */
         order: 1;
     }
 
 
 
-    .footer-newsletter-container ul {
+    /* .footer-newsletter-container ul {
         display: flex;
         gap: 5px;
         margin-bottom: 20px;
-    }
+    } */
     
     
     .dman-list-container  {
         border: none;
         padding-top: 0;
-        flex-basis: 25%;
-        /* background-color: yellowgreen; */
+        /* flex-basis: 25%; */
+        flex-basis: 15%;
+        /* background-color: orange; */
     }
 
     .help-list-container {
-        flex-basis: 25%;
-        /* background-color: yellowgreen; */
+        /* flex-basis: 25%; */
+        flex-basis: 15%;
+        /* background-color: blue; */
     }
 
     .legal-list-container {
         border: none;
         padding-top: 0;
-        flex-basis: 30%;
-        
+        /* flex-basis: 30%; */
+        flex-basis: 15%;
+        /* background-color: yellow; */
         font-size: 16px;
     }
+
 
     .legal-list-container ul li { 
         flex-wrap: nowrap;
@@ -356,14 +363,14 @@
     }
     
     
-    .footer-newsletter-container {
+    /* .footer-newsletter-container {
         flex-basis: 40%;
         order: 2
     }
-    
-    .email-input-container {
+     */
+    /* .email-input-container {
         width: 100%;
-    }
+    } */
 
     .footer-bottom {
         display: flex;

@@ -1,5 +1,7 @@
 import React, { useState } from 'react';
 import '../../styles/pages-styles/footer-pages-styles/FaqPage.css';
+import { Helmet } from "react-helmet-async";
+
 
 function FaqPage () {
   const [openQuestion, setOpenQuestion] = useState(null);
@@ -124,6 +126,10 @@ function FaqPage () {
 
   return (
     <div className="faq-container">
+      <Helmet>
+        <title>Frequently Asked Questions (FAQs) | Dman Officials Store</title>
+        <meta name="description" content="Find answers to frequently asked questions about products, orders, returns, and more." />
+      </Helmet>
       <h1>Frequently Asked Questions (FAQs)</h1>
       <input
         type="text"

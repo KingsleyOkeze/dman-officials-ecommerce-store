@@ -1,14 +1,14 @@
-import React, { useContext, useState } from 'react';
+import React, { useContext, useState, useRef } from 'react';
 import axios from 'axios';
 import "../../styles/pages-styles/auth-pages-styles/SignUpPage.css";
 import { useNavigate, Link } from 'react-router-dom';
-import logo from '../../images/dman-logo.png'
+import logo from '../../images/dman-logo.png';
 import { SideDrawerContext } from '../../contexts/SideDrawerContext';
 import PhoneInput from 'react-phone-input-2';
 import 'react-phone-input-2/lib/style.css';
 import countryList from 'country-list';
-
-
+import { Helmet } from 'react-helmet-async';
+import { FaCalendarAlt } from 'react-icons/fa';
 
 const SignUpPage = ({ setShowLogin, setShowSignUp }) => {
     const navigate = useNavigate();
@@ -19,12 +19,13 @@ const SignUpPage = ({ setShowLogin, setShowSignUp }) => {
     const [password, setPassword] = useState('');
     const [confirmPassword, setConfirmPassword] = useState('');
     const [phone, setPhone] = useState('');
-    const [country, setCountry] = useState('country');
+    const [country, setCountry] = useState('');
     const [dob, setDob] = useState('');
     const [receiveUpdates, setReceiveUpdates] = useState(false);
     const [message, setMessage] = useState('');
     const [error, setError] = useState('');
     const [loading, setLoading] = useState(false);
+    const dateInputRef = useRef(null);
 
     const countries = countryList.getData();
 
@@ -35,7 +36,7 @@ const SignUpPage = ({ setShowLogin, setShowSignUp }) => {
         setLoading(true);
 
         if (password !== confirmPassword) {
-            setError("Passwords do not match");
+            setError('Passwords do not match');
             setLoading(false);
             return;
         }
@@ -61,25 +62,32 @@ const SignUpPage = ({ setShowLogin, setShowSignUp }) => {
         }
     };
 
-    // Function to trigger date picker on input click
-    const handleDateInputClick = (e) => {
-        try {
-            e.target.showPicker(); // Programmatically open the date picker
-        } catch (err) {
-            console.warn('showPicker() not supported in this browser:', err);
-            // Fallback: Do nothing, as clicking the icon will still work
+    const handleDateInputClick = () => {
+        if (dateInputRef.current) {
+            try {
+                dateInputRef.current.showPicker();
+            } catch (err) {
+                console.warn('showPicker() not supported in this browser:', err);
+            }
         }
     };
 
     return (
         <div className="signup-page">
+            <Helmet>
+                <title>Sign Up | Dman Officials Store</title>
+                <meta
+                    name="description"
+                    content="Create an account at Dman Officials Store to access order history, saved addresses, and exclusive updates."
+                />
+            </Helmet>
             <div className="signup-page-sub-container">
                 <div className="signup-page-head-container">
                     <img
                         src={logo}
                         width={24}
                         height={24}
-                        onClick={() => navigate("/")}
+                        onClick={() => navigate('/')}
                         alt="D-Man Logo"
                     />
                     <h2>Register</h2>
@@ -149,8 +157,8 @@ const SignUpPage = ({ setShowLogin, setShowSignUp }) => {
                             background: '#000000',
                         }}
                         dropdownStyle={{
-                            background: '#1a1a1a', // This changes the dropdown background
-                            color: '#ffffff' // This ensures the text is white and visible
+                            background: '#1a1a1a',
+                            color: '#ffffff',
                         }}
                     />
                     <select
@@ -158,6 +166,7 @@ const SignUpPage = ({ setShowLogin, setShowSignUp }) => {
                         value={country}
                         onChange={(e) => setCountry(e.target.value)}
                         className="sign-up-select"
+                        required
                     >
                         <option value="">Select your country</option>
                         {countries.map((c) => (
@@ -166,17 +175,25 @@ const SignUpPage = ({ setShowLogin, setShowSignUp }) => {
                             </option>
                         ))}
                     </select>
-                    <input
-                        type="date"
-                        id="date"
-                        onClick={handleDateInputClick}
-                        onChange={(e) => {
-                            console.log(e.target.value);
-                            setDob(e.target.value);
-                        }}
-                        required
-                    />
-                    <div className="sign-up-bottom-instruction-container">
+                    <div className="date-input-container">
+                        <input
+                            type="date"
+                            id="date"
+                            ref={dateInputRef}
+                            value={dob}
+                            onChange={(e) => {
+                                console.log(e.target.value);
+                                setDob(e.target.value);
+                            }}
+                            placeholder="Date of Birth"
+                            required
+                        />
+                        <FaCalendarAlt
+                            className="date-input-icon"
+                            onClick={handleDateInputClick}
+                        />
+                    </div>
+                    {/* <div className="sign-up-bottom-instruction-container">
                         <div className="sign-up-checkbox-container">
                             <input
                                 type="checkbox"
@@ -188,8 +205,8 @@ const SignUpPage = ({ setShowLogin, setShowSignUp }) => {
                             Register for emails to get updates on the latest
                             new arrivals, Collection and events.
                         </p>
-                    </div>
-                    <button type="submit">
+                    </div> */}
+                    <button type="submit" disabled={loading}>
                         {loading ? <span className="signup-page-spinner"></span> : 'Sign Up'}
                     </button>
                 </form>
@@ -212,11 +229,9 @@ const SignUpPage = ({ setShowLogin, setShowSignUp }) => {
                         style={{
                             paddingLeft: '5px',
                             paddingRight: '5px',
-                            color: 'lightblue'
+                            color: 'lightblue',
                         }}
-                        onClick={() => {
-                            toggleSideDrawer();
-                        }}
+                        onClick={() => toggleSideDrawer()}
                         to="/privacy-policy"
                     >
                         Privacy Policy
@@ -226,11 +241,9 @@ const SignUpPage = ({ setShowLogin, setShowSignUp }) => {
                         to="/terms-of-use-page"
                         style={{
                             paddingLeft: '5px',
-                            color: 'lightblue'
+                            color: 'lightblue',
                         }}
-                        onClick={() => {
-                            toggleSideDrawer();
-                        }}
+                        onClick={() => toggleSideDrawer()}
                     >
                         Terms of Use
                     </Link>

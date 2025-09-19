@@ -9,6 +9,8 @@ import FlashSale from "./flash-sale/FlashSale"
 import TrendingNow from "./trending-now/TrendingNow";
 import Explore from "./explore/Explore";
 import CountdownTimer from "./count-down/CountdownTimer";
+import { Helmet } from 'react-helmet-async';
+
 
 function HomePage () {
     const navigate = useNavigate();
@@ -43,6 +45,10 @@ function HomePage () {
 
     return(
         <div className="home-page-container">
+            <Helmet>
+                <title>Home | Dman Officials Store</title>
+                <meta name="description" content="Welcome to Dman Officials Store - your one-stop shop for premium fashion and accessories." />
+            </Helmet>
             <div className="home-page-hero-section-container">
                 <div className="home-page-hero-section-block-content-container">
                     <div className="home-page-hero-section-block-content-header-container">
@@ -244,14 +250,14 @@ function HomePage () {
                     <TbTruckDelivery className="home-page-bottom-highlight-icon"/>
                     <div className="home-page-bottom-child-div">
                         <p className="home-page-bottom-highlight-title" >Free shipping</p>
-                        <p className="home-page-bottom-highlight-body-text">Free shipping for order above N5999</p>
+                        <p className="home-page-bottom-highlight-body-text">Free shipping for order above N50,000</p>
                     </div>
                 </div>
                 <div className="home-page-bottom-highlight-div">
                     <GrMoney className="home-page-bottom-highlight-icon"/>
                     <div className="home-page-bottom-child-div">
                         <p className="home-page-bottom-highlight-title">Money Guarantee</p>
-                        <p className="home-page-bottom-highlight-body-text">Free shipping for order above N5999</p>
+                        <p className="home-page-bottom-highlight-body-text">Money back gauranteed on refund.</p>
                     </div>
                 </div>
                 <div className="home-page-bottom-highlight-div">

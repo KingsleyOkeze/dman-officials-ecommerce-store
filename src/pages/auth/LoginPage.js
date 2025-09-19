@@ -6,7 +6,7 @@ import logo from '../../images/dman-logo.png'
 import { SideDrawerContext } from '../../contexts/SideDrawerContext';
 import { AuthContext } from '../../contexts/AuthContext';
 import { getUserIpAddress } from '../../utils/getUserIpAddress'; // Adjust the path as needed
-
+import { Helmet } from 'react-helmet-async';
 
 const LoginPage = () => {
     const navigate = useNavigate();
@@ -69,58 +69,65 @@ const LoginPage = () => {
 
     return (
         <div className="login-page">
-        <div className="login-page-sub-container">
-            <div className="login-page-head-container">
-                <img src={logo} width={24} height={24}
-                    onClick={() => navigate("/")}
+            <Helmet>
+                <title>Sign In | Dman Officials Store</title>
+                <meta
+                name="description"
+                content="Sign in to your Dman Officials Store account to access order history, saved addresses, and exclusive updates."
                 />
-                <h2>Sign in</h2>
-                <p className="login-page-head-instruction">
-                    Welcome back!.
+            </Helmet>
+            <div className="login-page-sub-container">
+                <div className="login-page-head-container">
+                    <img src={logo} width={24} height={24}
+                        onClick={() => navigate("/")}
+                    />
+                    <h2>Sign in</h2>
+                    <p className="login-page-head-instruction">
+                        Welcome back!.
+                    </p>
+                    <p className="login-page-head-instruction">
+                        Signin below to access your account.
+                    </p>
+                </div>
+                <form onSubmit={handleLogin}>
+                    <input
+                        type="email"
+                        id="email"
+                        placeholder="Email"
+                        value={email}
+                        onChange={(e) => setEmail(e.target.value)}
+                        required
+                    />
+                    <input
+                        type="password"
+                        id="password"
+                        placeholder="Password"
+                        value={password}
+                        onChange={(e) => setPassword(e.target.value)}
+                        required
+                    />
+                    <button type="submit" disabled={loading}>
+                        {loading ? <span className="login-page-spinner"></span> : 'Sign in'}
+                    </button>
+                </form>
+                {message && <p className="login-page-message">{message}</p>}
+                {error && <p className="login-page-error">{error}</p>}
+                <p
+                    className="login-forget-password-text"
+                    onClick={() => {
+                        toggleSideDrawer()
+                        navigate("/forget-password")
+                    }}
+                >
+                    Forget your password
                 </p>
-                <p className="login-page-head-instruction">
-                    Signin below to access your account.
+                <p 
+                    className="login-bottom-go-back-text"
+                    onClick={toggleSideDrawer}
+                >
+                    {'< Go back'}
                 </p>
             </div>
-            <form onSubmit={handleLogin}>
-                <input
-                    type="email"
-                    id="email"
-                    placeholder="Email"
-                    value={email}
-                    onChange={(e) => setEmail(e.target.value)}
-                    required
-                />
-                <input
-                    type="password"
-                    id="password"
-                    placeholder="Password"
-                    value={password}
-                    onChange={(e) => setPassword(e.target.value)}
-                    required
-                />
-                <button type="submit" disabled={loading}>
-                    {loading ? <span className="login-page-spinner"></span> : 'Sign in'}
-                </button>
-            </form>
-            {message && <p className="login-page-message">{message}</p>}
-            {error && <p className="login-page-error">{error}</p>}
-            <p
-                className="login-forget-password-text"
-                onClick={() => {
-                    toggleSideDrawer()
-                    navigate("/forget-password")
-                }}
-            >
-                Forget your password
-            </p>
-            <p 
-                className="login-bottom-go-back-text"
-                onClick={toggleSideDrawer}
-            >
-                {'< Go back'}
-            </p>
-        </div>
         </div>
     );
 };

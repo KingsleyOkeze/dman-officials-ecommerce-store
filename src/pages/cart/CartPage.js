@@ -11,6 +11,7 @@ import { LiaTimesSolid } from "react-icons/lia";
 import { AuthContext } from '../../contexts/AuthContext';
 import { AlertContext } from '../../contexts/AlertContext';
 import { FiX } from "react-icons/fi";
+import { Helmet } from 'react-helmet-async';
 
 function CartPage () {
     const navigate = useNavigate();
@@ -89,12 +90,18 @@ function CartPage () {
     const handleCheckout = () => {
         setIsCheckingOut(true); // Start loading
         toggleSideDrawer();
-        // Pass cartItems data to the state object during navigation
-        navigate("/order-confirmation-page", { state: { cartItems: cartItems } });
+        navigate("/order-confirmation-page");
     };
 
     return (
         <div className="cart-page-container">
+            <Helmet>
+                <title>Shopping Cart | Dman Officials Store</title>
+                <meta
+                    name="description"
+                    content="View and manage your shopping cart at Dman Officials Store. Update quantities, apply coupons, and proceed to checkout with secure payment options."
+                />
+            </Helmet>
             {
                 !accessToken && !customerId ? (
                     <div className="empty-cart-page-container">

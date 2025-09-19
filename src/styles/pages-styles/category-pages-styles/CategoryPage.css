@@ -1,18 +1,15 @@
 .category-page-container {
     background: #F5F3F5;
     padding-bottom: 50px;
-
 }
 
 .category-page-options-list-header {
     display: none;
 }
 
-
 .category-page-sub-category-header-and-list-container {
-    background:#FFFFFF;
+    background: #FFFFFF;
 }
-
 
 .category-page-sub-category-list-container {
     background-color: #FFFFFF;
@@ -24,7 +21,6 @@
     padding: 0 20px;
 }
 
-
 .category-list-checkbox {
     display: none;
 }
@@ -33,15 +29,13 @@
     text-align: center;
 }
 
-
 .category-page-sorted-by-option-container ul {
     padding-left: 10px;
     align-items: center;
     margin-top: 15px;
     margin-bottom: 25px;
-    display: inline-flex
+    display: inline-flex;
 }
-
 
 .category-page-sorted-by-option-container li {
     display: flex;
@@ -54,11 +48,9 @@
     height: 20px;
     accent-color: #000000;
     margin-right: 10px;
-
 }
 
 .category-page-showcase-container {
-    
 }
 
 .category-page-items-header-container {
@@ -71,6 +63,7 @@
     margin-right: 15px;
     margin-bottom: 10px;
 }
+
 .category-page-items-header-container h2 {
     font-weight: 700;
     margin-right: 10px;
@@ -83,14 +76,6 @@
     font-size: 13px;
 }
 
-.category-page-items-header {
-    padding-top: 25px;
-    padding-left: 12px;
-    font-size: 20px;
-    line-height: 26.12px;
-}
-
-
 .category-page-items-container {
     border-top-right-radius: 10px;
     border-top-left-radius: 10px;
@@ -101,11 +86,9 @@
     padding: 12px;
     display: grid;
     grid-template-columns: repeat(2, 1fr);
-    justify-content: space-between;
+    justify-content: start; /* Changed to start for better incomplete row handling */
     gap: 15px;
-    /* min-height: 100vh; */
 }
-
 
 .category-page-card {
     min-height: 300px;
@@ -116,14 +99,12 @@
     justify-content: space-between;
 }
 
-
 .category-page-card-image-container {
     max-width: 100%;
     height: 240px;
     border-top-right-radius: 10px;
     border-top-left-radius: 10px;
 }
-
 
 .category-card-img {
     width: 100%;
@@ -133,7 +114,6 @@
     border-top-left-radius: 6.33px;
 }
 
-
 .category-page-card-item-description {
     line-height: 12.15px;
     font-size: 10.12px;
@@ -141,7 +121,6 @@
     margin-left: 10px;
     margin-bottom: 15px;
 }
-
 
 .category-page-card-item-price-and-save-container {
     display: flex;
@@ -166,33 +145,10 @@
     border-bottom-left-radius: 10px;
 }
 
-
-.category-page-bottom-pagination-container div {
-    display: flex;
-    align-items: center;
-}
-
-
-
-
-
-.category-page-pagination-container {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    gap: 20px;
-    text-align: center;
-    padding: 15px 0;
-    background-color: #ffffff;
-    border-top: 1px solid #ddd;
-    border-radius: 0 0 12px 12px; /* Match table's rounded corners */
-    width: 100%;
-}
-
 .category-page-pagination-button {
-    display: flex; /* Use flexbox for layout */
-    align-items: center; /* Vertically align items */
-    justify-content: center; /* Center-align horizontally */
+    display: flex;
+    align-items: center;
+    justify-content: center;
     background-color: #000000;
     color: #ffffff;
     font-size: 16px;
@@ -228,40 +184,26 @@
     color: #000000;
 }
 
-
-
-
 @media (min-width: 768px) {
     .category-page-items-container {
-      grid-template-columns: repeat(3, 1fr);
+        grid-template-columns: repeat(3, 1fr);
+        justify-content: start;
     }
-    
 }
 
-
-
-
-
-
 @media (min-width: 986px) {
- 
     .category-page-container {
         display: grid;
         grid-template-columns: 250px auto;
         padding-left: 12px;
         padding-right: 12px;
         padding-top: 20px;
-        /* position: relative;
-        width: 100%;
-        height: 100vh; */
     }
 
     .category-page-options-list-container {
         padding-right: 10px;
         padding-left: 10px;
-        /* position: fixed */
-        /* background-color: green; */
-    }   
+    }
 
     .category-page-options-list-header {
         display: block;
@@ -277,13 +219,11 @@
 
     .category-page-sub-category-list-container {
         display: block;
-        flex-wrap: nowrap; 
-        overflow-x: hidden; 
+        flex-wrap: nowrap;
+        overflow-x: hidden;
         list-style-type: none;
         height: auto;
         background: #F5F3F5;
-        
-         /* background: red; */
     }
 
     .category-page-sub-category-list-container::-webkit-scrollbar {
@@ -301,13 +241,12 @@
         font-size: 16px;
         text-decoration: none;
         padding-bottom: 20px;
-        white-space: nowrap; /* Prevent line breaks */
+        white-space: nowrap;
     }
 
     .category-page-sub-category-list input {
         background: #F5F3F5;
     }
-
 
     .category-list-checkbox {
         display: inline-block;
@@ -317,13 +256,11 @@
         height: 24px;
     }
 
-
     .category-list-radio {
         width: 24px;
         height: 24px;
         accent-color: #000000;
         margin-right: 10px;
-
     }
 
     .category-page-sorted-by-option-container {
@@ -332,9 +269,6 @@
         text-align: left;
     }
 
-
-
-
     .category-page-sorted-by-option-container ul {
         padding-left: 10px;
         align-items: center;
@@ -342,33 +276,17 @@
         display: block;
     }
 
-
     .category-page-sorted-by-option-container li {
-        
         display: flex;
         align-items: center;
         padding-bottom: 20px;
     }
 
-    .category-page-showcase-container {
-        /* background-color: #000000; */
-        /* overflow-y: auto; */
-    }
-
-    .category-page-items-header {
-        display: flex;
-        padding-top: 0px;
-        margin-bottom: 15px;
-    }
-
     .category-page-items-container {
         grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
         gap: 15px;
-        justify-content: space-between; 
-        /* background-color: red; */
+        justify-content: start; /* Changed to start for consistency */
     }
-
-    
 
     .category-page-card {
         min-height: 350px;
@@ -387,7 +305,4 @@
         margin-right: 12px;
         margin-top: 0px;
     }
-
-
-   
 }
