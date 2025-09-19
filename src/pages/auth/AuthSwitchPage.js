@@ -38,7 +38,7 @@ function AuthSwitchPage ({ isOpen, toggleSideDrawer }) {
                         /> 
                     : 
                         <SignUpPage 
-                            setShowLogin={() => setShowLogin(true)}
+                            setShowLogin={setShowLogin}
                         />
                 }
             </div>

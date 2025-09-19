@@ -8,9 +8,10 @@ import PhoneInput from 'react-phone-input-2';
 import 'react-phone-input-2/lib/style.css';
 import countryList from 'country-list';
 import { Helmet } from 'react-helmet-async';
-import { FaCalendarAlt } from 'react-icons/fa';
+import DatePicker from 'react-datepicker';
+import 'react-datepicker/dist/react-datepicker.css';
 
-const SignUpPage = ({ setShowLogin, setShowSignUp }) => {
+const SignUpPage = ({ setShowLogin }) => {
     const navigate = useNavigate();
     const { toggleSideDrawer } = useContext(SideDrawerContext);
     const [firstName, setFirstName] = useState('');
@@ -20,12 +21,12 @@ const SignUpPage = ({ setShowLogin, setShowSignUp }) => {
     const [confirmPassword, setConfirmPassword] = useState('');
     const [phone, setPhone] = useState('');
     const [country, setCountry] = useState('');
-    const [dob, setDob] = useState('');
+    const [dob, setDob] = useState(null); // Changed initial state to null
     const [receiveUpdates, setReceiveUpdates] = useState(false);
     const [message, setMessage] = useState('');
     const [error, setError] = useState('');
     const [loading, setLoading] = useState(false);
-    const dateInputRef = useRef(null);
+    const dateInputRef = useRef(null); // This ref is no longer strictly necessary with react-datepicker but kept to show it was part of the original code.
 
     const countries = countryList.getData();
 
@@ -175,22 +176,14 @@ const SignUpPage = ({ setShowLogin, setShowSignUp }) => {
                             </option>
                         ))}
                     </select>
+                    {/* Replaced the native input with React-DatePicker */}
                     <div className="date-input-container">
-                        <input
-                            type="date"
-                            id="date"
-                            ref={dateInputRef}
-                            value={dob}
-                            onChange={(e) => {
-                                console.log(e.target.value);
-                                setDob(e.target.value);
-                            }}
-                            placeholder="Date of Birth"
-                            required
-                        />
-                        <FaCalendarAlt
-                            className="date-input-icon"
-                            onClick={handleDateInputClick}
+                        <DatePicker
+                            selected={dob}
+                            onChange={(date) => setDob(date)}
+                            dateFormat="MM/dd/yyyy"
+                            placeholderText="Date of Birth"
+                            className="signup-date-picker-input"
                         />
                     </div>
                     {/* <div className="sign-up-bottom-instruction-container">
@@ -216,7 +209,6 @@ const SignUpPage = ({ setShowLogin, setShowSignUp }) => {
                     Already have an account?
                     <span
                         onClick={() => {
-                            setShowSignUp(false);
                             setShowLogin(true);
                         }}
                     >
@@ -251,8 +243,7 @@ const SignUpPage = ({ setShowLogin, setShowSignUp }) => {
                 <p
                     className="sign-up-bottom-go-back-text"
                     onClick={() => {
-                        setShowSignUp(false);
-                        setShowLogin(true);
+                        setShowLogin(true);  
                     }}
                 >
                     {'< Go back'}

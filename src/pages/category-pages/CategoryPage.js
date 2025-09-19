@@ -56,7 +56,7 @@ function CategoryPage() {
                 }
             );
             if (response.status === 200) {
-                console.log('Fetched items:', response.data.result.length);
+                console.log('Fetched items:', response.data.result.length, response.data.result);
                 setItems(response.data.result);
                 setTotalPages(response.data.totalPages);
             }
