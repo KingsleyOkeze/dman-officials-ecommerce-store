@@ -111,6 +111,16 @@
     width: 100%; /* This is key to fix the width issue */
 }
 
+.validation-error {
+    color: #ff6b6b;
+    font-size: 12px;
+    /* margin-top: 4px; */
+    margin-bottom: 15px;
+    display: block;
+    text-align: left;
+    padding-left: 10px;
+}
+
 /* New CSS for the React-Datepicker input field */
 .signup-date-picker-input {
     width: 100%;
@@ -288,7 +298,6 @@
     cursor: pointer;
     transition: background-color 0.2s ease;
     margin-top: 10px;
-    margin-bottom: 10px;
     box-sizing: border-box;
 }
 
@@ -320,7 +329,8 @@
 /* Message Styling */
 .signup-page-message, .signup-page-error {
     font-size: 1rem;
-    margin-top: 15px;
+    /* margin-top: 15px; */
+    margin-bottom: 15px;
     text-align: center;
     padding: 8px 0px;
     border-radius: 4px;
@@ -337,6 +347,7 @@
 }
 
 .sign-up-sign-in-text {
+    margin-top: 10px;
     margin-bottom: 30px;
     padding-left: 10px;
 }
