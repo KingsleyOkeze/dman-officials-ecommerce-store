@@ -21,43 +21,134 @@ const SignUpPage = ({ setShowLogin }) => {
     const [confirmPassword, setConfirmPassword] = useState('');
     const [phone, setPhone] = useState('');
     const [country, setCountry] = useState('');
-    const [dob, setDob] = useState(null); // Changed initial state to null
+    const [dob, setDob] = useState(null);
     const [receiveUpdates, setReceiveUpdates] = useState(false);
     const [message, setMessage] = useState('');
     const [error, setError] = useState('');
     const [loading, setLoading] = useState(false);
-    const dateInputRef = useRef(null); // This ref is no longer strictly necessary with react-datepicker but kept to show it was part of the original code.
+    const [validationErrors, setValidationErrors] = useState({}); // For field-specific errors
+    const dateInputRef = useRef(null);
 
     const countries = countryList.getData();
+
+    // Client-side validation function
+    const validateForm = () => {
+        const errors = {};
+        const currentDate = new Date('2025-09-19'); // Current date as per system
+
+        // First Name and Last Name
+        if (!firstName.trim()) {
+            errors.firstName = 'First name is required.';
+        }
+        if (!lastName.trim()) {
+            errors.lastName = 'Last name is required.';
+        }
+
+        // Email
+        const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+        if (!email) {
+            errors.email = 'Email is required.';
+        } else if (!emailRegex.test(email)) {
+            errors.email = 'Please enter a valid email address.';
+        }
+
+        // Password
+        if (!password) {
+            errors.password = 'Password is required.';
+        } else if (password.length < 6) {
+            errors.password = 'Password must be at least 6 characters long.';
+        } else if (!/(?=.*[a-z])(?=.*[A-Z])(?=.*\d)/.test(password)) {
+            errors.password = 'Password must include uppercase, lowercase, and a number.';
+        }
+
+        // Confirm Password
+        if (!confirmPassword) {
+            errors.confirmPassword = 'Please confirm your password.';
+        } else if (password !== confirmPassword) {
+            errors.confirmPassword = 'Passwords do not match.';
+        }
+
+        // Phone
+        if (!phone) {
+            errors.phone = 'Phone number is required.';
+        } else if (phone.length < 10) {
+            errors.phone = 'Phone number must be at least 10 digits.';
+        }
+
+        // Country
+        if (!country) {
+            errors.country = 'Please select a country.';
+        }
+
+        // DOB
+        if (!dob) {
+            errors.dob = 'Date of birth is required.';
+        } else {
+            const dobDate = new Date(dob);
+            if (isNaN(dobDate.getTime()) || dobDate >= currentDate) {
+                errors.dob = 'Date of birth must be a valid past date.';
+            } else {
+                // Calculate age
+                let age = currentDate.getFullYear() - dobDate.getFullYear();
+                const monthDiff = currentDate.getMonth() - dobDate.getMonth();
+                if (monthDiff < 0 || (monthDiff === 0 && currentDate.getDate() < dobDate.getDate())) {
+                    age--;
+                }
+                if (age < 13) {
+                    errors.dob = 'You must be at least 13 years old to sign up.';
+                }
+            }
+        }
+
+        setValidationErrors(errors);
+        return Object.keys(errors).length === 0;
+    };
 
     const handleSignUp = async (e) => {
         e.preventDefault();
         setMessage('');
         setError('');
-        setLoading(true);
+        setValidationErrors({});
 
-        if (password !== confirmPassword) {
-            setError('Passwords do not match');
+        // Client-side validation
+        if (!validateForm()) {
             setLoading(false);
             return;
         }
 
+        setLoading(true);
+
         try {
             const response = await axios.post('/customer/sign-up', {
-                firstName,
-                lastName,
-                email,
+                firstName: firstName.trim(),
+                lastName: lastName.trim(),
+                email: email.trim(),
                 password,
                 phone,
                 country,
-                dob,
+                dob, // Date object will be serialized to ISO string
                 receiveUpdates,
+            }, {
+                timeout: 10000 // 10 second timeout to prevent infinite spinning
             });
+
             setMessage(response.data.message);
             toggleSideDrawer();
             navigate(`/email-sent/${response.data.userId}`);
         } catch (err) {
-            setError(err.response?.data?.error || 'Sign-up failed.');
+            console.error('Signup error:', err);
+            if (err.code === 'ECONNABORTED' || err.message === 'timeout of 10000ms exceeded') {
+                setError('Request timed out. Please try again.');
+            } else if (err.response) {
+                // Server responded with error status
+                setError(err.response.data.error || 'Sign-up failed.');
+            } else if (err.request) {
+                // No response received
+                setError('Network error. Please check your connection and try again.');
+            } else {
+                // Other errors
+                setError('An unexpected error occurred. Please try again.');
+            }
         } finally {
             setLoading(false);
         }
@@ -108,6 +199,8 @@ const SignUpPage = ({ setShowLogin }) => {
                         onChange={(e) => setEmail(e.target.value)}
                         required
                     />
+                    {validationErrors.email && <span className="validation-error">{validationErrors.email}</span>}
+
                     <input
                         type="password"
                         id="password"
@@ -116,6 +209,8 @@ const SignUpPage = ({ setShowLogin }) => {
                         onChange={(e) => setPassword(e.target.value)}
                         required
                     />
+                    {validationErrors.password && <span className="validation-error">{validationErrors.password}</span>}
+
                     <input
                         type="password"
                         id="confirmPassword"
@@ -124,6 +219,8 @@ const SignUpPage = ({ setShowLogin }) => {
                         onChange={(e) => setConfirmPassword(e.target.value)}
                         required
                     />
+                    {validationErrors.confirmPassword && <span className="validation-error">{validationErrors.confirmPassword}</span>}
+
                     <input
                         type="text"
                         id="firstName"
@@ -132,6 +229,8 @@ const SignUpPage = ({ setShowLogin }) => {
                         onChange={(e) => setFirstName(e.target.value)}
                         required
                     />
+                    {validationErrors.firstName && <span className="validation-error">{validationErrors.firstName}</span>}
+
                     <input
                         type="text"
                         id="lastName"
@@ -140,6 +239,8 @@ const SignUpPage = ({ setShowLogin }) => {
                         onChange={(e) => setLastName(e.target.value)}
                         required
                     />
+                    {validationErrors.lastName && <span className="validation-error">{validationErrors.lastName}</span>}
+
                     <PhoneInput
                         country={'ng'}
                         value={phone}
@@ -162,6 +263,8 @@ const SignUpPage = ({ setShowLogin }) => {
                             color: '#ffffff',
                         }}
                     />
+                    {validationErrors.phone && <span className="validation-error">{validationErrors.phone}</span>}
+
                     <select
                         name="country"
                         value={country}
@@ -176,7 +279,8 @@ const SignUpPage = ({ setShowLogin }) => {
                             </option>
                         ))}
                     </select>
-                    {/* Replaced the native input with React-DatePicker */}
+                    {validationErrors.country && <span className="validation-error">{validationErrors.country}</span>}
+
                     <div className="date-input-container">
                         <DatePicker
                             selected={dob}
@@ -184,21 +288,14 @@ const SignUpPage = ({ setShowLogin }) => {
                             dateFormat="MM/dd/yyyy"
                             placeholderText="Date of Birth"
                             className="signup-date-picker-input"
+                            maxDate={new Date('2025-09-19')} // Prevent future dates
+                            showYearDropdown
+                            scrollableYearDropdown
+                            yearDropdownItemNumber={100}
                         />
                     </div>
-                    {/* <div className="sign-up-bottom-instruction-container">
-                        <div className="sign-up-checkbox-container">
-                            <input
-                                type="checkbox"
-                                className="sign-up-checkbox"
-                                onChange={() => setReceiveUpdates(!receiveUpdates)}
-                            />
-                        </div>
-                        <p>
-                            Register for emails to get updates on the latest
-                            new arrivals, Collection and events.
-                        </p>
-                    </div> */}
+                    {validationErrors.dob && <span className="validation-error">{validationErrors.dob}</span>}
+
                     <button type="submit" disabled={loading}>
                         {loading ? <span className="signup-page-spinner"></span> : 'Sign Up'}
                     </button>
@@ -207,11 +304,7 @@ const SignUpPage = ({ setShowLogin }) => {
                 {error && <p className="signup-page-error">{error}</p>}
                 <p className="sign-up-sign-in-text">
                     Already have an account?
-                    <span
-                        onClick={() => {
-                            setShowLogin(true);
-                        }}
-                    >
+                    <span onClick={() => setShowLogin(true)}>
                         {' Sign In'}
                     </span>
                 </p>
@@ -242,9 +335,7 @@ const SignUpPage = ({ setShowLogin }) => {
                 </p>
                 <p
                     className="sign-up-bottom-go-back-text"
-                    onClick={() => {
-                        setShowLogin(true);  
-                    }}
+                    onClick={() => setShowLogin(true)}
                 >
                     {'< Go back'}
                 </p>
