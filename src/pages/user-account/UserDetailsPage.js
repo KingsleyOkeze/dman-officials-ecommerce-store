@@ -6,6 +6,8 @@ import { FaEyeSlash } from "react-icons/fa6";
 import axios from 'axios';
 import { AuthContext } from '../../contexts/AuthContext';
 import { AlertContext } from '../../contexts/AlertContext';
+import { Helmet } from 'react-helmet-async';
+
 
 function UserDetailsPage () {
     const { accessToken, customerId } = useContext(AuthContext); 
@@ -156,8 +158,27 @@ function UserDetailsPage () {
     };
     
 
+    // if (loading) {
+    //     return (
+    //         <div className="loading-container">
+    //             <Helmet>
+    //                 <title>Account Details | Dman Officials Store</title>
+    //                 <meta name="description" content="Loading your account details at Dman Officials Store." />
+    //             </Helmet>
+    //             <p>Loading...</p>
+    //         </div>
+    //     );
+    // }
+
     return(
         <div className="user-details-page-container">
+            <Helmet>
+                <title>Account Details | Dman Officials Store</title>
+                <meta
+                    name="description"
+                    content={`Manage your account details${firstName || lastName ? ` for ${firstName} ${lastName}` : ''} at Dman Officials Store, including profile and password settings.`}
+                />
+            </Helmet>
             <div className="user-details-header-container">
                 <img src={dmanLogo} width={50} height={50}/>
                 <h2>Hello {firstName} {lastName}</h2>

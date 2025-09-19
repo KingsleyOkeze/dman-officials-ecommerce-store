@@ -12,7 +12,6 @@
     justify-content: space-between;
 }
 
-
 .home-page-trending-now-header-title-and-icon-container {
     display: flex;
     align-items: center;
@@ -22,18 +21,18 @@
 }
 
 .home-page-trending-now-header-bar-icon {
-    width:  20px;
+    width: 20px;
     height: 40px;
     background: #000000;
     border-radius: 5px;
 }
+
 .home-page-trending-now-title-header {
     font-weight: 500;
     line-height: 21px;
     font-size: 14px;
     color: #000000;
-} 
-
+}
 
 .home-page-trending-now-sub-header {
     font-weight: 700;
@@ -41,7 +40,6 @@
     line-height: 24.2px;
     color: #000000;
 }
-
 
 .home-page-trending-now-see-all-button-container {
     align-self: flex-end;
@@ -60,16 +58,14 @@
 
 .home-page-trending-now-see-all-button-container button:hover {
     transform: scale(1.05);
-    background-color: #1a1a1a; /* subtle darkening */
+    background-color: #1a1a1a; /* Subtle darkening */
 }
-
-
 
 .home-page-trending-now-card-container {
     background: #FFFFFF;
     display: grid;
     grid-template-columns: repeat(2, 1fr);
-    justify-content: space-between;
+    justify-content: start; /* Left-align cards for incomplete rows */
     gap: 10px;
     margin-left: 15px;
     margin-right: 15px;
@@ -102,7 +98,6 @@
     border-top-left-radius: 10px;
 }
 
-
 .home-page-trending-now-card-description {
     font-size: 10.12px;
     font-weight: 500;
@@ -133,7 +128,6 @@
     margin-left: 5px;
 }
 
-
 .home-page-trending-now-card-btn {
     display: grid;
     place-items: center;
@@ -143,44 +137,43 @@
     border-radius: 7.59px;
     margin-left: 10px;
     margin-bottom: 15px;
-    background-color: black; /* Button background */
-    color: white; /* Text color */
-    border: none; /* No border initially */
-    overflow: hidden; /* Ensures the wave effect stays inside */
-    font-size: 12px; /* Adjust font size */
+    background-color: black;
+    color: white;
+    border: none;
+    overflow: hidden;
+    font-size: 12px;
     cursor: pointer;
     transition: color 0.3s ease, background-color 0.3s ease, border 0.3s ease;
 }
 
 .home-page-trending-now-card-btn:hover {
-    color: black; /* Text changes to black */
-    background-color: #F5F3F5; /* Background changes to white */
-    border: 2px solid black; /* Border becomes visible when hovered */
+    color: black;
+    background-color: #F5F3F5;
+    border: 2px solid black;
 }
 
-/* Wave effect */
 .home-page-trending-now-card-btn::before {
-    content: '';
+    content: "";
     position: absolute;
     top: 0;
-    left: -100%; /* Start outside the button */
+    left: -100%;
     width: 100%;
     height: 100%;
-    background-color: white; /* Wave color */
-    z-index: 0; /* Behind text */
+    background-color: white;
+    z-index: 0;
     transition: transform 0.4s ease-in-out;
     transform: skewX(-45deg) translateX(-200%);
 }
 
 .home-page-trending-now-card-btn:hover::before {
-    transform: skewX(-45deg) translateX(200%); /* Move the wave across */
+    transform: skewX(-45deg) translateX(200%);
 }
 
 .home-page-trending-now-card-btn span {
     position: relative;
-    z-index: 1; /* Keeps text above the wave */
+    z-index: 1;
 }
-  
+
 .home-page-trending-now-btn-spinner {
     width: 16px;
     height: 16px;
@@ -191,60 +184,52 @@
 }
 
 @keyframes spin {
-    0% { transform: rotate(0deg); }
-    100% { transform: rotate(360deg); }
-}  
-
+    0% {
+        transform: rotate(0deg);
+    }
+    100% {
+        transform: rotate(360deg);
+    }
+}
 
 @media (min-width: 768px) {
     .home-page-trending-now-card-container {
-      grid-template-columns: repeat(3, 1fr);
+        grid-template-columns: repeat(3, 1fr);
+        justify-content: start;
     }
-
 }
 
-
-
 @media (min-width: 986px) {
-
     .home-page-trending-now-card-container {
         grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
         gap: 15px;
-        justify-content: space-between; 
-    }    
+        justify-content: start;
+    }
     .home-page-trending-now-card {
         min-height: 350px;
     }
-
-
     .home-page-trending-now-card-description {
         font-size: 16px;
         font-weight: 500;
         line-height: 19.2px;
     }
-    
     .home-page-trending-now-card-price-container {
         display: flex;
         align-items: center;
     }
-    
     .home-page-trending-now-card-offer-price {
         font-size: 16px;
         font-weight: 900;
         line-height: 19.2px;
     }
-    
     .home-page-trending-now-card-price {
         font-weight: 400;
         font-size: 14px;
         line-height: 16.8px;
     }
-    
     .home-page-trending-now-card-btn {
         width: 129px;
         height: 35px;
         border-radius: 12px;
     }
-
-    
 }

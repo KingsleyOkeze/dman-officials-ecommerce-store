@@ -1,9 +1,15 @@
 import React from 'react';
 import '../../styles/pages-styles/footer-pages-styles/WarrantyAndReturnsPolicyPage.css';
+import { Helmet } from "react-helmet-async";
+
 
 function WarrantyAndReturnsPolicyPage() {
   return (
     <div className="warranty-policy-container">
+      <Helmet>
+        <title>Warranty and Returns Policy | Dman Officials Store</title>
+        <meta name="description" content="Read our official warranty and returns policy for Dman Officials Store products." />
+      </Helmet>
       <h1 className="warranty-policy-title">Warranty and Returns</h1>
 
       <section className="warranty-policy-section">

@@ -1,9 +1,15 @@
 import React from 'react';
 import '../../styles/pages-styles/footer-pages-styles/ShippingPolicyPage.css';
+import { Helmet } from "react-helmet-async";
+
 
 function ShippingPolicyPage () {
   return (
     <div className="shipping-container">
+      <Helmet>
+        <title>Shipping Policy | Dman Officials Store</title>
+        <meta name="description" content="Read Dman Officials Store's shipping policy, including delivery options, costs, and estimated delivery times." />
+      </Helmet>
       <h1>Shipping Information</h1>
       
       <div className="shipping-section">

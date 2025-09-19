@@ -7,6 +7,8 @@ import { useParams, useNavigate } from "react-router-dom";
 import axios from "axios";
 import { AlertContext } from "../../contexts/AlertContext";
 import { AuthContext } from "../../contexts/AuthContext";
+import { Helmet } from 'react-helmet-async';
+
 
 function OrderTrackingPage () {
     const { orderId } = useParams();
@@ -76,11 +78,26 @@ function OrderTrackingPage () {
     }
 
     if (loading) {
-        return <div className="loading-container">Loading order details...</div>;
+        return (
+            <div className="loading-container">
+                <Helmet>
+                    <title>Order Tracking | Dman Officials Store</title>
+                    <meta name="description" content="Loading order tracking details for your purchase at Dman Officials Store." />
+                </Helmet>
+                Loading order details...
+            </div>
+        );
     }
 
     return(
         <div className="order-tracking-page-container">
+            <Helmet>
+                <title>Order Tracking {orderId} | Dman Officials Store</title>
+                <meta
+                name="description"
+                content={`Track the status of your order ${orderId}${order.orderStatus ? ` (${order.orderStatus})` : ''} at Dman Officials Store.`}
+                />
+            </Helmet>
             <div className="order-tracking-header-container">
                 <div className="order-tracking-header-icon-container" onClick={handleGoBack}>
                    <IoMdArrowBack className="order-tracking-header-icon"/>

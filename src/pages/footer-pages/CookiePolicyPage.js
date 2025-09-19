@@ -1,9 +1,15 @@
 import React from 'react';
 import '../../styles/pages-styles/footer-pages-styles/CookiePolicyPage.css';
+import { Helmet } from "react-helmet-async";
+
 
 function CookiePolicyPage() {
   return (
     <div className="cookie-policy-container">
+      <Helmet>
+        <title>Cookie Policy | Dman Officials Store</title>
+        <meta name="description" content="Read our cookie policy to understand how we use cookies to improve your browsing experience." />
+      </Helmet>
       <h1 className="cookie-policy-title">Cookie Policy</h1>
 
       <section className="cookie-policy-section">

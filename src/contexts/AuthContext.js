@@ -143,8 +143,11 @@ export const AuthProvider = ({ children }) => {
             }
         };
 
-        rehydrateAuth();
-    }, []);
+        if (!accessToken && !customerId) {
+            // Only attempt rehydrate if no token exists
+            rehydrateAuth();
+        }
+    }, [accessToken, customerId]);
 
     return (
         <AuthContext.Provider

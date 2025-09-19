@@ -1,13 +1,12 @@
 .auth-switch-page-container {
     width: 100%;
     height: 100vh;
-   
 }
-
 
 .auth-switch-page-container-head {
     display: flex;
-    height: 37px;
+    /* Increase height as desired. For example, from 37px to 60px. */
+    height: 60px; 
     background-color: #000000;
     margin-bottom: 10px;
 }
@@ -15,27 +14,21 @@
 .auth-switch-page-container-head p {
     height: 100%;
     display: grid;
-    place-items: center;
-
-}
-.auth-switch-page-container-head p:nth-child(1) {
+    place-items: center; /* This centers the text both vertically and horizontally */
     background-color: #000000;
     flex-basis: 50%;
     text-align: center;
     color: #FFFFFF;
+    cursor: pointer;
+    padding: 10px;
+    box-sizing: border-box;
 }
 
-
-
-.auth-switch-page-container-head p:nth-child(2) {
-    background-color: #000000;
-    flex-basis: 50%;
-    text-align: center;
-    color: #FFFFFF;
+/* This new class applies the active state styling */
+.auth-switch-page-container-head p.active-tab {
+    border-bottom: 2px solid #ffffff;
 }
-
-
 
 .auth-content {
-    background-color: yellow;
+    /* Your styles for the content area */
 }

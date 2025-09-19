@@ -6,6 +6,8 @@ import axios from "axios";
 import { AuthContext } from "../../contexts/AuthContext";
 import { AlertContext } from "../../contexts/AlertContext";
 import {formatDate} from "../../utils/dateFormatter";
+import { Helmet } from 'react-helmet-async';
+
 
 function PurchaseDetailsPage () {
     const { orderId } = useParams();
@@ -57,7 +59,15 @@ function PurchaseDetailsPage () {
     }
 
     if (!purchasedOrderDetails || purchasedOrderDetails.length === 0) {
-        return <p>Loading...</p>;
+        return (
+            <div className="loading-container">
+                <Helmet>
+                    <title>Order Details | Dman Officials Store</title>
+                    <meta name="description" content="Loading order details for your purchase at Dman Officials Store." />
+                </Helmet>
+                <p>Loading...</p>
+            </div>
+        );
     }
 
     // Check if the order is cancelled or deleted
@@ -65,108 +75,115 @@ function PurchaseDetailsPage () {
 
     return(
         <div className="purchase-details-container">
+            <Helmet>
+                <title>Order Details {orderId} | Dman Officials Store</title>
+                <meta
+                    name="description"
+                    content={`View details of your order ${orderId}${purchasedOrderDetails.orderStatus ? ` (${purchasedOrderDetails.orderStatus})` : ''} at Dman Officials Store, including payment and delivery information.`}
+                />
+            </Helmet>
             {purchasedOrderDetails && (
-            <>
-            <div className="purchase-details-header-container"
-                onClick={() => navigate(-1)}>
-                <IoArrowBackOutline className="purchase-details-header-icon"/>
-                <h3>Order Details</h3>
-            </div>
-            <div className="purchase-details-main-detail-container">
-                <div className="purchase-details-main-detail-top-description-container">
-                    <p className="purchase-details-main-detail-top-description-header">ORDER ID: {purchasedOrderDetails?._id}</p>
-                    <div className="purchase-details-main-detail-top-description">
-                        <p>1 item</p>
-                        <p>Order placed on 13th Oct, 2024</p>
-                        <p>Total: N {purchasedOrderDetails?.orderTotalAmount}</p>
+                <>
+                    <div className="purchase-details-header-container"
+                        onClick={() => navigate(-1)}>
+                        <IoArrowBackOutline className="purchase-details-header-icon"/>
+                        <h3>Order Details</h3>
                     </div>
+                    <div className="purchase-details-main-detail-container">
+                        <div className="purchase-details-main-detail-top-description-container">
+                            <p className="purchase-details-main-detail-top-description-header">ORDER ID: {purchasedOrderDetails?._id}</p>
+                            <div className="purchase-details-main-detail-top-description">
+                                <p>1 item</p>
+                                <p>Order placed on 13th Oct, 2024</p>
+                                <p>Total: N {purchasedOrderDetails?.orderTotalAmount}</p>
+                            </div>
 
-                    <p className="purchase-details-card-head">PRODUCTION IN YOUR ORDER</p>
-                    <div className="purchase-details-card">
-                        <div className="purchase-details-card-flex">
-                            <div className="purchase-details-card-img-container">
-                                <img src={ purchasedOrderDetails?.orderedItems?.[0]?.productRef?.productImageUrl[0] } />
-                            </div>
-                            <div className="purchase-details-card-description-container">
-                                <div className="purchase-details-card-description-first-child">
-                                    <p className="purchase-details-card-name">
-                                        {purchasedOrderDetails?.orderedItems?.[0]?.productRef?.productName || "N/A"}
-                                    </p>
-                                    <p>
-                                        Quantity:
-                                        <span>{purchasedOrderDetails?.orderedItems?.[0]?.quantity || 0}</span>
-                                    </p>
+                            <p className="purchase-details-card-head">PRODUCTION IN YOUR ORDER</p>
+                            <div className="purchase-details-card">
+                                <div className="purchase-details-card-flex">
+                                    <div className="purchase-details-card-img-container">
+                                        <img src={ purchasedOrderDetails?.orderedItems?.[0]?.productRef?.productImageUrl[0] } />
+                                    </div>
+                                    <div className="purchase-details-card-description-container">
+                                        <div className="purchase-details-card-description-first-child">
+                                            <p className="purchase-details-card-name">
+                                                {purchasedOrderDetails?.orderedItems?.[0]?.productRef?.productName || "N/A"}
+                                            </p>
+                                            <p>
+                                                Quantity:
+                                                <span>{purchasedOrderDetails?.orderedItems?.[0]?.quantity || 0}</span>
+                                            </p>
+                                        </div>
+                                        <div className="purchase-details-card-description-second-child">
+                                            <p 
+                                                className="purchase-details-card-description-second-child-status"
+                                            >
+                                                {purchasedOrderDetails?.orderStatus}
+                                            </p>
+                                            <p className="purchase-details-card-description-second-child-price">N {purchasedOrderDetails?.orderedItems?.[0]?.price}</p>
+                                        </div>
+                                    </div>
+                                    <div className="purchase-details-card-history-btn-container">
+                                        <button
+                                            onClick={!isCancelledOrDeleted ? () => navigate(`/account/order-tracking/${purchasedOrderDetails?._id}`) : undefined}
+                                            disabled={isCancelledOrDeleted}
+                                        >
+                                            {isCancelledOrDeleted ? `Order ${purchasedOrderDetails?.orderStatus}` : `Product Tracking`}
+                                        </button>
+                                    </div>
                                 </div>
-                                <div className="purchase-details-card-description-second-child">
-                                    <p 
-                                        className="purchase-details-card-description-second-child-status"
-                                    >
-                                        {purchasedOrderDetails?.orderStatus}
-                                    </p>
-                                    <p className="purchase-details-card-description-second-child-price">N {purchasedOrderDetails?.orderedItems?.[0]?.price}</p>
-                                </div>
-                            </div>
-                            <div className="purchase-details-card-history-btn-container">
-                                <button
-                                    onClick={!isCancelledOrDeleted ? () => navigate(`/account/order-tracking/${purchasedOrderDetails?._id}`) : undefined}
-                                    disabled={isCancelledOrDeleted}
+                                <p 
+                                    className="purchase-details-card-bottom-text"
                                 >
-                                    {isCancelledOrDeleted ? `Order ${purchasedOrderDetails?.orderStatus}` : `Product Tracking`}
-                                </button>
+                                    {/* Conditional message based on order status */}
+                                    {isCancelledOrDeleted ? 
+                                        `This order was ${purchasedOrderDetails?.orderStatus.toLowerCase()}. Tracking is not available.` :
+                                        `Last updated ${formatDate(purchasedOrderDetails?.updatedAt)}`}
+                                </p>
+                            </div>
+
+                        </div>
+                    </div>
+                    <div className="purchase-details-payment-and-delivery-container">
+                        <div className="purchase-details-payment-container">
+                            <p className="purchase-details-payment-header">PAYMENT INFORMATION</p>
+                            <div className="purchase-details-payment-first-child">
+                                <p className="purchase-details-payment-first-child-head">Payment Method</p>
+                                <p>
+                                    Paid with: {
+                                        purchasedOrderDetails?.paymentMethod && 
+                                        capitalizeFirstLetter(purchasedOrderDetails?.paymentMethod) || 'Not identified.'
+                                    }
+                                </p>
+                            </div>
+                            <div className="purchase-details-payment-second-child">
+                                <p className="purchase-details-payment-second-child-head">Payment Details</p>
+                                <p>Items Total: N<span> {purchasedOrderDetails?.orderedItems[0]?.price} </span></p>
+                                <p>Deliver Fees: N1000</p>
+                                <p>
+                                    {
+                                        purchasedOrderDetails?.discountAmountApplied === 0 ? "" 
+                                        : 
+                                        <p>Discount applied: ₦ {purchasedOrderDetails?.discountAmountApplied}</p>
+                                    }
+                                </p>
+                                <p>N{purchasedOrderDetails?.orderTotalAmount}</p>
                             </div>
                         </div>
-                        <p 
-                            className="purchase-details-card-bottom-text"
-                        >
-                            {/* Conditional message based on order status */}
-                            {isCancelledOrDeleted ? 
-                                `This order was ${purchasedOrderDetails?.orderStatus.toLowerCase()}. Tracking is not available.` :
-                                `Last updated ${formatDate(purchasedOrderDetails?.updatedAt)}`}
-                        </p>
+                        <div className="purchase-details-delivery-container">
+                            <p className="purchase-details-delivery-header">DELIVERY INFORMATION</p>
+                            <div className="purchase-details-delivery-first-child">
+                                <p className="purchase-details-delivery-first-child-head">Delivery Method</p>
+                                <p>Door - To - Door</p>
+                            </div>
+                            <div className="purchase-details-delivery-second-child">
+                                <p className="purchase-details-delivery-second-child-head">Shiping Address</p>
+                                <p>{purchasedOrderDetails?.address} {purchasedOrderDetails?.country}</p>
+                            </div>
+                        </div>
                     </div>
-
-                </div>
-            </div>
-            <div className="purchase-details-payment-and-delivery-container">
-                <div className="purchase-details-payment-container">
-                    <p className="purchase-details-payment-header">PAYMENT INFORMATION</p>
-                    <div className="purchase-details-payment-first-child">
-                        <p className="purchase-details-payment-first-child-head">Payment Method</p>
-                        <p>
-                            Paid with: {
-                                purchasedOrderDetails?.paymentMethod && 
-                                capitalizeFirstLetter(purchasedOrderDetails?.paymentMethod) || 'Not identified.'
-                            }
-                        </p>
-                    </div>
-                    <div className="purchase-details-payment-second-child">
-                        <p className="purchase-details-payment-second-child-head">Payment Details</p>
-                        <p>Items Total: N<span> {purchasedOrderDetails?.orderedItems[0]?.price} </span></p>
-                        <p>Deliver Fees: N1000</p>
-                        <p>
-                            {
-                                purchasedOrderDetails?.discountAmountApplied === 0 ? "" 
-                                : 
-                                <p>Discount applied: ₦ {purchasedOrderDetails?.discountAmountApplied}</p>
-                            }
-                        </p>
-                        <p>N{purchasedOrderDetails?.orderTotalAmount}</p>
-                    </div>
-                </div>
-                <div className="purchase-details-delivery-container">
-                    <p className="purchase-details-delivery-header">DELIVERY INFORMATION</p>
-                    <div className="purchase-details-delivery-first-child">
-                        <p className="purchase-details-delivery-first-child-head">Delivery Method</p>
-                        <p>Door - To - Door</p>
-                    </div>
-                    <div className="purchase-details-delivery-second-child">
-                        <p className="purchase-details-delivery-second-child-head">Shiping Address</p>
-                        <p>{purchasedOrderDetails?.address} {purchasedOrderDetails?.country}</p>
-                    </div>
-                </div>
-            </div>
-            </>
-            ) }
+                </>
+            )}
         </div>
     )
 }

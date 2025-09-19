@@ -1,9 +1,18 @@
 import React from 'react';
 import '../../styles/pages-styles/footer-pages-styles/ContactPage.css';
+import { Helmet } from "react-helmet-async";
+
 
 function ContactPage() {
   return (
     <div className="contact-container">
+      <Helmet>
+        <title>Contact Us | Dman Officials Store</title>
+        <meta 
+          name="description" 
+          content="Get in touch with Dman Officials Store customer support via email or phone. We're here to answer your questions and concerns."
+        />
+      </Helmet>
       <h1 className="contact-title">Contact Us</h1>
       <p className="contact-text">
         We’re here to help! If you have any questions, concerns, or feedback, feel free to reach out to us. 

@@ -5,6 +5,8 @@ import { AuthContext } from "../../contexts/AuthContext";
 import { AlertContext } from "../../contexts/AlertContext";
 import axios from "axios";
 import Alert from "../../components/Alert";
+import { Helmet } from 'react-helmet-async';
+
 
 function UserOverviewPage() {
     const navigate = useNavigate();
@@ -46,9 +48,27 @@ function UserOverviewPage() {
         handleFetchUserDetails();
     }, []);
 
+    if (!userDetails) {
+        return (
+            <div className="loading-container">
+                <Helmet>
+                    <title>Account Overview | Dman Officials Store</title>
+                    <meta name="description" content="Loading your account overview at Dman Officials Store." />
+                </Helmet>
+                <p>Loading...</p>
+            </div>
+        );
+    }
+
     return (
         <div className="user-overview-container">
-        {customAlert.type ? (<Alert />) : "" }
+        <Helmet>
+            <title>Account Overview | Dman Officials Store</title>
+            <meta
+                name="description"
+                content={`View your account overview${userDetails.firstName || userDetails.lastName ? ` for ${userDetails.firstName} ${userDetails.lastName}` : ''} at Dman Officials Store, including account details and shipping address.`}
+            />
+        </Helmet>
         <h3 className="user-overview-header">User Overview</h3>
         <div className="user-overview-boxes">
             {/* Box 1: Account Details */}

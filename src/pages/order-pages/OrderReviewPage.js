@@ -4,6 +4,7 @@ import '../../styles/pages-styles/order-pages-styles/OrderReviewPage.css'; // In
 import axios from 'axios';
 import { AuthContext } from '../../contexts/AuthContext';
 import { AlertContext } from '../../contexts/AlertContext';
+import { Helmet } from 'react-helmet-async';
 
 function OrderReviewPage({ onRetryPayment, onContactSupport }) {
     const { showAlert } = useContext(AlertContext);
@@ -72,6 +73,13 @@ function OrderReviewPage({ onRetryPayment, onContactSupport }) {
         
     return (
         <div className="order-review-page-container">
+            <Helmet>
+                <title>Order Review | Dman Officials Store</title>
+                <meta
+                name="description"
+                content={`Review your order details for order ID ${orderDetails._id || 'unknown'} at Dman Officials Store. Address payment issues or contact support.`}
+                />
+            </Helmet>
             <h1>Order Review</h1>
             {orderDetails && (
 

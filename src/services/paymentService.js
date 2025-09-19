@@ -2,7 +2,15 @@
 import PaystackPop from '@paystack/inline-js'
 import axios from 'axios';
 
-export async function handlePayment (customerEmail, totalAmount, orderId, navigate, accessToken,  showAlert) {
+export async function handlePayment (
+    customerEmail, 
+    totalAmount, 
+    orderId, 
+    navigate, 
+    accessToken, 
+    showAlert, 
+    clearCart
+) {
     const popup = new PaystackPop();
 
     popup.newTransaction({
@@ -28,6 +36,7 @@ export async function handlePayment (customerEmail, totalAmount, orderId, naviga
                 } else if (response.status === 200) {
                     // Payment success
                     console.log("Payment verified successfully:", response.data);
+                    await clearCart(); // Clear the cart after successful payment
                     navigate(`/account/order-tracking/${orderId}`);
                 } 
                 

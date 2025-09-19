@@ -1,9 +1,15 @@
 import React from 'react';
 import '../../styles/pages-styles/footer-pages-styles/TermsOfUsePage.css';
+import { Helmet } from "react-helmet-async";
+
 
 function TermsOfUsePage() {
   return (
     <div className="terms-of-use-container">
+      <Helmet>
+        <title>Terms of Use | Dman Officials Store</title>
+        <meta name="description" content="Review the terms of use for Dman Officials Store to understand your rights and responsibilities when using our website." />
+      </Helmet>
       <h1 className="terms-of-use-title">Terms of Use</h1>
 
       <section className="terms-of-use-section">

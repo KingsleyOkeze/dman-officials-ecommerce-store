@@ -248,7 +248,7 @@ function Footer () {
                     </div>
                 </div>
 
-                <div className="footer-newsletter-container">
+                {/* <div className="footer-newsletter-container">
                     <p className="footer-newsletter-header" >Newsletter</p>
                     <p className="footer-newsletter-sub-header">Sign up to be the first to know about drops, special offers and more.</p>
                     <p className="footer-newsletter-asking-text">Interested in:</p>
@@ -263,7 +263,7 @@ function Footer () {
                     </div>
                     
                     <input type="radio" className="radio-input"/> I agree to the privacy policy 
-                </div>
+                </div> */}
             </div>
             <div className="footer-bottom">
                 <div className="footer-bottom-first-child-container">

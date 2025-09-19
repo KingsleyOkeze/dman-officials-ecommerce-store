@@ -1,9 +1,15 @@
 import React from 'react';
 import '../../styles/pages-styles/footer-pages-styles/PaymentPolicyPage.css';
+import { Helmet } from "react-helmet-async";
+
 
 function PaymentPolicyPage () {
   return (
     <div className="payment-container">
+      <Helmet>
+        <title>Payment Policy | Dman Officials Store</title>
+        <meta name="description" content="Find information about accepted payment methods and our payment security policy at Dman Officials Store." />
+      </Helmet>
       <h1>Payment Information</h1>
 
       <div className="payment-section">

@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import axios from 'axios';
 import { useNavigate, useParams } from 'react-router-dom';
 import "../../styles/pages-styles/auth-pages-styles/ResetPassword.css";
-
+import { Helmet } from 'react-helmet-async';
 
 function ResetPassword () {
   const { token } = useParams();
@@ -30,6 +30,13 @@ function ResetPassword () {
 
   return (
     <div className="reset-password-wrapper">
+      <Helmet>
+        <title>Reset Password | Dman Officials Store</title>
+        <meta
+          name="description"
+          content="Reset your password for your Dman Officials Store account to regain access."
+        />
+      </Helmet>
       <div className="reset-password-container">
         <h2>Reset Password</h2>
         <form onSubmit={handleSubmit}>

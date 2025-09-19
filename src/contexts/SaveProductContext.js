@@ -33,6 +33,7 @@ export const SaveProductProvider = ({ children }) => {
             );
 
             if (response.status === 200) {
+                console.log("fetched saved product", response.data.savedProducts)
                 setSavedProducts(response.data.savedProducts);
                 setTotalPages(response.data.totalPages);
             }
@@ -54,8 +55,13 @@ export const SaveProductProvider = ({ children }) => {
     }
 
     useEffect(() => {
-        fetchSavedProduct();
-    }, [])
+        if (accessToken && customerId) {
+            const debounceFetch = setTimeout(() => {
+                fetchSavedProduct();
+            }, 300);
+            return () => clearTimeout(debounceFetch);
+        }
+    }, [accessToken, customerId, paginationIndex]);
 
     // Function to save a product
     const handleSaveProduct = async (productId) => {

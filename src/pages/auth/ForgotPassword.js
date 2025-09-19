@@ -3,6 +3,8 @@ import axios from 'axios';
 import "../../styles/pages-styles/auth-pages-styles/ForgotPassword.css";
 import { useNavigate } from 'react-router-dom';
 import logo from '../../images/dman-logo.png';
+import { Helmet } from 'react-helmet-async';
+
 
 function ForgotPassword() {
   const navigate = useNavigate();
@@ -27,6 +29,13 @@ function ForgotPassword() {
 
   return (
     <div className="forgot-password-wrapper">
+      <Helmet>
+        <title>Forgot Password | Dman Officials Store</title>
+        <meta
+          name="description"
+          content="Request a password reset link for your Dman Officials Store account to regain access."
+        />
+      </Helmet>
       <div className="forgot-password-container">
       <img src={logo} alt="Logo" className="forget-password-logo" />
         <div className="forget-password-form-container">
