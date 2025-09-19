@@ -1,4 +1,4 @@
-import { useContext, useEffect, useState } from "react";
+import { useContext, useEffect, useState, useCallback } from "react";
 import "../../../styles/pages-styles/home-pages-styles/flash-sale-styles/FlashSale.css";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
@@ -11,39 +11,47 @@ function FlashSale() {
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
     const [timer, setTimer] = useState({ days: 0, hours: 0, minutes: 0, seconds: 0 });
-    const [limit, setLimit] = useState(6); // Initial default; updated on mount/resize
+    const [limit, setLimit] = useState(6);
 
-    const calculateLimit = () => {
+    const calculateLimit = useCallback(() => {
         const width = window.innerWidth;
         if (width < 768) {
-            return 4; // 2 columns × 2 rows for mobile
+            return 4;
         } else if (width < 986) {
-            return 6; // 3 columns × 2 rows for tablet
+            return 6;
         } else {
-            const cols = Math.floor(width / 250); // Approx columns based on min card width
-            return Math.min(cols * 2, 20); // ~2 rows, capped at 20 to avoid over-fetching
+            const cols = Math.floor(width / 250);
+            return Math.min(cols * 2, 20);
         }
-    };
+    }, []);
 
-    const fetchFlashSaleProducts = async (currentLimit) => {
+    const fetchFlashSaleProducts = useCallback(async (currentLimit, signal) => {
+        setLoading(true);
+        setError(null);
         try {
-            const response = await axios.get(`/customer/flash-sale-products?page=0&limit=${currentLimit}`);
+            const response = await axios.get(`/customer/flash-sale-products?page=0&limit=${currentLimit}`, {
+                signal,
+            });
             if (response.status === 200) {
-                setFlashSaleProducts(response.data.result);
+                setFlashSaleProducts(response.data.result || []);
             }
         } catch (error) {
-            setError(error.message);
+            if (!axios.isCancel(error)) {
+                console.error("Error fetching flash sale products", error);
+                setError("An error occurred while fetching flash sale products.");
+                setFlashSaleProducts([]);
+            }
         } finally {
             setLoading(false);
         }
-    };
+    }, []);
 
     useEffect(() => {
         const initialLimit = calculateLimit();
         setLimit(initialLimit);
-        fetchFlashSaleProducts(initialLimit);
+        const controller = new AbortController();
+        fetchFlashSaleProducts(initialLimit, controller.signal);
 
-        // Debounced resize handler to refetch only if limit changes
         let debounceTimer;
         const handleResize = () => {
             clearTimeout(debounceTimer);
@@ -51,17 +59,24 @@ function FlashSale() {
                 const newLimit = calculateLimit();
                 if (newLimit !== limit) {
                     setLimit(newLimit);
-                    fetchFlashSaleProducts(newLimit);
+                    fetchFlashSaleProducts(newLimit, controller.signal);
                 }
-            }, 300); // Debounce 300ms
+            }, 300);
         };
 
         window.addEventListener("resize", handleResize);
-        return () => window.removeEventListener("resize", handleResize);
-    }, [limit]); // Refetch on limit change
+        return () => {
+            window.removeEventListener("resize", handleResize);
+            clearTimeout(debounceTimer);
+            controller.abort();
+        };
+    }, [fetchFlashSaleProducts, calculateLimit, limit]);
 
     useEffect(() => {
-        if (!flashSaleProducts || flashSaleProducts.length === 0) return;
+        if (!flashSaleProducts || flashSaleProducts.length === 0) {
+            setTimer({ days: 0, hours: 0, minutes: 0, seconds: 0 });
+            return;
+        }
 
         const now = new Date();
         const activeProducts = flashSaleProducts.filter(product => new Date(product.timerExpiryDate) > now);
@@ -93,9 +108,18 @@ function FlashSale() {
         return () => clearInterval(interval);
     }, [flashSaleProducts]);
 
-    if (loading) return <p>Loading flash sale products...</p>;
-    if (error) return <p>Error fetching flash sale products: {error}</p>;
-    if (!flashSaleProducts || flashSaleProducts.length === 0) return <></>;
+    // Skeleton Card Component
+    const SkeletonCard = () => (
+        <div className="home-page-flash-sale-card skeleton-card">
+            <div className="home-page-flash-sale-card-image-container skeleton-image"></div>
+            <div className="skeleton-text-line"></div>
+            <div className="skeleton-price-container">
+                <div className="skeleton-price"></div>
+                <div className="skeleton-price-small"></div>
+            </div>
+            <div className="skeleton-button"></div>
+        </div>
+    );
 
     return (
         <>
@@ -106,7 +130,16 @@ function FlashSale() {
                         <p className="home-page-flash-sale-title-header">Today</p>
                     </div>
                     <p className="home-page-flash-sale-sub-header">Flash Sales</p>
-                    {timer.days > 0 || timer.hours > 0 || timer.minutes > 0 || timer.seconds > 0 ? (
+                    {loading ? (
+                        <div className="home-page-flash-sale-timer-container">
+                            {Array.from({ length: 4 }).map((_, index) => (
+                                <div key={`timer-skeleton-${index}`} className="home-page-flash-sale-time-block skeleton-timer">
+                                    <div className="skeleton-timer-text"></div>
+                                    <div className="skeleton-timer-label"></div>
+                                </div>
+                            ))}
+                        </div>
+                    ) : timer.days > 0 || timer.hours > 0 || timer.minutes > 0 || timer.seconds > 0 ? (
                         <div className="home-page-flash-sale-timer-container">
                             <div className="home-page-flash-sale-time-block">
                                 <p>{String(timer.days).padStart(2, "0")}</p>
@@ -137,26 +170,32 @@ function FlashSale() {
             </div>
 
             <div className="home-page-flash-sale-card-container">
-                {flashSaleProducts && flashSaleProducts.length > 0 ? (
+                {loading ? (
+                    Array.from({ length: limit }).map((_, index) => (
+                        <SkeletonCard key={`skeleton-${index}`} />
+                    ))
+                ) : error ? (
+                    <p className="home-page-flash-sale-error">{error}</p>
+                ) : flashSaleProducts && flashSaleProducts.length > 0 ? (
                     flashSaleProducts.map((flashSale, index) => (
-                        <div key={index} className="home-page-flash-sale-card">
+                        <div key={flashSale._id || index} className="home-page-flash-sale-card">
                             <div className="home-page-flash-sale-card-image-container">
                                 <img
-                                    src={flashSale.productImageUrl[0]}
+                                    src={flashSale.productImageUrl?.[0] || '/placeholder-image.jpg'}
                                     className="home-page-flash-sale-card-img"
-                                    alt={flashSale.productName}
+                                    alt={flashSale.productName || 'Flash Sale Product'}
                                     onClick={() => navigate(`product-page/${flashSale._id}`)}
                                 />
                             </div>
                             <p className="home-page-flash-sale-card-description">
-                                {flashSale.productName} - {flashSale.productColor[0]}
+                                {flashSale.productName} - {flashSale.productColor?.[0] || 'N/A'}
                             </p>
                             <div className="home-page-flash-sale-card-price-container">
                                 <p className="home-page-flash-sale-card-offer-price">
-                                    <b>₦</b> {flashSale.productOfferPrice}
+                                    <b>₦</b> {flashSale.productOfferPrice || 'N/A'}
                                 </p>
                                 <p className="home-page-flash-sale-card-price">
-                                    <b>₦</b> {flashSale.productPrice}
+                                    <b>₦</b> {flashSale.productPrice || 'N/A'}
                                 </p>
                             </div>
                             <button
@@ -173,9 +212,12 @@ function FlashSale() {
                         </div>
                     ))
                 ) : (
-                    <p className="home-page-flash-sale-error">
-                        No products available in sale category.
-                    </p>
+                    <div className="home-page-flash-sale-placeholder">
+                        <p>No active flash sales right now.</p>
+                        <button onClick={() => navigate("/category-page/Explore")}>
+                            Shop All Products
+                        </button>
+                    </div>
                 )}
             </div>
         </>
@@ -183,4 +225,3 @@ function FlashSale() {
 }
 
 export default FlashSale;
-

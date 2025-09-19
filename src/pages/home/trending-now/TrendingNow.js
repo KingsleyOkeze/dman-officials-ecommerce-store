@@ -1,4 +1,4 @@
-import { useContext, useEffect, useState } from "react";
+import { useContext, useEffect, useState, useCallback } from "react";
 import "../../../styles/pages-styles/home-pages-styles/trending-now-styles/TrendingNow.css";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
@@ -11,21 +11,23 @@ function TrendingNow() {
     const [selectedCategory, setSelectedCategory] = useState("TrendingNow");
     const [selectedSubCategory, setSelectedSubCategory] = useState("");
     const [sortBy, setSortBy] = useState("");
-    const [limit, setLimit] = useState(6); // Initial default; updated on mount/resize
+    const [limit, setLimit] = useState(6);
+    const [loading, setLoading] = useState(true);
 
-    const calculateLimit = () => {
+    const calculateLimit = useCallback(() => {
         const width = window.innerWidth;
         if (width < 768) {
-            return 4; // 2 columns × 2 rows for mobile
+            return 4;
         } else if (width < 986) {
-            return 6; // 3 columns × 2 rows for tablet
+            return 6;
         } else {
-            const cols = Math.floor(width / 250); // Approx columns based on min card width
-            return Math.min(cols * 2, 20); // ~2 rows, capped at 20 to avoid over-fetching
+            const cols = Math.floor(width / 250);
+            return Math.min(cols * 2, 20);
         }
-    };
+    }, []);
 
-    const fetchTrendingNowProducts = async (currentLimit) => {
+    const fetchTrendingNowProducts = useCallback(async (currentLimit, signal) => {
+        setLoading(true);
         try {
             const response = await axios.get(`/customer/fetch-trending-now-products?page=0&limit=${currentLimit}`, {
                 params: {
@@ -33,21 +35,27 @@ function TrendingNow() {
                     subCategory: selectedSubCategory || undefined,
                     sortBy: sortBy.toLowerCase() || undefined,
                 },
+                signal,
             });
             if (response.status === 200) {
-                setTrendingNow(response.data.result);
+                setTrendingNow(response.data.result || []);
             }
         } catch (err) {
-            console.error("Error fetching trending now products", err);
+            if (!axios.isCancel(err)) {
+                console.error("Error fetching trending now products", err);
+                setTrendingNow([]);
+            }
+        } finally {
+            setLoading(false);
         }
-    };
+    }, [selectedCategory, selectedSubCategory, sortBy]);
 
     useEffect(() => {
         const initialLimit = calculateLimit();
         setLimit(initialLimit);
-        fetchTrendingNowProducts(initialLimit);
+        const controller = new AbortController();
+        fetchTrendingNowProducts(initialLimit, controller.signal);
 
-        // Debounced resize handler to refetch only if limit changes
         let debounceTimer;
         const handleResize = () => {
             clearTimeout(debounceTimer);
@@ -55,14 +63,31 @@ function TrendingNow() {
                 const newLimit = calculateLimit();
                 if (newLimit !== limit) {
                     setLimit(newLimit);
-                    fetchTrendingNowProducts(newLimit);
+                    fetchTrendingNowProducts(newLimit, controller.signal);
                 }
-            }, 300); // Debounce 300ms
+            }, 300);
         };
 
         window.addEventListener("resize", handleResize);
-        return () => window.removeEventListener("resize", handleResize);
-    }, [selectedCategory, selectedSubCategory, sortBy, limit]); // Refetch on filter or limit change
+        return () => {
+            window.removeEventListener("resize", handleResize);
+            clearTimeout(debounceTimer);
+            controller.abort();
+        };
+    }, [fetchTrendingNowProducts, calculateLimit, limit]);
+
+    // Skeleton Card Component
+    const SkeletonCard = () => (
+        <div className="home-page-trending-now-card skeleton-card">
+            <div className="home-page-trending-now-card-image-container skeleton-image"></div>
+            <div className="skeleton-text-line"></div>
+            <div className="skeleton-price-container">
+                <div className="skeleton-price"></div>
+                <div className="skeleton-price-small"></div>
+            </div>
+            <div className="skeleton-button"></div>
+        </div>
+    );
 
     return (
         <>
@@ -82,14 +107,19 @@ function TrendingNow() {
             </div>
 
             <div className="home-page-trending-now-card-container">
-                {trendingNow && trendingNow.length > 0 ? (
+                {loading ? (
+                    // Render skeleton cards matching the grid limit
+                    Array.from({ length: limit }).map((_, index) => (
+                        <SkeletonCard key={`skeleton-${index}`} />
+                    ))
+                ) : trendingNow && trendingNow.length > 0 ? (
                     trendingNow.map((trendingNowItem, index) => (
-                        <div key={index} className="home-page-trending-now-card">
+                        <div key={trendingNowItem._id || index} className="home-page-trending-now-card">
                             <div className="home-page-trending-now-card-image-container">
                                 <img
-                                    src={trendingNowItem.productImageUrl[0]}
+                                    src={trendingNowItem.productImageUrl?.[0] || '/placeholder-image.jpg'}
                                     className="home-page-trending-now-card-img"
-                                    alt={trendingNowItem.productName}
+                                    alt={trendingNowItem.productName || 'Trending Product'}
                                     onClick={() => navigate(`product-page/${trendingNowItem._id}`)}
                                 />
                             </div>

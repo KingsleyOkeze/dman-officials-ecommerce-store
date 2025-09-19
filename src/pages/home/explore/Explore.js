@@ -1,4 +1,4 @@
-import { useContext, useEffect, useState } from "react";
+import { useContext, useEffect, useState, useCallback } from "react";
 import "../../../styles/pages-styles/home-pages-styles/explore-styles/Explore.css";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
@@ -10,39 +10,47 @@ function Explore() {
     const [exploreProducts, setExploreProducts] = useState([]);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
-    const [limit, setLimit] = useState(6); // Initial default; updated on mount/resize
+    const [limit, setLimit] = useState(6);
 
-    const calculateLimit = () => {
+    const calculateLimit = useCallback(() => {
         const width = window.innerWidth;
         if (width < 768) {
-            return 4; // 2 columns × 2 rows for mobile
+            return 4;
         } else if (width < 986) {
-            return 6; // 3 columns × 2 rows for tablet
+            return 6;
         } else {
-            const cols = Math.floor(width / 250); // Approx columns based on min card width
-            return Math.min(cols * 2, 20); // ~2 rows, capped at 20 to avoid over-fetching
+            const cols = Math.floor(width / 250);
+            return Math.min(cols * 2, 20);
         }
-    };
+    }, []);
 
-    const fetchExploreProducts = async (currentLimit) => {
+    const fetchExploreProducts = useCallback(async (currentLimit, signal) => {
+        setLoading(true);
+        setError(null);
         try {
-            const response = await axios.get(`/customer/fetch-explore-products?page=0&limit=${currentLimit}`);
+            const response = await axios.get(`/customer/fetch-explore-products?page=0&limit=${currentLimit}`, {
+                signal,
+            });
             if (response.status === 200) {
-                setExploreProducts(response.data.result);
+                setExploreProducts(response.data.result || []);
             }
         } catch (error) {
-            setError("An error occurred while fetching products.");
+            if (!axios.isCancel(error)) {
+                console.error("Error fetching explore products", error);
+                setError("An error occurred while fetching products.");
+                setExploreProducts([]);
+            }
         } finally {
             setLoading(false);
         }
-    };
+    }, []);
 
     useEffect(() => {
         const initialLimit = calculateLimit();
         setLimit(initialLimit);
-        fetchExploreProducts(initialLimit);
+        const controller = new AbortController();
+        fetchExploreProducts(initialLimit, controller.signal);
 
-        // Debounced resize handler to refetch only if limit changes
         let debounceTimer;
         const handleResize = () => {
             clearTimeout(debounceTimer);
@@ -50,17 +58,31 @@ function Explore() {
                 const newLimit = calculateLimit();
                 if (newLimit !== limit) {
                     setLimit(newLimit);
-                    fetchExploreProducts(newLimit);
+                    fetchExploreProducts(newLimit, controller.signal);
                 }
-            }, 300); // Debounce 300ms
+            }, 300);
         };
 
         window.addEventListener("resize", handleResize);
-        return () => window.removeEventListener("resize", handleResize);
-    }, [limit]); // Refetch on limit change
+        return () => {
+            window.removeEventListener("resize", handleResize);
+            clearTimeout(debounceTimer);
+            controller.abort();
+        };
+    }, [fetchExploreProducts, calculateLimit, limit]);
 
-    if (loading) return <p>Loading explore products...</p>;
-    if (error) return <p>Error fetching explore products: {error}</p>;
+    // Skeleton Card Component
+    const SkeletonCard = () => (
+        <div className="home-page-explore-card skeleton-card">
+            <div className="home-page-explore-card-image-container skeleton-image"></div>
+            <div className="skeleton-text-line"></div>
+            <div className="skeleton-price-container">
+                <div className="skeleton-price"></div>
+                <div className="skeleton-price-small"></div>
+            </div>
+            <div className="skeleton-button"></div>
+        </div>
+    );
 
     return (
         <>
@@ -80,26 +102,32 @@ function Explore() {
             </div>
 
             <div className="home-page-explore-card-container">
-                {exploreProducts && exploreProducts.length > 0 ? (
+                {loading ? (
+                    Array.from({ length: limit }).map((_, index) => (
+                        <SkeletonCard key={`skeleton-${index}`} />
+                    ))
+                ) : error ? (
+                    <p className="home-page-explore-error">{error}</p>
+                ) : exploreProducts && exploreProducts.length > 0 ? (
                     exploreProducts.map((exploreItem, index) => (
-                        <div key={index} className="home-page-explore-card">
+                        <div key={exploreItem._id || index} className="home-page-explore-card">
                             <div className="home-page-explore-card-image-container">
                                 <img
-                                    src={exploreItem.productImageUrl[0]}
+                                    src={exploreItem.productImageUrl?.[0] || '/placeholder-image.jpg'}
                                     className="home-page-explore-card-img"
-                                    alt={exploreItem.productName}
+                                    alt={exploreItem.productName || 'Explore Product'}
                                     onClick={() => navigate(`/product-page/${exploreItem._id}`)}
                                 />
                             </div>
                             <p className="home-page-explore-card-description">
-                                {exploreItem.productName} - {exploreItem.productColor}
+                                {exploreItem.productName} - {exploreItem.productColor || 'N/A'}
                             </p>
                             <div className="home-page-explore-card-price-container">
                                 <p className="home-page-explore-card-offer-price">
-                                    <b>₦</b> {exploreItem.productOfferPrice}
+                                    <b>₦</b> {exploreItem.productOfferPrice || 'N/A'}
                                 </p>
                                 <p className="home-page-explore-card-price">
-                                    <b>₦</b> {exploreItem.productPrice}
+                                    <b>₦</b> {exploreItem.productPrice || 'N/A'}
                                 </p>
                             </div>
                             <button
