@@ -3,58 +3,55 @@ import "../../../styles/pages-styles/home-pages-styles/trending-now-styles/Trend
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import { CartContext } from "../../../contexts/CartContext";
+import { useQuery } from '@tanstack/react-query'; // Same powerful tool as above
 
 function TrendingNow() {
     const navigate = useNavigate();
     const { addToCart, loadingId } = useContext(CartContext);
-    const [trendingNow, setTrendingNow] = useState([]);
-    const [selectedCategory, setSelectedCategory] = useState("TrendingNow");
-    const [selectedSubCategory, setSelectedSubCategory] = useState("");
-    const [sortBy, setSortBy] = useState("");
+
+    // Currently not using filters, but kept in case you add them later
+    const [selectedCategory] = useState("TrendingNow");
+    const [selectedSubCategory] = useState("");
+    const [sortBy] = useState("");
+
+    // How many cards to show based on screen width
     const [limit, setLimit] = useState(6);
-    const [loading, setLoading] = useState(true);
 
     const calculateLimit = useCallback(() => {
         const width = window.innerWidth;
-        if (width < 768) {
-            return 4;
-        } else if (width < 986) {
-            return 6;
-        } else {
-            const cols = Math.floor(width / 250);
-            return Math.min(cols * 2, 20);
-        }
+        if (width < 768) return 4;
+        if (width < 986) return 6;
+        const cols = Math.floor(width / 250);
+        return Math.min(cols * 2, 20);
     }, []);
 
-    const fetchTrendingNowProducts = useCallback(async (currentLimit, signal) => {
-        setLoading(true);
-        try {
-            const response = await axios.get(`/customer/fetch-trending-now-products?page=0&limit=${currentLimit}`, {
+    // React Query fetches trending products
+    // It will cache them and retry on failure
+    const {
+        data: trendingNow = [],
+        isLoading: loading,
+        error
+    } = useQuery({
+        queryKey: ['trendingNowProducts', limit, selectedCategory, selectedSubCategory, sortBy],
+        queryFn: async () => {
+            const response = await axios.get(`/customer/fetch-trending-now-products?page=0&limit=${limit}`, {
                 params: {
                     category: selectedCategory || undefined,
                     subCategory: selectedSubCategory || undefined,
                     sortBy: sortBy.toLowerCase() || undefined,
                 },
-                signal,
             });
-            if (response.status === 200) {
-                setTrendingNow(response.data.result || []);
-            }
-        } catch (err) {
-            if (!axios.isCancel(err)) {
-                console.error("Error fetching trending now products", err);
-                setTrendingNow([]);
-            }
-        } finally {
-            setLoading(false);
-        }
-    }, [selectedCategory, selectedSubCategory, sortBy]);
+            return response.data.result || [];
+        },
+        staleTime: 300000,          // Cache for 5 minutes
+        retry: 3,                   // Retry failed requests
+        refetchOnWindowFocus: true  // Refresh when user comes back
+    });
 
+    // Handle window resize → update number of cards shown
     useEffect(() => {
         const initialLimit = calculateLimit();
         setLimit(initialLimit);
-        const controller = new AbortController();
-        fetchTrendingNowProducts(initialLimit, controller.signal);
 
         let debounceTimer;
         const handleResize = () => {
@@ -62,8 +59,7 @@ function TrendingNow() {
             debounceTimer = setTimeout(() => {
                 const newLimit = calculateLimit();
                 if (newLimit !== limit) {
-                    setLimit(newLimit);
-                    fetchTrendingNowProducts(newLimit, controller.signal);
+                    setLimit(newLimit); // Triggers refetch automatically
                 }
             }, 300);
         };
@@ -72,11 +68,10 @@ function TrendingNow() {
         return () => {
             window.removeEventListener("resize", handleResize);
             clearTimeout(debounceTimer);
-            controller.abort();
         };
-    }, [fetchTrendingNowProducts, calculateLimit, limit]);
+    }, [calculateLimit, limit]);
 
-    // Skeleton Card Component
+    // Skeleton loader for smooth UX
     const SkeletonCard = () => (
         <div className="home-page-trending-now-card skeleton-card">
             <div className="home-page-trending-now-card-image-container skeleton-image"></div>
@@ -91,6 +86,7 @@ function TrendingNow() {
 
     return (
         <>
+            {/* Section header */}
             <div className="home-page-trending-now-and-see-all-btn-container">
                 <div className="home-page-trending-now-header-container">
                     <div className="home-page-trending-now-header-title-and-icon-container">
@@ -100,57 +96,47 @@ function TrendingNow() {
                     <p className="home-page-trending-now-sub-header">Trending Now</p>
                 </div>
                 <div className="home-page-trending-now-see-all-button-container">
-                    <button onClick={() => navigate("/category-page/TrendingNow")}>
-                        See All
-                    </button>
+                    <button onClick={() => navigate("/category-page/TrendingNow")}>See All</button>
                 </div>
             </div>
 
+            {/* Product cards */}
             <div className="home-page-trending-now-card-container">
                 {loading ? (
-                    // Render skeleton cards matching the grid limit
-                    Array.from({ length: limit }).map((_, index) => (
-                        <SkeletonCard key={`skeleton-${index}`} />
-                    ))
-                ) : trendingNow && trendingNow.length > 0 ? (
-                    trendingNow.map((trendingNowItem, index) => (
-                        <div key={trendingNowItem._id || index} className="home-page-trending-now-card">
+                    Array.from({ length: limit }).map((_, i) => <SkeletonCard key={i} />)
+                ) : error ? (
+                    <p className="home-page-trending-now-error">
+                        {error?.message || "Failed to load trending products."}
+                    </p>
+                ) : trendingNow.length > 0 ? (
+                    trendingNow.map((product) => (
+                        <div key={product._id} className="home-page-trending-now-card">
                             <div className="home-page-trending-now-card-image-container">
                                 <img
-                                    src={trendingNowItem.productImageUrl?.[0] || '/placeholder-image.jpg'}
+                                    src={product.productImageUrl?.[0] || '/placeholder-image.jpg'}
                                     className="home-page-trending-now-card-img"
-                                    alt={trendingNowItem.productName || 'Trending Product'}
-                                    onClick={() => navigate(`product-page/${trendingNowItem._id}`)}
+                                    alt={product.productName}
+                                    onClick={() => navigate(`product-page/${product._id}`)}
                                 />
                             </div>
                             <p className="home-page-trending-now-card-description">
-                                {trendingNowItem.productName} - {trendingNowItem.color}
+                                {product.productName} - {product.color || 'N/A'}
                             </p>
                             <div className="home-page-trending-now-card-price-container">
-                                <p className="home-page-trending-now-card-offer-price">
-                                    <b>₦</b> {trendingNowItem.productOfferPrice}
-                                </p>
-                                <p className="home-page-trending-now-card-price">
-                                    <b>₦</b> {trendingNowItem.productPrice}
-                                </p>
+                                <p className="home-page-trending-now-card-offer-price">₦ {product.productOfferPrice}</p>
+                                <p className="home-page-trending-now-card-price">₦ {product.productPrice}</p>
                             </div>
                             <button
                                 className="home-page-trending-now-card-btn"
-                                onClick={() => addToCart(trendingNowItem._id, 1)}
-                                disabled={loadingId === trendingNowItem._id}
+                                onClick={() => addToCart(product._id, 1)}
+                                disabled={loadingId === product._id}
                             >
-                                {loadingId === trendingNowItem._id ? (
-                                    <span className="home-page-trending-now-btn-spinner" />
-                                ) : (
-                                    "Add to Cart"
-                                )}
+                                {loadingId === product._id ? <span className="home-page-trending-now-btn-spinner" /> : "Add to Cart"}
                             </button>
                         </div>
                     ))
                 ) : (
-                    <p className="home-page-trending-now-error">
-                        No trending products available at the moment.
-                    </p>
+                    <p className="home-page-trending-now-error">No trending products available at the moment.</p>
                 )}
             </div>
         </>
